@@ -1,0 +1,108 @@
+﻿<local:BasePage
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Khernet.UI.Pages"
+      xmlns:vm="clr-namespace:Khernet.UI"
+                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:conv="clr-namespace:Khernet.UI.Converters"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+    x:Class="Khernet.UI.Pages.VideoListPage"
+                x:TypeArguments="vm:FileListViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="400"
+      Title="ProfileViewerPage"
+      d:DataContext="{d:DesignInstance {x:Type vm:FileListViewModel}, IsDesignTimeCreatable=True}"
+    Loaded="BasePage_Loaded">
+
+    <Grid>
+        
+        <!-- The list of video files -->
+        <ListBox ItemsSource="{Binding Items}"
+                 HorizontalAlignment="Stretch"
+                 SelectionChanged="ListBox_SelectionChanged"
+                 ScrollViewer.CanContentScroll="False"
+                 PreviewMouseRightButtonDown="ListBox_PreviewMouseRightButtonDown">
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="24 5 10 5"
+                          ContextMenu="{StaticResource fileMessageContextMenu}">
+                        
+                        <Grid.ColumnDefinitions>
+                            
+                            <!-- Thumbnail of video file -->
+                            <ColumnDefinition Width="100"/>
+                            
+                            <!-- Details of video file -->
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Thumbnail of video file-->
+                        <Image Grid.Column="0"
+                               Stretch="Uniform"
+                               StretchDirection="DownOnly"
+                               MaxHeight="100"
+                               VerticalAlignment="Top"
+                           Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
+                           >
+                        </Image>
+                        
+                        <!-- The duration of video -->
+                        <Border Background="{StaticResource VaryDarkGrayBrush}"
+                                Grid.Column="0"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}" 
+                                       Foreground="{StaticResource LightBrush}"
+                                       FontFamily="{StaticResource RobotoBoldFont}"
+                                       Margin="2"/>
+                        </Border>
+
+                        <!-- Details of video file -->
+                        <StackPanel Grid.Column="1"
+                                    Margin="10 0 0 0"
+                                    HorizontalAlignment="Left">
+                            
+                            <!-- Name of video file-->
+                            <TextBlock HorizontalAlignment="Left"
+                                       Text="{Binding FileName}" 
+                                       FontFamily="{StaticResource RobotoBoldFont}"
+                                       TextWrapping="WrapWithOverflow"
+                                       Width="230"/>
+
+                            <!-- Size of video file -->
+                            <TextBlock Foreground="{StaticResource DarkGrayBrush}">
+                                <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
+                                <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+                            </TextBlock>
+                            
+                            <!-- The send date of video -->
+                            <TextBlock Text="{Binding SendDate}" Foreground="{StaticResource DarkGrayBrush}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
+        
+        <!--Animation to show load progress-->
+        <Controls:ProgressRing Width="32" 
+                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                               Foreground="{StaticResource BlueBrush}"
+                               Panel.ZIndex="2"
+                               HorizontalContentAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+        <!-- Empty list message -->
+        <TextBlock Text="No videos found"
+                   Visibility="{Binding IsEmpty,Converter={conv:BoolToVisibilityConverter}}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource TextblockStyle}"
+                   Margin="0 0 0 20"/>
+    </Grid>
+</local:BasePage>

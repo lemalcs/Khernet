@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.MediaGalleryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Height="400"
+             Width="310"
+             d:DataContext="{d:DesignInstance vm:MediaGalleryDesignModel,IsDesignTimeCreatable=True}">
+    <Border Background="White"
+            BorderThickness="1"
+            BorderBrush="{StaticResource BlueBrush}">
+        <Grid>
+        <ListBox ItemsSource="{Binding AnimationList}"
+                 SelectionChanged="ListBox_SelectionChanged_1"
+                 Name="listGIF"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Cursor="Hand">
+                        
+                        <!-- Trigger to enable loop -->
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard SlipBehavior="Grow">
+                                            <MediaTimeline Source="{Binding FilePath}"
+                                                           Storyboard.TargetName="aMedia"
+                                                           BeginTime="0:0:0"
+                                                           FillBehavior="HoldEnd"
+                                                           RepeatBehavior="Forever"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Grid.Triggers>
+
+                        <!-- The video player -->
+                        <MediaElement Name="aMedia"
+                                      Width="{Binding ThumbNailWidth}"
+                                      Height="{Binding ThumbNailHeight}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Width="300"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+        </ListBox>
+
+            <!--Load message-->
+            <TextBlock Text="Loading..."
+                       Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+
+    </Border>
+</UserControl>

@@ -1,0 +1,99 @@
+﻿<local:BaseDialogUserControl x:Class="Khernet.UI.Controls.PagedDialogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI.ViewModels"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+                             Width="400"
+                             MaxHeight="560"
+                             x:Name="pagedDialog"
+                             d:DataContext="{d:DesignInstance vm:PagedDialogDesignModel,IsDesignTimeCreatable=True}"
+                             ClipToBounds="True"
+                             >
+                             
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Height="60">
+            <Grid.ColumnDefinitions>
+                
+                <!-- Header page-->
+                <ColumnDefinition Width="Auto"/>
+
+                <!-- Content -->
+                <ColumnDefinition Width="*"/>
+                
+                <!-- Close button-->
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Back arrow-->
+            <Button Grid.Column="0" 
+                    Background="Transparent"
+                    Height="60"
+                    Margin="0 0 -20 0"
+                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                    Command="{Binding GoToPageCommand}"
+                    Style="{StaticResource IconButton}"
+                    Visibility="{Binding IsHomePageEnabled,Converter={conv:BoolToVisibilityGoneConverter}}"
+                    >
+                <iconPacks:PackIconMaterial Kind="ArrowLeft" Width="15" Margin="0 10 0 0"/>
+            </Button>
+
+            <!--Title page-->
+            <TextBlock Text="{Binding Category}"
+                   Style="{StaticResource SubtitleText}"
+                   Grid.Column="1"
+                   Margin="20 25 20 10"/>
+
+            <!--Close button-->
+            <Button Grid.Column="2"
+                    Height="60"
+                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                    Style="{StaticResource IconButton}"
+                    Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}">
+                <iconPacks:PackIconMaterial Kind="WindowClose" Width="15" Margin="0 10 0 0"/>
+            </Button>
+        </Grid>
+
+        <!-- Page content-->
+        <ucontrols:PageContainer Grid.Row="1"
+                                 CurrentViewModel="{Binding CurrentViewModel}"
+                                 CurrentPage="{Binding CurrentPage}"
+                                 Background="Transparent"
+                                 Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}">
+        </ucontrols:PageContainer>
+
+        <!-- Overlay panel -->
+        <Border Grid.RowSpan="2"
+                Panel.ZIndex="3"
+                Opacity="0.5"
+                        Visibility="{Binding IsChildDialogVisible,Converter={conv:BoolToVisibilityConverter}}">
+            <Border Background="Black"/>
+        </Border>
+
+        <!-- Child dialog -->
+        <ucontrols:PopupContent ViewModel="{Binding ChildDialogModel}"
+                                Visibility="{Binding IsChildDialogVisible,Converter={conv:BoolToVisibilityGoneConverter}}"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Panel.ZIndex="4"
+                                Command="{Binding CloseChildDialogCommand}">
+            <ucontrols:PopupContent.Effect>
+                <DropShadowEffect BlurRadius="49" 
+                              Color="{StaticResource OpaqueBlackColor}"
+                              ShadowDepth="0"
+                              Opacity="0.4"/>
+            </ucontrols:PopupContent.Effect>
+        </ucontrols:PopupContent>
+    </Grid>
+</local:BaseDialogUserControl>

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{296F9656-A765-4FDB-9B3E-1A1E919179A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Khernet.Core.Host</RootNamespace>
+    <AssemblyName>Khernet.Core.Host</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Khernet.Core.Common">
+      <HintPath>..\Khernet.Core.Common\bin\x86\Debug\Khernet.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Core.Entity">
+      <HintPath>..\Khernet.Core.Entity\bin\x86\Debug\Khernet.Core.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Services\Khernet.Services.Client\bin\x86\Debug\Khernet.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Services\Khernet.Services.Common\bin\x86\Debug\Khernet.Services.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Contracts">
+      <HintPath>..\..\Services\Khernet.Services.Contracts\bin\x86\Debug\Khernet.Services.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Services\Khernet.Services.Messages\bin\x86\Debug\Khernet.Services.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.WCF">
+      <HintPath>..\..\Services\Khernet.Services.WCF\obj\x86\Debug\Khernet.Services.WCF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Discovery" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Authenticator.cs" />
+    <Compile Include="EventListenerClient.cs" />
+    <Compile Include="EventListenerDelegates.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Messenger.cs" />
+    <Compile Include="PeerWatcher.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionFactory.cs" />
+    <Compile Include="SessionMonitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Khernet.Core.Processor\Khernet.Core.Processor.csproj">
+      <Project>{d7e49e7e-91eb-47c7-a93d-bbe0c0a85971}</Project>
+      <Name>Khernet.Core.Processor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Khernet.Core.Container\Khernet.Core.Container.csproj">
+      <Project>{3e38a67a-905b-42ac-9714-592ee782f0aa}</Project>
+      <Name>Khernet.Core.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Khernet.Core.Utility\Khernet.Core.Utility.csproj">
+      <Project>{a3929eea-4357-4e52-a21d-57b87aa01f45}</Project>
+      <Name>Khernet.Core.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

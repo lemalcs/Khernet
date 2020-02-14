@@ -1,0 +1,127 @@
+﻿<Controls:MetroWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:local="clr-namespace:Khernet.UI"
+                        xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                        xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                        xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                        xmlns:mah="http://metro.mahapps.com/winfx/xaml/shared" 
+                        xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
+                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                        x:Class="Khernet.UI.MainWindow"
+                        mc:Ignorable="d"
+                        x:Name="MainWin"
+                        ShowIconOnTitleBar="True"
+                        WindowTransitionsEnabled="False"
+                        WindowStartupLocation="CenterScreen"
+                        Height="450" Width="650"
+                        Padding="0"
+                        ResizeBorderThickness="3"
+                      GlowBrush="{DynamicResource LighterBlueBrush}"
+                      NonActiveGlowBrush="{DynamicResource TextBoxBackgroundBrush}"
+                        Style="{DynamicResource WinStyle}"
+                        Closing="MainWin_Closing"
+                      MinHeight="460"
+                      MinWidth="700"
+                      TitleAlignment="Left"
+                      KeyDown="MainWin_KeyDown">
+    
+    <!-- It will be used MahApps library version 1.6.0 because it is me maximum version supported by Visual Studio 2015-->
+    <Window.Resources>
+        <ResourceDictionary>
+          
+            <!--Apparently there is a bug in Visual Studio 2015 that do not recognize MetroWindow when setting Style without using the style below-->
+            <!--<Style TargetType="{x:Type Controls:MetroWindow}" x:Key="WinStyle" BasedOn="{StaticResource CleanWindowStyleKey}"/>-->
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Image Source="{StaticResource HeaderLogo}"
+                   Height="12.5"
+                   Margin="10 0 0 0"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+        
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Dimmed overlay-->
+        <Border Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
+                Panel.ZIndex="{Binding ApplicationViewModel.OverlayLevel,Source={x:Static local:ViewModelLocator.Instance}}"
+                Opacity="0.5">
+            <Border Background="Black"
+                    depend:FadeAnimationProperty.Value="{Binding ApplicationViewModel.IsOverlayVisible,Source={x:Static local:ViewModelLocator.Instance}}"/>
+        </Border>
+
+        <!-- Audio player container-->
+        <ucontrols:PopupContent  Grid.Column="1"
+                                  Grid.Row="0"
+                                  Height="42"
+                                  VerticalAlignment="Top"
+                                  Visibility="{Binding ApplicationViewModel.IsPlayerVisible,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
+                                  ViewModel="{Binding ApplicationViewModel.PlayerViewModel, Source={x:Static local:ViewModelLocator.Instance}}">
+
+        </ucontrols:PopupContent>
+
+        <!--Message box container-->
+        <ucontrols:ModalDialogControl  Grid.ColumnSpan="2"
+                                       Grid.RowSpan="2"
+                                       HorizontalAlignment="Stretch"
+                                       Panel.ZIndex="6"
+                                       OwnerHeight="{Binding Path=Height,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                       Visibility="{Binding ApplicationViewModel.IsMessageBoxVisible,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
+                                       DialogViewModel="{Binding ApplicationViewModel.MessageViewModel, Source={x:Static local:ViewModelLocator.Instance}}">
+
+        </ucontrols:ModalDialogControl>
+
+        <!--Modal dialog container-->
+        <ucontrols:ModalDialogControl  Grid.ColumnSpan="2"
+                                       Grid.RowSpan="2"
+                                       HorizontalAlignment="Stretch"
+                                       Panel.ZIndex="2"
+                                       OwnerHeight="{Binding Path=Height,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                       Visibility="{Binding ApplicationViewModel.IsModalDialogVisible,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
+                                       DialogViewModel="{Binding ApplicationViewModel.ModalDialogViewModel, Source={x:Static local:ViewModelLocator.Instance}}">
+
+        </ucontrols:ModalDialogControl>
+
+        <!-- Child modal dialog container-->
+        <ucontrols:ModalDialogControl  Grid.ColumnSpan="2"
+                                       Grid.RowSpan="2"
+                                       HorizontalAlignment="Stretch"
+                                       Panel.ZIndex="4"
+                                       OwnerHeight="{Binding Path=Height,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                                       Visibility="{Binding ApplicationViewModel.IsChildDialogVisible,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
+                                       DialogViewModel="{Binding ApplicationViewModel.ChildDialogViewModel, Source={x:Static local:ViewModelLocator.Instance}}">
+
+        </ucontrols:ModalDialogControl>
+
+        <!-- Chat container-->
+        <ucontrols:PageContainer Grid.Column="1"
+                                 Grid.Row="1"
+                                 CurrentViewModel="{Binding ApplicationViewModel.CurrentViewModel, Source={x:Static local:ViewModelLocator.Instance}}"
+                                 CurrentPage="{Binding ApplicationViewModel.CurrentPage, 
+                                 Source={x:Static local:ViewModelLocator.Instance}}"/>
+
+        <!--Side user browser-->
+
+        <ucontrols:UserBrowser Width="230" 
+                               Grid.RowSpan="2"
+                               depend:SlideFromLeftAnimationProperty.Value="{Binding ApplicationViewModel.IsSidePanelVisible,Source={x:Static local:ViewModelLocator.Instance}}">
+            <ucontrols:UserListControl DataContext="{Binding ApplicationViewModel.UserViewModel, Source={x:Static local:ViewModelLocator.Instance}}"/>
+        </ucontrols:UserBrowser>
+    </Grid>
+</Controls:MetroWindow>

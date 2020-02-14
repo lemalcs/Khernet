@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.VideoMessageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:VideoChatMessageDesignModel,IsDesignTimeCreatable=True}"
+             Template="{StaticResource messageContainer}"
+             ContextMenu="{StaticResource fileMessageContextMenu}"
+             >
+
+    <!--Chat bubble container-->
+    <Grid Grid.Column="1"
+          MinWidth="{Binding VideoWidth}"
+          MinHeight="{Binding VideoHeight}"
+          Background="Black"
+          HorizontalAlignment="Left">
+
+        <!--Video message container-->
+        <Grid Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}" 
+              HorizontalAlignment="Left">
+
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
+            </Grid.InputBindings>
+
+            <!--Thumbnail video-->
+            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
+                   Name="img"
+                   MaxHeight="420"
+                   MaxWidth="420"
+                   depend:ClipFromBorderProperty.Value="True"
+                   Stretch="Uniform"
+                   StretchDirection="DownOnly"/>
+
+        <!--Background circle for progress indicators-->
+        <Border Width="50"
+                Panel.ZIndex="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Height="{Binding Width,RelativeSource={RelativeSource Self}}"
+                CornerRadius="{Binding Width,RelativeSource={RelativeSource Self}}"
+                Background="{StaticResource OpaqueWhiteBrush}"
+                Visibility="{Binding IsFileLoaded,Converter={conv:InverseBoolToVisibilityGoneConverter}}">
+        </Border>
+
+
+        <!--Animation to show load progress-->
+        <Controls:ProgressRing Width="40" 
+                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                               Foreground="White"
+                               Panel.ZIndex="2"
+                               HorizontalContentAlignment="Center"/>
+
+        <!--Progress circle indicator-->
+        <ucontrols:ProgressCircleControl Radius="20"
+                                         Minimum="0"
+                                         Maximum="{Binding FileSize}"
+                                         Thickness="5"
+                                         Value="{Binding CurrentReadBytes}"
+                                         Panel.ZIndex="3"
+                                         StrokeBackground="{StaticResource OpaqueGrayColorBrush}"
+                                         StrokeBrush="White"
+                                         Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+
+            <Grid Visibility="{Binding IsLoading,Converter={conv:InverseBoolToVisibilityGoneConverter},FallbackValue=Collapsed}">
+                
+                <!--Overlay dark panel -->
+                <Border Background="Black"
+                        Opacity="0.5"
+                        Width="{Binding Path=ActualWidth,ElementName=img}"
+                        Height="{Binding Path=ActualHeight,ElementName=img}"/>
+
+                <!--Play icon-->
+                <iconPacks:PackIconMaterial Kind="Play" 
+                                            Foreground="White"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Visibility="{Binding IsReadingFile,Converter={conv:InverseBoolToVisibilityGoneConverter}}"/>
+
+                <!--Duration-->
+                <TextBlock VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"
+                           Foreground="White"
+                           Padding="8 0 0 8"/>
+            </Grid>
+
+            <!--Video Name-->
+            <TextBlock Text="{Binding FileName}"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Stretch"
+                       Padding="8 8 8 0"
+                       MaxWidth="{Binding Path=ActualWidth,ElementName=img}"/>
+
+            <!-- Download icon -->
+            <iconPacks:PackIconMaterial Kind="Download">
+                <iconPacks:PackIconMaterial.Visibility>
+                    <MultiBinding Converter="{conv:FileStateToVisibilityMultiConverter}">
+                        <Binding Path="IsLoading"/>
+                        <Binding Path="IsReadingFile"/>
+                        <Binding Path="IsFileLoaded"/>
+                    </MultiBinding>
+                </iconPacks:PackIconMaterial.Visibility>
+            </iconPacks:PackIconMaterial>
+        </Grid>
+    </Grid>
+</UserControl>

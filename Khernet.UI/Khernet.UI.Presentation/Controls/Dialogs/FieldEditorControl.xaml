@@ -1,0 +1,107 @@
+﻿<local:BasePopUpControl x:Class="Khernet.UI.Controls.FieldEditorControl"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                             xmlns:local="clr-namespace:Khernet.UI.Controls"
+                             xmlns:vm="clr-namespace:Khernet.UI"
+                             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+                             x:Name="nameEditor"
+                             mc:Ignorable="d" 
+                             d:DesignHeight="300" d:DesignWidth="300"
+                             Width="310"
+                             Height="180"
+                             d:DataContext="{d:DesignInstance vm:FieldEditorDesignModel,IsDesignTimeCreatable=True}"
+                             Background="Transparent">
+    
+    <Grid Background="{StaticResource LightBrush}">
+
+        <Grid.RowDefinitions>
+            
+            <!--Dialog content-->
+            <RowDefinition Height="*"/>
+
+            <!--Accept/Cancel buttons-->
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <!--Dialog content-->
+        <StackPanel Grid.Row="0"
+                    Margin="20 20 20 0">
+            
+            <!--Field name-->
+            <TextBlock Text="{Binding FieldName}"
+                       Style="{StaticResource TextblockHeader}"/>
+
+            <Grid Margin="0 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Text Field-->
+                <ucontrols:MarkedRichTextBox Grid.Column="0"
+                                         x:Name="rtxt"
+                                         Height="26"
+                                         Style="{StaticResource EditRichTextBox}"
+                                         depend:FormatedDocumentSourceProperty.Value="{Binding SourceDataField,Converter={conv:HtmlByteToDocumentConverter}}"
+                             depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"/>
+
+                <!--Emoji button-->
+                <Button Grid.Column="1"
+                                    Style="{StaticResource IconButton}"
+                                    VerticalAlignment="Top"
+                                    Height="40"
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding OpenMediaGalleryCommand}">
+                    <Grid>
+                        <iconPacks:PackIconMaterial Kind="EmoticonHappy"/>
+
+                        <Popup Name="popUp"
+                                       StaysOpen="False"
+                                       HorizontalAlignment="Center"
+                                       HorizontalOffset="8"
+                                       Placement="Top"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding IsMediaGalleryOpen}">
+                            <ContentControl Content="{StaticResource emojiPalette}"
+                                            Margin="5"/>
+                        </Popup>
+                    </Grid>
+
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <!--Accept/Cancel buttons-->
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="15">
+            
+            <!--Accept button-->
+            <Button Content="Accept"
+                    Command="{Binding UpdateFieldCommand}"
+                    CommandParameter="{Binding ElementName=nameEditor}"
+                    Click="Button_Click_1"
+                    HorizontalAlignment="Left"
+                    Margin="10 0 0 0"
+                    Width="100"/>
+
+            <!--Cancel button-->
+            <Button Content="Cancel"
+                    Click="Button_Click_1"
+                    HorizontalAlignment="Right"
+                    Margin="10 0 0 0"
+                    Width="100"/>
+
+        </StackPanel>
+            
+        
+    </Grid>
+</local:BasePopUpControl>

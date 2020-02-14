@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                    >
+
+    <Style  x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+    </Style>
+
+    <Style x:Key="TextblockStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource VaryDarkGrayBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+        <Setter Property="Margin" Value="0 5 0 5"/>
+    </Style>
+
+    <Style x:Key="TextblockHeader" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#777777"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoMediumFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+        <Setter Property="Margin" Value="0 10 0 10"/>
+    </Style>
+
+    <Style x:Key="TitleText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="Foreground" Value="{StaticResource VaryDarkGrayBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+    </Style>
+
+    <Style x:Key="SubtitleText" TargetType="TextBlock" BasedOn="{StaticResource TitleText}">
+        <Setter Property="FontSize" Value="17"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}" />
+    </Style>
+
+    <Style x:Key="GroupText" TargetType="TextBlock" BasedOn="{StaticResource TitleText}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}"/>
+        <Setter Property="Foreground" Value="{StaticResource MediumBlueBrush}"/>
+    </Style>
+
+    <Style TargetType="ucontrols:SelectableTextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+    </Style>
+
+    <Style x:Key="TimeTextBlock" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="{StaticResource LightBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+    </Style>
+
+</ResourceDictionary>

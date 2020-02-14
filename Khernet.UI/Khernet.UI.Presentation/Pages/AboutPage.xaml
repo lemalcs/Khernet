@@ -1,0 +1,58 @@
+﻿<local:BasePage x:TypeArguments="vm:AboutViewModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Khernet.UI.Pages"
+      xmlns:vm="clr-namespace:Khernet.UI"
+    xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+      xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared" 
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
+      x:Class="Khernet.UI.Pages.AboutPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:conv="clr-namespace:Khernet.UI.Converters"
+      x:Name="Login"
+      Title="LoginPage"
+      Width="400"
+      d:DataContext="{d:DesignInstance vm:AboutViewModel,IsDesignTimeCreatable=True}"
+    >
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" 
+               Source="{StaticResource AppLogo}"/>
+
+        <Image Grid.Row="1" 
+               Source="{StaticResource TitleLogo}"
+               Width="200"
+               Margin="0 10 0 0"/>
+
+        <FlowDocumentScrollViewer Grid.Row="2"
+                                  Margin="0 10 0 0">
+            
+            <FlowDocument>
+                <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
+                           FontSize="{StaticResource RegularFontSize}">
+
+                    <Run Text="Version 0.3.8"/>
+                    <LineBreak/>
+                    <Hyperlink Command="{Binding OpenIssueCommand}" 
+                   >
+                        <Run Text="Report an issue"/>
+                    </Hyperlink>
+                
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+
+    </Grid>
+</local:BasePage>

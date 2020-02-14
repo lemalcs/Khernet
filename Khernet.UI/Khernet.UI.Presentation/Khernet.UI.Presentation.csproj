@@ -1,0 +1,822 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.7\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.7\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.2.9.7\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.7\build\Microsoft.NetFramework.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetCore.Analyzers.2.9.7\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.7\build\Microsoft.NetCore.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.2.9.7\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.7\build\Microsoft.CodeQuality.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{982DD7BB-0CC5-4171-A5DF-F70C42DA376B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Khernet.UI</RootNamespace>
+    <AssemblyName>Khernet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>AE623E2AB02EE0EDBA8F7E043E4B887656362A2E</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Khernet.UI.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LogoIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Debug' " />
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Khernet.Core.Entity">
+          <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Entity\bin\x86\Release\Khernet.Core.Entity.dll</HintPath>
+        </Reference>
+        <Reference Include="Khernet.Core.Host, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Host\bin\x86\Release\Khernet.Core.Host.dll</HintPath>
+        </Reference>
+        <Reference Include="Khernet.Core.Utility">
+          <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Utility\bin\x86\Release\Khernet.Core.Utility.dll</HintPath>
+        </Reference>
+        <Reference Include="Khernet.Services.Client">
+          <HintPath>..\..\Khernet.Core\Services\Khernet.Services.Client\bin\x86\Release\Khernet.Services.Client.dll</HintPath>
+        </Reference>
+        <Reference Include="Khernet.Services.Messages">
+          <HintPath>..\..\Khernet.Core\Services\Khernet.Services.Messages\bin\x86\Release\Khernet.Services.Messages.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net40\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.17.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.17\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Core.Entity">
+      <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Entity\bin\x86\Debug\Khernet.Core.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Core.Host">
+      <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Host\bin\x86\Debug\Khernet.Core.Host.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Core.Utility">
+      <HintPath>..\..\Khernet.Core\Engine\Khernet.Core.Utility\bin\x86\Debug\Khernet.Core.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Client">
+      <HintPath>..\..\Khernet.Core\Services\Khernet.Services.Client\bin\x86\Debug\Khernet.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Khernet.Services.Messages">
+      <HintPath>..\..\Khernet.Core\Services\Khernet.Services.Messages\bin\x86\Debug\Khernet.Services.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net40\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="Markdig, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.18.0\lib\net40\Markdig.dll</HintPath>
+    </Reference>
+    <Reference Include="Markdig.Wpf, Version=0.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.Wpf.0.3.1\lib\net40\Markdig.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="Vlc.DotNet.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Wpf, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Animations\FrameworkElementAnimations.cs" />
+    <Compile Include="Cache\ChatCache.cs" />
+    <Compile Include="Cache\Configurations.cs" />
+    <Compile Include="Converters\NullToStretchImageConverter.cs" />
+    <Compile Include="Converters\BoolToHeightConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityGoneConverter.cs" />
+    <Compile Include="Converters\Emojis\EmojiConverter.cs" />
+    <Compile Include="Cache\EmojiListCollection.cs" />
+    <Compile Include="Cache\EmojiMarkdown.cs" />
+    <Compile Include="Controls\Chat\AudioMessageControl.xaml.cs">
+      <DependentUpon>AudioMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\MarkdownMessageControl.xaml.cs">
+      <DependentUpon>MarkdownMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ImageMessageControl.xaml.cs">
+      <DependentUpon>ImageMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="Controls\Chat\FileMessageControl.xaml.cs">
+      <DependentUpon>FileMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ReplyMessageControl.xaml.cs">
+      <DependentUpon>ReplyMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\HtmlMessageControl.xaml.cs">
+      <DependentUpon>HtmlMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\BasePopUpControl.cs" />
+    <Compile Include="Controls\Dialogs\CacheCleanerControl.xaml.cs">
+      <DependentUpon>CacheCleanerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\NotificationControl.xaml.cs">
+      <DependentUpon>NotificationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MarkedRichTextBox.cs" />
+    <Compile Include="Controls\Dialogs\FieldEditorControl.xaml.cs">
+      <DependentUpon>FieldEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Media\EmojiPaletteControl.xaml.cs">
+      <DependentUpon>EmojiPaletteControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Media\MediaGalleryControl.xaml.cs">
+      <DependentUpon>MediaGalleryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\TextMessageControl.xaml.cs">
+      <DependentUpon>TextMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\AnimationMessageControl.xaml.cs">
+      <DependentUpon>AnimationMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\VideoMessageControl.xaml.cs">
+      <DependentUpon>VideoMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\BaseDialogUserControl.cs" />
+    <Compile Include="Controls\Dialogs\ModalDialogControl.xaml.cs">
+      <DependentUpon>ModalDialogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\PagedDialogControl.xaml.cs">
+      <DependentUpon>PagedDialogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Media\AudioPlayerControl.xaml.cs">
+      <DependentUpon>AudioPlayerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\User\SelectedUserEventArgs.cs" />
+    <Compile Include="Controls\Media\SelectedEmojiEventArgs.cs" />
+    <Compile Include="Controls\Media\VideoViewerControl.xaml.cs">
+      <DependentUpon>VideoViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Media\ImageViewerControl.xaml.cs">
+      <DependentUpon>ImageViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MessageBoxUserControl.xaml.cs">
+      <DependentUpon>MessageBoxUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProgressCircleControl.xaml.cs">
+      <DependentUpon>ProgressCircleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\PageContainer.xaml.cs">
+      <DependentUpon>PageContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\PopupContent.xaml.cs">
+      <DependentUpon>PopupContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SelectableTextBlock.cs" />
+    <Compile Include="Controls\User\UserBrowser.xaml.cs">
+      <DependentUpon>UserBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\User\UserItemControl.xaml.cs">
+      <DependentUpon>UserItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ChatMessageListControl.xaml.cs">
+      <DependentUpon>ChatMessageListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\User\UserListControl.xaml.cs">
+      <DependentUpon>UserListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
+    <Compile Include="Converters\BoolToVisibilityGoneConverter.cs" />
+    <Compile Include="Converters\ChatStateToBrushMultiConverter.cs" />
+    <Compile Include="Converters\ByteToDocumentConverter.cs" />
+    <Compile Include="Converters\BoolToThicknessConverter.cs" />
+    <Compile Include="Converters\Emojis\EmojiInlineRenderer.cs" />
+    <Compile Include="Converters\Emojis\EmojiWpfRenderer.cs" />
+    <Compile Include="Converters\FileNameToExtensionConverter.cs" />
+    <Compile Include="Converters\FileStateToVisibilityMultiConverter.cs" />
+    <Compile Include="Converters\FlowDocumentMarkdownConverter.cs" />
+    <Compile Include="Converters\FlowDocumentHtmlConverter.cs" />
+    <Compile Include="Converters\IsSelectedToBrushConverter.cs" />
+    <Compile Include="Converters\HtmlToDocumentConverter.cs" />
+    <Compile Include="Converters\MessageFormatToBoolConverter.cs" />
+    <Compile Include="Converters\UnreadCountWidthConverter.cs" />
+    <Compile Include="Converters\ReplyConverter.cs" />
+    <Compile Include="Converters\SizeUnitConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\MessageTypeToFriendlyName.cs" />
+    <Compile Include="Converters\ZIndexConverter.cs" />
+    <Compile Include="Converters\FileNameToImageConverter.cs" />
+    <Compile Include="Converters\PageHelper.cs" />
+    <Compile Include="Converters\MarginConverter.cs" />
+    <Compile Include="Converters\MediaStatesToStringConverter.cs" />
+    <Compile Include="Converters\RadiusToSizeConverter.cs" />
+    <Compile Include="Converters\SentByMeConverters.cs" />
+    <Compile Include="Converters\SentByMeToVisibilityConverte.cs" />
+    <Compile Include="Converters\TimeSpanToDoubleConverter.cs" />
+    <Compile Include="Converters\TimeToStringConverter.cs" />
+    <Compile Include="Converters\StringRGBToColorConverter.cs" />
+    <Compile Include="DependencyProperties\AnimationAttachedProperties.cs" />
+    <Compile Include="Animations\PageAnimationHelper.cs" />
+    <Compile Include="Animations\PageAnimation.cs" />
+    <Compile Include="Animations\StoryboardHelper.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="DependencyProperties\BaseAttachedProperty.cs" />
+    <Compile Include="DependencyProperties\FormatedDocumentSourceProperty.cs" />
+    <Compile Include="DependencyProperties\EmojiSourceProperty.cs" />
+    <Compile Include="DependencyProperties\FocusProperty.cs" />
+    <Compile Include="DependencyProperties\VideoSourceProperty.cs" />
+    <Compile Include="DependencyProperties\InlineSourceProperty.cs" />
+    <Compile Include="DependencyProperties\EnableVideoLoopProperty.cs" />
+    <Compile Include="DependencyProperties\DocumentSourceProperty.cs" />
+    <Compile Include="DependencyProperties\MediaSourceProperty.cs" />
+    <Compile Include="DependencyProperties\ClipFromBorderProperty.cs" />
+    <Compile Include="DependencyProperties\EnableFrameHistory.cs" />
+    <Compile Include="DependencyProperties\IsFocusedProperty.cs" />
+    <Compile Include="DependencyProperties\IsBusyButton.cs" />
+    <Compile Include="DependencyProperties\ScrollToBottomOnWriteProperty.cs" />
+    <Compile Include="DependencyProperties\ScrollToBottomOnLoadProperty.cs" />
+    <Compile Include="Engine\AccountIdentity.cs" />
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Files\FileOperations.cs" />
+    <Compile Include="IoC\IApplicationContext.cs" />
+    <Compile Include="IoC\IApplicationDialog.cs" />
+    <Compile Include="IoC\IApplicationSurface.cs" />
+    <Compile Include="IoC\IApplicationWindow.cs" />
+    <Compile Include="IoC\IChatController.cs" />
+    <Compile Include="IoC\IIdentity.cs" />
+    <Compile Include="IoC\IChatList.cs" />
+    <Compile Include="IoC\IMessageManager.cs" />
+    <Compile Include="IoC\IModalDialog.cs" />
+    <Compile Include="IoC\IoCContainer.cs" />
+    <Compile Include="IoC\ISettingController.cs" />
+    <Compile Include="IoC\IUIManager.cs" />
+    <Compile Include="DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ChatMessageStateManager.cs" />
+    <Compile Include="Managers\PresentationApplicationContext.cs" />
+    <Compile Include="Managers\PresentationApplicationDialog.cs" />
+    <Compile Include="Managers\PresentationApplicationNotification.cs" />
+    <Compile Include="Managers\PresentationApplicationSurface.cs" />
+    <Compile Include="Managers\TextRequest.cs" />
+    <Compile Include="Managers\TextManager.cs" />
+    <Compile Include="Managers\FileManager.cs" />
+    <Compile Include="Managers\MediaRequest.cs" />
+    <Compile Include="Managers\Observers.cs" />
+    <Compile Include="Files\BinaryStructHelper.cs" />
+    <Compile Include="Files\FileHelper.cs" />
+    <Compile Include="Files\ImageHelper.cs" />
+    <Compile Include="Files\MediaHelper.cs" />
+    <Compile Include="Files\NativeMethods.cs" />
+    <Compile Include="Managers\UserManager.cs" />
+    <Compile Include="Pages\BasePage.cs" />
+    <Compile Include="Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CachePage.xaml.cs">
+      <DependentUpon>CachePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AudioListPage.xaml.cs">
+      <DependentUpon>AudioListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FileListPage.xaml.cs">
+      <DependentUpon>FileListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\VideoListPage.xaml.cs">
+      <DependentUpon>VideoListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ImageListPage.xaml.cs">
+      <DependentUpon>ImageListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ResendPage.xaml.cs">
+      <DependentUpon>ResendPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProfileViewerPage.xaml.cs">
+      <DependentUpon>ProfileViewerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SignOutPage.xaml.cs">
+      <DependentUpon>SignOutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SessionPage.xaml.cs">
+      <DependentUpon>SessionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SignUpPage.xaml.cs">
+      <DependentUpon>SignUpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\UIManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Resources\Constants.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessageProcessResult.cs" />
+    <Compile Include="ViewModels\Chat\FileMessageItemViewModel.cs" />
+    <Compile Include="ViewModels\Chat\MarkdownChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\HtmlChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\UserChatContext.cs" />
+    <Compile Include="ViewModels\Design\ResendDesignModel.cs" />
+    <Compile Include="ViewModels\Chat\ResendViewModel.cs" />
+    <Compile Include="ViewModels\Design\ReplyMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Chat\ReplyMessageViewModel.cs" />
+    <Compile Include="ViewModels\Design\NotificationDesignModel.cs" />
+    <Compile Include="ViewModels\Design\FieldEditorDesignModel.cs" />
+    <Compile Include="ViewModels\Design\CacheDesingModel.cs" />
+    <Compile Include="ViewModels\Design\MessageBoxDesignModel.cs" />
+    <Compile Include="ViewModels\Dialogs\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\FieldEditorViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DialogResultViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\CacheViewModel.cs" />
+    <Compile Include="ViewModels\Media\GIFItemViewModel.cs" />
+    <Compile Include="ViewModels\Media\MediaGalleryViewModel.cs" />
+    <Compile Include="ViewModels\Design\FileChatMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Design\AudioChatMessageDesingModel.cs" />
+    <Compile Include="ViewModels\Chat\FileChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\AudioChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Design\AnimationChatMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Design\MediaGalleryDesignModel.cs" />
+    <Compile Include="ViewModels\Design\VideoChatMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Chat\VideoChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Design\ImageChatMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Design\TextChatMessageDesignModel.cs" />
+    <Compile Include="ViewModels\Chat\TextChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ImageChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Design\ChatMessageListDesignModel.cs" />
+    <Compile Include="ViewModels\Design\UserItemDesignViewModel.cs" />
+    <Compile Include="ViewModels\Design\UserListDesignModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ModalDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DialogWindowViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\MessageBoxViewModel.cs" />
+    <Compile Include="ViewModels\Design\ProfileViewDesignModel.cs" />
+    <Compile Include="ViewModels\Dialogs\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\IPasswordContainer.cs" />
+    <Compile Include="ViewModels\Design\SettingsListDesignModel.cs" />
+    <Compile Include="ViewModels\Design\PagedDialogDesignModel.cs" />
+    <Compile Include="ViewModels\Media\MediaViewModel.cs" />
+    <Compile Include="ViewModels\FileListViewModel.cs" />
+    <Compile Include="ViewModels\FileItemListViewModel.cs" />
+    <Compile Include="ViewModels\TaskbarIconViewModel.cs" />
+    <Compile Include="ViewModels\PagedDialogViewModel.cs" />
+    <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\BaseModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessageItemViewModel.cs" />
+    <Compile Include="ViewModels\SettingItemViewModel.cs" />
+    <Compile Include="ViewModels\Users\UserItemViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessageListViewModel.cs" />
+    <Compile Include="ViewModels\SettingsListViewModel.cs" />
+    <Compile Include="ViewModels\Users\UserListViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Page Include="Controls\Chat\AudioMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\MarkdownMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\ImageMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\FileMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\ReplyMessageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\HtmlMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\CacheCleanerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\NotificationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\FieldEditorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\EmojiPaletteControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\MediaGalleryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\TextMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\AnimationMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\VideoMessageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\ModalDialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\PagedDialogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Media\AudioPlayerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\VideoViewerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\ImageViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageBoxUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProgressCircleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\PageContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\PopupContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\User\UserBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\User\UserItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ChatMessageListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\User\UserListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converters\BaseValueConverter.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CachePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AudioListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\FileListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\VideoListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ImageListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ResendPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProfileViewerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SignOutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SessionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SignUpPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\ObjectModels.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ButtonsDark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\FontStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Sliders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Textblocks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Textboxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pages\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Resource Include="Fonts\roboto.bold.ttf" />
+    <Resource Include="Fonts\roboto.regular.ttf" />
+    <Resource Include="Fonts\roboto.thin.ttf" />
+    <Resource Include="Fonts\roboto.medium.ttf" />
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Khernet.UI.Container\Khernet.UI.Container.csproj">
+      <Project>{b76e3fde-f66b-405b-a523-b7e1611776c1}</Project>
+      <Name>Khernet.UI.Container</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.7\analyzers\dotnet\cs\Humanizer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.7\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogoIcon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="AfterResolveReferences">
+    <ItemGroup>
+      <EmbeddedResource Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll'">
+        <LogicalName>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

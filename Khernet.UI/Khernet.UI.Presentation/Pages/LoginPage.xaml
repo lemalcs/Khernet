@@ -1,0 +1,78 @@
+﻿<local:BasePage x:TypeArguments="vm:LoginViewModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Khernet.UI.Pages"
+      xmlns:vm="clr-namespace:Khernet.UI"
+    xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+      xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared" 
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
+      x:Class="Khernet.UI.Pages.LoginPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Style="{DynamicResource MetroPage}"
+      x:Name="Login"
+      Title="LoginPage"
+    >
+    
+    <StackPanel 
+            Orientation="Vertical" 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Width="280"
+            Height="256">
+
+        <!-- Title-->
+        <TextBlock  
+                Text="Sign in" 
+                Style="{StaticResource TitleText}"
+                FontFamily="{StaticResource RobotoRegularFont}"
+                Margin="0 0 0 20"
+                />
+
+        <TextBlock 
+                Text="Username" 
+                Style="{StaticResource TextblockStyle}"
+                />
+
+        <!--Username textbox-->
+        <TextBox 
+                Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                Style="{StaticResource TextStyle2}"
+                depend:IsFocusedProperty.Value="True"
+                MaxLength="20" 
+                Template="{DynamicResource TextBoxControlTemplate1}"
+                Height="28"
+                VerticalContentAlignment="Center"
+                />
+
+        <TextBlock 
+                Text="Password" 
+                Style="{StaticResource TextblockStyle}"
+                />
+
+        <!--Password textbox-->
+        <PasswordBox 
+                Name="pass1"
+                Style="{StaticResource PasswordStyle}" 
+                Template="{DynamicResource PasswordBoxControlTemplate1}"
+                Height="28"
+                />
+
+        <!--Login button-->
+        <Button x:Name="button" 
+                    IsDefault="True"
+                    Content="Log in" 
+                    Width="139"
+                    IsEnabled="{Binding CanLogin}"
+                    depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
+                    Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding ElementName=Login}"
+                    Style="{StaticResource ButtonStyle1}"
+            />
+        <!--Remove Style="{StaticResource ButtonStyle1}" this to clear issue with generics-->
+    </StackPanel>
+</local:BasePage>

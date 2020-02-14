@@ -1,0 +1,198 @@
+﻿<local:BasePage x:Class="Khernet.UI.Pages.ProfilePage"
+                x:TypeArguments="vm:ProfileViewModel"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:vm="clr-namespace:Khernet.UI"
+                xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                xmlns:local="clr-namespace:Khernet.UI.Pages"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                mc:Ignorable="d" 
+                d:DesignHeight="600" d:DesignWidth="350"
+                Width="400"
+                Title="ProfilePage"
+                x:Name="Profile"
+                d:DataContext="{d:DesignInstance vm:ProfileViewDesignModel,IsDesignTimeCreatable=True}">
+
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!--User information-->
+                <RowDefinition Height="*"/>
+
+                <!--Commit control-->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--User information-->
+            <ScrollViewer Grid.Row="0"
+                              VerticalScrollBarVisibility="Auto"
+                          Focusable="False">
+
+                <Grid Margin="15"
+                      FocusManager.IsFocusScope="True">
+                    <Grid.RowDefinitions>
+                        <!--Profile picture-->
+                        <RowDefinition Height="Auto"/>
+
+                        <!-- Aditional user details-->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Profile picture-->
+                    <Border BorderThickness="0 0 0 1"
+                        Grid.Row="0"
+                        >
+                        <Border HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Profile picture-->
+                                <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                                        Grid.Row="0"
+                                        Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                                        Height="120"
+                                        Margin="10 10 10 10"
+                                        Cursor="Hand">
+                                    <Border.Background>
+                                        <ImageBrush Stretch="{Binding User.Avatar,Converter={conv:NullToStretchImageConverter}}"
+                                                    ImageSource="{Binding User.Avatar,
+                                                                    Converter={conv:BytesToImageConverter},
+                                                                    FallbackValue={StaticResource DefaultAvatar},
+                                                                    TargetNullValue={StaticResource DefaultAvatar}}"
+                                            />
+                                    </Border.Background>
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding OpenProfileImageCommand}"/>
+                                    </Border.InputBindings>
+                                </Border>
+                                <Button Content="Choose profile image"
+                                    Margin="0 10 0 0"
+                                    Grid.Row="1"
+                                    Command="{Binding UpdateProfileImageCommand}"/>
+                            </Grid>
+                        </Border>
+                    </Border>
+
+                    <!-- Aditional user details-->
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="1"
+                                Margin="0 10 0 0">
+
+                        <!--Name header-->
+                        <TextBlock Text="Name"
+                                           Style="{StaticResource TextblockHeader}"
+                                           Margin="0 10 0 0"
+                                           />
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!--Full name-->
+                            <ucontrols:MarkedRichTextBox Grid.Column="0"
+                                         x:Name="rtxt"
+                                         Style="{StaticResource EditRichTextBox}"
+                                         depend:FormatedDocumentSourceProperty.Value="{Binding User.SourceFullName,Converter={conv:HtmlByteToDocumentConverter}}"
+                                         depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"
+                                         Height="22"
+                                         />
+
+                            <!--Emoji button-->
+
+                            <Button Grid.Column="1"
+                                    Style="{StaticResource IconButton}"
+                                    VerticalAlignment="Top"
+                                    Height="40"
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding OpenEmojiGalleyCommand}">
+                                <Grid>
+                                    <iconPacks:PackIconMaterial Kind="EmoticonHappy"/>
+
+                                    <Popup Name="popUp"
+                                       StaysOpen="False"
+                                       HorizontalAlignment="Center"
+                                       HorizontalOffset="8"
+                                       Placement="Top"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding IsEmojiGalleryOpen}"
+                                       >
+                                        <ContentControl Content="{StaticResource emojiPalette}"
+                                            Margin="5"/>
+                                    </Popup>
+                                </Grid>
+                            </Button>
+                </Grid>
+                        
+
+                        <!-- Group-->
+                        <TextBlock Text="Group"
+                                           Style="{StaticResource TextblockHeader}"
+                                       Margin="0 10 0 0"/>
+                        <TextBox Text="{Binding User.Group,UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource EditTextBox}"
+                                 Margin="0 0 0 10"
+                                 MaxLength="50"/>
+
+                        <!-- Slogan-->
+                        <TextBlock Text="Slogan"
+                                           Style="{StaticResource TextblockHeader}"
+                                       Margin="0 10 0 0"/>
+
+                        <TextBox Text="{Binding User.Slogan,UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource EditTextBox}"
+                                           TextWrapping="Wrap"
+                                 MaxLength="106"
+                                           Margin="0 0 0 10"/>
+
+                        <!--Accoutn section-->
+                        <TextBlock Text="Account"
+                                   Style="{StaticResource GroupText}"
+                                   Margin="0 20 0 0"/>
+
+                        <!--User name-->
+                        <TextBlock Text="Username"
+                                           Style="{StaticResource TextblockHeader}"
+                                   Margin="0 10 0 0"/>
+
+                        <TextBox Text="{Binding User.Username,UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource EditTextBox}"
+                                     Margin="0 0 0 10"
+                                     />
+                        
+                        <!-- Token-->
+                        <TextBlock Text="Token"
+                                           Style="{StaticResource TextblockHeader}"
+                                       Margin="0 10 0 0"/>
+                        
+                        <ucontrols:SelectableTextBlock Text="{Binding User.Token}"
+                                                       Margin="0 0 0 20"
+                                                       FocusVisualStyle="{x:Null}"/>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+            <!--Commit control-->
+            <Border Grid.Row="1"
+                    BorderThickness="0 1 0 0"
+                    BorderBrush="{StaticResource TextBoxBackgroundBrush}">
+                
+                <!--Save button-->
+                <Button Width="150"
+                        Margin="20"
+                        Content="Save profile"
+                        Command="{Binding SaveProfileCommand}"
+                        CommandParameter="{Binding ElementName=Profile}"
+                        Style="{StaticResource FlatButtonStyle}"/>
+            </Border>
+
+        </Grid>
+    </Border>
+</local:BasePage>

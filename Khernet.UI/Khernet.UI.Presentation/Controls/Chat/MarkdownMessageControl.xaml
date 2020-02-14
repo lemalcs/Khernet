@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.MarkdownMessageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             mc:Ignorable="d" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             d:DataContext="{d:DesignInstance vm:TextChatMessageDesignModel,IsDesignTimeCreatable=True}"
+             Template="{StaticResource messageContainer}"
+             >
+    <UserControl.Resources>
+       
+    </UserControl.Resources>
+
+        <!--Text message container-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Reply Message-->
+        <ucontrols:PopupContent Grid.Row="0"
+                                        Visibility="{Binding ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}"
+                                        ViewModel="{Binding ReplyMessage}"/>
+
+        <!--Chat message-->
+        <RichTextBox depend:FormatedDocumentSourceProperty.Value="{Binding TextContent,Converter={conv:ByteToDocumentConverter}}"
+                         HorizontalAlignment="Stretch"
+                         HorizontalContentAlignment="Stretch"
+                         VerticalAlignment="Center"
+                         Grid.Row="1"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         IsReadOnly="True"
+                         IsReadOnlyCaretVisible="False"
+                         ContextMenu="{DynamicResource markdownContextMenu}"/>
+    </Grid>
+</UserControl>

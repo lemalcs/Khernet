@@ -1,0 +1,123 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"      
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared"
+             x:Class="Khernet.UI.Controls.AudioMessageControl"      
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type vm:AudioChatMessageDesingModel}, IsDesignTimeCreatable=True}"
+             Background="Transparent"
+    ContextMenu="{StaticResource fileMessageContextMenu}"
+    >
+    <UserControl.Template>
+        <StaticResource ResourceKey="messageContainer"/>
+    </UserControl.Template>
+
+    <!--Audio message container-->
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                    BorderBrush="{StaticResource BlueBrush}"
+                    Height="55"
+                    HorizontalAlignment="Center"
+                    Width="{Binding Height, RelativeSource={RelativeSource Self}}"
+                    CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                    BorderThickness="1"
+                ClipToBounds="True"
+                                        >
+        </Border>
+        <!--Play/Pause button-->
+            <Button Grid.Column="0" 
+                    x:Name="playButton"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Command="{Binding OpenMediaCommand}"
+                    CommandParameter="{Binding}"
+                    Click="Button_Click"
+                    Cursor="Hand"
+                    Height="55"
+                    Visibility="{Binding IsFileLoaded, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}" 
+                    Style="{DynamicResource EllipticalButton}">
+                <iconPacks:PackIconMaterial Kind="{Binding CurrentPlayer.State, ConverterParameter=audioMessage, Converter={conv:MediaStatesToStringConverter}, FallbackValue=Play, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioMessageControl}}, TargetNullValue=Play}"
+                                                Width="15"/>
+            </Button>
+       
+
+
+
+        <!--Animation to show load progress-->
+        <Controls:ProgressRing Height="40" 
+                               Width="40"
+                               Grid.Column="0"
+                               Foreground="{StaticResource BlueBrush}"
+                               Visibility="{Binding IsLoading, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}"/>
+
+        <!--Progress circle indicator-->
+        <ucontrols:ProgressCircleControl Radius="20"
+                                         Grid.Column="0"
+                                         Minimum="0"
+                                         Maximum="{Binding FileSize}"
+                                         Thickness="5"
+                                         Value="{Binding CurrentReadBytes}"
+                                         Panel.ZIndex="2"
+                                         StrokeBackground="White"
+                                         StrokeBrush="{StaticResource BlueBrush}"
+                                         Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+        <!-- Audio file information-->
+        <Grid Grid.Column="1"
+                  VerticalAlignment="Center"
+                  Margin="5 0 0 0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Audio track name-->
+            <TextBlock Text="{Binding FileName}"
+                                               Grid.Row="0"
+                                               Grid.Column="0"
+                                               FontFamily="{StaticResource RobotoBoldFont}"/>
+
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}">
+
+                <!--File size-->
+                <TextBlock>
+                    <Run Text="{Binding CurrentReadBytes,Converter={conv:SizeUnitConverter}}"/>
+                    <Run Text=" / "/>
+                    <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
+                    <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Current time/Length of video-->
+            <TextBlock Grid.Row="1"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding IsFileLoaded, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}">
+                <Run Text="{Binding CurrentPlayer.Time, Converter={conv:NumberToTimeStringConverter}, 
+                            FallbackValue=00:00, 
+                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioMessageControl}}}"/>
+                <Run Text=" / "/>
+                <Run Text="{Binding Duration, Converter={conv:TimeSpanToStringConverter}}"/>
+            </TextBlock>
+
+        </Grid>
+    </Grid>
+</UserControl>

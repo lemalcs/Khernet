@@ -1,0 +1,42 @@
+﻿using System;
+using System.Globalization;
+using System.Windows.Input;
+using Vlc.DotNet.Core.Interops.Signatures;
+
+namespace Khernet.UI.Converters
+{
+    /// <summary>
+    /// Change a string state based on <see cref="MediaStates"/>
+    /// </summary>
+    public class MediaStatesToStringConverter : BaseValueConverter<MediaStatesToStringConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //Get miliseconds from video duration
+            MediaStates state = (MediaStates)value;
+            return state == MediaStates.Playing ? "Pause" : "Play";
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Converts and boolean value to <see cref="Cursor"/>.
+    /// </summary>
+    public class MediaStatesToCursorConverter : BaseValueConverter<MediaStatesToCursorConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //Returns arrow when reading a file and hand when file is reading to open
+            return (bool)value ? Cursors.Hand : Cursors.Arrow;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+}

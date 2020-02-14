@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.ProgressCircleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             ClipToBounds="False">
+    <Grid Background="Transparent" 
+          Name="gridContainer"
+          Margin="0"
+          Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, FallbackValue=30}"
+          >
+
+
+        <Grid.Height>
+            <MultiBinding Converter="{conv:RadiusToWidthMultiConverter}" FallbackValue="90">
+                <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+                <Binding Path="Thickness" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+            </MultiBinding>
+        </Grid.Height>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition>
+                <ColumnDefinition.Width>
+                    <MultiBinding Converter="{conv:RadiusToHalfWidthMultiConverter}" FallbackValue="45">
+                        <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+                        <Binding Path="Thickness" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+                    </MultiBinding>
+                </ColumnDefinition.Width>
+            </ColumnDefinition>
+            <ColumnDefinition>
+                <ColumnDefinition.Width>
+                    <MultiBinding Converter="{conv:RadiusToHalfWidthMultiConverter}" FallbackValue="45">
+                        <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+                        <Binding Path="Thickness" RelativeSource="{RelativeSource FindAncestor,AncestorType={x:Type UserControl}}"/>
+                    </MultiBinding>
+                </ColumnDefinition.Width>
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!--Left arc-->
+        <Path Name="endingPath" 
+                  Stroke="Aqua" 
+                  Margin="0 0 0 0"
+                  Grid.Column="0"
+              Panel.ZIndex="1"
+              >
+            <Path.Data>
+                <GeometryGroup>
+                    <PathGeometry x:Name="secondPath">
+                        <PathGeometry.Figures>
+                            <PathFigure StartPoint="45,85" >
+                                <PathFigure.Segments>
+                                    <ArcSegment Size="{Binding Radius,Converter={conv:RadiusToSizeConverter}}" IsLargeArc="False" SweepDirection="Clockwise" Point="45,5"/>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </GeometryGroup>
+            </Path.Data>
+        </Path>
+
+        <!--Right arc-->
+        <Path Name="startingPath"
+              Stroke="Aqua" 
+              Margin="0 0 0 0"
+              Grid.Column="1"
+              Panel.ZIndex="1"
+              >
+            <Path.Data>
+                <GeometryGroup>
+                    <PathGeometry x:Name="firstPath">
+                        <PathGeometry.Figures>
+                            <PathFigure StartPoint="0,5">
+                                <PathFigure.Segments>
+                                    <ArcSegment Size="{Binding Radius,Converter={conv:RadiusToSizeConverter}}" IsLargeArc="False" SweepDirection="Clockwise" Point="0,85"/>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </GeometryGroup>
+            </Path.Data>
+        </Path>
+
+        <!--The path that arcs follow-->
+        <Ellipse Name="backgroudEllipse"
+                 Grid.ColumnSpan="2"
+                 Stroke="LightGray" />
+    </Grid>
+</UserControl>

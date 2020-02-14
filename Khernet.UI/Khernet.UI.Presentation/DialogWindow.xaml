@@ -1,0 +1,32 @@
+﻿<Controls:MetroWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      x:Class="Khernet.UI.DialogWindow"
+                      mc:Ignorable="d"
+                      x:Name="MainWin"
+                      ShowIconOnTitleBar="False"
+                      WindowTransitionsEnabled="False"
+                      WindowStartupLocation="CenterScreen"
+                      ShowMaxRestoreButton="False"
+                      ShowMinButton="False"
+                      ShowInTaskbar="False"
+                      ShowTitleBar="False"
+                      TitlebarHeight="0"
+                      SizeToContent="WidthAndHeight"
+                      ResizeMode="NoResize">
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="ApplicationCommands.Close"/>
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
+    
+    <!-- Content of dialog box -->
+    <Grid>
+        <ContentControl Content="{Binding Content}"></ContentControl>
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+
+    <!--Color an brushes must be especified ordered: fisrt Color then Brush-->
+    <Color x:Key="LightColor">#ffffff</Color>
+    <SolidColorBrush x:Key="LightBrush" Color="{StaticResource LightColor}"/>
+
+    <Color x:Key="DarkGrayColor">#9b9b9a</Color>
+    <SolidColorBrush x:Key="OverTextboxBorderBrush" Color="{StaticResource DarkGrayColor}"/>
+
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGrayColor}"/>
+
+    <Color x:Key="BlueColor">#386cbb</Color>
+    <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
+
+    <Color x:Key="LighterBlueColor">#407CD6</Color>
+    <SolidColorBrush x:Key="LighterBlueBrush" Color="{StaticResource LighterBlueColor}"/>
+
+    <Color x:Key="MediumBlueColor">#3462a8</Color>
+    <SolidColorBrush x:Key="MediumBlueBrush" Color="{StaticResource MediumBlueColor}"/>
+    
+    <Color x:Key="LightBlue">#b5cffb</Color>
+    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlue}"/>
+
+    <Color x:Key="GlowLightBlue">#c0d9f5</Color>
+    <SolidColorBrush x:Key="GlowLighterBlue" Color="{StaticResource GlowLightBlue}"/>
+
+    <Color x:Key="LightBlueAnchor">#91afdb</Color>
+    <SolidColorBrush x:Key="LightBlueAnchorBrush" Color="{StaticResource LightBlueAnchor}"/>
+
+    <Color x:Key="LightGrayAnchor">#D1D0D1</Color>
+    <SolidColorBrush x:Key="LightGrayAnchorBrush" Color="{StaticResource LightGrayAnchor}"/>
+
+    <Color x:Key="VeryLightBlueColor">#ebf0f3</Color>
+    <SolidColorBrush x:Key="VeryLightBlueBrush" Color="{StaticResource VeryLightBlueColor}"/>
+
+    <Color x:Key="SelectedItemBlueColor">#BFD5E1</Color>
+    <SolidColorBrush x:Key="SelectedItemBlueBrush" Color="{StaticResource SelectedItemBlueColor}"/>
+
+    <Color x:Key="DarkBlueColor">#0366d6</Color>
+    <SolidColorBrush x:Key="FocusedTextboxBrush" Color="{StaticResource DarkBlueColor}"/>
+    
+    <Color x:Key="MainBackgroudColor">#eff1f5</Color>
+    <SolidColorBrush x:Key="MainBackgroudBrush" Color="{StaticResource MainBackgroudColor}"/>
+
+    <Color x:Key="BackgroundLightColor">#ffffff</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLightColor}"/>
+
+    <Color x:Key="BorderColor">#999999</Color>
+    <SolidColorBrush x:Key="BorderColorBrush" Color="{StaticResource BorderColor}"/>
+
+    <Color x:Key="LightGrayColor">#e2e3e6</Color>
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="{StaticResource LightGrayColor}"/>
+
+    <Color x:Key="VeryLightGrayColor">#f7f8f9</Color>
+    <SolidColorBrush x:Key="VeryLightGrayBrush" Color="{StaticResource VeryLightGrayColor}"/>
+
+    <Color x:Key="VeryDarkGray">#303030</Color>
+    <SolidColorBrush x:Key="VaryDarkGrayBrush" Color="{StaticResource VeryDarkGray}"/>
+
+    <Color x:Key="TurquoiseColor">#00B4CC</Color>
+    <SolidColorBrush x:Key="TurquoiseBrush" Color="{StaticResource TurquoiseColor}"/>
+
+    <Color x:Key="LightTurquoiseColor">#22B8CC</Color>
+    <SolidColorBrush x:Key="LightTurquoiseBrush" Color="{StaticResource LightTurquoiseColor}"/>
+
+    <Color x:Key="DarkTurquoiseColor">#12A0B2</Color>
+    <SolidColorBrush x:Key="DarkTurquoiseBrush" Color="{StaticResource DarkTurquoiseColor}"/>
+
+    <Color x:Key="OpaqueBlackColor">#66000000</Color>
+    <SolidColorBrush x:Key="OpaqueBlackColorBrush" Color="{StaticResource OpaqueBlackColor}"/>
+
+    <Color x:Key="AverageOpaqueBlackColor">#88000000</Color>
+    <SolidColorBrush x:Key="AverageOpaqueBlackColorBrush" Color="{StaticResource AverageOpaqueBlackColor}"/>
+
+    <Color x:Key="OpaqueGrayColor">#66e2e3e6</Color>
+    <SolidColorBrush x:Key="OpaqueGrayColorBrush" Color="{StaticResource OpaqueGrayColor}"/>
+
+    <Color x:Key="OpaqueBlueColor">#44386cbb</Color>
+    <SolidColorBrush x:Key="OpaqueBlueBrush" Color="{StaticResource OpaqueBlueColor}"/>
+
+    <Color x:Key="AquaBlueColor">#4285f4</Color>
+    <SolidColorBrush x:Key="AquaBlueBrush" Color="{StaticResource AquaBlueColor}"/>
+
+    <Color x:Key="OpaqueWhiteColor">#99000000</Color>
+    <SolidColorBrush x:Key="OpaqueWhiteBrush" Color="{StaticResource OpaqueWhiteColor}"/>
+
+    <Color x:Key="LightRed">#E31587</Color>
+    <SolidColorBrush x:Key="LightRedBrush" Color="{StaticResource LightRed}"/>
+
+    <Color x:Key="DarkRed">#da9694</Color>
+    <SolidColorBrush x:Key="DarkRedBrush" Color="{StaticResource DarkRed}"/>
+
+    <Color x:Key="DefaultUserItemColor">#009bdb</Color>
+    <SolidColorBrush x:Key="DefaultUserItemBrush" Color="{StaticResource DefaultUserItemColor}"/>
+
+</ResourceDictionary>

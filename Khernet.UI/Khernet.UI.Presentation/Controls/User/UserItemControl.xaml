@@ -1,0 +1,157 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.UserItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI.ViewModels"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="300"
+             Height="60"
+             d:DataContext="{d:DesignInstance vm:UserItemDesignViewModel,IsDesignTimeCreatable=True}"
+             >
+    <UserControl.Resources>
+
+        <Style x:Key="border" TargetType="Border">
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                    <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="rtxtStyle" TargetType="RichTextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource LightBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+
+    <!--Container for selected item-->
+    <Border Name="BackContainer"
+            Style="{StaticResource border}">
+
+        <!--Item Content-->
+        <Grid Name="Container"
+              Background="Transparent">
+
+            <Grid.ColumnDefinitions>
+                <!--Picture profile-->
+                <ColumnDefinition Width="Auto"/>
+
+                <!--User name-->
+                <ColumnDefinition Width="*"/>
+
+                <!--New message indicator-->
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+
+                <!-- Profile background-->
+            <Border Background="{Binding ColorHex, Converter={conv:StringRGBToColorConverter}}"
+                    Visibility="{Binding Avatar,Converter={conv:InverseNullToVisibilityGoneConverter}}"
+                    Width="{Binding Height,RelativeSource={RelativeSource Self}}"
+                    Height="42"
+                    Margin="15 8 8 8"
+                    Grid.Column="0"
+                    CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+
+                <!--User name initials-->
+                <TextBlock Text="{Binding Initials}"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource LightBrush}"
+                           FontSize="{StaticResource LargeFontSize}" />
+
+            </Border>
+
+            <!--Avatar image-->
+            <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                    Grid.Column="0"
+                    Width="{Binding Height,RelativeSource={RelativeSource Self}}"
+                    Height="42"
+                    Margin="15 8 8 8">
+
+                <Border.Background>
+                    <ImageBrush Stretch="UniformToFill" 
+                                ImageSource="{Binding Avatar,Converter={conv:BytesToImageConverter}}"/>
+                </Border.Background>
+            </Border>
+
+            <Grid Grid.Column="1"
+                  Name="gridContainer">
+                <Grid.RowDefinitions>
+
+                    <!--Display Name-->
+                    <RowDefinition Height="Auto"/>
+
+                    <!--Chat message-->
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <!--Name-->
+                <RichTextBox Height="22"
+                             Grid.Row="0"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             IsReadOnly="True"
+                             IsReadOnlyCaretVisible="False"
+                             Focusable="False"
+                             Margin="0 10 0 0"
+                             Width="{Binding ActualWidth,ElementName=gridContainer}"      
+                             Style="{StaticResource rtxtStyle}"
+                             depend:DocumentSourceProperty.Value="{Binding DisplayName}"/>
+
+                <!-- Writing message indicator -->
+                <TextBlock Text="Typing message..."
+                           Name="txtMessage"
+                           Grid.Row="1"
+                           FontSize="{StaticResource RegularFontSize}"
+                           Foreground="{Binding IsSelected,Converter={conv:IsSelectedToBrushConverter}}"
+                           FontFamily="{StaticResource RobotoRegularFont}"
+                           Margin="0 2 0 0"
+                           Visibility="{Binding IsWritingMessage,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+                <!-- Writing message indicator -->
+                <TextBlock Text="Sending file..."
+                           Grid.Row="1"
+                           FontSize="{StaticResource RegularFontSize}"
+                           Foreground="{Binding IsSelected,Converter={conv:IsSelectedToBrushConverter}}"
+                           FontFamily="{StaticResource RobotoRegularFont}"
+                           Margin="0 2 0 0"
+                           Visibility="{Binding IsSendingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+
+            </Grid>
+            
+            <!-- Unread message counter -->
+            <Border Grid.Column="2"
+                    Height="20"
+                    Width="{Binding Path=ActualWidth,ElementName=txtUnReadCount,Converter={conv:UnreadCountWidthConverter}}"
+                    CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
+                    Background="{StaticResource LightRedBrush}"
+                    VerticalAlignment="Bottom"
+                    Margin="10"
+                    ClipToBounds="True"
+                    Visibility="{Binding UnreadMessages,Converter={conv:BoolToVisibilityConverter}}">
+                <TextBlock Name="txtUnReadCount"
+                           Text="{Binding UnreadMessages}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource LightBrush}"
+                           FontFamily="{StaticResource RobotoBoldFont}"/>
+            </Border>
+        </Grid>
+    </Border>
+
+</UserControl>

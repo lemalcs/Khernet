@@ -1,0 +1,188 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                    xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                    xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf">
+    
+    <!--Data templates for every chat message type-->
+    <DataTemplate x:Key="TextDataTemplate">
+        <ucontrols:TextMessageControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="ImageDataTemplate">
+        <ucontrols:ImageMessageControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="VideoDataTemplate">
+        <ucontrols:VideoMessageControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="AnimationDataTemplate">
+        <ucontrols:AnimationMessageControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="AudioDataTemplate">
+        <ucontrols:AudioMessageControl/>
+    </DataTemplate>
+    <DataTemplate x:Key="FileDataTemplate">
+        <ucontrols:FileMessageControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="HtmlDataTemplate">
+        <ucontrols:HtmlMessageControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="MarkdownDataTemplate">
+        <ucontrols:MarkdownMessageControl/>
+    </DataTemplate>
+
+    <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
+        <Grid Margin="20 2 20 2">
+            <Grid.ColumnDefinitions>
+
+                <!-- Picture -->
+                <ColumnDefinition Width="Auto"/>
+
+                <!-- Left Lines -->
+                <ColumnDefinition Width="Auto"/>
+
+                <!-- User content -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+
+                <!-- Upper anchor -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- Vertical line -->
+                <RowDefinition Height="*"/>
+
+                <!-- Bottom lines -->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Background color profile-->
+            <Border Width="32"
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Background="{Binding User.ColorHex, Converter={conv:StringRGBToColorConverter}}"
+                        Margin="0 0 10 0"
+                        
+                        Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
+                        CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
+                <Border.Visibility>
+                    <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
+                        <Binding Path="IsSentByMe"/>
+                        <Binding Path="User.Avatar"/>
+                    </MultiBinding>
+                </Border.Visibility>
+
+                <!--Initials-->
+                <TextBlock Text="{Binding User.Initials}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource LightBrush}"
+                           >
+                </TextBlock>
+            </Border>
+
+            <!--Avatar image-->
+            <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                    Visibility="{Binding IsSentByMe,Converter={conv:SentByMeToVisibilityConverter}}"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Width="{Binding Height,RelativeSource={RelativeSource Self}}"
+                    Height="32"
+                    Margin="0 0 10 0">
+
+                <Border.Background>
+                    <ImageBrush Stretch="UniformToFill" 
+                                ImageSource="{Binding User.Avatar,Converter={conv:BytesToImageConverter}}"/>
+                </Border.Background>
+            </Border>
+
+            <!-- Upper anchor -->
+            <Path Grid.Column="1" 
+                      Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
+                      Margin="0" 
+                      StrokeThickness="1"
+                      Grid.Row="0" 
+                      >
+                <Path.Stroke>
+                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
+                        <Binding Path="IsSentByMe"/>
+                        <Binding Path="State"/>
+                    </MultiBinding>
+                </Path.Stroke>
+            </Path>
+
+            <!-- Vertical line -->
+            <Path Grid.Column="1" 
+                      Data="M0,0 L0,1" 
+                      Fill="#FFF4F4F5" 
+                      Margin="0 -1 0 -1" 
+                      StrokeThickness="1"
+                      Grid.Row="1" 
+                      Stretch="Fill"
+                      HorizontalAlignment="{Binding IsSentByMe,Converter={conv:SentByMeToAligment}}">
+                <Path.Stroke>
+                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id2">
+                        <Binding Path="IsSentByMe"/>
+                        <Binding Path="State"/>
+                    </MultiBinding>
+                </Path.Stroke>
+            </Path>
+
+            <!--The content of user-->
+            <Border Grid.Column="2"
+                        Grid.Row="1"
+                        Margin="20 0 0 0"
+                        Height="{Binding Path=Height,ElementName=cont}">
+                <ContentPresenter Name="cont"/>
+            </Border>
+
+            <!-- Bottom anchor -->
+            <Path Grid.Column="1" 
+                      Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=bottomAnchor}" 
+                      Margin="0" 
+                      StrokeThickness="1"
+                      Grid.Row="2" >
+                <Path.Stroke>
+                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id3">
+                        <Binding Path="IsSentByMe"/>
+                        <Binding Path="State"/>
+                    </MultiBinding>
+                </Path.Stroke>
+            </Path>
+
+<!--
+            <TextBlock Margin="0"
+                           Grid.Column="2"
+                           Grid.Row="2"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Text="{Binding Id}"/>
+-->
+            <!--Hour-->
+            <TextBlock Margin="0"
+                           Grid.Column="2"
+                           Grid.Row="2"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Right"
+                           Foreground="{StaticResource DarkGrayBrush}"
+                           Style="{StaticResource TimeTextBlock}"
+                           Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"/>
+
+            <!-- Bottom horizontal line -->
+            <Path Grid.Column="2" 
+                      Data="M0,0 L1,0" 
+                      Margin="16 0 0 0" 
+                      StrokeThickness="0.75"
+                      Grid.Row="2" 
+                      Stretch="Fill"
+                      VerticalAlignment="Bottom"
+                      Stroke="{StaticResource VeryLightGrayBrush}" />
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>
