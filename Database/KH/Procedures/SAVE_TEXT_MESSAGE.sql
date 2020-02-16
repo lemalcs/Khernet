@@ -70,7 +70,7 @@ BEGIN
     
     TODAY=(SELECT CURRENT_TIMESTAMP FROM RDB$DATABASE);
     
-    --message is being send by current user
+    --Message is being sent by current user
     IF(ID_SENDER_TOKEN=0) THEN
        IS_READ='TRUE';
     ELSE
