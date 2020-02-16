@@ -820,40 +820,6 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetPenddingMessages()
-        {
-            try
-            {
-                DataTable table = new DataTable();
-
-                FbCommand cmd = new FbCommand("GET_PENDDING_MESSAGES");
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                using (cmd.Connection = new FbConnection(GetConnectionString()))
-                {
-                    cmd.Connection.Open();
-
-                    FbDataAdapter fda = new FbDataAdapter(cmd);
-                    fda.Fill(table);
-                }
-
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                    table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                }
-                keys = null;
-
-                return table;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         /// <summary>
         /// Gets the list of users to send pendding messages to.
         /// </summary>
@@ -1146,45 +1112,6 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetPeersState(short state, string serviceType)
-        {
-            try
-            {
-                DataTable table = new DataTable();
-
-                FbCommand cmd = new FbCommand("GET_PEERS_STATE");
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@PEER_STATE", FbDbType.SmallInt).Value = state;
-                cmd.Parameters.Add("@SERV_TYPE", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(serviceType, Encoding.UTF8, keys.Item1, keys.Item2);
-                keys = null;
-
-                using (cmd.Connection = new FbConnection(GetConnectionString()))
-                {
-                    cmd.Connection.Open();
-
-                    FbDataAdapter fda = new FbDataAdapter(cmd);
-                    fda.Fill(table);
-                }
-
-                keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                    table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                }
-                keys = null;
-
-                return table;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         public DataTable GetConnectedPeers(string serviceType)
         {
             try
@@ -1342,28 +1269,6 @@ namespace Khernet.Core.Data
 
                 throw;
             }
-        }
-
-        public void SetMessageProcessed(int idMessage)
-        {
-            try
-            {
-                FbCommand cmd = new FbCommand("SET_MESSAGE_PROCESSED");
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
-
-                using (cmd.Connection = new FbConnection(GetConnectionString()))
-                {
-                    cmd.Connection.Open();
-                    int resultado = Convert.ToInt32(cmd.ExecuteScalar());
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
         }
 
         public void SetMessageState(int idMessage, int messageState)

@@ -223,33 +223,6 @@ namespace Khernet.Core.Processor
             return null;
         }
 
-        public List<MessageItem> GetPenddingMessages()
-        {
-            CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPenddingMessages();
-
-            if (data.Rows.Count > 0)
-            {
-                List<MessageItem> messageItems = new List<MessageItem>();
-
-                for (int i = 0; i < data.Rows.Count; i++)
-                {
-                    MessageItem message = new MessageItem
-                    {
-                        Id = Convert.ToInt32(data.Rows[i][2]),
-                        Format = (ContentType)Convert.ToInt32(data.Rows[i][3]),
-                        RegisterDate = Convert.ToDateTime(data.Rows[i][4])
-                    };
-
-                    messageItems.Add(message);
-                }
-                return messageItems;
-            }
-            else
-                return null;
-
-        }
-
         public List<string> GetPenddingMessageUsers()
         {
             CommunicatorData commData = new CommunicatorData();
@@ -538,20 +511,6 @@ namespace Khernet.Core.Processor
             return addressList;
         }
 
-        public List<PeerAddress> GetPeersState(short state, string serviceType)
-        {
-            CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPeersState(state, serviceType);
-
-            List<PeerAddress> addressList = new List<PeerAddress>();
-            for (int i = 0; i < data.Rows.Count; i++)
-            {
-                addressList.Add(new PeerAddress(data.Rows[i][0].ToString(), data.Rows[i][1].ToString()));
-            }
-
-            return addressList;
-        }
-
         public List<PeerAddress> GetConnectedPeers(string serviceType)
         {
             CommunicatorData commData = new CommunicatorData();
@@ -715,12 +674,6 @@ namespace Khernet.Core.Processor
             message.State = Convert.ToInt32(messageData.Rows[0][7]) == 1 ? MessageState.Processed : MessageState.Pendding;
 
             return message;
-        }
-
-        public void SetMessageProcessed(int idMessage)
-        {
-            CommunicatorData commData = new CommunicatorData();
-            commData.SetMessageProcessed(idMessage);
         }
     }
 }
