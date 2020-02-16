@@ -25,7 +25,7 @@ namespace Khernet.UI
 
         private void OpenIssue(object obj)
         {
-            Process.Start("http://github.com");
+            Process.Start("https://github.com/lemalcs/Khernet-issues/issues");
         }
 
     }
