@@ -11,7 +11,7 @@ namespace Khernet.UI.Controls
     public partial class AudioMessageControl : UserControl
     {
         /// <summary>
-        /// Indicates it this control is suscriber to <see cref="MediaViewModel"/> events
+        /// Indicates it this control is suscribed to <see cref="MediaViewModel"/> events
         /// </summary>
         private bool suscribedToMediaChaged = false;
 
@@ -78,6 +78,13 @@ namespace Khernet.UI.Controls
                 }
 
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            //Virtualization of chat list creates new objets or reuses them so it is necessary 
+            //to check if current playing audio is the same as this control's datacontext.
+            MediaVm_MediaChanged(((MediaViewModel)Application.Current.Resources["MediaVM"]), new EventArgs());
         }
     }
 }

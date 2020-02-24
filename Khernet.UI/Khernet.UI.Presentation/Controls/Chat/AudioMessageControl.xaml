@@ -11,13 +11,14 @@
              xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"      
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
-    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:mah1="http://metro.mahapps.com/winfx/xaml/shared"
              x:Class="Khernet.UI.Controls.AudioMessageControl"      
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type vm:AudioChatMessageDesingModel}, IsDesignTimeCreatable=True}"
              Background="Transparent"
-    ContextMenu="{StaticResource fileMessageContextMenu}"
+                ContextMenu="{StaticResource fileMessageContextMenu}"
+    Loaded="UserControl_Loaded"
     >
     <UserControl.Template>
         <StaticResource ResourceKey="messageContainer"/>

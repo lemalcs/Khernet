@@ -57,9 +57,10 @@ namespace Khernet.UI
 
         private void Play(object mediaViewModel)
         {
-            CurrentViewModel = mediaViewModel as AudioChatMessageViewModel;
-            if (!isPlayerCreated || Player.SourceProvider.MediaPlayer == null)
+            if (!isPlayerCreated || Player.SourceProvider.MediaPlayer == null||
+                (CurrentViewModel!=null&&CurrentViewModel.FilePath!=(mediaViewModel as AudioChatMessageViewModel).FilePath))
             {
+                CurrentViewModel = mediaViewModel as AudioChatMessageViewModel;
                 CreatePlayer(CurrentViewModel.FilePath);
                 return;
             }
@@ -74,6 +75,7 @@ namespace Khernet.UI
             }
             else
             {
+                CurrentViewModel = mediaViewModel as AudioChatMessageViewModel;
                 //Otherwise play video again
                 CreatePlayer(CurrentViewModel.FilePath);
             }
@@ -81,8 +83,10 @@ namespace Khernet.UI
 
         private void CreatePlayer(string fileName)
         {
-            if (Player == null)
-                Player = new VlcControl();
+            if (Player != null)
+                Player.Dispose();
+
+            Player = new VlcControl();
 
             //Sets the directory path for vlc library
             Player.SourceProvider.CreatePlayer(vlcLibDirectory);
