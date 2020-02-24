@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Khernet.UI.IoC;
+using Khernet.UI.Managers;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -159,6 +161,7 @@ namespace Khernet.UI.Controls
 
                         //Set new control
                         AudioPlayerControl audio = new AudioPlayerControl();
+                        audio.PlayerViewModel = IoCContainer.Get<IAudioObservable>().AudioModel;
                         audio.DataContext = baseValue;
                         popUp.control.Content = audio;
                     }

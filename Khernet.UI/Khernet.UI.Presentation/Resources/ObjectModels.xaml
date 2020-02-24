@@ -19,9 +19,6 @@
     <!-- Application title image -->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/HeaderLogo.png" x:Key="HeaderLogo"/>
 
-    <!--Media model for playing audio files-->
-    <local:MediaViewModel x:Key="MediaVM"/>
-
     <!--Emoji list view model-->
     <local:EmojiListCollection x:Key="emojiLightList"/>
 

@@ -1,12 +1,25 @@
-﻿using System.Windows;
+﻿using Khernet.UI.IoC;
+using Khernet.UI.Managers;
+using System.Windows;
 
 namespace Khernet.UI.Controls
 {
     /// <summary>
     /// Control to play audio files
     /// </summary>
-    public partial class AudioPlayerControl : BasePopUpControl// UserControl
+    public partial class AudioPlayerControl : BasePopUpControl
     {
+
+        public AudioPlayerViewModel PlayerViewModel
+        {
+            get { return (AudioPlayerViewModel)GetValue(AudioPLayerViewModelProperty); }
+            set { SetValue(AudioPLayerViewModelProperty, value); }
+        }
+
+        // The DependencyProperty as the backing store for AudioPLayerViewModel.
+        public static readonly DependencyProperty AudioPLayerViewModelProperty =
+            DependencyProperty.Register(nameof(PlayerViewModel), typeof(AudioPlayerViewModel), typeof(AudioPlayerControl), new PropertyMetadata(null));
+
         public AudioPlayerControl()
         {
             InitializeComponent();
@@ -15,27 +28,18 @@ namespace Khernet.UI.Controls
         private void BaseDialogUserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             //Dispose MediaViewModel when control is unloaded
-            var mediaVm = ((MediaViewModel)Application.Current.Resources["MediaVM"]);
-            if (mediaVm != null)
-            {
-                mediaVm.Dispose();
-            }
+            IoCContainer.Get<IAudioObservable>().StopPlayer();
         }
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            bool playerVisible = IoC.IoCContainer.Get<ApplicationViewModel>().IsPlayerVisible;
+            bool playerVisible = IoCContainer.Get<ApplicationViewModel>().IsPlayerVisible;
 
             ////Dispose MediaViewModel when control is hidden
             if (!(bool)e.NewValue && !playerVisible)
             {
                 DataContext = null;
-
-                var mediaVm = ((MediaViewModel)Application.Current.Resources["MediaVM"]);
-                if (mediaVm != null)
-                {
-                    mediaVm.Dispose();
-                }
+                IoCContainer.Get<IAudioObservable>().StopPlayer();
             }
         }
 

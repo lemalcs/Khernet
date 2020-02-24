@@ -323,7 +323,8 @@ namespace Khernet.UI.Controls
                 (((ContentPresenter)e.Source).Content.GetType() == typeof(TextChatMessageViewModel) ||
                 ((ContentPresenter)e.Source).Content.GetType() == typeof(HtmlChatMessageViewModel) ||
                 ((ContentPresenter)e.Source).Content.GetType() == typeof(MarkdownChatMessageViewModel) ||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(ReplyMessageViewModel)
+                ((ContentPresenter)e.Source).Content.GetType() == typeof(ReplyMessageViewModel)||
+                ((ContentPresenter)e.Source).Content.GetType() == typeof(AudioChatMessageViewModel)
                 )
                 )
                 return;

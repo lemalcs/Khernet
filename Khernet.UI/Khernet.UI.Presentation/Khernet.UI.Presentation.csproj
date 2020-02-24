@@ -380,6 +380,8 @@
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Managers\AudioManager.cs" />
+    <Compile Include="Managers\AudioObservers.cs" />
     <Compile Include="Managers\ChatMessageStateManager.cs" />
     <Compile Include="Managers\PresentationApplicationContext.cs" />
     <Compile Include="Managers\PresentationApplicationDialog.cs" />
@@ -487,7 +489,7 @@
     <Compile Include="ViewModels\IPasswordContainer.cs" />
     <Compile Include="ViewModels\Design\SettingsListDesignModel.cs" />
     <Compile Include="ViewModels\Design\PagedDialogDesignModel.cs" />
-    <Compile Include="ViewModels\Media\MediaViewModel.cs" />
+    <Compile Include="ViewModels\Media\AudioPlayerViewModel.cs" />
     <Compile Include="ViewModels\FileListViewModel.cs" />
     <Compile Include="ViewModels\FileItemListViewModel.cs" />
     <Compile Include="ViewModels\TaskbarIconViewModel.cs" />

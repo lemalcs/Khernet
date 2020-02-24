@@ -410,6 +410,7 @@ namespace Khernet.UI
                 {
                     IoCContainer.Media.Dispose();
                     IoCContainer.Text.Dispose();
+                    IoCContainer.Get<IAudioObservable>().StopPlayer();
                     IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
                     IoCContainer.Get<UserManager>().StopProcessor();
                     Engine.Stop();

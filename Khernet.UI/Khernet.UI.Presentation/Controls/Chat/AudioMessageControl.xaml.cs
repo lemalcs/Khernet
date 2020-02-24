@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Khernet.UI.IoC;
+using Khernet.UI.Managers;
 using System.Windows;
 using System.Windows.Controls;
 using Vlc.DotNet.Wpf;
@@ -8,13 +9,8 @@ namespace Khernet.UI.Controls
     /// <summary>
     /// Lógica de interacción para ImageViewerControl.xaml
     /// </summary>
-    public partial class AudioMessageControl : UserControl
+    public partial class AudioMessageControl : UserControl, IAudioObserver
     {
-        /// <summary>
-        /// Indicates it this control is suscribed to <see cref="MediaViewModel"/> events
-        /// </summary>
-        private bool suscribedToMediaChaged = false;
-
         /// <summary>
         /// Gets or set the current <see cref="VlcControl"/> for playing audio files
         /// </summary>
@@ -42,28 +38,30 @@ namespace Khernet.UI.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var mediaVm = ((MediaViewModel)Application.Current.Resources["MediaVM"]);
-            if (mediaVm != null && !suscribedToMediaChaged)
-            {
-                //Suscribe to event for notification when media changes
-                //this allow to open the AudioPlayerControl to play audio
-                //or to control the audio file when it is playing
-                mediaVm.MediaChanged += MediaVm_MediaChanged;
-                suscribedToMediaChaged = true;
-            }
+            //Suscribe to event for notification when media changes
+            //this allow to open the AudioPlayerControl to play audio
+            //or to control the audio file when it is playing
+            IoCContainer.Get<IAudioObservable>().Suscribe(this);
         }
 
-        private void MediaVm_MediaChanged(object sender, EventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var mediaVm = sender as MediaViewModel;
+            //Virtualization of chat list creates new objets or reuses them so it is necessary 
+            //to check if current playing audio is the same as this control's datacontext.
+            IoCContainer.Get<IAudioObservable>().Suscribe(this);
 
-            if (mediaVm.CurrentViewModel != null && mediaVm.CurrentViewModel.Equals(DataContext))
+            OnChangeAudio(IoCContainer.Get<IAudioObservable>().AudioModel);
+        }
+
+        public void OnChangeAudio(AudioPlayerViewModel audioModel)
+        {
+            if (audioModel.CurrentViewModel != null && audioModel.CurrentViewModel.Equals(DataContext))
             {
                 //Add binding to AudioPlaerControl
-                CurrentPlayer = mediaVm.Player;
+                CurrentPlayer = audioModel.Player;
 
                 //Set command to control audio playing
-                playButton.Command = mediaVm.PlayCommand;
+                playButton.Command = audioModel.PlayCommand;
             }
             else
             {
@@ -80,11 +78,19 @@ namespace Khernet.UI.Controls
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            //Virtualization of chat list creates new objets or reuses them so it is necessary 
-            //to check if current playing audio is the same as this control's datacontext.
-            MediaVm_MediaChanged(((MediaViewModel)Application.Current.Resources["MediaVM"]), new EventArgs());
+            IoCContainer.Get<IAudioObservable>().Unsuscribe(this);
+
+            //Remove binding to AudioPlayerControl
+            CurrentPlayer = null;
+
+            //Check if DataContext has not been disconnected
+            if (DataContext is AudioChatMessageViewModel)
+            {
+                //Restore the command to open audio file
+                playButton.Command = ((AudioChatMessageViewModel)DataContext).OpenMediaCommand;
+            }
         }
     }
 }

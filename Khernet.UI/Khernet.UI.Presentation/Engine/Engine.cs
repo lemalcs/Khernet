@@ -69,6 +69,8 @@ namespace Khernet.UI
 
                     IoCContainer.Configure<ITextObservable, TextManager>(new TextManager());
 
+                    IoCContainer.Configure<IAudioObservable, AudioManager>(new AudioManager());
+
                     IoCContainer.Configure<ChatMessageStateManager>();
                     IoCContainer.Configure<UserManager>();
 
@@ -207,6 +209,7 @@ namespace Khernet.UI
 
                 IoCContainer.UnBind<IFileObservable>();
                 IoCContainer.UnBind<ITextObservable>();
+                IoCContainer.UnBind<IAudioObservable>();
             }
             catch (Exception ex)
             {

@@ -9,7 +9,8 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
              xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"      
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+
              x:Class="Khernet.UI.Controls.AudioPlayerControl"      
              mc:Ignorable="d" 
              d:DesignWidth="400"
@@ -36,10 +37,10 @@
                     Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                     Style="{DynamicResource IconButton}"
                     HorizontalAlignment="Left"
-                    Command="{Binding Source={StaticResource MediaVM},Path=PlayCommand}"
+                    Command="{Binding Path=PlayerViewModel.PlayCommand,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}}}"
                     CommandParameter="{Binding}"
                     Cursor="Hand">
-                <iconPacks:PackIconMaterial Kind="{Binding Source={StaticResource MediaVM},Path=Player.State,Converter={conv:MediaStatesToStringConverter},TargetNullValue=Play,FallbackValue=Play}"
+                <iconPacks:PackIconMaterial Kind="{Binding Path=PlayerViewModel.Player.State,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Converter={conv:MediaStatesToStringConverter},TargetNullValue=Play,FallbackValue=Play}"
                                                 Width="15"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
@@ -71,7 +72,7 @@
                     Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
                     HorizontalAlignment="Stretch"
                     IsMoveToPointEnabled="True"
-                    Value="{Binding Source={StaticResource MediaVM},Path=Player.Time,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    Value="{Binding Path=PlayerViewModel.Player.Time,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource SliderStyle1}"
                     SmallChange="1"
                     LargeChange="1"
@@ -81,7 +82,7 @@
                 <TextBlock Grid.Column="2"
                            TextWrapping="Wrap"
                            Margin="4 0 4 0">
-                    <Run Text="{Binding Source={StaticResource MediaVM},Path=Player.Time,Converter={conv:NumberToTimeStringConverter}}"/>
+                    <Run Text="{Binding Path=PlayerViewModel.Player.Time,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Converter={conv:NumberToTimeStringConverter}}"/>
                     <Run Text="/"/>
                     <Run Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"/>
                 </TextBlock>
@@ -123,7 +124,7 @@
                                             Background="White"
                                             HorizontalAlignment="Right"
                                             IsMoveToPointEnabled="True"
-                                            Value="{Binding Source={StaticResource MediaVM},Path=Player.Volume,TargetNullValue=60,FallbackValue=60}"
+                                            Value="{Binding Path=PlayerViewModel.Player.Volume,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},TargetNullValue=60,FallbackValue=60}"
                                             Maximum="125"
                                             Height="125"
                                             Style="{StaticResource SliderStyle1}"/>
