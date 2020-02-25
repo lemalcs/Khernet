@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Control to play audio files
+    /// Control to play audio fileswith a popup style
     /// </summary>
     public partial class AudioPlayerControl : BasePopUpControl
     {

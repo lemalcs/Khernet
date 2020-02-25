@@ -1,6 +1,7 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Khernet.UI.Controls;
 using Khernet.UI.IoC;
+using System;
 using System.Windows;
 
 namespace Khernet.UI.Managers
@@ -9,7 +10,7 @@ namespace Khernet.UI.Managers
     {
         public void ShowNotification(NotificationViewModel notificationModel)
         {
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var notificationIcon = App.Current.Resources["notificationIcon"] as TaskbarIcon;
 

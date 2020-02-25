@@ -72,7 +72,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -176,7 +176,7 @@ namespace Khernet.UI
         /// <summary>
         /// Gets a copy of this message
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="AudioChatMessageViewModel"/> object</returns>
         public override ChatMessageItemViewModel Clone()
         {
             AudioChatMessageViewModel chatMessage = new AudioChatMessageViewModel(messageManager);
@@ -210,7 +210,8 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        #region IMediaObservable members
+        #region IFileObserver members
+
         public void OnGetMetadata(FileResponse info)
         {
             if (info.Operation == Managers.MessageOperation.Download)
@@ -254,6 +255,5 @@ namespace Khernet.UI
         }
 
         #endregion
-
     }
 }

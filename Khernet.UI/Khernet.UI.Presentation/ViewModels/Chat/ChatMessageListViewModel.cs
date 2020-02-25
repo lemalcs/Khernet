@@ -355,7 +355,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens a dialog to select files
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">A <see cref="IDocumentContainer"/> object</param>
         private void OpenFile(object parameter)
         {
             //Get file paths
@@ -364,7 +364,7 @@ namespace Khernet.UI
             if (files == null)
                 return;
 
-            ///Send all selected files
+            //Send all selected files
             Send(files);
 
             IDocumentContainer container = parameter as IDocumentContainer;
@@ -525,7 +525,7 @@ namespace Khernet.UI
         /// <summary>
         /// Sends text message
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">A <see cref="IDocumentContainer"/> object</param>
         public void Send(object parameter)
         {
             if (parameter == null)
@@ -634,8 +634,6 @@ namespace Khernet.UI
                         ((MarkdownChatMessageViewModel)newMessage).ProcessMessage(message);
                         Items.Add(newMessage);
                     }
-
-
 
                     SetCurrentChatModel(newMessage);
                 }
@@ -820,17 +818,6 @@ namespace Khernet.UI
 
                 for (int i = 0; i < unreadMessages.Count; i++)
                 {
-                    ////--------------------------------
-                    //int id = 0;
-                    //if (Items.Count > 0)
-                    //{
-                    //    if (!loadForward)
-                    //        id = Items[0].Id;
-                    //    else
-                    //        id = Items[Items.Count - 1].Id;
-
-                    //}
-
                     if (UserContext.SentMessages != null)
                     {
                         var res = UserContext.SentMessages.FirstOrDefault((c) => c.UID == unreadMessages[i].UID);
@@ -840,33 +827,8 @@ namespace Khernet.UI
                             continue;
                         }
                     }
-                        ////--------------------------------
 
                     AddMessageToList(unreadMessages[i], !loadForward);
-
-                    ////--------------------------------
-                    //int newId = 0;
-                    //if (!loadForward)
-                    //    newId = Items[0].Id;
-                    //else
-                    //    newId = Items[Items.Count - 1].Id;
-
-                    //if (newId != 3684 && id != 3700)
-                    //{
-                    //    if (id > 0 && newId > 0)
-                    //    {
-                    //        if (!loadForward)
-                    //        {
-                    //            if (newId + 1 != id)
-                    //                Debugger.Break();
-                    //        }
-                    //        else if (newId - 1 != id)
-                    //        {
-                    //            Debugger.Break();
-                    //        }
-                    //    }
-                    //}
-                    ////--------------------------------
 
                     //Save the first id to perform a whole read update to unread messages
                     if (!unreadMessages[i].IsRead && (loadForward && !savedUnreadMessageLocation))
@@ -1181,7 +1143,6 @@ namespace Khernet.UI
             SetChatList(chatList);
 
             //Get draft message
-            //penddingMessage = UserContext.DraftMessage;
             SetContent?.Invoke(UserContext.DraftMessage);
             OnPropertyChanged(nameof(CanSendMessage));
 

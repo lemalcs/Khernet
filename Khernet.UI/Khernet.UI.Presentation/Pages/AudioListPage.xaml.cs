@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfileViewerPage.xaml
+    /// Read only profile page.
     /// </summary>
     public partial class AudioListPage : BasePage<FileListViewModel>
     {

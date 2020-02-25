@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// Listo of audio files interchanged with peer.
     /// </summary>
     public partial class AboutPage : BasePage<AboutViewModel>
     {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Page to show when application is started
+    /// Page to show when application is started.
     /// </summary>
     public partial class LoadPage : BasePage
     {

@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para PopupContent.xaml
+    /// Container for popup controls.
     /// </summary>
     public partial class PopupContent : UserControl, ICommandSource
     {

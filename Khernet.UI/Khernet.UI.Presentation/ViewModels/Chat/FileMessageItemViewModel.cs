@@ -192,8 +192,6 @@ namespace Khernet.UI
             {
                 byte[] fileInfo = IoCContainer.Get<Messenger>().GetMessageContent(Id);
 
-                FileMessage info = JSONSerializer<FileMessage>.DeSerialize(fileInfo);
-
                 using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(Id))
                 {
                     int chunk = 1048576;
@@ -222,10 +220,10 @@ namespace Khernet.UI
         /// Cheack is file is saved on database and ready to be read
         /// </summary>
         /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <returns>True if file is ready to user otherwise false</returns>
         private bool IsReadyFile(object obj)
         {
-            return IsMessageLoaded;//Id != 0;
+            return IsMessageLoaded;
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserItemControl.xaml
+    /// Information about a single peer.
     /// </summary>
     public partial class UserItemControl : UserControl
     {

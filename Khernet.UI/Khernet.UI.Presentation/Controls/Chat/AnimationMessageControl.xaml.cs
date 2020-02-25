@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para VideoMessageControl.xaml
+    /// Viewer for animation files such as GIF, at full screen mode.
     /// </summary>
     public partial class AnimationMessageControl : UserControl
     {

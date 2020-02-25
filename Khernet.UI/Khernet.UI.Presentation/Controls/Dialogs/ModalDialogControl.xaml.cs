@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Show an modal dialog inside parent window
+    /// Shown of an modal dialog inside parent window
     /// </summary>
     public partial class ModalDialogControl : UserControl
     {

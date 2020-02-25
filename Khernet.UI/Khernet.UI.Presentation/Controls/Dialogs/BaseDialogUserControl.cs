@@ -8,16 +8,6 @@ using System.Windows.Media;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Delegate for execute and method within the UI thread
-    /// </summary>
-    public delegate void DoAction();
-
-    /// <summary>
-    /// Delegate for excute method which returns a <see cref="bool"/> value
-    /// </summary>
-    public delegate bool VerifyAction();
-
-    /// <summary>
     /// The type of modal dialog to show
     /// </summary>
     public enum Dialog
@@ -141,7 +131,7 @@ namespace Khernet.UI.Controls
             var t = TaskEx.Run(() =>
             {
                 //Run on UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     try
                     {
@@ -204,7 +194,7 @@ namespace Khernet.UI.Controls
             var t = TaskEx.Run(() =>
             {
                 //Run on UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     try
                     {
@@ -236,7 +226,7 @@ namespace Khernet.UI.Controls
             var t = TaskEx.Run(() =>
             {
                 //Run on UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     try
                     {
@@ -270,7 +260,7 @@ namespace Khernet.UI.Controls
             var t = TaskEx.Run(() =>
             {
                 //Run on UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     try
                     {

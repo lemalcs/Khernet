@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserListControl.xaml
+    /// List of peers.
     /// </summary>
     public partial class UserListControl : UserControl
     {

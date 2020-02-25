@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfileViewerPage.xaml
+    /// Read only profile of peer.
     /// </summary>
     public partial class ProfileViewerPage : BasePage<ProfileViewModel>
     {

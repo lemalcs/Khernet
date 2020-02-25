@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para ImageViewerControl.xaml
+    /// Viewer for images such as JPEG, PNG.
     /// </summary>
     public partial class ImageViewerControl : BaseDialogUserControl
     {

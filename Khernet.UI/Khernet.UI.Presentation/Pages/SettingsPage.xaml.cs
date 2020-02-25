@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para SettingsListPage.xaml
+    /// List of settings for application.
     /// </summary>
     public partial class SettingsPage : BasePage<SettingControllerViewModel>
     {

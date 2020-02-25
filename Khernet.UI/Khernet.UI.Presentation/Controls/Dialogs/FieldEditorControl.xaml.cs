@@ -7,7 +7,7 @@ using System.Windows.Documents;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Edits a field returning a byte array
+    /// Edition of a field and returning of a byte array.
     /// </summary>
     public partial class FieldEditorControl : BasePopUpControl, IDocumentContainer
     {

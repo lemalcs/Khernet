@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserListControl.xaml
+    /// List of chat messages.
     /// </summary>
     public partial class ChatMessageListControl : UserControl
     {

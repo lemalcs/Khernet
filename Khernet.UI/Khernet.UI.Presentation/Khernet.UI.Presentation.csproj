@@ -218,6 +218,9 @@
     <Compile Include="Animations\FrameworkElementAnimations.cs" />
     <Compile Include="Cache\ChatCache.cs" />
     <Compile Include="Cache\Configurations.cs" />
+    <Compile Include="Controls\Media\AnimationViewerControl.xaml.cs">
+      <DependentUpon>AnimationViewerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\NullToStretchImageConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\NullToVisibilityGoneConverter.cs" />
@@ -281,8 +284,8 @@
     </Compile>
     <Compile Include="Controls\User\SelectedUserEventArgs.cs" />
     <Compile Include="Controls\Media\SelectedEmojiEventArgs.cs" />
-    <Compile Include="Controls\Media\VideoViewerControl.xaml.cs">
-      <DependentUpon>VideoViewerControl.xaml</DependentUpon>
+    <Compile Include="Controls\Media\VideoPlayerControl.xaml.cs">
+      <DependentUpon>VideoPlayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Media\ImageViewerControl.xaml.cs">
       <DependentUpon>ImageViewerControl.xaml</DependentUpon>
@@ -576,7 +579,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Media\VideoViewerControl.xaml">
+    <Page Include="Controls\Media\AnimationViewerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\VideoPlayerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

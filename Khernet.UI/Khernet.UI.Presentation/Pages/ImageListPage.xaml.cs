@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfileViewerPage.xaml
+    /// List of images interchanged with a peer.
     /// </summary>
     public partial class ImageListPage : BasePage<FileListViewModel>
     {

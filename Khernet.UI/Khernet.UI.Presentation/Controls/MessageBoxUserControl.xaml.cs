@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para MessageBoxUserControl.xaml
+    /// Dialog to show short messages
     /// </summary>
     public partial class MessageBoxUserControl : BaseDialogUserControl
     {

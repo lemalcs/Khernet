@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para NotificationControl.xaml
+    /// Notification when a new message arrives.
     /// </summary>
     public partial class NotificationControl : UserControl
     {

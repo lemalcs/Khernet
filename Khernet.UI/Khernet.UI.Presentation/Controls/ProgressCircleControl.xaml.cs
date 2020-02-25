@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para ProgressCircleControl.xaml
+    /// Shown of progress in a circular style.
     /// </summary>
     public partial class ProgressCircleControl : UserControl
     {

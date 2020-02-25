@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// The main windows of application.
     /// </summary>
     public partial class MainWindow
     {
@@ -18,6 +18,7 @@ namespace Khernet.UI
             e.Cancel = true;
             this.Hide();
 
+            //Show session page when this window is closed
             IoCContainer.Get<ApplicationViewModel>().ClearChatPage();
         }
 

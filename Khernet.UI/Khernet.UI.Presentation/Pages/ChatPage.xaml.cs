@@ -13,7 +13,7 @@ using System.Windows.Media;
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ChatPage.xaml
+    /// Current chat page.
     /// </summary>
     public partial class ChatPage : BasePage<ChatMessageListViewModel>, IDocumentContainer
     {

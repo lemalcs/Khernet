@@ -22,7 +22,7 @@ namespace Khernet.UI
         /// <returns></returns>
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
         {
-            var result = await new MessageBoxUserControl().ShowMessageBox(dialogModel);
+            await new MessageBoxUserControl().ShowMessageBox(dialogModel);
         }
 
         /// <summary>
@@ -35,15 +35,19 @@ namespace Khernet.UI
         {
             if (viewModel is PagedDialogViewModel)
             {
-                var result = await new PagedDialogControl().ShowModalDialog(viewModel);
+                await new PagedDialogControl().ShowModalDialog(viewModel);
             }
             else if (viewModel is ImageChatMessageViewModel)
             {
-                var result = await new ImageViewerControl().ShowModalDialog(viewModel, true);
+                await new ImageViewerControl().ShowModalDialog(viewModel, true);
             }
             else if (viewModel is VideoChatMessageViewModel)
             {
-                var result = await new VideoViewerControl().ShowModalDialog(viewModel, true);
+                await new VideoPlayerControl().ShowModalDialog(viewModel, true);
+            }
+            else if (viewModel is AnimationChatMessageViewModel)
+            {
+                await new AnimationViewerControl().ShowModalDialog(viewModel, true);
             }
         }
 
@@ -137,7 +141,7 @@ namespace Khernet.UI
         /// <param name="notificationModel"></param>
         public void ShowNotification(NotificationViewModel notificationModel)
         {
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 var notificationIcon = App.Current.Resources["notificationIcon"] as TaskbarIcon;
 
@@ -151,7 +155,7 @@ namespace Khernet.UI
         /// </summary>
         public void ShowUnReadMessage(int idMessage)
         {
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 if (IoCContainer.Get<UserListViewModel>().SelectedUser != null)
                 {
@@ -165,7 +169,7 @@ namespace Khernet.UI
         /// </summary>
         public bool IsMainWindowActive()
         {
-            return (bool)Application.Current.Dispatcher.Invoke(new VerifyAction(() =>
+            return (bool)Application.Current.Dispatcher.Invoke(new Func<bool>(() =>
             {
                 return Application.Current.MainWindow.IsActive ||
                 Application.Current.MainWindow.IsFocused ||
@@ -178,7 +182,7 @@ namespace Khernet.UI
         /// </summary>
         public void ShowWindow()
         {
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 //Application.Current.MainWindow.Show();
                 Application.Current.MainWindow.Activate();
@@ -230,7 +234,7 @@ namespace Khernet.UI
         /// <param name="action">The task to be executed</param>
         public void ExecuteAsync(Action action)
         {
-            Application.Current.Dispatcher.BeginInvoke(new DoAction(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 action();
             }), System.Windows.Threading.DispatcherPriority.Background);
@@ -241,7 +245,7 @@ namespace Khernet.UI
         /// </summary>
         public void Execute(Action action)
         {
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 action();
             }), System.Windows.Threading.DispatcherPriority.Normal);
@@ -257,15 +261,15 @@ namespace Khernet.UI
         {
             if (viewModel is PagedDialogViewModel)
             {
-                var result = await new PagedDialogControl().ShowChildModalDialog(viewModel);
+                await new PagedDialogControl().ShowChildModalDialog(viewModel);
             }
             else if (viewModel is ImageChatMessageViewModel)
             {
-                var result = await new ImageViewerControl().ShowChildModalDialog(viewModel, true);
+                await new ImageViewerControl().ShowChildModalDialog(viewModel, true);
             }
             else if (viewModel is VideoChatMessageViewModel)
             {
-                var result = await new VideoViewerControl().ShowChildModalDialog(viewModel, true);
+                await new VideoPlayerControl().ShowChildModalDialog(viewModel, true);
             }
         }
 
@@ -278,7 +282,7 @@ namespace Khernet.UI
         {
             byte[] result = null;
 
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 FlowDocumentHtmlConverter documentConverter = new FlowDocumentHtmlConverter();
                 FlowDocument document = documentConverter.ConvertFromHtml(html);
@@ -306,7 +310,7 @@ namespace Khernet.UI
         {
             byte[] result = null;
 
-            Application.Current.Dispatcher.Invoke(new DoAction(() =>
+            Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 FlowDocumentMarkdownConverter documentConverter = new FlowDocumentMarkdownConverter();
                 FlowDocument document = documentConverter.ConvertToFlowDocument(markdownText);

@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Edits a field returning a byte array
+    /// Dialog used when a cleaninig operation of cache is performed.
     /// </summary>
     public partial class CacheCleanerControl : BasePopUpControl
     {

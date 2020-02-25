@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// Page shown when user logs out from application.
     /// </summary>
     public partial class SignOutPage : BasePage
     {

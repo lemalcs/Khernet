@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para MediaGalleryControl.xaml
+    /// List of GIF files added for later use.
     /// </summary>
     public partial class MediaGalleryControl : UserControl
     {

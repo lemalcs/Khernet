@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para PageContainer.xaml
+    /// Container for pages used by <see cref="PagedDialogControl"/>.
     /// </summary>
     public partial class PageContainer : UserControl, ICommandSource
     {

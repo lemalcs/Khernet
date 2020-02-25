@@ -3,7 +3,7 @@
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// List of peers to resend a message.
     /// </summary>
     public partial class ResendPage : BasePage<ResendViewModel>
     {

@@ -11,7 +11,7 @@
              xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"      
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             x:Class="Khernet.UI.Controls.VideoViewerControl"      
+             x:Class="Khernet.UI.Controls.VideoPlayerControl"      
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance {x:Type vm:VideoChatMessageDesignModel}, IsDesignTimeCreatable=True}"

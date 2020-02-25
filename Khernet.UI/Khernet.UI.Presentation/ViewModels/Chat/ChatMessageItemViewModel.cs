@@ -188,6 +188,8 @@ namespace Khernet.UI
 
         #endregion
 
+        #region Commands
+
         /// <summary>
         /// Reply and chat message
         /// </summary>
@@ -197,6 +199,8 @@ namespace Khernet.UI
         /// Resend a chat message
         /// </summary>
         public ICommand ResendCommand { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Gets a symmary of this message

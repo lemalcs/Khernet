@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserItemControl.xaml
+    /// Container for image messages.
     /// </summary>
     public partial class ImageMessageControl : UserControl
     {

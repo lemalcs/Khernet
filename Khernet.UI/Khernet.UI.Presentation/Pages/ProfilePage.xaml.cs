@@ -6,7 +6,7 @@ using System.Windows.Documents;
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfilePage.xaml
+    /// Profile of current logged user page.
     /// </summary>
     public partial class ProfilePage : BasePage<ProfileViewModel>, IDocumentContainer
     {

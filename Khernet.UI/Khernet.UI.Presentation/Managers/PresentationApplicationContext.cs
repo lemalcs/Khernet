@@ -28,7 +28,7 @@ namespace Khernet.UI.Managers
 
         public void Execute(Action action)
         {
-            Application.Current.Dispatcher.BeginInvoke(new DoAction(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 action();
             }), System.Windows.Threading.DispatcherPriority.Background);

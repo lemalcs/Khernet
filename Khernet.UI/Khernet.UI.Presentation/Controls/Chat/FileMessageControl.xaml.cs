@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserItemControl.xaml
+    /// Container for file messages (any binary file).
     /// </summary>
     public partial class FileMessageControl : UserControl
     {

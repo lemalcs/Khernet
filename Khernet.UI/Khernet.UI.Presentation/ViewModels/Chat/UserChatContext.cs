@@ -4,6 +4,8 @@ namespace Khernet.UI
 {
     public class UserChatContext : BaseModel
     {
+        #region Properties
+
         /// <summary>
         /// Total unread message for current chat list
         /// </summary>
@@ -70,6 +72,8 @@ namespace Khernet.UI
         {
             User = user;
         }
+
+        #endregion
 
         public void SetUnreadMessage(int quantity)
         {

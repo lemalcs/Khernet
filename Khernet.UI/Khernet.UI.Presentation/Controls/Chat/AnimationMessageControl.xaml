@@ -26,7 +26,12 @@
                StretchDirection="DownOnly"/>
 
         <!--Animation message container-->
-        <Border CornerRadius="5">
+        <Border CornerRadius="5"
+                Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}">
+
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
+            </Border.InputBindings>
 
             <Grid>
 

@@ -19,7 +19,7 @@ namespace Khernet.UI.Managers
             }
             else if (viewModel is VideoChatMessageViewModel)
             {
-                await new VideoViewerControl().ShowChildModalDialog(viewModel, true);
+                await new VideoPlayerControl().ShowChildModalDialog(viewModel, true);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Khernet.UI.Managers
             }
             else if (viewModel is VideoChatMessageViewModel)
             {
-                await new VideoViewerControl().ShowModalDialog(viewModel, true);
+                await new VideoPlayerControl().ShowModalDialog(viewModel, true);
             }
         }
 

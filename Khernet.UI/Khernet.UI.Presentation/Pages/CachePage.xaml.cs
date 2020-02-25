@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// Cache information page.
     /// </summary>
     public partial class CachePage : BasePage<CacheViewModel>
     {

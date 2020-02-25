@@ -3,7 +3,7 @@
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// Login page when user starts application.
     /// </summary>
     public partial class LoginPage : BasePage<LoginViewModel>, IPasswordContainer
     {

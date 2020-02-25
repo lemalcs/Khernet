@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para MediaGalleryControl.xaml
+    /// Palette for emojis.
     /// </summary>
     public partial class EmojiPaletteControl : UserControl
     {

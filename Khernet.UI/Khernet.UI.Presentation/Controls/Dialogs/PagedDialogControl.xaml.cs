@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para SettingsControl.xaml
+    /// Navigator for pages.
     /// </summary>
     public partial class PagedDialogControl : BaseDialogUserControl, IModalDialog
     {

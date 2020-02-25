@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para VideoMessageControl.xaml
+    /// Container for video messages.
     /// </summary>
     public partial class VideoMessageControl : UserControl
     {

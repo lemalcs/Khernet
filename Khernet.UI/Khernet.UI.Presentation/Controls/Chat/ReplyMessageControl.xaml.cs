@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para ReplyMessageControl.xaml
+    /// A summary of message that was replied.
     /// </summary>
     public partial class ReplyMessageControl : UserControl
     {

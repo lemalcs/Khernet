@@ -239,7 +239,7 @@ namespace Khernet.UI.Managers
             {
                 state = ChatMessageState.Error;
                 //Notify about an error to the UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     observer.OnError(error);
                 }));
@@ -274,7 +274,7 @@ namespace Khernet.UI.Managers
             {
                 state = ChatMessageState.Error;
                 //Notify about an error to the UI thread
-                Application.Current.Dispatcher.Invoke(new DoAction(() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
                     observer.OnError(error);
                 }));

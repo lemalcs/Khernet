@@ -68,7 +68,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -223,6 +223,8 @@ namespace Khernet.UI
             }
         }
 
+        #region IFileObserver members
+
         public void OnGetMetadata(FileResponse info)
         {
             if (info.Operation == MessageOperation.Download)
@@ -267,6 +269,8 @@ namespace Khernet.UI
             IsReadingFile = false;
             IsLoading = false;
         }
+
+        #endregion
 
         public override ChatMessageItemViewModel Clone()
         {

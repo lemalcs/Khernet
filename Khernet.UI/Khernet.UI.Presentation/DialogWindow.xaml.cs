@@ -3,9 +3,9 @@
 namespace Khernet.UI
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Dilaog to be shown in a secondary window.
     /// </summary>
-    public partial class DialogWindow //: MetroWindow
+    public partial class DialogWindow
     {
         /// <summary>
         /// View model for dialog window

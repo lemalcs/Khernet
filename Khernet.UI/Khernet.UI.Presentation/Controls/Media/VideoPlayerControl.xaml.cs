@@ -9,16 +9,16 @@ using System.Windows.Threading;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para ImageViewerControl.xaml
+    /// Viewer for video files such as MP4, AVI.
     /// </summary>
-    public partial class VideoViewerControl : BaseDialogUserControl
+    public partial class VideoPlayerControl : BaseDialogUserControl
     {
         /// <summary>
         /// Timer to control when video controls hide.
         /// </summary>
         DispatcherTimer timer;
 
-        public VideoViewerControl()
+        public VideoPlayerControl()
         {
             InitializeComponent();
             timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle);
@@ -44,6 +44,7 @@ namespace Khernet.UI.Controls
 
         private void BaseDialogUserControl_Unloaded(object sender, RoutedEventArgs e)
         {
+            timer.Tick -= Timer_Tick;
             vlcControl.Dispose();
         }
 

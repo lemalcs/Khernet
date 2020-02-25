@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Lógica de interacción para UserBrowser.xaml
+    /// Panel to hold information about peers. 
     /// </summary>
     public partial class UserBrowser : UserControl
     {
