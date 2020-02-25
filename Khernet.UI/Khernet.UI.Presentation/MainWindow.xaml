@@ -13,6 +13,7 @@
                         x:Class="Khernet.UI.MainWindow"
                         mc:Ignorable="d"
                         x:Name="MainWin"
+                      Title="(PREVIEW)"
                         ShowIconOnTitleBar="True"
                         WindowTransitionsEnabled="False"
                         WindowStartupLocation="CenterScreen"

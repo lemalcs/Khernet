@@ -20,7 +20,8 @@ namespace Khernet.UI.Converters
         VideoList = 12,
         FileList = 13,
         AudioList = 14,
-        About=15
+        About=15,
+        Load=16
     }
 
     /// <summary>
@@ -69,6 +70,8 @@ namespace Khernet.UI.Converters
                     return new AudioListPage(viewModel as FileListViewModel);
                 case ApplicationPage.About:
                     return new AboutPage(viewModel as AboutViewModel);
+                case ApplicationPage.Load:
+                    return new LoadPage();
                 default:
                     System.Diagnostics.Debugger.Break();
                     return null;

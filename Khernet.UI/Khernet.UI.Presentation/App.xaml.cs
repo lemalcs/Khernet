@@ -20,11 +20,7 @@ namespace Khernet.UI
         /// <param name="e"></param>
         protected override void OnStartup(StartupEventArgs e)
         {
-            //AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
             base.OnStartup(e);
-
-            BuildEnvironment();
 
             Setup();
 
@@ -48,12 +44,6 @@ namespace Khernet.UI
                 AcceptOptionLabel = "OK",
             }
             );
-        }
-
-        private void BuildEnvironment()
-        {
-            RegionFactory regionFactory = new RegionFactory();
-            regionFactory.Build();
         }
 
         /// <summary>

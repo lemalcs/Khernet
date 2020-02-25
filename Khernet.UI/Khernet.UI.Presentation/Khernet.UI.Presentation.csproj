@@ -197,13 +197,13 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="Vlc.DotNet.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Core.Interops, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Wpf, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.0\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -413,6 +413,9 @@
     </Compile>
     <Compile Include="Pages\FileListPage.xaml.cs">
       <DependentUpon>FileListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LoadPage.xaml.cs">
+      <DependentUpon>LoadPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\VideoListPage.xaml.cs">
       <DependentUpon>VideoListPage.xaml</DependentUpon>
@@ -647,6 +650,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\FileListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LoadPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

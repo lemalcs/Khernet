@@ -340,49 +340,8 @@ namespace Khernet.UI
 
 
             if (!IoCContainer.UI.IsInDesignTime())
-                OpenStartPage();
-        }
-
-        /// <summary>
-        /// Opens sign up page or login page
-        /// </summary>
-        private void OpenStartPage()
-        {
-            CreateFirewallRules();
-
-            RegionFactory regionFactory = new RegionFactory();
-            if (!regionFactory.IsInitialized())
-                GoToPage(ApplicationPage.SignUp);
-            else
-                GoToPage(ApplicationPage.Login);
-        }
-
-        private async void CreateFirewallRules()
-        {
-            try
             {
-                if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6))
-                {
-                    FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6);
-                }
-
-                if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17))
-                {
-                    FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17);
-                }
-            }
-            catch (Exception error)
-            {
-                LogDumper.WriteLog(error);
-
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
-                {
-                    Message = "Some configurations could not be made. Please restart de application as administrator.",
-                    Title = "Khernet",
-                    ShowAcceptOption = true,
-                    AcceptOptionLabel = "OK",
-                    ShowCancelOption = false,
-                });
+                GoToPage(ApplicationPage.Load);
             }
         }
 
