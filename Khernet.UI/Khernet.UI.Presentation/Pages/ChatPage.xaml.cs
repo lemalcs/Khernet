@@ -17,6 +17,11 @@ namespace Khernet.UI.Pages
     /// </summary>
     public partial class ChatPage : BasePage<ChatMessageListViewModel>, IDocumentContainer
     {
+        /// <summary>
+        /// Line height for chat mesage
+        /// </summary>
+        double lineheight = 20;
+
         public ChatPage()
         {
             InitializeComponent();
@@ -49,10 +54,6 @@ namespace Khernet.UI.Pages
             {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
-                    //Add new line if Ctrl key is pressed
-                    //Moves de cursor forward to the new line
-                    textbox.CaretPosition = textbox.CaretPosition.GetNextContextPosition(LogicalDirection.Forward);
-
                     //Adds new line to text
                     var lineBreak = textbox.CaretPosition.InsertLineBreak();
 
@@ -61,7 +62,6 @@ namespace Khernet.UI.Pages
                         textbox.CaretPosition = textbox.CaretPosition.Paragraph.ContentEnd;
                     else
                         textbox.CaretPosition = lineBreak;
-
                 }
                 else if (textbox.HasDocument)
                 {
@@ -172,8 +172,8 @@ namespace Khernet.UI.Pages
 
             if (SpecificViewModel != null)
                 SpecificViewModel.SetHasMessage(textbox.HasDocument);
-
-            double lineheight = 20;
+            else
+                return;
 
             //Set line height
             if (textbox.Document != null && textbox.Document.LineHeight != lineheight)
@@ -181,6 +181,8 @@ namespace Khernet.UI.Pages
                 textbox.Document.LineHeight = lineheight;
             }
 
+            if (SpecificViewModel.MessageFormat == MessageType.Markdown)
+            {
             FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
             string markText = converter.GetMarkDownText(rtxt.Document);
 
@@ -188,6 +190,7 @@ namespace Khernet.UI.Pages
             flow.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
             flow.FontSize = 12.5;
             rtxt_Tmp.Document = flow;
+        }
         }
 
         public void ClearContent()

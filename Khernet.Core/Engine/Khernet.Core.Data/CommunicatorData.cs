@@ -1037,43 +1037,6 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetPeersAddress(string serviceType)
-        {
-            try
-            {
-                DataTable table = new DataTable();
-
-                FbCommand cmd = new FbCommand("GET_PEERS_ADDRESS");
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@SRVTYPE", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(serviceType, Encoding.UTF8, keys.Item1, keys.Item2);
-                keys = null;
-
-                using (cmd.Connection = new FbConnection(GetConnectionString()))
-                {
-                    cmd.Connection.Open();
-
-                    FbDataAdapter fda = new FbDataAdapter(cmd);
-                    fda.Fill(table);
-                }
-
-                keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                }
-                keys = null;
-
-                return table;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         public DataTable GetPeerServAddress(string token, string serviceType)
         {
             try

@@ -14,7 +14,7 @@ namespace Khernet.Core.Processor.Managers
     {
         private static IEventListenerCallBack suscriber;
         private static Thread notificationMonitor;
-        private static ManualResetEvent manualReset;
+        private static AutoResetEvent autoReset;
         private static volatile bool continueMonitoring = false;
 
         static NotificationManager()
@@ -29,7 +29,7 @@ namespace Khernet.Core.Processor.Managers
             notificationMonitor = new Thread(CheckPendingNotifications);
             notificationMonitor.Name = "NotificationMonitor";
 
-            manualReset = new ManualResetEvent(false);
+            autoReset = new AutoResetEvent(false);
             continueMonitoring = true;
 
             notificationMonitor.Start();
@@ -107,7 +107,7 @@ namespace Khernet.Core.Processor.Managers
                                         fileMessage.Id = idFileMessage;
 
                                         suscriber.ProcessNewFile(fileMessage);
-                                        //marcar la notificacion como procesada
+                                        
                                         break;
                                     case NotificationType.MessageSent:
 
@@ -129,7 +129,7 @@ namespace Khernet.Core.Processor.Managers
                             throw;
                         }
                     }
-                    manualReset.WaitOne();
+                    autoReset.WaitOne();
                 }
             }
             catch (Exception)
@@ -180,7 +180,7 @@ namespace Khernet.Core.Processor.Managers
             {
                 suscriber = null;
                 continueMonitoring = false;
-                manualReset.Set();
+                autoReset.Set();
             }
             else
                 throw new Exception("Invalid key");
@@ -213,18 +213,14 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                //Registrar el evento en la base de datos con el estado sin procesar
+                //Calls to this method can fail even if client can connet to this service
                 suscriber.ProcessNewMessage(message);
-                //No borrar el mensaje, solo dejarlo en estado PROCESADO
-                //El borrado de esta notificacion se la hara cuando se marque el mensaje como leido
-
-                //Esta llamada falla incluso si del lado del cliente puede conectarse sin problemas al servicio
             }
             catch (Exception exception)
             {
-                //Implemetar guardado de log de esta excepcion
                 LogDumper.WriteLog(exception);
 
+                //Save notification on database if this could not be sent to client
                 EventListener eventListener = new EventListener();
                 eventListener.SaveNotification(new Notification
                 {
@@ -233,8 +229,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = message.Id.ToString()
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -242,9 +237,7 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                //Registrar el evento en la base de datos con el estado sin procesar
                 suscriber.ProcessNewFile(fileMessage);
-                System.Diagnostics.Debug.WriteLine("Processing new file " + fileMessage.Metadata.FileName);
             }
             catch (Exception exception)
             {
@@ -258,8 +251,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = fileMessage.Id.ToString()
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -288,8 +280,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = state
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -309,8 +300,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -330,9 +320,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -352,9 +340,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Format("{0}|{1}", idFile, readBytes)
                 });
 
-
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -376,8 +362,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -399,8 +384,7 @@ namespace Khernet.Core.Processor.Managers
                     Content = idMessage.ToString()
                 });
 
-                manualReset.Set();
-                manualReset.Reset();
+                autoReset.Set();
             }
         }
 
@@ -413,7 +397,7 @@ namespace Khernet.Core.Processor.Managers
                 if (notificationMonitor != null && notificationMonitor.ThreadState != ThreadState.Unstarted)
                 {
                     notificationMonitor.Interrupt();
-                    manualReset.Set();
+                    autoReset.Set();
 
                     if (!notificationMonitor.Join(TimeSpan.FromMinutes(2)))
                         notificationMonitor.Abort();
@@ -426,8 +410,8 @@ namespace Khernet.Core.Processor.Managers
             }
             finally
             {
-                if (manualReset != null)
-                    manualReset.Close();
+                if (autoReset != null)
+                    autoReset.Close();
             }
         }
 

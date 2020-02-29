@@ -43,18 +43,18 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Controls when to start to upload text message
         /// </summary>
-        private ManualResetEvent senderManualReset;
+        private AutoResetEvent senderAutoReset;
 
         /// <summary>
         /// Controls when to start to download text message
         /// </summary>
-        private ManualResetEvent receiverManualReset;
+        private AutoResetEvent receiverAutoReset;
 
 
         public TextManager()
         {
-            senderManualReset = new ManualResetEvent(false);
-            receiverManualReset = new ManualResetEvent(false);
+            senderAutoReset = new AutoResetEvent(false);
+            receiverAutoReset = new AutoResetEvent(false);
         }
 
         /// <summary>
@@ -108,8 +108,7 @@ namespace Khernet.UI.Managers
                 messageSender.Start();
             }
 
-            senderManualReset.Set();
-            senderManualReset.Reset();
+            senderAutoReset.Set();
         }
 
         /// <summary>
@@ -124,8 +123,7 @@ namespace Khernet.UI.Managers
                 messageReceiver.Start();
             }
 
-            receiverManualReset.Set();
-            receiverManualReset.Reset();
+            receiverAutoReset.Set();
         }
 
         /// <summary>
@@ -163,7 +161,8 @@ namespace Khernet.UI.Managers
                         }
                     }
 
-                    senderManualReset.WaitOne();
+                    if (sendersList.IsEmpty)
+                        senderAutoReset.WaitOne();
                 }
                 catch (Exception)
                 {
@@ -208,7 +207,8 @@ namespace Khernet.UI.Managers
                         }
                     }
 
-                    receiverManualReset.WaitOne();
+                    if (receiversList.IsEmpty)
+                        receiverAutoReset.WaitOne();
                 }
                 catch (Exception)
                 {
@@ -296,7 +296,7 @@ namespace Khernet.UI.Managers
                 sendersList = null;
                 if (messageSender != null && messageSender.ThreadState != ThreadState.Unstarted)
                 {
-                    senderManualReset.Set();
+                    senderAutoReset.Set();
                     stopProcessing = true;
                     messageSender.Interrupt();
 
@@ -313,8 +313,8 @@ namespace Khernet.UI.Managers
             {
                 messageSender = null;
 
-                if (senderManualReset != null)
-                    senderManualReset.Close();
+                if (senderAutoReset != null)
+                    senderAutoReset.Close();
             }
 
             try
@@ -322,7 +322,7 @@ namespace Khernet.UI.Managers
                 receiversList = null;
                 if (messageReceiver != null && messageReceiver.ThreadState != ThreadState.Unstarted)
                 {
-                    receiverManualReset.Set();
+                    receiverAutoReset.Set();
                     stopProcessing = true;
                     messageReceiver.Interrupt();
 
@@ -339,8 +339,8 @@ namespace Khernet.UI.Managers
             {
                 messageReceiver = null;
 
-                if (receiverManualReset != null)
-                    receiverManualReset.Close();
+                if (receiverAutoReset != null)
+                    receiverAutoReset.Close();
             }
         }
 

@@ -400,7 +400,7 @@ namespace Khernet.Core.Processor
 
         public bool VerifyUserExistence(string token)
         {
-            return false;
+            return CommunicatorData.VerifyUserExistence(token);
         }
 
 
@@ -424,8 +424,6 @@ namespace Khernet.Core.Processor
             //Enviar una notificación de cliente nuevo a la Interfaz de usuario
             if (serviceType == Constants.CommunicatorService || serviceType == Constants.FileService)
             {
-                CryptographyProvider crypto = new CryptographyProvider();
-
                 Notification notification = new Notification();
                 notification.Token = token;
                 notification.Type = serviceType == Constants.CommunicatorService ? NotificationType.ProfileChange : NotificationType.AvatarChange;
@@ -495,20 +493,6 @@ namespace Khernet.Core.Processor
         {
             CommunicatorData commData = new CommunicatorData();
             commData.ClearPeersState();
-        }
-
-        public List<string> GetPeersAddress(string servType)
-        {
-            CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPeersAddress(servType);
-
-            List<string> addressList = new List<string>();
-            for (int i = 0; i < data.Rows.Count; i++)
-            {
-                addressList.Add(data.Rows[i][0].ToString());
-            }
-
-            return addressList;
         }
 
         public List<PeerAddress> GetConnectedPeers(string serviceType)

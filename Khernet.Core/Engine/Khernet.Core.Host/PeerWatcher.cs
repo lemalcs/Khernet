@@ -134,6 +134,37 @@ namespace Khernet.Core.Host
             }
         }
 
+        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata,string token, byte[] cert)
+        {
+            CryptographyProvider crypto = new CryptographyProvider();
+
+            //Decode user name with BASE58Check
+            string userName = Encoding.UTF8.GetString(crypto.DecodeBase58Check(metadata.Extensions.Elements(Constants.UserNameTag).FirstOrDefault().Value));
+
+            //Address is not updated when a timeout error is raised on EventListenerService client side
+            //To reproduce error, generate an error timeout on ProcessContactChange event
+
+            string address = metadata.Extensions.Elements(Constants.AlternateTag).FirstOrDefault().Value;
+
+            string tempHost = GetActiveHostName(metadata.Address.Uri.Host, address, metadata.Address.Uri.Port);
+
+            string tempAddress = string.Format("{0}://{1}:{2}{3}",
+                metadata.Address.Uri.Scheme,
+                tempHost,
+                metadata.Address.Uri.Port,
+                metadata.Address.Uri.LocalPath) ?? metadata.Address.Uri.Host;
+
+
+            Communicator comm = new Communicator();
+            comm.SavePeer(
+            userName,
+            token,//Token of user
+            cert,//Public key of user
+            tempAddress,//Address of service
+            metadata.Extensions.Elements(Constants.ServiceIDTag).FirstOrDefault().Value//Type of service
+            );
+        }
+
         /// <summary>
         /// Get the active IP address of given host.
         /// </summary>
@@ -159,6 +190,9 @@ namespace Khernet.Core.Host
             for (int i = 0; i < addreessList.Length; i++)
             {
                 string[] addr = addreessList[i].Split(':');
+
+                if (addr.Length < 2)
+                    continue;
 
                 string tempAddr = Encoding.UTF8.GetString(crypto.DecodeBase58Check(addr[1]));
 
@@ -189,6 +223,14 @@ namespace Khernet.Core.Host
                     {
                         //Update user state on database
                         Communicator comm = new Communicator();
+
+                        //Some times arrives here a user that is not saved on database yet
+                        //So proceed to save peer
+                        if(!comm.VerifyUserExistence(token))
+                        {
+                            SaveFoundPeer(metadata,token,cert);
+                        }
+
                         comm.UpdatePeerState(token, PeerState.Offline);//0: Offline
                     }
                 }

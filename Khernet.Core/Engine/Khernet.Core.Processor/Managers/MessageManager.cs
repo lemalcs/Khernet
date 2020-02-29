@@ -11,7 +11,7 @@ namespace Khernet.Core.Processor.Managers
     {
         private Thread penddingThread;
         private volatile bool continueExecution = false;
-        ManualResetEvent manualResetEvent;
+        AutoResetEvent autoResetEvent;
         Communicator communicator;
 
         public MessageManager()
@@ -33,7 +33,7 @@ namespace Khernet.Core.Processor.Managers
             {
                 if (penddingThread == null)
                 {
-                    manualResetEvent = new ManualResetEvent(false);
+                    autoResetEvent = new AutoResetEvent(false);
 
                     penddingThread = new Thread(SendPenddingMessages);
                     penddingThread.Name = "PenddingSender";
@@ -52,8 +52,7 @@ namespace Khernet.Core.Processor.Managers
         public void RegisterPenddingMessage(string receiptToken, int idMessage)
         {
             communicator.RegisterPenddingMessage(receiptToken, idMessage);
-            manualResetEvent.Set();
-            manualResetEvent.Reset();
+            autoResetEvent.Set();
         }
 
         private void SendPenddingMessages()
@@ -70,7 +69,7 @@ namespace Khernet.Core.Processor.Managers
 
                     if (usersList == null)
                     {
-                        manualResetEvent.WaitOne();
+                        autoResetEvent.WaitOne();
                         usersList = communicator.GetPenddingMessageUsers();
                     }
 
@@ -168,7 +167,7 @@ namespace Khernet.Core.Processor.Managers
                 if (penddingThread != null && penddingThread.ThreadState != ThreadState.Unstarted)
                 {
                     penddingThread.Interrupt();
-                    manualResetEvent.Set();
+                    autoResetEvent.Set();
 
                     if (!penddingThread.Join(TimeSpan.FromSeconds(3)))
                         penddingThread.Abort();
@@ -181,8 +180,8 @@ namespace Khernet.Core.Processor.Managers
             }
             finally
             {
-                if (manualResetEvent != null)
-                    manualResetEvent.Close();
+                if (autoResetEvent != null)
+                    autoResetEvent.Close();
             }
         }
 

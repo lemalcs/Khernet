@@ -1125,6 +1125,9 @@ namespace Khernet.UI
             if (user == null)
                 return;
 
+            //By default indicate that there is not a draft message
+            HasMessage = false;
+
             if (UserContext != null)
             {
                 UserContext.DraftMessage = GetContent?.Invoke();

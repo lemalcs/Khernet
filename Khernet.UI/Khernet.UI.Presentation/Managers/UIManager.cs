@@ -282,10 +282,10 @@ namespace Khernet.UI
         {
             byte[] result = null;
 
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            result=(byte[])Application.Current.Dispatcher.Invoke(new Func<string,byte[]>((h) =>
             {
                 FlowDocumentHtmlConverter documentConverter = new FlowDocumentHtmlConverter();
-                FlowDocument document = documentConverter.ConvertFromHtml(html);
+                FlowDocument document = documentConverter.ConvertFromHtml(/*html*/h);
 
                 TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
                 byte[] messageContent = new byte[0];
@@ -295,8 +295,9 @@ namespace Khernet.UI
                     messageContent = mem.ToArray();
                 }
 
-                result = messageContent;
-            }));
+                //result = messageContent;
+                return messageContent;
+            }),html);
 
             return result;
         }

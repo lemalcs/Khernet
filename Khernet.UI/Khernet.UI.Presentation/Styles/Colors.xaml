@@ -95,4 +95,12 @@
     <Color x:Key="DefaultUserItemColor">#009bdb</Color>
     <SolidColorBrush x:Key="DefaultUserItemBrush" Color="{StaticResource DefaultUserItemColor}"/>
 
+    <Color x:Key="CodeBlockBackgroundColor">#f5f7fa</Color>
+    <SolidColorBrush x:Key="CodeBlockBackgroundBrush" Color="{StaticResource CodeBlockBackgroundColor}"/>
+
+    <Color x:Key="CodeColor">#2b90ff</Color>
+    <SolidColorBrush x:Key="CodeBrush" Color="{StaticResource CodeColor}"/>
+
+    <Color x:Key="SectionBackgroundColor">#FAFAFA</Color>
+    <SolidColorBrush x:Key="SectionBackgroundBrush" Color="{StaticResource SectionBackgroundColor}"/>
 </ResourceDictionary>

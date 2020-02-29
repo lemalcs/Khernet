@@ -315,7 +315,7 @@ namespace Khernet.UI
                     new UserState
                     {
                         Token = e.EventInformation.Token,
-                        Username = e.EventInformation.Content,
+                        Username = e.EventInformation.Type==NotificationType.StateChange?"": e.EventInformation.Content,
                         Change = e.EventInformation.Type == NotificationType.AvatarChange ? UserChangeType.AvatarChange : UserChangeType.ProfileChange,
                     });
             }

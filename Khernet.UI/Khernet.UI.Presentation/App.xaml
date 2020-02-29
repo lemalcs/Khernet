@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="/Khernet;component/Styles/Textblocks.xaml"/>
                 <ResourceDictionary Source="/Khernet;component/Styles/Sliders.xaml"/>
                 <ResourceDictionary Source="/Khernet;component/Styles/ListBoxStyles.xaml"/>
+                <ResourceDictionary Source="/Khernet;component/Styles/MarkdownStyles.xaml"/>
                 <ResourceDictionary Source="/Khernet;component/Resources/DataTemplates.xaml"/>
                 <ResourceDictionary Source="/Khernet;component/Resources/ObjectModels.xaml"/>
             </ResourceDictionary.MergedDictionaries>

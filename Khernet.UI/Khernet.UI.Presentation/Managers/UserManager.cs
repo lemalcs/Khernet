@@ -59,7 +59,7 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Controls when to start to upload text message
         /// </summary>
-        private ManualResetEvent userStateManualReset;
+        private AutoResetEvent userStateAutoReset;
 
         /// <summary>
         /// Indicates if state manager should continue running
@@ -70,7 +70,7 @@ namespace Khernet.UI.Managers
 
         public UserManager()
         {
-            userStateManualReset = new ManualResetEvent(false);
+            userStateAutoReset = new AutoResetEvent(false);
         }
 
         public void ProcessState(UserState state)
@@ -91,8 +91,7 @@ namespace Khernet.UI.Managers
                 userStateMonitor.Start();
             }
 
-            userStateManualReset.Set();
-            userStateManualReset.Reset();
+            userStateAutoReset.Set();
         }
 
         private void ProcessUserState()
@@ -168,7 +167,8 @@ namespace Khernet.UI.Managers
                         }
                     }
 
-                    userStateManualReset.WaitOne();
+                    if (userStateMessageList.IsEmpty)
+                        userStateAutoReset.WaitOne();
                 }
                 catch (Exception)
                 {
@@ -229,7 +229,7 @@ namespace Khernet.UI.Managers
                 stopMonitoring = true;
                 if (userStateMonitor != null && userStateMonitor.ThreadState != ThreadState.Unstarted)
                 {
-                    userStateManualReset.Set();
+                    userStateAutoReset.Set();
                     userStateMonitor.Interrupt();
 
                     //If thread does not stop through 1 minute, abort thread
@@ -245,8 +245,8 @@ namespace Khernet.UI.Managers
             {
                 userStateMonitor = null;
 
-                if (userStateManualReset != null)
-                    userStateManualReset.Close();
+                if (userStateAutoReset != null)
+                    userStateAutoReset.Close();
             }
         }
 

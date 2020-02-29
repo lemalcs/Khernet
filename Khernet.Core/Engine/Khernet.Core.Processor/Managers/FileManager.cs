@@ -90,6 +90,8 @@ namespace Khernet.Core.Processor.Managers
 
                         fileList.TryDequeue(out idMessage);
                     }
+
+                    if (fileList.IsEmpty)
                     autoReset.WaitOne();
                 }
                 catch (ThreadInterruptedException exception)

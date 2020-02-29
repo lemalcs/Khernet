@@ -29,11 +29,11 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Controls when to start to process text message
         /// </summary>
-        private ManualResetEvent manualReset;
+        private AutoResetEvent autoReset;
 
         public FileManager()
         {
-            manualReset = new ManualResetEvent(false);
+            autoReset = new AutoResetEvent(false);
         }
 
         /// <summary>
@@ -71,8 +71,7 @@ namespace Khernet.UI.Managers
                 processor.Start();
             }
 
-            manualReset.Set();
-            manualReset.Reset();
+            autoReset.Set();
         }
 
         /// <summary>
@@ -132,7 +131,8 @@ namespace Khernet.UI.Managers
                         }
                     }
 
-                    manualReset.WaitOne();
+                    if (observersList.IsEmpty)
+                        autoReset.WaitOne();
                 }
                 catch (Exception)
                 {
@@ -153,7 +153,7 @@ namespace Khernet.UI.Managers
                 observersList = null;
                 if (processor != null && processor.ThreadState != ThreadState.Unstarted)
                 {
-                    manualReset.Set();
+                    autoReset.Set();
 
                     stopProcessing = true;
                     processor.Interrupt();
@@ -171,8 +171,8 @@ namespace Khernet.UI.Managers
             {
                 processor = null;
 
-                if (manualReset != null)
-                    manualReset.Close();
+                if (autoReset != null)
+                    autoReset.Close();
             }
         }
 
