@@ -14,25 +14,31 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //Get image from cache
-            BitmapImage img = null;
-
             if (value != null && value is ReadOnlyCollection<byte> thumb)
             {
                 if (thumb.Count == 0)
                     return null;
 
-                MemoryStream mem = new MemoryStream(((ReadOnlyCollection<byte>)value).ToArray());
+                try
+                {
+                    MemoryStream mem = new MemoryStream(((ReadOnlyCollection<byte>)value).ToArray());
 
-                img = new BitmapImage();
+                    BitmapImage img = null;
+                    img = new BitmapImage();
 
-                img.BeginInit();
-                img.CacheOption = BitmapCacheOption.OnLoad;
-                img.StreamSource = mem;
-                img.EndInit();
+                    img.BeginInit();
+                    img.CacheOption = BitmapCacheOption.OnLoad;
+                    img.StreamSource = mem;
+                    img.EndInit();
+                    return img;
+                }
+                catch (Exception)
+                {
+                    //If image could not be read, return a null value
+                    return null;
+                }
             }
-
-            return img;
+            return null;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

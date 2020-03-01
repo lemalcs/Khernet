@@ -1,12 +1,10 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
-using Khernet.UI.Cache;
 using Khernet.UI.Converters;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 

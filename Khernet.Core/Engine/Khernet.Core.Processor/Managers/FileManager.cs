@@ -1,6 +1,6 @@
 ﻿using Khernet.Core.Common;
 using Khernet.Core.Entity;
-using Khernet.Core.Host.IoC;
+using Khernet.Core.Processor.IoC;
 using Khernet.Core.Utility;
 using Khernet.Services.Client;
 using Khernet.Services.Messages;
@@ -92,7 +92,7 @@ namespace Khernet.Core.Processor.Managers
                     }
 
                     if (fileList.IsEmpty)
-                    autoReset.WaitOne();
+                        autoReset.WaitOne();
                 }
                 catch (ThreadInterruptedException exception)
                 {
@@ -176,6 +176,8 @@ namespace Khernet.Core.Processor.Managers
             {
                 if (autoReset != null)
                     autoReset.Close();
+
+                fileList = null;
             }
         }
 

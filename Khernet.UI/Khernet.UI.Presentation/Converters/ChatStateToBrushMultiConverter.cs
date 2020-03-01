@@ -6,8 +6,8 @@ using System.Windows.Markup;
 
 namespace Khernet.UI.Converters
 {
-    public abstract class BaseMultiValueConverter<T> :MarkupExtension,IMultiValueConverter
-        where T:new()
+    public abstract class BaseMultiValueConverter<T> : MarkupExtension, IMultiValueConverter
+        where T : new()
     {
         public abstract object Convert(object[] values, Type targetType, object parameter, CultureInfo culture);
 

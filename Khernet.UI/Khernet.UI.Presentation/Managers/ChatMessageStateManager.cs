@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Khernet.UI.Managers
 {
-    public class ChatMessageStateManager:IDisposable
+    public class ChatMessageStateManager : IDisposable
     {
         /// <summary>
         /// The process to manage states

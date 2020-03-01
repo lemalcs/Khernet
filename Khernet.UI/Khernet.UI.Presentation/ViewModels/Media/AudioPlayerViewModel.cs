@@ -34,12 +34,12 @@ namespace Khernet.UI
                 }
             }
         }
-        public AudioChatMessageViewModel CurrentViewModel 
-        { 
-            get =>currentViewModel; 
+        public AudioChatMessageViewModel CurrentViewModel
+        {
+            get => currentViewModel;
             set
             {
-                if(currentViewModel!=value)
+                if (currentViewModel != value)
                 {
                     currentViewModel = value;
                     OnPropertyChanged(nameof(CurrentViewModel));

@@ -105,7 +105,7 @@ namespace Khernet.Core.Host
                         catch (CommunicationException commException)
                         {
                             LogDumper.WriteLog(commException, "CommunicationException ocurred.");
-                            
+
                             //Try to connect again
                             if (continueChecking)
                                 Connect();

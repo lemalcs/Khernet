@@ -206,7 +206,7 @@ namespace Khernet.UI.Converters
 
                     inlineUI.Child = emojiImage;
                     inlineUI.Tag = t.Attributes[1].Value;
-                    
+
                     AddInlineTo(inlineUI, parent);
                 }
                 else if (t.Name == "br")

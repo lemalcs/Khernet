@@ -1,7 +1,7 @@
 ﻿using Khernet.Core.Common;
 using Khernet.Core.Data;
 using Khernet.Core.Entity;
-using Khernet.Core.Host.IoC;
+using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
 using Khernet.Core.Utility;
 using Khernet.Services.Client;
@@ -101,8 +101,12 @@ namespace Khernet.Core.Processor
 
         public void RegisterPenddingMessage(string receiptToken, int idMessage)
         {
+            //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
             commData.RegisterPenddingMessage(receiptToken, idMessage);
+
+            //Try to send file again
+            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(receiptToken);
         }
 
         public string GetUIDMessage(int idMessage)
@@ -133,6 +137,12 @@ namespace Khernet.Core.Processor
             commData.SetMessageState(conversation.Id, (int)MessageState.Processed);
 
             IoCContainer.Get<NotificationManager>().ProcessMessageSent(conversation.ReceiptToken, conversation.Id);
+        }
+
+        public void SetMessageState(int idMessage, MessageState state)
+        {
+            CommunicatorData commData = new CommunicatorData();
+            commData.SetMessageState(idMessage, (int)state);
         }
 
         public void SendWritingMessage(string senderToken, string receiptToken)

@@ -1,7 +1,7 @@
 ﻿using Khernet.Core.Processor.Managers;
 using Ninject;
 
-namespace Khernet.Core.Host.IoC
+namespace Khernet.Core.Processor.IoC
 {
     /// <summary>
     /// Provides dependency injection using Ninject framework

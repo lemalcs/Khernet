@@ -4,12 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Khernet.UI.Controls"
-             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
              mc:Ignorable="d" 
-             xmlns:vm="clr-namespace:Khernet.UI"
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
-             d:DesignHeight="450" d:DesignWidth="300"
-             >
+             d:DesignHeight="450" d:DesignWidth="300">
+    
     <Border Background="{StaticResource LightBrush}"
             Padding="5 5 0 5"
             BorderThickness="1"

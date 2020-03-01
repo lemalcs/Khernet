@@ -6,6 +6,7 @@ using Khernet.UI.IoC;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Khernet.UI.Pages
 {
@@ -14,18 +15,49 @@ namespace Khernet.UI.Pages
     /// </summary>
     public partial class LoadPage : BasePage
     {
+        private readonly LoadViewModel loadModel;
+
         public LoadPage()
         {
             InitializeComponent();
+
+            loadModel = new LoadViewModel();
+            loadModel.ShowProgress = true;
+            loadModel.MessageText = "Loading...";
+
+            DataContext = loadModel;
         }
 
         private async void Login_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            await LoadEnvironment();
+            try
+            {
+                await LoadEnvironment();
 
-            OpenInitialPage();
+                IoCContainer.UI.ShowNotificationIcon();
 
-            CreateFirewallRules();
+                OpenInitialPage();
+
+                CreateFirewallRules();
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+
+                loadModel.ShowProgress = false;
+                loadModel.MessageText = string.Empty;
+
+                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = "There was an error while loading. There must be just one instance of application per user running, please close other instances and restart application.",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                }, true);
+
+                Application.Current.Shutdown(1);
+            }
         }
 
         /// <summary>
@@ -34,7 +66,7 @@ namespace Khernet.UI.Pages
         /// <returns>A task to accomplish the operations</returns>
         private Task LoadEnvironment()
         {
-            return Task.Factory.StartNew(() => 
+            return Task.Factory.StartNew(() =>
             {
                 RegionFactory regionFactory = new RegionFactory();
                 regionFactory.Build();

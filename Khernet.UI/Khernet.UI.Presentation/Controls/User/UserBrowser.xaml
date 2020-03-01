@@ -9,6 +9,7 @@
              xmlns:app="clr-namespace:Khernet.UI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <UserControl.Template>
         <ControlTemplate TargetType="UserControl">
             <Border BorderThickness="0 0 1 0"

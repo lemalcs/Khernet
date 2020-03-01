@@ -7,13 +7,11 @@
              xmlns:vm="clr-namespace:Khernet.UI.ViewModels"
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
              xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
-             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="300"
              Height="60"
-             d:DataContext="{d:DesignInstance vm:UserItemDesignViewModel,IsDesignTimeCreatable=True}"
-             >
+             d:DataContext="{d:DesignInstance vm:UserItemDesignViewModel,IsDesignTimeCreatable=True}">
+    
     <UserControl.Resources>
 
         <Style x:Key="border" TargetType="Border">

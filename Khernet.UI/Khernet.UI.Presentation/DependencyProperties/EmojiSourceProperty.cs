@@ -119,7 +119,7 @@ namespace Khernet.UI.DependencyProperties
                         if (p1.Parent is FlowDocument)
                             masterContainer.Inlines.InsertAfter(masterContainer.Inlines.FirstInline, emojiContainer);
                         else
-                        masterContainer.Inlines.InsertAfter(p1.Parent as Inline, emojiContainer);
+                            masterContainer.Inlines.InsertAfter(p1.Parent as Inline, emojiContainer);
 
                         richText.CaretPosition = p1;
                     }

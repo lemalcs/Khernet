@@ -2,10 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
-                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
-                    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf">
-
-    
+                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
 
     <Style x:Key="TextStyle2" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{DynamicResource FocusedTextboxBrush}"/>

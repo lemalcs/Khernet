@@ -1,5 +1,5 @@
 ﻿using Khernet.Core.Data;
-using Khernet.Core.Host.IoC;
+using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
 using Khernet.Services.Messages;
 using System;

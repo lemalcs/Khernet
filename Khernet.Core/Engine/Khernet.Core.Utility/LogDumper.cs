@@ -9,12 +9,12 @@ namespace Khernet.Core.Utility
 {
     public static class LogDumper
     {
-        #if DEBUG
+#if DEBUG
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        #endif
+#endif
         static LogDumper()
         {
-            #if DEBUG
+#if DEBUG
             LoggingConfiguration config = new LoggingConfiguration();
             FileTarget target = new FileTarget("KhernetLog");
             target.Layout = Layout.FromString(
@@ -28,28 +28,28 @@ namespace Khernet.Core.Utility
 
             LogManager.Configuration = config;
 
-            #endif
+#endif
         }
 
 
         public static void WriteLog(Exception exception, string sourceMethod)
         {
-            #if DEBUG
+#if DEBUG
             logger.Error(exception, sourceMethod);
-            #endif
+#endif
         }
 
         public static void WriteLog(Exception exception)
         {
-            #if DEBUG
-            logger.Error(exception); 
-            #endif
+#if DEBUG
+            logger.Error(exception);
+#endif
         }
         public static void WriteInformation(string text)
         {
-            #if DEBUG
-            logger.Log(LogLevel.Info, text); 
-            #endif
+#if DEBUG
+            logger.Log(LogLevel.Info, text);
+#endif
 
         }
     }

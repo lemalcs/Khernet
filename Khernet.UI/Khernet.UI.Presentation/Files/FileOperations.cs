@@ -3,7 +3,6 @@ using Khernet.Core.Host;
 using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Cache;
-using Khernet.UI.Controls;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
@@ -669,41 +668,49 @@ namespace Khernet.UI.Files
         /// <returns></returns>
         public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, int idMessage)
         {
-            if (File.Exists(cacheFile))
+            try
             {
-                FileInfo fileDetail = new FileInfo(cacheFile);
-                if (originalFileSize == fileDetail.Length)
+                if (File.Exists(cacheFile))
                 {
-                    using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(idMessage))
+                    FileInfo fileDetail = new FileInfo(cacheFile);
+                    if (originalFileSize == fileDetail.Length)
                     {
-                        int chunk = 524288;
-                        byte[] buffer = new byte[chunk];
-
-                        int readBytesOriginalFile = 0;
-                        using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(idMessage))
                         {
-                            readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
+                            int chunk = 524288;
+                            byte[] buffer = new byte[chunk];
 
-                            byte[] cacheBuffer = new byte[buffer.Length];
-
-                            int readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
-
-                            while (readBytesOriginalFile > 0 && readBytesCacheFile > 0)
+                            int readBytesOriginalFile = 0;
+                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                             {
-                                if (FileHelper.AreEqualArray(buffer, cacheBuffer))
+                                readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
+
+                                byte[] cacheBuffer = new byte[buffer.Length];
+
+                                int readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+
+                                while (readBytesOriginalFile > 0 && readBytesCacheFile > 0)
                                 {
-                                    readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
-                                    readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+                                    if (FileHelper.AreEqualArray(buffer, cacheBuffer))
+                                    {
+                                        readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
+                                        readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+                                    }
+                                    else
+                                        return false;
                                 }
-                                else
-                                    return false;
+                                return true;
                             }
-                            return true;
                         }
                     }
                 }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

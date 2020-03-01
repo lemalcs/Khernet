@@ -1,4 +1,4 @@
-﻿using Khernet.Core.Host.IoC;
+﻿using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
 
 namespace Khernet.Core.Processor

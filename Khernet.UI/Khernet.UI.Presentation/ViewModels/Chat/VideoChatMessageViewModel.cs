@@ -12,7 +12,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for image messages.
+    /// View model for video messages.
     /// </summary>
     public class VideoChatMessageViewModel : FileMessageItemViewModel, IFileObserver
     {
@@ -29,6 +29,9 @@ namespace Khernet.UI
         /// The default height of video
         /// </summary>
         private double videoHeight;
+
+        private readonly double defaultVideoWidth = 200;
+        private readonly double defaultVideoHeight = 112.5;
 
         /// <summary>
         /// The duration of video
@@ -94,8 +97,8 @@ namespace Khernet.UI
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
             //Aspect ratio of 16:9
-            VideoWidth = 200;
-            VideoHeight = 112.5;
+            VideoWidth = defaultVideoWidth;
+            VideoHeight = defaultVideoHeight;
 
             State = ChatMessageState.Pendding;
 
@@ -284,16 +287,24 @@ namespace Khernet.UI
                 VideoHeight = info.Height * 200 / info.Width;
             }
 
-            if (info.Operation == Managers.MessageOperation.Download)
+            if (info.Operation == MessageOperation.Download)
             {
                 if (info.ThumbnailBytes != null)
                 {
                     SetImageThumbnail(info.ThumbnailBytes);
                 }
 
-                //Resizing for video container message
-                VideoWidth = 200;
-                VideoHeight = info.Height * 200 / info.Width;
+                VideoWidth = defaultVideoWidth;
+
+                if (info.Height == 0 || info.Width == 0)
+                {
+                    VideoHeight = defaultVideoHeight;
+                }
+                //Resizing for video container message just if height and width and greater than zero
+                else
+                {
+                    VideoHeight = info.Height * 200 / info.Width;
+                }
 
                 FileName = Path.GetFileName(info.OriginalFileName);
 

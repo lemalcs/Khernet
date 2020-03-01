@@ -58,13 +58,21 @@ namespace Khernet.Core.Processor.Managers
 
                         ConversationMessage message = communicator.GetMessageDetail(idMessage);
 
-                        communicator.SendPenddingMessage((InternalConversationMessage)message);
+                        try
+                        {
+                            communicator.SendPenddingMessage((InternalConversationMessage)message);
+                        }
+                        catch (Exception error)
+                        {
+                            communicator.RegisterPenddingMessage(message.ReceiptToken, ((InternalConversationMessage)message).Id);
+                            LogDumper.WriteLog(error);
+                        }
 
                         messageList.TryDequeue(out idMessage);
                     }
 
                     if (messageList.IsEmpty)
-                    autoReset.WaitOne();
+                        autoReset.WaitOne();
                 }
                 catch (ThreadInterruptedException exception)
                 {
@@ -99,6 +107,8 @@ namespace Khernet.Core.Processor.Managers
             {
                 if (autoReset != null)
                     autoReset.Close();
+
+                messageList = null;
             }
         }
 

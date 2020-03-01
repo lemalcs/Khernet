@@ -4,6 +4,7 @@ using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 

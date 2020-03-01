@@ -277,12 +277,12 @@ namespace Khernet.UI
         /// </summary>
         private DateTime lastWritingTime = DateTime.Now;
 
-        public string SourceFullName 
-        { 
+        public string SourceFullName
+        {
             get => sourceFullName;
-            private set 
-            { 
-                if(sourceFullName != value)
+            private set
+            {
+                if (sourceFullName != value)
                 {
                     sourceFullName = value;
                     OnPropertyChanged(nameof(SourceFullName));

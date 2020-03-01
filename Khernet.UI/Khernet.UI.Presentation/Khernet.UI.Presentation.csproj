@@ -465,6 +465,7 @@
     <Compile Include="ViewModels\Design\FieldEditorDesignModel.cs" />
     <Compile Include="ViewModels\Design\CacheDesingModel.cs" />
     <Compile Include="ViewModels\Design\MessageBoxDesignModel.cs" />
+    <Compile Include="ViewModels\Dialogs\LoadViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AboutViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\FieldEditorViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DialogResultViewModel.cs" />
@@ -709,10 +710,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Buttons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ButtonsDark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

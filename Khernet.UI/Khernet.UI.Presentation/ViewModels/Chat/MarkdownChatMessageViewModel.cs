@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for text messages.
+    /// View model for markdown messages.
     /// </summary>
     public class MarkdownChatMessageViewModel : ChatMessageItemViewModel, ITextObserver
     {

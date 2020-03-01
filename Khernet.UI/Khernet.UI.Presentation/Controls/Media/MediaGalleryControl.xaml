@@ -11,6 +11,7 @@
              Height="400"
              Width="310"
              d:DataContext="{d:DesignInstance vm:MediaGalleryDesignModel,IsDesignTimeCreatable=True}">
+    
     <Border Background="White"
             BorderThickness="1"
             BorderBrush="{StaticResource BlueBrush}">

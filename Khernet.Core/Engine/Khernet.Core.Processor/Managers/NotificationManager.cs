@@ -107,7 +107,7 @@ namespace Khernet.Core.Processor.Managers
                                         fileMessage.Id = idFileMessage;
 
                                         suscriber.ProcessNewFile(fileMessage);
-                                        
+
                                         break;
                                     case NotificationType.MessageSent:
 

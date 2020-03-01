@@ -13,6 +13,14 @@ namespace Khernet.UI.IoC
         Task ShowMessageBox(MessageBoxViewModel dialogModel);
 
         /// <summary>
+        /// Shows a single message dialog into a specific parent window.
+        /// </summary>
+        /// <param name="dialogModel">View model for message dialog</param>
+        /// <param name="newWindow">True to show message in a new windows, false to show message into main window</param>
+        /// <returns></returns>
+        Task ShowMessageBox(MessageBoxViewModel dialogModel, bool newWindow);
+
+        /// <summary>
         /// Show an modal dialog
         /// </summary>
         /// <typeparam name="T">The type of view model for dialog</typeparam>
@@ -123,5 +131,10 @@ namespace Khernet.UI.IoC
         /// Execute a task synchronously on user interface thread
         /// </summary>
         void Execute(Action action);
+
+        /// <summary>
+        /// Shows the notification icon for application.
+        /// </summary>
+        void ShowNotificationIcon();
     }
 }

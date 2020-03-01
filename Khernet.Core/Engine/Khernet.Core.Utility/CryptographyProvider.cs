@@ -184,7 +184,7 @@ namespace Khernet.Core.Utility
             try
             {
                 SHA256Managed sha = new SHA256Managed();
-                
+
                 byte[] hash = sha.ComputeHash(data);
                 return hash;
             }

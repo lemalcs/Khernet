@@ -20,8 +20,8 @@ namespace Khernet.UI.Converters
         VideoList = 12,
         FileList = 13,
         AudioList = 14,
-        About=15,
-        Load=16
+        About = 15,
+        Load = 16
     }
 
     /// <summary>

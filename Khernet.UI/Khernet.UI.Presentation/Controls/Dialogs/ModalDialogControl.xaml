@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Khernet.UI.Controls"
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
-             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              ClipToBounds="True"

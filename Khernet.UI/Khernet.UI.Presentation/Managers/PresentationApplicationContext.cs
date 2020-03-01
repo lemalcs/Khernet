@@ -1,5 +1,4 @@
-﻿using Khernet.UI.Controls;
-using Khernet.UI.IoC;
+﻿using Khernet.UI.IoC;
 using System;
 using System.ComponentModel;
 using System.IO;

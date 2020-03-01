@@ -1,26 +1,29 @@
-﻿<local:BasePage 
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      xmlns:local="clr-namespace:Khernet.UI.Pages"
-      x:Class="Khernet.UI.Pages.LoadPage"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      x:Name="Login"
-      Title="LoadPage"
-    Loaded="Login_Loaded"
-    >
+﻿<local:BasePage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                xmlns:local="clr-namespace:Khernet.UI.Pages"
+                x:Class="Khernet.UI.Pages.LoadPage"
+                mc:Ignorable="d" 
+                d:DesignHeight="300" d:DesignWidth="300"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:vm="clr-namespace:Khernet.UI"
+                x:Name="Login"
+                d:DataContext="{d:DesignInstance vm:LoadViewModel,IsDesignTimeCreatable=True}"
+                Title="LoadPage"
+                Loaded="Login_Loaded">
+    
     <Grid>
         <StackPanel VerticalAlignment="Center"
                     Margin="10 0 10 0">
             
             <!-- Progress animation -->
-            <Controls:MetroProgressBar IsIndeterminate="True"/>
+            <Controls:MetroProgressBar IsIndeterminate="True"
+                                       Visibility="{Binding ShowProgress,Converter={conv:BoolToVisibilityGoneConverter}}"/>
             
             <!-- Action description -->
-            <TextBlock Text="Loading..."
+            <TextBlock Text="{Binding MessageText}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    TextAlignment="Center"

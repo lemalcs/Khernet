@@ -1,19 +1,18 @@
-﻿<local:BaseDialogUserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Khernet.UI.Controls"
-             xmlns:vm="clr-namespace:Khernet.UI"
-             xmlns:conv="clr-namespace:Khernet.UI.Converters"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             x:Class="Khernet.UI.Controls.AnimationViewerControl"      
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400"
-             d:DataContext="{d:DesignInstance {x:Type vm:AnimationChatMessageDesignModel}, IsDesignTimeCreatable=True}"
-             Background="Transparent"
-            xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
+﻿<local:BaseDialogUserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                             xmlns:local="clr-namespace:Khernet.UI.Controls"
+                             xmlns:vm="clr-namespace:Khernet.UI"
+                             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                             x:Class="Khernet.UI.Controls.AnimationViewerControl"      
+                             mc:Ignorable="d" 
+                             d:DesignHeight="300" d:DesignWidth="400"
+                             d:DataContext="{d:DesignInstance {x:Type vm:AnimationChatMessageDesignModel}, IsDesignTimeCreatable=True}"
+                             Background="Transparent"
+                             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
 
     <Grid Background="Transparent">
 

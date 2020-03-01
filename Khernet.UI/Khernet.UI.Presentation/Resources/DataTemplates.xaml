@@ -156,14 +156,14 @@
                 </Path.Stroke>
             </Path>
 
-<!--
+
             <TextBlock Margin="0"
                            Grid.Column="2"
                            Grid.Row="2"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Left"
                            Text="{Binding Id}"/>
--->
+
             <!--Hour-->
             <TextBlock Margin="0"
                            Grid.Column="2"

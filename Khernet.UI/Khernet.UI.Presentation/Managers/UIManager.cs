@@ -16,6 +16,11 @@ namespace Khernet.UI
     public class UIManager : IUIManager
     {
         /// <summary>
+        /// Get a singleton instance for notification icon.
+        /// </summary>
+        private TaskbarIcon notificationIcon;
+
+        /// <summary>
         /// Shows a message box
         /// </summary>
         /// <param name="dialogModel">The view model</param>
@@ -23,6 +28,20 @@ namespace Khernet.UI
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
         {
             await new MessageBoxUserControl().ShowMessageBox(dialogModel);
+        }
+
+        /// <summary>
+        /// Shows a single message dialog into a specific parent window.
+        /// </summary>
+        /// <param name="dialogModel">View model for message dialog</param>
+        /// <param name="newWindow">True to show message in a new windows, false to show message into main window</param>
+        /// <returns></returns>
+        public async Task ShowMessageBox(MessageBoxViewModel dialogModel, bool newWindow)
+        {
+            if (newWindow)
+                await new MessageBoxUserControl().ShowMessage(dialogModel);
+            else
+                await new MessageBoxUserControl().ShowMessageBox(dialogModel);
         }
 
         /// <summary>
@@ -282,22 +301,22 @@ namespace Khernet.UI
         {
             byte[] result = null;
 
-            result=(byte[])Application.Current.Dispatcher.Invoke(new Func<string,byte[]>((h) =>
-            {
-                FlowDocumentHtmlConverter documentConverter = new FlowDocumentHtmlConverter();
-                FlowDocument document = documentConverter.ConvertFromHtml(/*html*/h);
+            result = (byte[])Application.Current.Dispatcher.Invoke(new Func<string, byte[]>((h) =>
+               {
+                   FlowDocumentHtmlConverter documentConverter = new FlowDocumentHtmlConverter();
+                   FlowDocument document = documentConverter.ConvertFromHtml(/*html*/h);
 
-                TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
-                byte[] messageContent = new byte[0];
-                using (MemoryStream mem = new MemoryStream())
-                {
-                    range.Save(mem, DataFormats.XamlPackage);
-                    messageContent = mem.ToArray();
-                }
+                   TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
+                   byte[] messageContent = new byte[0];
+                   using (MemoryStream mem = new MemoryStream())
+                   {
+                       range.Save(mem, DataFormats.XamlPackage);
+                       messageContent = mem.ToArray();
+                   }
 
                 //result = messageContent;
                 return messageContent;
-            }),html);
+               }), html);
 
             return result;
         }
@@ -328,6 +347,18 @@ namespace Khernet.UI
             }));
 
             return result;
+        }
+
+        /// <summary>
+        /// Shows the notification icon for application.
+        /// </summary>
+        public void ShowNotificationIcon()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                if (notificationIcon == null)
+                    notificationIcon = App.Current.Resources["notificationIcon"] as TaskbarIcon;
+            }));
         }
     }
 }

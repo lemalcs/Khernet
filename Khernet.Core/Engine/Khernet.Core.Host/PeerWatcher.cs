@@ -1,6 +1,8 @@
 ﻿using Khernet.Core.Common;
 using Khernet.Core.Entity;
 using Khernet.Core.Processor;
+using Khernet.Core.Processor.IoC;
+using Khernet.Core.Processor.Managers;
 using Khernet.Core.Utility;
 using Khernet.Services.Client;
 using Khernet.Services.Common;
@@ -124,6 +126,8 @@ namespace Khernet.Core.Host
                         tempAddress,//Address of service
                         metadata.Extensions.Elements(Constants.ServiceIDTag).FirstOrDefault().Value//Type of service
                         );
+
+                        IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(token);
                     }
                 }
             }
@@ -134,7 +138,7 @@ namespace Khernet.Core.Host
             }
         }
 
-        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata,string token, byte[] cert)
+        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata, string token, byte[] cert)
         {
             CryptographyProvider crypto = new CryptographyProvider();
 
@@ -153,7 +157,6 @@ namespace Khernet.Core.Host
                 tempHost,
                 metadata.Address.Uri.Port,
                 metadata.Address.Uri.LocalPath) ?? metadata.Address.Uri.Host;
-
 
             Communicator comm = new Communicator();
             comm.SavePeer(
@@ -181,9 +184,7 @@ namespace Khernet.Core.Host
             if (string.IsNullOrEmpty(alternateAddresses) || string.IsNullOrWhiteSpace(alternateAddresses))
                 return null;
 
-            string[] addreessList = null;
-
-            addreessList = alternateAddresses.Split('|');
+            string[] addreessList = alternateAddresses.Split('|');
 
             CryptographyProvider crypto = new CryptographyProvider();
 
@@ -226,9 +227,9 @@ namespace Khernet.Core.Host
 
                         //Some times arrives here a user that is not saved on database yet
                         //So proceed to save peer
-                        if(!comm.VerifyUserExistence(token))
+                        if (!comm.VerifyUserExistence(token))
                         {
-                            SaveFoundPeer(metadata,token,cert);
+                            SaveFoundPeer(metadata, token, cert);
                         }
 
                         comm.UpdatePeerState(token, PeerState.Offline);//0: Offline
@@ -338,7 +339,6 @@ namespace Khernet.Core.Host
 
                 }
 
-
                 announcementServiceHost.BeginOpen(
                     (result) =>
                     {
@@ -424,7 +424,7 @@ namespace Khernet.Core.Host
                     //implements the ICommunicator interface (contract)
                     if (MatchService(e.EndpointDiscoveryMetadata) && !AddressIsSelf(e.EndpointDiscoveryMetadata, identity))
                     {
-                        //Guardar contacto en la base de datos
+                        //Save peer on database
                         SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
                     }
                 }

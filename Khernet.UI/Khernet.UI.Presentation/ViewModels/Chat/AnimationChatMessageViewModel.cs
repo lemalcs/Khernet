@@ -13,7 +13,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for image messages.
+    /// View model for animation messages.
     /// </summary>
     public class AnimationChatMessageViewModel : FileMessageItemViewModel, IFileObserver
     {

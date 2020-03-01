@@ -1,7 +1,6 @@
 ﻿using Khernet.Core.Entity;
 using Khernet.Core.Host;
 using Khernet.Services.Messages;
-using Khernet.UI.Controls;
 using Khernet.UI.IoC;
 using System;
 using System.Collections.Concurrent;

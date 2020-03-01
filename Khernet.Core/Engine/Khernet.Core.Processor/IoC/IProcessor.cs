@@ -1,4 +1,4 @@
-﻿namespace Khernet.Core.Host.IoC
+﻿namespace Khernet.Core.Processor.IoC
 {
     public interface IProcessor
     {

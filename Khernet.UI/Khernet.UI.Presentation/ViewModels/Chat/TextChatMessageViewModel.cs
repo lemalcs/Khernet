@@ -9,7 +9,7 @@ using System.Linq;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for text messages.
+    /// View model for text messages (XAML inner format).
     /// </summary>
     public class TextChatMessageViewModel : ChatMessageItemViewModel, ITextObserver
     {

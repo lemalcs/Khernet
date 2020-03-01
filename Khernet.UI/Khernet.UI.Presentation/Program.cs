@@ -1,7 +1,6 @@
 ﻿using Khernet.UI.Resources;
 using System;
 using System.Collections.Concurrent;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 
@@ -40,14 +39,14 @@ namespace Khernet.UI
                 if (assemblyList.ContainsKey(assemblyName.FullName))
                     return assemblyList[assemblyName.FullName];
 
-                assemblyList.TryAdd(assemblyName.FullName,Assembly.Load(assemblyName));
+                assemblyList.TryAdd(assemblyName.FullName, Assembly.Load(assemblyName));
                 return assemblyList[assemblyName.FullName];
             }
             else
                 assemblyName = new AssemblyName(args.Name);
 
             string dllPath;
-            Assembly parentAssembly= executingAssembly;
+            Assembly parentAssembly = executingAssembly;
 
             if (assemblyName.Name == "Khernet.resources")
             {
@@ -57,7 +56,7 @@ namespace Khernet.UI
             {
                 dllPath = "Khernet.UI.Container.g.resources";
             }
-            else if(assemblyName.Name== "MahApps.Metro.resources")
+            else if (assemblyName.Name == "MahApps.Metro.resources")
             {
                 dllPath = "MahApps.Metro.g.resources";
                 if (assemblyList.ContainsKey(Constants.MetroLibrary))
@@ -65,7 +64,7 @@ namespace Khernet.UI
             }
             else
             {
-                dllPath= assemblyName.Name + ".dll";
+                dllPath = assemblyName.Name + ".dll";
             }
 
             if (assemblyList.ContainsKey(dllPath))
@@ -83,7 +82,7 @@ namespace Khernet.UI
         /// <param name="parentAssembly">The assembly where to search for</param>
         /// <param name="assemblyName">The requested assembly embedded as resource</param>
         /// <returns></returns>
-        private static Assembly LoadDependency(Assembly parentAssembly,string assemblyName)
+        private static Assembly LoadDependency(Assembly parentAssembly, string assemblyName)
         {
             using (Stream stream = parentAssembly.GetManifestResourceStream(assemblyName))
             {

@@ -10,6 +10,9 @@ using System.Windows.Input;
 
 namespace Khernet.UI
 {
+    /// <summary>
+    /// View model for any binary file.
+    /// </summary>
     public class FileChatMessageViewModel : FileMessageItemViewModel, IFileObserver
     {
         #region Properties

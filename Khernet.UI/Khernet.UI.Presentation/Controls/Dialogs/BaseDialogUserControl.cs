@@ -140,6 +140,14 @@ namespace Khernet.UI.Controls
                         if (Application.Current.MainWindow == null)
                             return;
 
+                        dialog = new DialogWindow();
+                        //Detect if controls is in design mode
+                        //otherwise apply style to windows
+                        //This is important because there is an issue at design mode
+                        //with Window.
+
+                        dialog.DialogVM = new DialogWindowViewModel();
+
                         //Host this control within window
                         dialog.DialogVM.Content = this;
 

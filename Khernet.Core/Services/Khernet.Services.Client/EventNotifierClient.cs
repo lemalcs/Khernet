@@ -1,5 +1,4 @@
-﻿using Khernet.Core.Utility;
-using Khernet.Services.Contracts;
+﻿using Khernet.Services.Contracts;
 using Khernet.Services.Messages;
 using System;
 

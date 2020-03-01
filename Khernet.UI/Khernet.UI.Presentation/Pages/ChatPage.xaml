@@ -17,8 +17,7 @@
                 Drop="ChatMessageListControl_Drop"
                 d:DataContext="{d:DesignInstance vm:ChatMessageListDesignModel,IsDesignTimeCreatable=True}"
                 FocusManager.FocusedElement="{Binding ElementName=rtxt}"
-                FocusManager.IsFocusScope="True"
-                >
+                FocusManager.IsFocusScope="True">
 
     <Border Background="{StaticResource LightBrush}">
         <Grid Name="mainChatContainer"

@@ -1,23 +1,19 @@
-﻿<local:BasePage
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Khernet.UI.Pages"
-      xmlns:vm="clr-namespace:Khernet.UI"
-                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+﻿<local:BasePage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:Khernet.UI.Pages"
+                xmlns:vm="clr-namespace:Khernet.UI"
                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
-    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      xmlns:conv="clr-namespace:Khernet.UI.Converters"
-      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
-    x:Class="Khernet.UI.Pages.FileListPage"
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                x:Class="Khernet.UI.Pages.FileListPage"
                 x:TypeArguments="vm:FileListViewModel"
-      mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="400"
-      Title="ProfileViewerPage"
-      d:DataContext="{d:DesignInstance {x:Type vm:FileListViewModel}, IsDesignTimeCreatable=True}"
-    Loaded="BasePage_Loaded">
+                mc:Ignorable="d" 
+                d:DesignHeight="400" d:DesignWidth="400"
+                Title="ProfileViewerPage"
+                d:DataContext="{d:DesignInstance {x:Type vm:FileListViewModel}, IsDesignTimeCreatable=True}"
+                Loaded="BasePage_Loaded">
 
     <Grid>
         

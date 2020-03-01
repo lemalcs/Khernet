@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace Khernet.Core.Resources
 {
@@ -54,7 +50,7 @@ namespace Khernet.Core.Resources
             return GetResource("vlc_x86_zip");//Resources.vlc_x86_zip;
         }
 
-        private byte[]GetResource(string assetName)
+        private byte[] GetResource(string assetName)
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
 

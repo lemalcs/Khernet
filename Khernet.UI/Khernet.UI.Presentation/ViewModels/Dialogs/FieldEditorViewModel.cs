@@ -63,12 +63,12 @@ namespace Khernet.UI
             }
         }
 
-        public string SourceDataField 
+        public string SourceDataField
         {
             get => sourceDataField;
-            set 
-            { 
-                if(sourceDataField != value)
+            set
+            {
+                if (sourceDataField != value)
                 {
                     sourceDataField = value;
                     OnPropertyChanged(nameof(SourceDataField));

@@ -28,7 +28,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens the about page
         /// </summary>
-        About=3
+        About = 3
     }
 
 

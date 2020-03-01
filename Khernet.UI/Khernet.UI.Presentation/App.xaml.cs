@@ -1,6 +1,4 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
-using Khernet.Core.Host;
-using Khernet.Core.Utility;
+﻿using Khernet.Core.Utility;
 using Khernet.UI.IoC;
 using Khernet.UI.Resources;
 using System.Windows;
@@ -12,8 +10,6 @@ namespace Khernet.UI
     /// </summary>
     public partial class App : Application
     {
-        TaskbarIcon notificationIcon;
-
         /// <summary>
         /// Execute tasks when application starts
         /// </summary>
@@ -29,8 +25,6 @@ namespace Khernet.UI
             Current.MainWindow.Show();
 
             Dispatcher.UnhandledException += Dispatcher_UnhandledException;
-
-            SetNotificationIcon();
         }
 
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -56,16 +50,8 @@ namespace Khernet.UI
             IoCContainer.Configure<ApplicationViewModel>();
         }
 
-        private void SetNotificationIcon()
-        {
-            notificationIcon = Resources["notificationIcon"] as TaskbarIcon;
-        }
-
         protected override void OnExit(ExitEventArgs e)
         {
-            //Dispose notification icon
-            notificationIcon.Dispose();
-
             base.OnExit(e);
         }
     }

@@ -1,5 +1,4 @@
-﻿using Khernet.Core.Common;
-using Khernet.Core.Entity;
+﻿using Khernet.Core.Entity;
 using Khernet.Core.Processor;
 using Khernet.Core.Utility;
 using Khernet.Services.Messages;

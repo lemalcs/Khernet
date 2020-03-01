@@ -183,14 +183,14 @@ namespace Khernet.UI.Pages
 
             if (SpecificViewModel.MessageFormat == MessageType.Markdown)
             {
-            FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
-            string markText = converter.GetMarkDownText(rtxt.Document);
+                FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
+                string markText = converter.GetMarkDownText(rtxt.Document);
 
-            var flow = converter.ConvertToFlowDocument(markText);
-            flow.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
-            flow.FontSize = 12.5;
-            rtxt_Tmp.Document = flow;
-        }
+                var flow = converter.ConvertToFlowDocument(markText);
+                flow.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
+                flow.FontSize = 12.5;
+                rtxt_Tmp.Document = flow;
+            }
         }
 
         public void ClearContent()

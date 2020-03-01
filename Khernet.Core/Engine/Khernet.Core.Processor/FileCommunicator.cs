@@ -1,6 +1,6 @@
 ﻿using Khernet.Core.Data;
 using Khernet.Core.Entity;
-using Khernet.Core.Host.IoC;
+using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
 using Khernet.Core.Utility;
 using Khernet.Services.Client;
@@ -286,7 +286,7 @@ namespace Khernet.Core.Processor
             {
                 if (idMessage > 0 && !string.IsNullOrEmpty(tempFile))
                 {
-                    commData.RegisterPenddingMessage(fileObserver.Data.ReceiptToken, idMessage);
+                    RegisterPenddingMessage(fileObserver.Data.ReceiptToken, idMessage);
                     MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pendding);
                     return result;
                 }
@@ -300,6 +300,16 @@ namespace Khernet.Core.Processor
                 LogDumper.WriteLog(error);
                 throw error;
             }
+        }
+
+        private void RegisterPenddingMessage(string receiptToken, int idMessage)
+        {
+            //Save file on database so this can be send later
+            CommunicatorData commData = new CommunicatorData();
+            commData.RegisterPenddingMessage(receiptToken, idMessage);
+
+            //Try to send file again
+            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(receiptToken);
         }
 
         /// <summary>

@@ -1,18 +1,24 @@
 ﻿using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 
 namespace Khernet.Core.Processor.Managers
 {
+    /// <summary>
+    /// Sends pendding messages to peers whem them turn online again.
+    /// </summary>
     public class MessageManager : IDisposable
     {
         private Thread penddingThread;
         private volatile bool continueExecution = false;
         AutoResetEvent autoResetEvent;
         Communicator communicator;
+
+        private ConcurrentQueue<string> usersList;
 
         public MessageManager()
         {
@@ -49,9 +55,13 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
-        public void RegisterPenddingMessage(string receiptToken, int idMessage)
+        public void ProcessPenddingMessagesOf(string receiptToken)
         {
-            communicator.RegisterPenddingMessage(receiptToken, idMessage);
+            if (usersList == null)
+                usersList = new ConcurrentQueue<string>();
+
+            usersList.Enqueue(receiptToken);
+
             autoResetEvent.Set();
         }
 
@@ -61,23 +71,19 @@ namespace Khernet.Core.Processor.Managers
             {
                 try
                 {
-                    Thread.Sleep(5000);
-
-                    Communicator communicator = new Communicator();
-
-                    List<string> usersList = communicator.GetPenddingMessageUsers();
-
                     if (usersList == null)
-                    {
                         autoResetEvent.WaitOne();
-                        usersList = communicator.GetPenddingMessageUsers();
-                    }
 
-                    List<int> messageList = null;
-
-                    for (int i = 0; i < usersList.Count; i++)
+                    while (usersList.Count > 0)
                     {
-                        messageList = communicator.GetPenddingMessageOfUser(usersList[i], 1);
+                        string recepitToken;
+
+                        usersList.TryDequeue(out recepitToken);
+
+                        if (string.IsNullOrEmpty(recepitToken))
+                            continue;
+
+                        List<int> messageList = communicator.GetPenddingMessageOfUser(recepitToken, 1);
 
                         if (messageList == null)
                             continue;
@@ -96,11 +102,12 @@ namespace Khernet.Core.Processor.Managers
                         }
                         catch (Exception ex2)
                         {
+                            SetMessageState(messageList[0], MessageState.Error);
                             LogDumper.WriteLog(ex2);
                         }
 
                         //Get the full list of pendding messages
-                        messageList = communicator.GetPenddingMessageOfUser(usersList[i], 0);
+                        messageList = communicator.GetPenddingMessageOfUser(recepitToken, 0);
 
                         if (messageList == null)
                             continue;
@@ -121,10 +128,14 @@ namespace Khernet.Core.Processor.Managers
                             }
                             catch (Exception error)
                             {
+                                SetMessageState(messageList[j], MessageState.Error);
                                 LogDumper.WriteLog(error, "Error while reading pendding message");
                             }
                         }
                     }
+
+                    if (usersList.Count == 0)
+                        autoResetEvent.WaitOne();
                 }
                 catch (Exception exception)
                 {
@@ -159,6 +170,12 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
+        private void SetMessageState(int idMessage, MessageState state)
+        {
+            Communicator communicator = new Communicator();
+            communicator.SetMessageState(idMessage, state);
+        }
+
         public void Stop()
         {
             try
@@ -182,6 +199,8 @@ namespace Khernet.Core.Processor.Managers
             {
                 if (autoResetEvent != null)
                     autoResetEvent.Close();
+
+                usersList = null;
             }
         }
 

@@ -13,8 +13,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vm:VideoChatMessageDesignModel,IsDesignTimeCreatable=True}"
              Template="{StaticResource messageContainer}"
-             ContextMenu="{StaticResource fileMessageContextMenu}"
-             >
+             ContextMenu="{StaticResource fileMessageContextMenu}">
 
     <!--Chat bubble container-->
     <Grid Grid.Column="1"
@@ -25,14 +24,16 @@
 
         <!--Video message container-->
         <Grid Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}" 
-              HorizontalAlignment="Left">
+              HorizontalAlignment="Left"
+              Width="{Binding VideoWidth}"
+              Height="{Binding VideoHeight}">
 
             <Grid.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
             </Grid.InputBindings>
 
             <!--Thumbnail video-->
-            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
+            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage},FallbackValue={StaticResource DefaultImage}}"
                    Name="img"
                    MaxHeight="420"
                    MaxWidth="420"
