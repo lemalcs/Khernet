@@ -34,7 +34,7 @@ namespace Khernet.Core.Host
         Thread stateMonitor;
         bool continueMonitor = false;
 
-        ManualResetEvent manualReset;
+        AutoResetEvent autoReset;
 
         public PeerWatcher(PeerIdentity peerIdentity)
         {
@@ -138,7 +138,7 @@ namespace Khernet.Core.Host
             }
         }
 
-        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata, string token, byte[] cert)
+        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata,string token, byte[] cert)
         {
             CryptographyProvider crypto = new CryptographyProvider();
 
@@ -302,7 +302,15 @@ namespace Khernet.Core.Host
                 }
                 finally
                 {
-                    manualReset.Set();
+                    try
+                    {
+                        if (!autoReset.SafeWaitHandle.IsClosed)
+                            autoReset.Set();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogDumper.WriteLog(ex);
+                    }
                 }
             }
         }
@@ -357,7 +365,7 @@ namespace Khernet.Core.Host
         {
             stateMonitor = new Thread(new ThreadStart(ProbePeerState));
             continueMonitor = true;
-            manualReset = new ManualResetEvent(false);
+            autoReset = new AutoResetEvent(false);
             stateMonitor.Start();
         }
 
@@ -383,11 +391,20 @@ namespace Khernet.Core.Host
                                     existsDisconnected = true;
                                     break;
                                 }
+                                else
+                                {
+                                    IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                                }
+
                             }
                             else if (!NetworkHelper.TryConnectToHost(addr.Host, addr.Port))
                             {
                                 existsDisconnected = true;
                                 break;
+                            }
+                            else
+                            {
+                                IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
                             }
                         }
 
@@ -396,8 +413,7 @@ namespace Khernet.Core.Host
                             discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
                             discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)));
                             discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)));
-                            manualReset.WaitOne();
-                            manualReset.Reset();
+                            autoReset.WaitOne();
                         }
                     }
                     catch (Exception error)
@@ -544,6 +560,9 @@ namespace Khernet.Core.Host
                 StopStateMonitor();
                 CloseAnnoucementService();
                 CloseDiscoveryClient();
+
+                autoReset.Set();
+
                 discoveryClient = null;
 
                 announcementService = null;
@@ -556,8 +575,8 @@ namespace Khernet.Core.Host
             }
             finally
             {
-                if (manualReset != null)
-                    manualReset.Close();
+                if (autoReset != null)
+                    autoReset.Close();
             }
         }
 

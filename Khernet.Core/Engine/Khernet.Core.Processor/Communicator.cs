@@ -54,11 +54,11 @@ namespace Khernet.Core.Processor
             }
         }
 
-        private void SendMessageByChucks(string senderToken, string receiptToken, byte[] message, string uid, string uidReply, ContentType format)
+        private void SendMessageByChucks(InternalConversationMessage internalConversation, byte[] message)
         {
             try
             {
-                CommunicatorClient commClient = new CommunicatorClient(receiptToken);
+                CommunicatorClient commClient = new CommunicatorClient(internalConversation.ReceiptToken);
 
                 int chukSize = 8192;
 
@@ -77,15 +77,15 @@ namespace Khernet.Core.Processor
 
                     ConversationMessage conversation = new ConversationMessage();
 
-                    conversation.UID = uid;
-                    conversation.SenderToken = senderToken;
-                    conversation.ReceiptToken = receiptToken;
+                    conversation.UID = internalConversation.UID;
+                    conversation.SenderToken = internalConversation.SenderToken;
+                    conversation.ReceiptToken = internalConversation.ReceiptToken;
                     conversation.Sequential = idChunk;
                     conversation.RawContent = buffer.ToArray();
-                    conversation.SendDate = DateTime.Now;
+                    conversation.SendDate = internalConversation.SendDate;
                     conversation.TotalChunks = totalChunks;
-                    conversation.UIDReply = uidReply;
-                    conversation.Type = format;
+                    conversation.UIDReply = internalConversation.UIDReply;
+                    conversation.Type = internalConversation.Type;
 
                     //Send message to receipt
                     commClient.ProcessTextMessage(conversation);
@@ -123,13 +123,7 @@ namespace Khernet.Core.Processor
             if (messageData.Rows.Count == 0)
                 return;
 
-            SendMessageByChucks(
-                conversation.SenderToken,
-                conversation.ReceiptToken,
-                messageData.Rows[0][0] as byte[],
-                conversation.UID,
-                conversation.UIDReply,
-                conversation.Type);
+            SendMessageByChucks(conversation, messageData.Rows[0][0] as byte[]);
 
             commData.DeletePendingMessage(conversation.ReceiptToken, conversation.Id);
 

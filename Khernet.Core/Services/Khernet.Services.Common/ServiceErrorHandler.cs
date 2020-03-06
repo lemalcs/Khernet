@@ -26,10 +26,6 @@ namespace Khernet.Services.Common
             fileError.Message = error.Message;
             fileError.Source = error.TargetSite.Name;
 
-            LogDumper.WriteInformation("Source of error: " + error.TargetSite.Name);
-            LogDumper.WriteInformation("Message of error: " + error.Message);
-            LogDumper.WriteInformation("Other source of error: " + error.Source);
-
             FaultReason faulReason = new FaultReason(error.Message);
 
             FaultException<ErrorInformation> exception = new FaultException<ErrorInformation>(fileError, faulReason);

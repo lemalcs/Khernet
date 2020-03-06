@@ -35,7 +35,7 @@
                 <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
                            FontSize="{StaticResource RegularFontSize}">
 
-                    <Run Text="Version 0.4.0"/>
+                    <Run Text="Version 0.4.1"/>
                     <LineBreak/>
                     <Hyperlink Command="{Binding OpenIssueCommand}" 
                    >

@@ -17,13 +17,20 @@ namespace Khernet.UI.Converters
             if (value == null)
                 return null;
 
-            FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
+            try
+            {
+                FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
 
-            FlowDocument fw = converter.ConvertToFlowDocument(value as string);
-            fw.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
-            fw.FontSize = 12.5;
-            fw.LineHeight = 20;
-            return fw;
+                FlowDocument fw = converter.ConvertToFlowDocument(value as string);
+                fw.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
+                fw.FontSize = 12.5;
+                fw.LineHeight = 20;
+                return fw;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -45,9 +52,6 @@ namespace Khernet.UI.Converters
             FlowDocumentHtmlConverter converter = new FlowDocumentHtmlConverter();
 
             FlowDocument fw = converter.ConvertFromHtml(value as string);
-            //fw.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
-            //fw.FontSize = 12.5;
-            //fw.LineHeight = 20;
             return fw;
         }
 

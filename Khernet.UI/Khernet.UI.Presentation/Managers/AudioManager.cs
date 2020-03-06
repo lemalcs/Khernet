@@ -103,6 +103,9 @@ namespace Khernet.UI.Managers
 
         protected void OnMediaChanged()
         {
+            if (observersList == null || observersList.Count == 0)
+                return;
+
             for (int i = 0; i < observersList.Count; i++)
             {
                 observersList[i].OnChangeAudio(AudioModel);
