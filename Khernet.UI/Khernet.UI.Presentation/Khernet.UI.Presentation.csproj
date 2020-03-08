@@ -221,6 +221,10 @@
     <Compile Include="Controls\Media\AnimationViewerControl.xaml.cs">
       <DependentUpon>AnimationViewerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Media\AudioItemControl.xaml.cs">
+      <DependentUpon>AudioItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\VolumeToStringConverter.cs" />
     <Compile Include="Converters\NullToStretchImageConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\NullToVisibilityGoneConverter.cs" />
@@ -338,7 +342,7 @@
     <Compile Include="Converters\FileNameToImageConverter.cs" />
     <Compile Include="Converters\PageHelper.cs" />
     <Compile Include="Converters\MarginConverter.cs" />
-    <Compile Include="Converters\MediaStatesToStringConverter.cs" />
+    <Compile Include="Converters\MediaStateConverters.cs" />
     <Compile Include="Converters\RadiusToSizeConverter.cs" />
     <Compile Include="Converters\SentByMeConverters.cs" />
     <Compile Include="Converters\SentByMeToVisibilityConverte.cs" />
@@ -547,6 +551,10 @@
     <Page Include="Controls\Dialogs\FieldEditorControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\AudioItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Media\EmojiPaletteControl.xaml">
       <Generator>MSBuild:Compile</Generator>

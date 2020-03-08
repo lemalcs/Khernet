@@ -9,6 +9,8 @@ namespace Khernet.UI
     /// </summary>
     public class AudioPlayerViewModel : BaseModel
     {
+        #region Properties
+
         /// <summary>
         /// The player of audio files that uses VLC library
         /// </summary>
@@ -47,14 +49,26 @@ namespace Khernet.UI
             }
         }
 
+        #endregion
+
+        #region Commands
+
         /// <summary>
         /// The command for play of pause audio files
         /// </summary>
         public ICommand PlayCommand { get; private set; }
 
-        public AudioPlayerViewModel(Action<object> Play)
+        /// <summary>
+        /// The command for mute sound
+        /// </summary>
+        public ICommand MuteCommand { get; private set; }
+
+        #endregion
+
+        public AudioPlayerViewModel(Action<object> Play,Action Mute)
         {
             PlayCommand = new RelayCommand(Play);
+            MuteCommand = new RelayCommand(Mute);
         }
     }
 }

@@ -37,11 +37,14 @@
                     Command="{Binding Path=PlayerViewModel.PlayCommand,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}}}"
                     CommandParameter="{Binding}"
                     Cursor="Hand">
-                <iconPacks:PackIconMaterial Kind="{Binding Path=PlayerViewModel.Player.State,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Converter={conv:MediaStatesToStringConverter},TargetNullValue=Play,FallbackValue=Play}"
-                                                Width="15"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
-                                                />
+                <iconPacks:PackIconMaterial Kind="{Binding Path=PlayerViewModel.Player.State,
+                                                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
+                                                           Converter={conv:MediaStatesToStringConverter},
+                                                           TargetNullValue=Play,
+                                                           FallbackValue=Play}"
+                                            Width="15"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"/>
             </Button>
 
             <!-- Timeline controls-->
@@ -59,27 +62,31 @@
                 <!--Audio track name-->
                 <TextBlock Text="{Binding FileName}"
                        Grid.Row="0"
-                       Grid.Column="0"
-                       />
+                       Grid.Column="0"/>
 
                 <!-- Timeline slider-->
                 <Slider Name="timelineSlider" 
-                    Grid.ColumnSpan="2"
-                    Grid.Row="1"
-                    Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
-                    HorizontalAlignment="Stretch"
-                    IsMoveToPointEnabled="True"
-                    Value="{Binding Path=PlayerViewModel.Player.Time,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource SliderStyle1}"
-                    SmallChange="1"
-                    LargeChange="1"
-                    Minimum="0"/>
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1"
+                        Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
+                        HorizontalAlignment="Stretch"
+                        IsMoveToPointEnabled="True"
+                        Value="{Binding Path=PlayerViewModel.Player.Time,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource SliderStyle1}"
+                        SmallChange="1"
+                        LargeChange="1"
+                        Minimum="0"/>
 
                 <!-- Current time/Length of video-->
                 <TextBlock Grid.Column="2"
                            TextWrapping="Wrap"
                            Margin="4 0 4 0">
-                    <Run Text="{Binding Path=PlayerViewModel.Player.Time,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},Converter={conv:NumberToTimeStringConverter}}"/>
+                    <Run Text="{Binding Path=PlayerViewModel.Player.Time,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
+                                        Converter={conv:NumberToTimeStringConverter}}"/>
                     <Run Text="/"/>
                     <Run Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"/>
                 </TextBlock>
@@ -88,48 +95,54 @@
 
             <!-- Volume controls-->
             <StackPanel Grid.Column="2"
-                            Orientation="Vertical"
-                            HorizontalAlignment="Right">
+                        Orientation="Vertical"
+                        HorizontalAlignment="Right">
 
-                <Grid>
+                <Grid MouseEnter="Grid_MouseEnter"
+                      MouseLeave="Grid_MouseLeave">
+                    
                     <!--Volume button-->
                     <Button Style="{StaticResource IconButton}"
                             Height="40"
-                            Click="Button_Click"
+                            Command="{Binding PlayerViewModel.MuteCommand,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}}}"
                             Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                             Cursor="Hand">
                         <Grid>
-                            <iconPacks:PackIconMaterial Kind="VolumeLow" 
-                                                Width="10"/>
+                            <iconPacks:PackIconMaterial Kind="{Binding Path=PlayerViewModel.Player.Volume,
+                                                                       RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
+                                                                       Converter={conv:VolumeToStringConverter},
+                                                                       FallbackValue=VolumeHigh}" 
+                                                        Width="20"/>
 
                             <!--Popup for volumne control-->
                             <Popup Name="popUp"
-                               StaysOpen="False"
+                                   StaysOpen="True"
                                    HorizontalAlignment="Center"
                                    HorizontalOffset="8"
                                    Placement="Bottom"
-                                   AllowsTransparency="True"
-                                   >
+                                   AllowsTransparency="True">
                                 <Border CornerRadius="3"
                                         Padding="2 7 2 7"
                                         Background="White"
                                         BorderBrush="{StaticResource TextBoxBackgroundBrush}"
                                         BorderThickness="1"
-                                        >
+                                        MouseLeave="Border_MouseLeave"
+                                        MouseEnter="Border_MouseEnter">
                                     <Slider Orientation="Vertical"
                                             Minimum="0"
                                             Background="White"
                                             HorizontalAlignment="Right"
                                             IsMoveToPointEnabled="True"
-                                            Value="{Binding Path=PlayerViewModel.Player.Volume,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},TargetNullValue=60,FallbackValue=60}"
+                                            Value="{Binding Path=PlayerViewModel.Player.Volume,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
+                                                            TargetNullValue=60,
+                                                            FallbackValue=60}"
                                             Maximum="125"
                                             Height="125"
                                             Style="{StaticResource SliderStyle1}"/>
                                 </Border>
-
                             </Popup>
                         </Grid>
-
                     </Button>
                 </Grid>
             </StackPanel>
@@ -146,8 +159,7 @@
                     Command="{Binding CloseMediaCommand}"
                     Cursor="Hand">
                 <iconPacks:PackIconMaterial Kind="WindowClose" 
-                                        Width="15" 
-                                        />
+                                            Width="15" />
             </Button>
         </Grid>
     </Border>

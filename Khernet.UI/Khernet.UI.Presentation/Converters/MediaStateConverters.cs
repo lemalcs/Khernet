@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Input;
 using Vlc.DotNet.Core.Interops.Signatures;
 
@@ -32,6 +33,25 @@ namespace Khernet.UI.Converters
         {
             //Returns arrow when reading a file and hand when file is reading to open
             return (bool)value ? Cursors.Hand : Cursors.Arrow;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Shows or hides current time of playing audio.
+    /// </summary>
+    public class MediaStatesToVisibilityConverter : BaseValueConverter<MediaStatesToVisibilityConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            MediaStates state = (MediaStates)value;
+
+            //Returns arrow when reading a file and hand when file is reading to open
+            return state==MediaStates.Playing ||state==MediaStates.Paused? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

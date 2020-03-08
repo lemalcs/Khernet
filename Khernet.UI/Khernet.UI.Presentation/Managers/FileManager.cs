@@ -22,7 +22,7 @@ namespace Khernet.UI.Managers
         private Thread processor;
 
         /// <summary>
-        /// Indicates if processor should continue runnig
+        /// Indicates if processor should continue running
         /// </summary>
         private bool stopProcessing = false;
 

@@ -7,6 +7,7 @@
                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                 x:Class="Khernet.UI.Pages.AudioListPage"
                 x:TypeArguments="vm:FileListViewModel"
                 mc:Ignorable="d" 
@@ -20,82 +21,15 @@
         <!-- List of audio files -->
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
-                 SelectionChanged="ListBox_SelectionChanged"
                  ScrollViewer.CanContentScroll="False"
-                 PreviewMouseRightButtonDown="ListBox_PreviewMouseRightButtonDown">
+                 SelectedIndex="-1">
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="24 5 10 5"
                           ContextMenu="{StaticResource fileMessageContextMenu}">
 
-                        <Grid.ColumnDefinitions>
-                            
-                            <!--The icon for audio file-->
-                            <ColumnDefinition Width="50"/>
-                            
-                            <!-- Detail about audio file-->
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Icon for audio -->
-                        <Border Grid.Column="0"
-                                BorderBrush="{StaticResource BlueBrush}"
-                                BorderThickness="1"
-                                Height="50"
-                                Width="{Binding Height,RelativeSource={RelativeSource Self}}"
-                                CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}">
-                            <Grid>
-                                <iconPacks:PackIconMaterial Kind="Play"
-                                                            Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter}}"/>
-
-                                <iconPacks:PackIconMaterial Kind="Download">
-                                    <iconPacks:PackIconMaterial.Visibility>
-                                        <MultiBinding Converter="{conv:FileStateToVisibilityMultiConverter}">
-                                            <Binding Path="IsLoading"/>
-                                            <Binding Path="IsReadingFile"/>
-                                            <Binding Path="IsFileLoaded"/>
-                                        </MultiBinding>
-                                    </iconPacks:PackIconMaterial.Visibility>
-                                </iconPacks:PackIconMaterial>
-                            </Grid>
-                        </Border>
-
-                        <!-- Progress ring to show load progress -->
-                        <Controls:ProgressRing Width="32" 
-                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityConverter},FallbackValue=Collapsed}"
-                               Foreground="{StaticResource BlueBrush}"
-                               Panel.ZIndex="2"
-                               HorizontalContentAlignment="Center"
-                               VerticalAlignment="Center"
-                                       />
-
-                        <!-- Audio details -->
-                        <StackPanel Grid.Column="1"
-                                    Margin="10 5 0 5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
-                            
-                            <!-- The name of adio file-->
-                            <TextBlock HorizontalAlignment="Left"
-                                       Text="{Binding FileName}" 
-                                       FontFamily="{StaticResource RobotoBoldFont}"
-                                       TextWrapping="WrapWithOverflow"
-                                       Width="250"/>
-                            
-                            <!-- The duration of audio file -->
-                            <TextBlock Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}" 
-                                       Foreground="{StaticResource DarkGrayBrush}"/>
-
-                            <!-- The size of audio file -->
-                            <TextBlock Foreground="{StaticResource DarkGrayBrush}">
-                                <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
-                                <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
-                            </TextBlock>
-
-                            <!-- The send date of audio file-->
-                            <TextBlock Text="{Binding SendDate}" Foreground="{StaticResource DarkGrayBrush}"/>
-                        </StackPanel>
+                        <ucontrols:AudioItemControl/>
 
                     </Grid>
                 </DataTemplate>

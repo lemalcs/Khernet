@@ -15,7 +15,12 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// The audio volume in percents, the default range is from 0% to 125%
         /// </summary>
-        private int defaultVolume = 60;
+        private const int defaultVolume = 60;
+
+        /// <summary>
+        /// Current volume of audio player to preserve value across multiple tracks.
+        /// </summary>
+        private int currentVolume;
 
         /// <summary>
         /// Indicates if VlcControl is created
@@ -29,7 +34,8 @@ namespace Khernet.UI.Managers
 
         public AudioManager()
         {
-            AudioModel = new AudioPlayerViewModel(Play);
+            AudioModel = new AudioPlayerViewModel(Play,Mute);
+            currentVolume = defaultVolume;
         }
 
         private void Play(object mediaViewModel)
@@ -58,10 +64,24 @@ namespace Khernet.UI.Managers
             }
         }
 
+        private void Mute()
+        {
+            if (AudioModel.Player == null || AudioModel.Player.SourceProvider.MediaPlayer == null)
+                return;
+
+            if (AudioModel.Player.Volume > 0)
+                AudioModel.Player.Volume = 0;
+            else
+                AudioModel.Player.Volume = defaultVolume;
+        }
+
         private void CreatePlayer(string fileName)
         {
             if (AudioModel.Player != null)
+            {
                 AudioModel.Player.Dispose();
+                currentVolume = AudioModel.Player.Volume;
+            }
 
             AudioModel.Player = new VlcControl();
 
@@ -76,7 +96,7 @@ namespace Khernet.UI.Managers
             };
 
             //Set default volume to 50 db (decibels)
-            AudioModel.Player.Volume = defaultVolume;
+            AudioModel.Player.Volume = currentVolume;
 
             //Set media source
             AudioModel.Player.SourceProvider.MediaPlayer.SetMedia(new Uri(fileName as string));
@@ -94,6 +114,7 @@ namespace Khernet.UI.Managers
             if (AudioModel.Player != null)
             {
                 AudioModel.Player.Dispose();
+                currentVolume = AudioModel.Player.Volume;
                 AudioModel.Player = null;
                 isPlayerCreated = false;
                 AudioModel.CurrentViewModel = null;
@@ -131,7 +152,6 @@ namespace Khernet.UI.Managers
                 observersList.Remove(audioObserver);
         }
         #endregion
-
 
         #region IDisposable Support
 
