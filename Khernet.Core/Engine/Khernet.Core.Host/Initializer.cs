@@ -408,7 +408,6 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
         }
 
@@ -425,7 +424,6 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
         }
 

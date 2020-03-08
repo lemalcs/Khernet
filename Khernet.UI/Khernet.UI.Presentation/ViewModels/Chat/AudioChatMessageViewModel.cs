@@ -253,6 +253,7 @@ namespace Khernet.UI
         {
             IsReadingFile = false;
             IsLoading = false;
+            SetChatState(ChatMessageState.Error);
         }
 
         #endregion

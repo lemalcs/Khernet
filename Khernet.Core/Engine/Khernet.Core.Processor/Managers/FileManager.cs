@@ -170,7 +170,6 @@ namespace Khernet.Core.Processor.Managers
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
             finally
             {

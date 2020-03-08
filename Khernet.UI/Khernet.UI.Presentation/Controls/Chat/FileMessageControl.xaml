@@ -19,9 +19,15 @@
             BorderBrush="{StaticResource BlueBrush}"
             HorizontalAlignment="Left"
             Background="{StaticResource LightBrush}"
-            Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}"
             Padding="5 5 5 5"
             Height="60">
+
+        <Border.Cursor>
+            <MultiBinding Converter="{conv:ChatStateToCursorMultiConverter}" FallbackValue="Arrow">
+                <Binding Path="IsFileLoaded"/>
+                <Binding Path="State"/>
+            </MultiBinding>
+        </Border.Cursor>
         
         <Border.InputBindings>
             <MouseBinding MouseAction="LeftClick" Command="{Binding OpenFileCommand}"/>
@@ -59,9 +65,20 @@
             <!--Open icon-->
             <iconPacks:PackIconMaterial Kind="File"
                                         Grid.Column="0"
-                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"/>
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                
+                <iconPacks:PackIconMaterial.Visibility>
+                    <MultiBinding Converter="{conv:ChatStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                        <Binding Path="IsFileLoaded"/>
+                        <Binding Path="State"/>
+                    </MultiBinding>
+                </iconPacks:PackIconMaterial.Visibility>
+            </iconPacks:PackIconMaterial>
+
+            <!-- Error Icon -->
+            <iconPacks:PackIconMaterial Kind="AlertCircle"
+                                        Visibility="{Binding State,Converter={conv:ChatStateToVisibilityConverter}}"/>
             
             <!-- File details -->
             <Grid Grid.Column="1"

@@ -6,7 +6,7 @@ using System.Windows.Markup;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Value Converter for direct acceso to XAML
+    /// Value Converter for direct access to XAML
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter

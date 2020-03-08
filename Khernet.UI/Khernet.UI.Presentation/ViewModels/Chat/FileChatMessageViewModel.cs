@@ -29,13 +29,18 @@ namespace Khernet.UI
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
 
-            OpenFileCommand = new RelayCommand(OpenFile);
+            OpenFileCommand = new RelayCommand(OpenFile, CanOpenFile);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
             State = ChatMessageState.Pendding;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        private bool CanOpenFile(object tpar)
+        {
+            return State != ChatMessageState.Error;
         }
 
         private void Resend(object obj)
@@ -132,7 +137,7 @@ namespace Khernet.UI
         /// <summary>
         /// Open requested binary file
         /// </summary>
-        private void OpenFile()
+        private void OpenFile(object par)
         {
             try
             {

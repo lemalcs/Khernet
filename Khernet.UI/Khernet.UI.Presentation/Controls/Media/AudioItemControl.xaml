@@ -40,8 +40,16 @@
                 Click="Button_Click"
                 Cursor="Hand"
                 Height="55"
-                Visibility="{Binding IsFileLoaded, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}" 
+                
                 Style="{DynamicResource EllipticalButton}">
+
+            <Button.Visibility>
+                <MultiBinding Converter="{conv:ChatStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                    <Binding Path="IsFileLoaded"/>
+                    <Binding Path="State"/>
+                </MultiBinding>
+            </Button.Visibility>
+            
             <iconPacks:PackIconMaterial Kind="{Binding CurrentPlayer.State, ConverterParameter=audioMessage, 
                                                 Converter={conv:MediaStatesToStringConverter}, 
                                                 FallbackValue=Play, 
@@ -50,7 +58,9 @@
                                         Width="15"/>
         </Button>
 
-
+        <!-- Error Icon -->
+        <iconPacks:PackIconMaterial Kind="AlertCircle"
+                                    Visibility="{Binding State,Converter={conv:ChatStateToVisibilityConverter}}"/>
 
 
         <!--Animation to show load progress-->

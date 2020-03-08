@@ -228,9 +228,6 @@ namespace Khernet.Core.Processor
                         fileObserver.OnNext(args.ReadBytes);
                     };
 
-                    //Save file on local application database
-                    SaveFileWithoutProgress(tempFile, fileObserver.PhysicalFileName, dt);
-
                     //Save text message when a file is sent
                     idMessage = commData.SaveTextMessage(
                         fileObserver.Data.SenderToken,
@@ -242,6 +239,9 @@ namespace Khernet.Core.Processor
                         GetIdReply(fileObserver.Data.UIDReply),
                         fileObserver.Thumbnail,
                         fileObserver.PhysicalFileName);
+
+                    //Save file on local application database
+                    SaveFileWithoutProgress(tempFile, fileObserver.PhysicalFileName, dt);
                 }
                 fileObserver.OnCompleted();
 

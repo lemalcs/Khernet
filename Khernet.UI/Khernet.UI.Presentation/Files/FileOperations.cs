@@ -68,13 +68,16 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = DownloadFile(observer);
+                    FileResponse response = GetFileMetadata(observer);
                     response.Operation = MessageOperation.Download;
 
                     state = response.State;
 
                     observer.OnGetMetadata(response);
 
+                    response.FilePath = GetCacheFile(observer);
+
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -171,10 +174,14 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = DownloadFile(observer);
+                    FileResponse response = GetFileMetadata(observer);
                     response.Operation = MessageOperation.Download;
 
                     state = response.State;
+
+                    observer.OnGetMetadata(response);
+
+                    response.FilePath = GetCacheFile(observer);
 
                     observer.OnGetMetadata(response);
                 }
@@ -283,10 +290,14 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = DownloadFile(observer);
+                    FileResponse response = GetFileMetadata(observer);
                     response.Operation = MessageOperation.Download;
 
                     state = response.State;
+
+                    observer.OnGetMetadata(response);
+
+                    response.FilePath = GetCacheFile(observer);
 
                     observer.OnGetMetadata(response);
                 }
@@ -358,10 +369,14 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = DownloadFile(observer);
+                    FileResponse response = GetFileMetadata(observer);
                     response.Operation = MessageOperation.Download;
 
                     state = response.State;
+
+                    observer.OnGetMetadata(response);
+
+                    response.FilePath = GetCacheFile(observer);
 
                     observer.OnGetMetadata(response);
                 }
@@ -431,10 +446,14 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = DownloadFile(observer);
+                    FileResponse response = GetFileMetadata(observer);
                     response.Operation = MessageOperation.Download;
 
                     state = response.State;
+
+                    observer.OnGetMetadata(response);
+
+                    response.FilePath = GetCacheFile(observer);
 
                     observer.OnGetMetadata(response);
                 }
@@ -518,12 +537,42 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Download a file from remote peer.
+        /// Get the metadata of requested file.
         /// </summary>
-        /// <param name="observer">The receiver that will be notified about operations performed over file</param>
-        /// <param name="originalFileName">The name of remote file</param>
-        /// <returns>The path of downloaded file</returns>
-        private FileResponse DownloadFile(IFileObserver observer)
+        /// <param name="observer">The observer that will be notified about operations performed over file</param>
+        /// <returns>A <see cref="FileResponse"/> object with metadata</returns>
+        private FileResponse GetFileMetadata(IFileObserver observer)
+        {
+            //Get file information
+            byte[] fileInfo = IoCContainer.Get<Messenger>().GetMessageContent(observer.Media.Id);
+
+            FileInformation info = JSONSerializer<FileInformation>.DeSerialize(fileInfo);
+
+            ConversationMessage message = (ConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Media.Id);
+
+            //Set processed bytes to zero before save file
+            observer.OnProcessing(0);
+
+            FileResponse response = new FileResponse();
+
+            response.OriginalFileName = info.FileName;
+            response.Duration = info.Duration;
+            response.Width = info.Width;
+            response.Height = info.Height;
+            response.Size = info.Size;
+            response.State = message.State == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+            response.ThumbnailBytes = IoCContainer.Get<Messenger>().GetThumbnail(observer.Media.Id);
+            response.UID = message.UID;
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get the file from application local storage which is saved in cache folder.
+        /// </summary>
+        /// <param name="observer">The observer that will be notified about operations performed over file</param>
+        /// <returns>The path of physical file</returns>
+        private string GetCacheFile(IFileObserver observer)
         {
             //Get file information
             byte[] fileInfo = IoCContainer.Get<Messenger>().GetMessageContent(observer.Media.Id);
@@ -541,20 +590,6 @@ namespace Khernet.UI.Files
             };
 
             FileObserver fileObserver = new FileObserver(fileMessage);
-
-            //Set processed bytes to zero before save file
-            observer.OnProcessing(0);
-
-            FileResponse response = new FileResponse();
-
-            response.OriginalFileName = info.FileName;
-            response.Duration = info.Duration;
-            response.Width = info.Width;
-            response.Height = info.Height;
-            response.Size = info.Size;
-            response.State = message.State == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
-            response.ThumbnailBytes = IoCContainer.Get<Messenger>().GetThumbnail(observer.Media.Id);
-            response.UID = message.UID;
 
             //Build name of file for local file system
             string outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(observer.Media.Id);
@@ -599,9 +634,7 @@ namespace Khernet.UI.Files
 
             IoCContainer.Get<Messenger>().UpdateCacheFilePath(observer.Media.Id, outFile);
 
-            response.FilePath = outFile;
-
-            return response;
+            return outFile;
         }
 
         private FileResponse GetLocalFile(IFileObserver observer)

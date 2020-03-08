@@ -224,6 +224,7 @@
     <Compile Include="Controls\Media\AudioItemControl.xaml.cs">
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BaseValueMultiConverter.cs" />
     <Compile Include="Converters\VolumeToStringConverter.cs" />
     <Compile Include="Converters\NullToStretchImageConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
@@ -321,7 +322,7 @@
     </Compile>
     <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\BoolToVisibilityGoneConverter.cs" />
-    <Compile Include="Converters\ChatStateToBrushMultiConverter.cs" />
+    <Compile Include="Converters\ChatStateConverters.cs" />
     <Compile Include="Converters\ByteToDocumentConverter.cs" />
     <Compile Include="Converters\BoolToThicknessConverter.cs" />
     <Compile Include="Converters\Emojis\EmojiInlineRenderer.cs" />

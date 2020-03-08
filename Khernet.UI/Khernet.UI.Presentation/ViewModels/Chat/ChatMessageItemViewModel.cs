@@ -228,8 +228,8 @@ namespace Khernet.UI
         {
             lock (syncLock)
             {
-                if (State == ChatMessageState.Processed)
-                    return;
+                //if (State == ChatMessageState.Processed)
+                //    return;
 
                 State = state;
             }
