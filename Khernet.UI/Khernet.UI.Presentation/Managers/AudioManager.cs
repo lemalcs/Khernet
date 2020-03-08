@@ -70,9 +70,12 @@ namespace Khernet.UI.Managers
                 return;
 
             if (AudioModel.Player.Volume > 0)
+            {
+                currentVolume = AudioModel.Player.Volume;
                 AudioModel.Player.Volume = 0;
+            }
             else
-                AudioModel.Player.Volume = defaultVolume;
+                AudioModel.Player.Volume = currentVolume;
         }
 
         private void CreatePlayer(string fileName)

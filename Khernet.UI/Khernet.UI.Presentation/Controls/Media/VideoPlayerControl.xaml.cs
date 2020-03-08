@@ -18,6 +18,11 @@ namespace Khernet.UI.Controls
         /// </summary>
         DispatcherTimer timer;
 
+        /// <summary>
+        /// Current volume of video player to restore value after mute is unchecked.
+        /// </summary>
+        private int currentVolume;
+
         public VideoPlayerControl()
         {
             InitializeComponent();
@@ -71,6 +76,20 @@ namespace Khernet.UI.Controls
             //Start timer so video controls hide after 5 seconds
             timer.Stop();
             timer.Start();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //Mute volume when button is clicked or restore previous volume value
+            if (vlcControl.Volume > 0)
+            {
+                currentVolume = vlcControl.Volume;
+                vlcControl.Volume = 0;
+            }
+            else
+            {
+                vlcControl.Volume = currentVolume;
+            }
         }
     }
 }
