@@ -83,7 +83,7 @@ namespace Khernet.Core.Utility
             }
             catch (Exception error)
             {
-                LogDumper.WriteLog(error);
+                //LogDumper.WriteLog(error);
                 return false;
             }
         }
@@ -114,7 +114,7 @@ namespace Khernet.Core.Utility
             }
             catch (Exception error)
             {
-                LogDumper.WriteLog(error);
+                //LogDumper.WriteLog(error);
                 return false;
             }
         }

@@ -14,15 +14,13 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-
             if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
                 return null;
-
 
             bool isSentByMe = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            if (state == ChatMessageState.Error)
+            if (state == ChatMessageState.Error|| state == ChatMessageState.UnCommited)
                 return Application.Current.FindResource("DarkRedBrush");
 
             if (!isSentByMe || state == ChatMessageState.Pendding)
@@ -45,7 +43,7 @@ namespace Khernet.UI.Converters
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var chatState = (ChatMessageState)value;
-            return chatState == ChatMessageState.Error ? Visibility.Visible : Visibility.Collapsed;
+            return chatState == ChatMessageState.Error||chatState==ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -68,7 +66,7 @@ namespace Khernet.UI.Converters
             bool isFileLoaded = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            return isFileLoaded&&state!=ChatMessageState.Error?Visibility.Visible:Visibility.Collapsed;
+            return isFileLoaded&&(state==ChatMessageState.Processed||state==ChatMessageState.Pendding)?Visibility.Visible:Visibility.Collapsed;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -91,7 +89,7 @@ namespace Khernet.UI.Converters
             bool isFileLoaded = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            return isFileLoaded && state != ChatMessageState.Error ? Cursors.Hand : Cursors.Arrow;
+            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pendding) ? Cursors.Hand : Cursors.Arrow;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

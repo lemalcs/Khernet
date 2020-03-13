@@ -29,7 +29,7 @@ namespace Khernet.UI
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
 
-            OpenFileCommand = new RelayCommand(OpenFile, CanOpenFile);
+            OpenFileCommand = new RelayCommand(OpenFile, VerifyLoadedFile);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
@@ -38,9 +38,9 @@ namespace Khernet.UI
             UID = Guid.NewGuid().ToString().Replace("-", "");
         }
 
-        private bool CanOpenFile(object tpar)
+        private bool VerifyLoadedFile(object obj)
         {
-            return State != ChatMessageState.Error;
+            return IsMessageLoaded && (State==ChatMessageState.Pendding||State==ChatMessageState.Processed);
         }
 
         private void Resend(object obj)

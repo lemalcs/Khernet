@@ -9,14 +9,19 @@ namespace Khernet.UI
     public enum ChatMessageState
     {
         /// <summary>
-        /// The message was sent or received successfully
+        /// The message is not ready to be used
         /// </summary>
-        Processed = 0,
+        UnCommited = -1,
 
         /// <summary>
         /// The message is pendding to be sent
         /// </summary>
-        Pendding = 1,
+        Pendding = 0,
+
+        /// <summary>
+        /// The message was sent or received successfully
+        /// </summary>
+        Processed = 1,
 
         /// <summary>
         /// There is an error sending or receiveing the message

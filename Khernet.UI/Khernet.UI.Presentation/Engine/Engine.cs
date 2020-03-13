@@ -197,7 +197,6 @@ namespace Khernet.UI
                 IoCContainer.UnConfigure<EventListenerClient>();
 
                 IoCContainer.UnConfigure<Messenger>();
-                IoCContainer.UnConfigure<ChatCache>();
                 IoCContainer.UnConfigure<ChatMessageListViewModel>();
                 IoCContainer.UnConfigure<ChatMessageStateManager>();
                 IoCContainer.UnConfigure<UserManager>();

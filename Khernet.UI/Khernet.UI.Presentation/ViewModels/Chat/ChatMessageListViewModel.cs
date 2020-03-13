@@ -762,7 +762,13 @@ namespace Khernet.UI
 
                 int lastIdMessage = 0;
 
-                if (loadForward)
+                bool middleLocation = idMessage > UserContext.FirstIdMessage && idMessage < UserContext.LastIdMessage;
+
+                if(middleLocation)
+                {
+                    lastIdMessage = idMessage - 1;
+                }
+                else if (loadForward)
                 {
                     lastIdMessage = UserContext.LastIdMessage;
                 }
@@ -797,7 +803,7 @@ namespace Khernet.UI
 
                 UserContext.User.HideUserWriting();
 
-                if (loadForward)
+                if (!middleLocation && loadForward)
                 {
                     if (UserContext.FirstIdMessage == 0 || UserContext.FirstIdMessage > unreadMessages[0].Id)
                         UserContext.FirstIdMessage = unreadMessages[0].Id;
@@ -805,7 +811,7 @@ namespace Khernet.UI
                     if (UserContext.LastIdMessage < unreadMessages[unreadMessages.Count - 1].Id)
                         UserContext.LastIdMessage = unreadMessages[unreadMessages.Count - 1].Id;
                 }
-                else
+                else if(!middleLocation)
                 {
                     if (UserContext.FirstIdMessage == 0 || UserContext.FirstIdMessage > unreadMessages[unreadMessages.Count - 1].Id)
                         UserContext.FirstIdMessage = unreadMessages[unreadMessages.Count - 1].Id;

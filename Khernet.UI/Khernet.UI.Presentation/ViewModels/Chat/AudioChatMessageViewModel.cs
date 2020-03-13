@@ -54,7 +54,7 @@ namespace Khernet.UI
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
 
-            OpenMediaCommand = new RelayCommand(OpenAudio);
+            OpenMediaCommand = new RelayCommand(OpenAudio, VerifyLoadedAudio);
             CloseMediaCommand = new RelayCommand(CloseMedia);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
@@ -62,6 +62,11 @@ namespace Khernet.UI
             State = ChatMessageState.Pendding;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        private bool VerifyLoadedAudio(object obj)
+        {
+            return IsMessageLoaded && (State == ChatMessageState.Pendding || State == ChatMessageState.Processed);
         }
 
         private void Resend(object obj)
@@ -159,7 +164,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public void OpenAudio()
+        public void OpenAudio(object par)
         {
             FileOperations operations = new FileOperations();
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))

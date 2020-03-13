@@ -227,29 +227,29 @@ namespace Khernet.Core.Processor
             return null;
         }
 
-        public List<string> GetPenddingMessageUsers()
+        public List<int> GetPenddingMessageOfUser(string receiptToken, int quantity)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPenddingMessageUsers();
+            DataTable data = commData.GetPenddingMessageOfUser(receiptToken, quantity);
 
             if (data.Rows.Count > 0)
             {
-                List<string> usersList = new List<string>();
+                List<int> messageIdList = new List<int>();
 
                 for (int i = 0; i < data.Rows.Count; i++)
                 {
-                    usersList.Add(data.Rows[i][0].ToString());
+                    messageIdList.Add(Convert.ToInt32(data.Rows[i][0]));
                 }
-                return usersList;
+                return messageIdList;
             }
             else
                 return null;
         }
 
-        public List<int> GetPenddingMessageOfUser(string receiptToken, int quantity)
+        public List<int> GetRequestPendingMessageForUser(string senderToken, int quantity)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPenddingMessageOfUser(receiptToken, quantity);
+            DataTable data = commData.GetRequestPendingMessageForUser(senderToken, quantity);
 
             if (data.Rows.Count > 0)
             {
@@ -659,7 +659,7 @@ namespace Khernet.Core.Processor
 
             message.RawContent = messageData.Rows[0][2] as byte[];
             message.Type = (ContentType)Convert.ToInt32(messageData.Rows[0][3]);
-            message.State = Convert.ToInt32(messageData.Rows[0][7]) == 1 ? MessageState.Processed : MessageState.Pendding;
+            message.State = (MessageState)Convert.ToInt32(messageData.Rows[0][7]);
 
             return message;
         }

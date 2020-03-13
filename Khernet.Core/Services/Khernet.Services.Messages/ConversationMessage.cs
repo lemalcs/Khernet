@@ -7,6 +7,12 @@ namespace Khernet.Services.Messages
     public enum MessageState
     {
         /// <summary>
+        /// The message is not ready to be used
+        /// </summary>
+        [EnumMember]
+        UnCommited = -1,
+
+        /// <summary>
         /// The message is pedding to sent
         /// </summary>
         [EnumMember]

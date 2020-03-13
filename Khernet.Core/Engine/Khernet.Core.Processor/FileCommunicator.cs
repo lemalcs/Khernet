@@ -1,4 +1,5 @@
-﻿using Khernet.Core.Data;
+﻿using Khernet.Core.Common;
+using Khernet.Core.Data;
 using Khernet.Core.Entity;
 using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.ServiceModel;
 using System.Text;
 
 namespace Khernet.Core.Processor
@@ -32,65 +34,6 @@ namespace Khernet.Core.Processor
                 fileResponse.File = new MemoryStream(data);
 
                 return fileResponse;
-            }
-            catch (Exception error)
-            {
-                LogDumper.WriteLog(error);
-                throw error;
-            }
-        }
-
-        public void ProcessFile(ConversationMessage message)
-        {
-            try
-            {
-                CommunicatorData commData = new CommunicatorData();
-
-                if (message.Sequential == message.TotalChunks)
-                {
-                    DataTable chunksList = commData.GetPartialTextMessage(message.UID);
-
-                    List<byte> messageBytes = new List<byte>();
-                    byte[] buffer = null;
-
-                    for (int j = 0; j < chunksList.Rows.Count; j++)
-                    {
-                        buffer = chunksList.Rows[j][1] as byte[];
-
-                        for (int k = 0; k < buffer.Length; k++)
-                        {
-                            messageBytes.Add(buffer[k]);
-                        }
-                    }
-
-                    chunksList.Rows.Clear();
-
-                    buffer = message.RawContent;
-
-                    for (int k = 0; k < buffer.Length; k++)
-                    {
-                        messageBytes.Add(buffer[k]);
-                    }
-
-                    int? idReplyMessage = GetIdReply(message.UIDReply);
-
-                    buffer = messageBytes.ToArray();
-
-                    int idMessage = commData.SaveTextMessage(
-                        message.SenderToken,
-                        message.ReceiptToken,
-                        message.SendDate,
-                        buffer,
-                        (int)message.Type,
-                        message.UID,
-                        idReplyMessage);
-
-                    commData.DeletePartialTextMessage(message.UID);
-                }
-                else
-                {
-                    commData.SavePartialTextMessage(message.UID, message.Sequential, message.RawContent);
-                }
             }
             catch (Exception error)
             {
@@ -242,6 +185,8 @@ namespace Khernet.Core.Processor
 
                     //Save file on local application database
                     SaveFileWithoutProgress(tempFile, fileObserver.PhysicalFileName, dt);
+
+                    commData.SetMessageState(idMessage, (int)MessageState.Pendding);
                 }
                 fileObserver.OnCompleted();
 
@@ -329,6 +274,11 @@ namespace Khernet.Core.Processor
                 if (content.Rows.Count > 0)
                     info = JSONSerializer<FileInformation>.DeSerialize(content.Rows[0][0] as byte[]);
 
+                if(info.Size!=GetFileSize(conversationMessage.Id))
+                {
+                    throw new Exception("Invalid file size");
+                }
+
                 FileMessage fileMessage = new FileMessage
                 {
                     SenderToken = conversationMessage.SenderToken,
@@ -399,8 +349,6 @@ namespace Khernet.Core.Processor
         /// Request to download a file.
         /// </summary>
         /// <param name="senderToken">Token of user that sent file</param>
-        /// <param name="receiptToken">Token of user that receive the file</param>
-        /// <param name="idFile">Identifier of file (GUID)</param>
         public void RequestFile(FileObserver fileObserver)
         {
             CommunicatorData commData = new CommunicatorData();
@@ -412,6 +360,12 @@ namespace Khernet.Core.Processor
 
                 CommunicatorClient commClient = new CommunicatorClient(fileObserver.Data.SenderToken);
                 FileDownloadResponseMessage fileResponse = commClient.DownloadFile(fileRequest);
+
+                string idFile = BuildIdFile(fileObserver.Data.SenderToken, fileObserver.Data.UID);
+
+                //Delete previous version of file
+                FileCommunicatorData fileCommData = new FileCommunicatorData();
+                fileCommData.DeleteFile(idFile);
 
                 int cycles = 0;
                 using (DataStream dt = new DataStream(fileResponse.File))
@@ -431,11 +385,112 @@ namespace Khernet.Core.Processor
 
                 fileObserver.OnCompleted();
             }
+            catch (EndpointNotFoundException)
+            {
+                throw;
+            }
+            catch (CommunicationObjectAbortedException)
+            {
+                throw;
+            }
+            catch(CommunicationObjectFaultedException)
+            {
+                throw;
+            }
+            catch(CommunicationException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 LogDumper.WriteLog(ex);
                 fileObserver.OnError(ex);
-                throw ex;
+                throw;
+            }
+        }
+
+        public void RequestPendingFile(int idMessage)
+        {
+            FileObserver fileObserver = null;
+            ReadCompletedEventHandler readCompleted = null;
+            ReadFailedEventHandler readFailed = null;
+
+            try
+            {
+                Communicator communicator = new Communicator();
+
+                ConversationMessage message = communicator.GetMessageDetail(idMessage);
+                FileInformation info = JSONSerializer<FileInformation>.DeSerialize(communicator.GetMessageContent(idMessage));
+
+                FileMessage fileMessage = new FileMessage
+                {
+                    SenderToken = message.SenderToken,
+                    ReceiptToken = message.ReceiptToken,
+                    Metadata = info,
+                    SendDate = message.SendDate,
+                    Type = message.Type,
+                    UID = message.UID,
+                    UIDReply = message.UIDReply,
+                };
+
+                fileObserver = new FileObserver(fileMessage);
+                fileObserver.Id = idMessage;
+
+                IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(message.SenderToken);
+
+                readCompleted =
+                    (sender) => { IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)sender).Data.SenderToken); };
+
+                readFailed =
+                    (s, ev) => { IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)s).Data.SenderToken); };
+
+                fileObserver.ReadCompleted += readCompleted;
+                fileObserver.ReadFailed += readFailed;
+
+                RequestFile(fileObserver);
+
+                SendNotification(idMessage, fileMessage);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if(fileObserver!=null)
+                {
+                    fileObserver.ReadCompleted -= readCompleted;
+                    fileObserver.ReadFailed -= readFailed;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Send notification to a consumer about a new received file 
+        /// </summary>
+        /// <param name="idMessage">The id of message</param>
+        /// <param name="fileMessage">Metadata of file</param>
+        private void SendNotification(int idMessage, FileMessage fileMessage)
+        {
+            try
+            {
+                InternalFileMessage internalMessage = new InternalFileMessage();
+                internalMessage.SenderToken = fileMessage.SenderToken;
+                internalMessage.ReceiptToken = fileMessage.ReceiptToken;
+                internalMessage.SendDate = fileMessage.SendDate;
+                internalMessage.Metadata = fileMessage.Metadata;
+                internalMessage.Type = fileMessage.Type;
+                internalMessage.UID = fileMessage.UID;
+                internalMessage.UIDReply = fileMessage.UIDReply;
+                internalMessage.Id = idMessage;
+
+                PublisherClient publisherClient = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
+                publisherClient.ProcessNewFile(internalMessage);
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
             }
         }
 
@@ -471,6 +526,23 @@ namespace Khernet.Core.Processor
                 string tempId = GetFileId(idMessage);
 
                 return fileData.GetFile(tempId);
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                throw error;
+            }
+        }
+
+        public long GetFileSize(int idMessage)
+        {
+            try
+            {
+                FileCommunicatorData fileData = new FileCommunicatorData();
+
+                string tempId = GetFileId(idMessage);
+
+                return fileData.GetFileSize(tempId);
             }
             catch (Exception error)
             {

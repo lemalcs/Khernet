@@ -53,7 +53,7 @@
             </Grid.ColumnDefinitions>
 
 
-                <!-- Profile background-->
+            <!-- Profile background-->
             <Border Background="{Binding ColorHex, Converter={conv:StringRGBToColorConverter}}"
                     Visibility="{Binding Avatar,Converter={conv:InverseNullToVisibilityGoneConverter}}"
                     Width="{Binding Height,RelativeSource={RelativeSource Self}}"
@@ -110,28 +110,30 @@
                              Style="{StaticResource rtxtStyle}"
                              depend:DocumentSourceProperty.Value="{Binding DisplayName}"/>
 
-                <!-- Writing message indicator -->
-                <TextBlock Text="Typing message..."
-                           Name="txtMessage"
+                <!-- Typing message indicator -->
+                <TextBlock Name="txtMessage"
                            Grid.Row="1"
                            FontSize="{StaticResource RegularFontSize}"
                            Foreground="{Binding IsSelected,Converter={conv:IsSelectedToBrushConverter}}"
                            FontFamily="{StaticResource RobotoRegularFont}"
-                           Margin="0 2 0 0"
-                           Visibility="{Binding IsWritingMessage,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+                           Margin="0 2 0 0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
+                            <Binding Path="IsWritingMessage"/>
+                            <Binding Path="IsSendingFile"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
 
-                <!-- Writing message indicator -->
-                <TextBlock Text="Sending file..."
-                           Grid.Row="1"
-                           FontSize="{StaticResource RegularFontSize}"
-                           Foreground="{Binding IsSelected,Converter={conv:IsSelectedToBrushConverter}}"
-                           FontFamily="{StaticResource RobotoRegularFont}"
-                           Margin="0 2 0 0"
-                           Visibility="{Binding IsSendingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
-
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{conv:BoolToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                            <Binding Path="IsWritingMessage"/>
+                            <Binding Path="IsSendingFile"/>
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
 
             </Grid>
-            
+
             <!-- Unread message counter -->
             <Border Grid.Column="2"
                     Height="20"
@@ -151,5 +153,4 @@
             </Border>
         </Grid>
     </Border>
-
 </UserControl>

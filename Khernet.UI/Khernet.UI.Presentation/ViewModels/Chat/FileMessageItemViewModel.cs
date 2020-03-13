@@ -172,7 +172,7 @@ namespace Khernet.UI
                 LogDumper.WriteLog(error);
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = error.Message,
+                    Message = "Error while saving file.",
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",

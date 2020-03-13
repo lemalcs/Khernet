@@ -821,43 +821,6 @@ namespace Khernet.Core.Data
         }
 
         /// <summary>
-        /// Gets the list of users to send pendding messages to.
-        /// </summary>
-        /// <returns>The list of user tokens</returns>
-        public DataTable GetPenddingMessageUsers()
-        {
-            try
-            {
-                DataTable table = new DataTable();
-
-                FbCommand cmd = new FbCommand("GET_PENDDING_MESSAGE_USERS");
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                using (cmd.Connection = new FbConnection(GetConnectionString()))
-                {
-                    cmd.Connection.Open();
-
-                    FbDataAdapter fda = new FbDataAdapter(cmd);
-                    fda.Fill(table);
-                }
-
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                }
-                keys = null;
-
-                return table;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Gets the pendding message of given user.
         /// </summary>
         /// <param name="receiptToken">The token of receipt user</param>
@@ -874,6 +837,43 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@RECEIPT_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiptToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@quantity", FbDbType.Integer).Value = quantity;
+                keys = null;
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+
+                    FbDataAdapter fda = new FbDataAdapter(cmd);
+                    fda.Fill(table);
+                }
+
+                return table;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of message to be requested to sender peer.
+        /// </summary>
+        /// <param name="receiptToken">The token of user that sent message</param>
+        /// <param name="quantity">The number of pendding message to retrieve, send 0 to get all messages.</param>
+        /// <returns>The list of id messages</returns>
+        public DataTable GetRequestPendingMessageForUser(string senderToken, int quantity)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                FbCommand cmd = new FbCommand("GET_REQUEST_PENDING_MESSAGES");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@SENDER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(senderToken, Encoding.UTF8, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@quantity", FbDbType.Integer).Value = quantity;
                 keys = null;
 

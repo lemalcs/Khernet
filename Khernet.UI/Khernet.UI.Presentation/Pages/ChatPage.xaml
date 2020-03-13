@@ -22,6 +22,7 @@
     <Border Background="{StaticResource LightBrush}">
         <Grid Name="mainChatContainer"
               Margin="0 0 0 10">
+            
             <Grid.RowDefinitions>
 
                 <!--Current User-->
@@ -106,11 +107,10 @@
 
                 <!-- Chat message list-->
                 <ucontrols:ChatMessageListControl Grid.Row="0"
-                                              DataContext="{Binding}"
-                                              AllowDrop="True"
-                                              x:Name="chatList"
-                                                  VerticalAlignment="Stretch"
-                                              />
+                                                  DataContext="{Binding}"
+                                                  AllowDrop="True"
+                                                  x:Name="chatList"
+                                                  VerticalAlignment="Stretch"/>
 
                 <!-- Unread pop up-->
                 <StackPanel Grid.Row="0"
@@ -134,16 +134,15 @@
                                    VerticalAlignment="Center"/>
                     </Border>
 
-                    <Border 
-                        Height="50"
-                        Width="{Binding Height,RelativeSource={RelativeSource Self}}"
-                        CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
-                        Background="{StaticResource LightBrush}">
+                    <Border Height="50"
+                            Width="{Binding Height,RelativeSource={RelativeSource Self}}"
+                            CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                            Background="{StaticResource LightBrush}">
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="49" 
-                              Color="{StaticResource OpaqueBlackColor}"
-                              ShadowDepth="0"
-                              Opacity="0.4"/>
+                                              Color="{StaticResource OpaqueBlackColor}"
+                                              ShadowDepth="0"
+                                              Opacity="0.4"/>
                         </Border.Effect>
 
                         <Border.InputBindings>
@@ -157,15 +156,23 @@
                     </Border>
                 </StackPanel>
 
+                <!-- Typing message indicator -->
                 <TextBlock Grid.Row="1" 
-                           Text="Sending file..."
-                           Visibility="{Binding UserContext.User.IsSendingFile,Converter={conv:BoolToVisibilityGoneConverter}}"
-                           Background="{StaticResource LightBrush}"/>
+                           Background="{StaticResource LightBrush}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
+                            <Binding Path="UserContext.User.IsWritingMessage"/>
+                            <Binding Path="UserContext.User.IsSendingFile"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
 
-                <TextBlock Grid.Row="1" 
-                           Text="Typing..."
-                           Visibility="{Binding UserContext.User.IsWritingMessage,Converter={conv:BoolToVisibilityGoneConverter}}"
-                           Background="{StaticResource LightBrush}"/>
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{conv:BoolToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                            <Binding Path="UserContext.User.IsWritingMessage"/>
+                            <Binding Path="UserContext.User.IsSendingFile"/>
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
 
                 <!--Current reply/resend message-->
                 <Border Grid.Row="2"
@@ -185,15 +192,15 @@
 
                         <!--Message summary-->
                         <ucontrols:PopupContent ViewModel="{Binding UserContext.ReplyMessage}"
-                                        Grid.Column="0"
-                                        Background="White"/>
+                                                Grid.Column="0"
+                                                Background="White"/>
 
                         <!--Icon-->
                         <Button Style="{StaticResource IconButton}"
-                            Grid.Column="1"
-                            Height="40"
-                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                            Command="{Binding CloseReplyMessage}">
+                                Grid.Column="1"
+                                Height="40"
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                Command="{Binding CloseReplyMessage}">
 
                             <iconPacks:PackIconMaterial Kind="WindowClose"
                                                     Width="15"/>
@@ -201,7 +208,6 @@
 
                     </Grid>
                 </Border>
-
             </Grid>
 
             <!-- Splitter anchor -->
@@ -244,13 +250,13 @@
                         
                         <!-- Attach file button-->
                         <Button Height="40"
-                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                            Style="{StaticResource IconButton}"
-                            VerticalAlignment="Top"
-                            Command="{Binding OpenFileCommand}"
-                            CommandParameter="{Binding ElementName=chatPage}"
-                                ToolTip="Send file"
-                            >
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                Style="{StaticResource IconButton}"
+                                VerticalAlignment="Top"
+                                Command="{Binding OpenFileCommand}"
+                                CommandParameter="{Binding ElementName=chatPage}"
+                                ToolTip="Send file">
+                            
                             <iconPacks:PackIconMaterial Kind="Paperclip" />
                         </Button>
 
@@ -300,18 +306,18 @@
                                                          depend:EmojiSourceProperty.Value="{Binding ElementName=emojiPalette}">
                                 <RichTextBox.CommandBindings>
                                     <CommandBinding Command="Paste" 
-                                            Executed="PasteCommandBinding_Executed" 
-                                            CanExecute="PasteCommandBinding_CanExecute"/>
+                                                    Executed="PasteCommandBinding_Executed" 
+                                                    CanExecute="PasteCommandBinding_CanExecute"/>
                                 </RichTextBox.CommandBindings>
                             </ucontrols:MarkedRichTextBox>
 
                             <!-- Splitter -->
                             <GridSplitter Grid.Row="1"
-                                        Height="5"
-                                        ShowsPreview="False"
-                                        HorizontalAlignment="Stretch"
-                                        Background="{StaticResource OpaqueGrayColorBrush}"
-                                        Visibility="{Binding Path=IsChecked,ElementName=tgBtn_Markdown,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+                                          Height="5"
+                                          ShowsPreview="False"
+                                          HorizontalAlignment="Stretch"
+                                          Background="{StaticResource OpaqueGrayColorBrush}"
+                                          Visibility="{Binding Path=IsChecked,ElementName=tgBtn_Markdown,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
                             <!-- Markdown preview -->
                             <ucontrols:MarkedRichTextBox Grid.Row="2"
@@ -320,8 +326,7 @@
                                                          Style="{DynamicResource RichTextBoxStyle1}"
                                                          BorderThickness="0"
                                                          IsReadOnly="True"
-                                                         VerticalScrollBarVisibility="Auto"
-                                                         />
+                                                         VerticalScrollBarVisibility="Auto"/>
 
                         </Grid>
                     </Border>
@@ -358,8 +363,8 @@
                                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                 Height="40"
                                 VerticalAlignment="Top"
-                                Command="{Binding OpenGIFGalleryCommand}"
-                                            >
+                                Command="{Binding OpenGIFGalleryCommand}">
+                            
                             <Grid>
                                 <TextBlock Text="GIF"
                                            VerticalAlignment="Top"
@@ -367,8 +372,8 @@
                                            Margin="0 10 0 0"
                                            FontFamily="{StaticResource RobotoBoldFont}"
                                            FontSize="{StaticResource MediumFontSize}"/>
-                                <Popup 
-                                       StaysOpen="False"
+                                
+                                <Popup StaysOpen="False"
                                        HorizontalAlignment="Center"
                                        HorizontalOffset="8"
                                        Placement="Top"
@@ -389,8 +394,8 @@
                                 Style="{StaticResource IconButton}"
                                 Command="{Binding SendCommand}"
                                 CommandParameter="{Binding ElementName=chatPage}"
-                                Visibility="{Binding CanSendMessage,Converter={conv:BoolToVisibilityGoneConverter}}"
-                                >
+                                Visibility="{Binding CanSendMessage,Converter={conv:BoolToVisibilityGoneConverter}}">
+                            
                             <iconPacks:PackIconMaterial Kind="Send"
                                                         Foreground="{StaticResource BlueBrush}"/>
                         </Button>

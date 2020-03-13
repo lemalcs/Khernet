@@ -180,7 +180,9 @@ namespace Khernet.Core.Processor.Managers
             {
                 suscriber = null;
                 continueMonitoring = false;
-                autoReset.Set();
+
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
             else
                 throw new Exception("Invalid key");
@@ -229,7 +231,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = message.Id.ToString()
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -251,7 +254,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = fileMessage.Id.ToString()
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -280,7 +284,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = state
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -300,7 +305,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -320,7 +326,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -340,7 +347,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Format("{0}|{1}", idFile, readBytes)
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -362,7 +370,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = string.Empty
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 
@@ -384,7 +393,8 @@ namespace Khernet.Core.Processor.Managers
                     Content = idMessage.ToString()
                 });
 
-                autoReset.Set();
+                if (!autoReset.SafeWaitHandle.IsClosed)
+                    autoReset.Set();
             }
         }
 

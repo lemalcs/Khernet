@@ -102,7 +102,7 @@ namespace Khernet.UI
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
 
-            OpenMediaCommand = new RelayCommand(OpenImage);
+            OpenMediaCommand = new RelayCommand(OpenAnimation, VerifyLoadedAnimation);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
             SaveAnimationCommand = new RelayCommand(SaveAnimation, IsReadyMessage);
@@ -113,6 +113,11 @@ namespace Khernet.UI
             State = ChatMessageState.Pendding;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+        }
+
+        private bool VerifyLoadedAnimation(object obj)
+        {
+            return IsMessageLoaded && (State == ChatMessageState.Pendding || State == ChatMessageState.Processed);
         }
 
         private async void SaveAnimation(object obj)
@@ -314,7 +319,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public void OpenImage()
+        public void OpenAnimation(object par)
         {
             //Show model dialog for image
             IoCContainer.UI.ShowDialog(this);

@@ -156,6 +156,21 @@ namespace Khernet.Core.Data
 
         }
 
+        public long GetFileSize(string idFile)
+        {
+            Storage st = new Storage();
+            LiteDatabase db = new LiteDatabase(st.FileRepoAddress);
+
+            LiteFileInfo fileInfo = db.FileStorage.FindById(idFile);
+            
+            if (fileInfo != null)
+            {
+                return fileInfo.Length;
+            }
+            else
+                throw new Exception("File not found.");
+        }
+
         public bool ExistsFile(string idFile)
         {
             Storage st = new Storage();
@@ -164,6 +179,10 @@ namespace Khernet.Core.Data
             return db.FileStorage.Exists(idFile);
         }
 
+        /// <summary>
+        /// Delete a file stored on database
+        /// </summary>
+        /// <param name="idFile">The ID of file</param>
         public void DeleteFile(string idFile)
         {
             Storage st = new Storage();

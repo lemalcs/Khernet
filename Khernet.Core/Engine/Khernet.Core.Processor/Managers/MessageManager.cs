@@ -1,4 +1,5 @@
-﻿using Khernet.Core.Utility;
+﻿using Khernet.Core.Processor.IoC;
+using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using System;
 using System.Collections.Concurrent;
@@ -76,62 +77,16 @@ namespace Khernet.Core.Processor.Managers
 
                     while (usersList.Count > 0)
                     {
-                        string recepitToken;
+                        string receiptToken;
 
-                        usersList.TryDequeue(out recepitToken);
+                        usersList.TryDequeue(out receiptToken);
 
-                        if (string.IsNullOrEmpty(recepitToken))
+                        if (string.IsNullOrEmpty(receiptToken))
                             continue;
 
-                        List<int> messageList = communicator.GetPenddingMessageOfUser(recepitToken, 1);
+                        SendPendingMessageOf(receiptToken);
 
-                        if (messageList == null)
-                            continue;
-
-                        //Try to one send a message to test if peer is connected
-                        try
-                        {
-                            SendPenddingMessage(messageList[0]);
-                        }
-                        catch (EndpointNotFoundException ex)
-                        {
-                            LogDumper.WriteLog(ex, "Peer disconnected");
-
-                            //If peer is disconnected then continue with next peer
-                            continue;
-                        }
-                        catch (Exception ex2)
-                        {
-                            SetMessageState(messageList[0], MessageState.Error);
-                            LogDumper.WriteLog(ex2);
-                        }
-
-                        //Get the full list of pendding messages
-                        messageList = communicator.GetPenddingMessageOfUser(recepitToken, 0);
-
-                        if (messageList == null)
-                            continue;
-
-                        //Send pendding messages 
-                        for (int j = 0; j < messageList.Count; j++)
-                        {
-                            try
-                            {
-                                SendPenddingMessage(messageList[j]);
-                            }
-                            catch (EndpointNotFoundException error1)
-                            {
-                                LogDumper.WriteLog(error1, "Peer disconnected");
-
-                                //If current peer turns disconnected then continue with next peer
-                                break;
-                            }
-                            catch (Exception error)
-                            {
-                                SetMessageState(messageList[j], MessageState.Error);
-                                LogDumper.WriteLog(error, "Error while reading pendding message");
-                            }
-                        }
+                        RequestPendingMessageOf(receiptToken);
                     }
 
                     if (usersList.Count == 0)
@@ -140,6 +95,59 @@ namespace Khernet.Core.Processor.Managers
                 catch (Exception exception)
                 {
                     LogDumper.WriteLog(exception);
+                }
+            }
+        }
+
+        private void SendPendingMessageOf(string receiptToken)
+        {
+            List<int> messageList = communicator.GetPenddingMessageOfUser(receiptToken, 1);
+
+            if (messageList == null)
+                return;
+
+            //Try to one send a message to test if peer is connected
+            try
+            {
+                SendPenddingMessage(messageList[0]);
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                LogDumper.WriteLog(ex, "Peer disconnected");
+
+                //If peer is disconnected then continue with next peer
+                return;
+            }
+            catch (Exception ex2)
+            {
+                SetMessageState(messageList[0], MessageState.Error);
+                LogDumper.WriteLog(ex2);
+            }
+
+            //Get the full list of pendding messages
+            messageList = communicator.GetPenddingMessageOfUser(receiptToken, 0);
+
+            if (messageList == null)
+                return;
+
+            //Send pendding messages 
+            for (int j = 0; j < messageList.Count; j++)
+            {
+                try
+                {
+                    SendPenddingMessage(messageList[j]);
+                }
+                catch (EndpointNotFoundException error1)
+                {
+                    LogDumper.WriteLog(error1, "Peer disconnected");
+
+                    //If current peer turns disconnected then continue with next peer
+                    break;
+                }
+                catch (Exception error)
+                {
+                    SetMessageState(messageList[j], MessageState.Error);
+                    LogDumper.WriteLog(error, "Error while reading pendding message");
                 }
             }
         }
@@ -166,6 +174,72 @@ namespace Khernet.Core.Processor.Managers
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        private void RequestPendingMessageOf(string receiptToken)
+        {
+            List<int> messageList = communicator.GetRequestPendingMessageForUser(receiptToken, 1);
+
+            if (messageList == null)
+                return;
+
+            //Try to one send a message to test if peer is connected
+            try
+            {
+                RequestPendingMessage(messageList[0]);
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                LogDumper.WriteLog(ex, "Peer disconnected");
+
+                //If peer is disconnected then continue with next peer
+                return;
+            }
+            catch (Exception ex2)
+            {
+                SetMessageState(messageList[0], MessageState.Error);
+                LogDumper.WriteLog(ex2);
+            }
+
+            messageList = communicator.GetRequestPendingMessageForUser(receiptToken, 0);
+
+            if (messageList == null)
+                return;
+
+            //Send pendding messages 
+            for (int j = 0; j < messageList.Count; j++)
+            {
+                try
+                {
+                    RequestPendingMessage(messageList[j]);
+                }
+                catch (EndpointNotFoundException error1)
+                {
+                    LogDumper.WriteLog(error1, "Peer disconnected");
+
+                    //If current peer turns disconnected then continue with next peer
+                    break;
+                }
+                catch (Exception error)
+                {
+                    SetMessageState(messageList[j], MessageState.Error);
+                    LogDumper.WriteLog(error, "Error while requesting pendding message");
+                }
+            }
+        }
+
+        private void RequestPendingMessage(int idMesssage)
+        {
+            try
+            {
+                FileCommunicator fileCommunicator = new FileCommunicator();
+                fileCommunicator.RequestPendingFile(idMesssage);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

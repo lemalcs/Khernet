@@ -53,7 +53,7 @@ BEGIN
         WHERE
         (ID_SENDER=:ID_PEER OR ID_RECEIPT=:ID_PEER)
         AND ID<:LAST_ID_MESSAGE
-        AND NOT (ID_SENDER<>0 AND STATE=0)
+        AND NOT (ID_SENDER<>0 AND STATE<=0)
         ORDER BY ID DESC
         INTO :ID_MESSAGE,:CONTENT_TYPE,:REG_DATE,:STATE,:IS_READ,:UID
         DO
@@ -64,7 +64,7 @@ BEGIN
         WHERE
         (ID_SENDER=:ID_PEER OR ID_RECEIPT=:ID_PEER)
         AND ID>:LAST_ID_MESSAGE
-        AND NOT (ID_SENDER<>0 AND STATE=0)
+        AND NOT (ID_SENDER<>0 AND STATE<=0)
         ORDER BY ID ASC
         INTO :ID_MESSAGE,:CONTENT_TYPE,:REG_DATE,:STATE,:IS_READ,:UID
         DO
@@ -78,7 +78,7 @@ BEGIN
                       WHERE 
                       READ_STATE='FALSE'
                       AND (ID_SENDER=:ID_PEER OR ID_RECEIPT=:ID_PEER)
-                      AND NOT (ID_SENDER<>0 AND STATE=0));
+                      AND NOT (ID_SENDER<>0 AND STATE<=0));
                       
          IF(ID_UNREAD_MESSAGE IS NULL) THEN
            ID_UNREAD_MESSAGE=0;
@@ -89,7 +89,7 @@ BEGIN
            WHERE
            (ID_SENDER=:ID_PEER OR ID_RECEIPT=:ID_PEER)
            AND ID>=:ID_UNREAD_MESSAGE
-           AND NOT (ID_SENDER<>0 AND STATE=0)
+           AND NOT (ID_SENDER<>0 AND STATE<=0)
            ORDER BY ID DESC
            INTO :ID_MESSAGE,:CONTENT_TYPE,:REG_DATE,:STATE,:IS_READ,:UID
            DO
@@ -100,7 +100,7 @@ BEGIN
            WHERE
            (ID_SENDER=:ID_PEER OR ID_RECEIPT=:ID_PEER)
            AND ID>=:ID_UNREAD_MESSAGE
-           AND NOT (ID_SENDER<>0 AND STATE=0)
+           AND NOT (ID_SENDER<>0 AND STATE<=0)
            ORDER BY ID ASC
            INTO :ID_MESSAGE,:CONTENT_TYPE,:REG_DATE,:STATE,:IS_READ,:UID
            DO

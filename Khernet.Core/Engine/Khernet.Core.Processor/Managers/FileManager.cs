@@ -62,33 +62,57 @@ namespace Khernet.Core.Processor.Managers
                         if (!fileList.TryPeek(out idMessage))
                             continue;
 
-                        message = communicator.GetMessageDetail(idMessage);
-                        FileInformation info = JSONSerializer<FileInformation>.DeSerialize(communicator.GetMessageContent(idMessage));
-
-                        FileMessage fileMessage = new FileMessage
+                        try
                         {
-                            SenderToken = message.SenderToken,
-                            ReceiptToken = message.ReceiptToken,
-                            Metadata = info,
-                            SendDate = message.SendDate,
-                            Type = message.Type,
-                            UID = message.UID,
-                            UIDReply = message.UIDReply,
-                        };
+                            message = communicator.GetMessageDetail(idMessage);
 
-                        fileObserver = new FileObserver(fileMessage);
-                        fileObserver.Id = idMessage;
+                            //Check if file is already downloaded and ready to use by this application
+                            if (message.State != MessageState.UnCommited)
+                                continue;
 
-                        IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(message.SenderToken);
+                            FileInformation info = JSONSerializer<FileInformation>.DeSerialize(communicator.GetMessageContent(idMessage));
 
-                        fileObserver.ReadCompleted += FileObserver_ReadCompleted;
-                        fileObserver.ReadFailed += FileObserver_ReadFailed;
+                            FileMessage fileMessage = new FileMessage
+                            {
+                                SenderToken = message.SenderToken,
+                                ReceiptToken = message.ReceiptToken,
+                                Metadata = info,
+                                SendDate = message.SendDate,
+                                Type = message.Type,
+                                UID = message.UID,
+                                UIDReply = message.UIDReply,
+                            };
 
-                        fileCommunicator.RequestFile(fileObserver);
+                            fileObserver = new FileObserver(fileMessage);
+                            fileObserver.Id = idMessage;
 
-                        SendNotification(idMessage, fileMessage);
+                            IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(message.SenderToken);
 
-                        fileList.TryDequeue(out idMessage);
+                            fileObserver.ReadCompleted += FileObserver_ReadCompleted;
+                            fileObserver.ReadFailed += FileObserver_ReadFailed;
+
+                            fileCommunicator.RequestFile(fileObserver);
+
+                            SendNotification(idMessage, fileMessage);
+
+                            fileList.TryDequeue(out idMessage);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogDumper.WriteLog(ex);
+                            communicator.RegisterPenddingMessage(message.SenderToken, idMessage);
+                        }
+                        finally
+                        {
+                            if (message != null)
+                                IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(message.SenderToken);
+
+                            if (fileObserver != null)
+                            {
+                                fileObserver.ReadCompleted -= FileObserver_ReadCompleted;
+                                fileObserver.ReadFailed -= FileObserver_ReadFailed;
+                            }
+                        }
                     }
 
                     if (fileList.IsEmpty)
@@ -101,17 +125,6 @@ namespace Khernet.Core.Processor.Managers
                 catch (Exception exception)
                 {
                     LogDumper.WriteLog(exception);
-
-                    if (message != null)
-                        IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(message.SenderToken);
-                }
-                finally
-                {
-                    if (fileObserver != null)
-                    {
-                        fileObserver.ReadCompleted -= FileObserver_ReadCompleted;
-                        fileObserver.ReadFailed -= FileObserver_ReadFailed;
-                    }
                 }
             }
         }

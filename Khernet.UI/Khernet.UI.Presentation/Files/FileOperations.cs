@@ -75,9 +75,11 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    response.FilePath = GetCacheFile(observer);
-
-                    observer.OnGetMetadata(response);
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -181,9 +183,11 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    response.FilePath = GetCacheFile(observer);
-
-                    observer.OnGetMetadata(response);
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -297,9 +301,11 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    response.FilePath = GetCacheFile(observer);
-
-                    observer.OnGetMetadata(response);
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -376,9 +382,11 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    response.FilePath = GetCacheFile(observer);
-
-                    observer.OnGetMetadata(response);
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -453,9 +461,11 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    response.FilePath = GetCacheFile(observer);
-
-                    observer.OnGetMetadata(response);
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -560,7 +570,7 @@ namespace Khernet.UI.Files
             response.Width = info.Width;
             response.Height = info.Height;
             response.Size = info.Size;
-            response.State = message.State == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+            response.State = (ChatMessageState)((int)message.State);
             response.ThumbnailBytes = IoCContainer.Get<Messenger>().GetThumbnail(observer.Media.Id);
             response.UID = message.UID;
 
@@ -598,9 +608,10 @@ namespace Khernet.UI.Files
                 outFile = Path.Combine(Configurations.CacheDirectory.FullName, Path.GetFileName(fileObserver.Data.Metadata.FileName));
 
             //If file name already exists then build a new file name
-
-            if (!VerifyFileIntegrity(outFile, info.Size, observer.Media.Id))
+            if (!VerifyFileIntegrity(outFile, info.Size, observer))
             {
+                observer.OnProcessing(0);
+
                 outFile = FileHelper.GetNewFileName(outFile);
 
                 fileObserver.Direction = FileDirection.Save;
@@ -710,7 +721,7 @@ namespace Khernet.UI.Files
                     {
                         using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(idMessage))
                         {
-                            int chunk = 524288;
+                            int chunk = 1048576;
                             byte[] buffer = new byte[chunk];
 
                             int readBytesOriginalFile = 0;
@@ -728,6 +739,65 @@ namespace Khernet.UI.Files
                                     {
                                         readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
                                         readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+                                    }
+                                    else
+                                        return false;
+                                }
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the file located in cache is the same file that is stored on database
+        /// </summary>
+        /// <param name="cacheFile">The path of cache file</param>
+        /// <param name="originalFileSize">The size of original file</param>
+        /// <param name="observer">The observer to be notified about progress</param>
+        public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, IFileObserver observer)
+        {
+            try
+            {
+                observer.OnProcessing(0);
+                if (File.Exists(cacheFile))
+                {
+                    FileInfo fileDetail = new FileInfo(cacheFile);
+                    if (originalFileSize == fileDetail.Length)
+                    {
+                        using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(observer.Media.Id))
+                        {
+                            int chunk = 1048576;
+                            byte[] buffer = new byte[chunk];
+
+                            int readBytesOriginalFile = 0;
+                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                            {
+                                readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
+
+                                byte[] cacheBuffer = new byte[buffer.Length];
+
+                                int readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+
+                                int actualReadBytes = readBytesCacheFile;
+
+                                while (readBytesOriginalFile > 0 && readBytesCacheFile > 0)
+                                {
+                                    if (FileHelper.AreEqualArray(buffer, cacheBuffer))
+                                    {
+                                        readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
+                                        readBytesCacheFile = fStream.Read(cacheBuffer, 0, cacheBuffer.Length);
+                                        actualReadBytes += readBytesCacheFile;
+
+                                        observer.OnProcessing(actualReadBytes);
                                     }
                                     else
                                         return false;
