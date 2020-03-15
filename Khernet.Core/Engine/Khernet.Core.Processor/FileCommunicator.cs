@@ -274,7 +274,7 @@ namespace Khernet.Core.Processor
                 if (content.Rows.Count > 0)
                     info = JSONSerializer<FileInformation>.DeSerialize(content.Rows[0][0] as byte[]);
 
-                if(info.Size!=GetFileSize(conversationMessage.Id))
+                if(info.Size>GetFileSize(conversationMessage.Id))
                 {
                     throw new Exception("Invalid file size");
                 }

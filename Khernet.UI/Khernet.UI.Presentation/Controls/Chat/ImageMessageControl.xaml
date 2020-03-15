@@ -17,19 +17,37 @@
 
     <!--Image message container-->
     <Border CornerRadius="5"
-            Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}"
+            Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}"
             HorizontalAlignment="Left">
 
+        <Border.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenImageCommand}"/>
+        </Border.InputBindings>
+
         <Grid>
-            <!--Background circle for progress indicators-->
+            <!--Background for progress or state indicators-->
             <Border Width="50"
                         Panel.ZIndex="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Height="{Binding Width,RelativeSource={RelativeSource Self}}"
                         CornerRadius="{Binding Width,RelativeSource={RelativeSource Self}}"
-                        Background="{StaticResource OpaqueWhiteBrush}"
-                        Visibility="{Binding IsFileLoaded,Converter={conv:InverseBoolToVisibilityGoneConverter}}">
+                        Background="{StaticResource OpaqueWhiteBrush}">
+                <Border.Visibility>
+                    <MultiBinding Converter="{conv:InverseFileStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                        <Binding Path="IsFileLoaded"/>
+                        <Binding Path="FileState"/>
+                    </MultiBinding>
+                </Border.Visibility>
+
+                <!-- State of file: Error or download pending -->
+                <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                       ConverterParameter=Image}"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"/>
             </Border>
 
             <!--Animation to show load progress-->
@@ -57,22 +75,7 @@
                            depend:ClipFromBorderProperty.Value="True"
                            Stretch="Uniform"
                            StretchDirection="DownOnly"
-                   ContextMenu="{StaticResource fileMessageContextMenu}">
-                <Image.InputBindings>
-                    <MouseBinding MouseAction="LeftClick" Command="{Binding OpenImageCommand}"/>
-                </Image.InputBindings>
-            </Image>
-
-            <!-- Download icon -->
-            <iconPacks:PackIconMaterial Kind="Download">
-                <iconPacks:PackIconMaterial.Visibility>
-                    <MultiBinding Converter="{conv:FileStateToVisibilityMultiConverter}">
-                        <Binding Path="IsLoading"/>
-                        <Binding Path="IsReadingFile"/>
-                        <Binding Path="IsFileLoaded"/>
-                    </MultiBinding>
-                </iconPacks:PackIconMaterial.Visibility>
-            </iconPacks:PackIconMaterial>
+                   ContextMenu="{StaticResource fileMessageContextMenu}"/>
         </Grid>
     </Border>
 </UserControl>

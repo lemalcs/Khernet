@@ -10,7 +10,7 @@ using System.Text;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for text messages.
+    /// View model for text messages (HTML inner format).
     /// </summary>
     public class HtmlChatMessageViewModel : ChatMessageItemViewModel, ITextObserver
     {

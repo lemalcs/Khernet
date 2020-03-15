@@ -315,23 +315,6 @@ namespace Khernet.UI.Controls
         {
             allowScroll = true;
         }
-
-        private void VirtualizingStackPanelEx_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (e.Source != null &&
-                e.Source.GetType() == typeof(ContentPresenter) &&
-                (((ContentPresenter)e.Source).Content.GetType() == typeof(TextChatMessageViewModel) ||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(HtmlChatMessageViewModel) ||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(MarkdownChatMessageViewModel) ||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(ReplyMessageViewModel)||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(AudioChatMessageViewModel)||
-                ((ContentPresenter)e.Source).Content.GetType() == typeof(FileChatMessageViewModel)
-                )
-                )
-                return;
-
-            IoCContainer.Get<ChatMessageListViewModel>().FocusTextBox();
-        }
     }
 
     public class VirtualizingStackPanelEx : VirtualizingStackPanel

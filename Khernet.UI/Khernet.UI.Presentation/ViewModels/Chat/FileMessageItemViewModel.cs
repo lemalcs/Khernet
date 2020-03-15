@@ -7,6 +7,27 @@ using System.Windows.Input;
 
 namespace Khernet.UI
 {
+    /// <summary>
+    /// The state of actual file for file messages
+    /// </summary>
+    public enum FileChatState
+    {
+        /// <summary>
+        /// The actual file is ready to use.
+        /// </summary>
+        Ready,
+
+        /// <summary>
+        /// The actual file is damaged or incomplete in local database.
+        /// </summary>
+        Damaged,
+
+        /// <summary>
+        /// The file needs to be downloaded to cache before use it.
+        /// </summary>
+        NotDownloaded
+    }
+
     public abstract class FileMessageItemViewModel : ChatMessageItemViewModel
     {
         #region Properties
@@ -50,6 +71,11 @@ namespace Khernet.UI
         /// The path of file on local system
         /// </summary>
         private string filePath;
+
+        /// <summary>
+        /// The state of actual file
+        /// </summary>
+        private FileChatState fileState;
 
         public string FileName
         {
@@ -142,6 +168,19 @@ namespace Khernet.UI
                 {
                     filePath = value;
                     OnPropertyChanged(nameof(FilePath));
+                }
+            }
+        }
+
+        public FileChatState FileState 
+        { 
+            get => fileState;
+            set 
+            { 
+                if(fileState != value)
+                {
+                    fileState = value;
+                    OnPropertyChanged(nameof(FileState));
                 }
             }
         }

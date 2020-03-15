@@ -173,6 +173,11 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Request to resend a message
         /// </summary>
-        Resend
+        Resend,
+
+        /// <summary>
+        /// The metadata of file message
+        /// </summary>
+        GetMetadata
     }
 }

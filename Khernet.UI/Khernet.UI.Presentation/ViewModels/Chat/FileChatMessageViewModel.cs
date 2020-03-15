@@ -36,11 +36,13 @@ namespace Khernet.UI
             State = ChatMessageState.Pendding;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+
+            FileState = FileChatState.NotDownloaded;
         }
 
         private bool VerifyLoadedFile(object obj)
         {
-            return IsMessageLoaded && (State==ChatMessageState.Pendding||State==ChatMessageState.Processed);
+            return IsMessageLoaded && (State == ChatMessageState.Pendding || State == ChatMessageState.Processed);
         }
 
         private void Resend(object obj)
@@ -126,6 +128,21 @@ namespace Khernet.UI
             {
                 Id = idMessage,
                 FileType = MessageType.Binary,
+                OperationRequest = MessageOperation.GetMetadata
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
+        }
+
+        private void DownloadFile(int idMessage)
+        {
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                Id = idMessage,
+                FileType = MessageType.Binary,
                 OperationRequest = MessageOperation.Download
             };
 
@@ -142,15 +159,24 @@ namespace Khernet.UI
             try
             {
                 FileOperations operations = new FileOperations();
-                if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
+                if (operations.VerifyFileIntegrity(FilePath, FileSize, Id))
                 {
+                    FileState = FileChatState.Ready;
+
                     //Open file with default external program
                     IoCContainer.UI.OpenFile(FilePath);
                 }
+                else if (IsFileLoaded && FileState == FileChatState.Ready)
+                {
+                    //Request to download to cache
+                    FileState = FileChatState.NotDownloaded;
+                    FilePath = string.Empty;
+                }
                 else
                 {
+                    //Download the actual file to cache
                     IsFileLoaded = false;
-                    ProcessFile(Id);
+                    DownloadFile(Id);
                 }
             }
             catch (Exception error)
@@ -187,21 +213,22 @@ namespace Khernet.UI
 
         public void OnGetMetadata(FileResponse info)
         {
-            if (info.Operation == Managers.MessageOperation.Download)
+            if (info.Operation == MessageOperation.GetMetadata)
             {
                 FileName = info.OriginalFileName;
 
                 //Set file path
-                FilePath = info.FilePath;
                 UID = info.UID;
+
+                //Get file size in bytes
+                FileSize = info.Size;
             }
 
-            //Get file size in bytes
-            FileSize = info.Size;
+            FilePath = info.FilePath;
 
             IsLoading = false;
-
             IsReadingFile = true;
+            FileState = FileChatState.Ready;
         }
 
         public void OnProcessing(long bytesProcessed)
@@ -212,18 +239,24 @@ namespace Khernet.UI
         public void OnCompleted(ChatMessageProcessResult result)
         {
             Id = result.Id;
-            IsMessageLoaded = true;
 
             SetChatState(result.State);
 
             IsReadingFile = false;
             IsFileLoaded = true;
+
+            if (State == ChatMessageState.Error)
+                FileState = FileChatState.Damaged;
+            
+            IsMessageLoaded = true;
         }
 
         public void OnError(Exception exception)
         {
             IsReadingFile = false;
             IsLoading = false;
+
+            FileState = FileChatState.Damaged;
         }
 
         #endregion

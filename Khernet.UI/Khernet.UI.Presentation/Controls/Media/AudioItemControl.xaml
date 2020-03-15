@@ -29,7 +29,31 @@
                 BorderThickness="1"
                 ClipToBounds="True">
         </Border>
-        
+
+        <!-- State of file: Error or download pending -->
+        <Button Grid.Column="0" 
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Height="55"
+                Style="{DynamicResource EllipticalButton}"
+                Command="{Binding OpenMediaCommand}"
+                Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}">
+
+            <Button.Cursor>
+                <MultiBinding Converter="{conv:ChatStateToCursorMultiConverter}" FallbackValue="Arrow">
+                    <Binding Path="IsFileLoaded"/>
+                    <Binding Path="State"/>
+                </MultiBinding>
+            </Button.Cursor>
+
+            <iconPacks:PackIconMaterial Kind="{Binding FileState,Converter={conv:FileChatStateToVisibilityConverter},
+                                                             ConverterParameter=Audio}"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+
+        </Button>
+
         <!--Play/Pause button-->
         <Button Grid.Column="0" 
                 x:Name="playButton"
@@ -40,28 +64,26 @@
                 Click="Button_Click"
                 Cursor="Hand"
                 Height="55"
-                
                 Style="{DynamicResource EllipticalButton}">
 
+
             <Button.Visibility>
-                <MultiBinding Converter="{conv:ChatStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                <MultiBinding Converter="{conv:AudioStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
                     <Binding Path="IsFileLoaded"/>
-                    <Binding Path="State"/>
+                    <Binding Path="FileState"/>
                 </MultiBinding>
             </Button.Visibility>
-            
-            <iconPacks:PackIconMaterial Kind="{Binding CurrentPlayer.State, ConverterParameter=audioMessage, 
-                                                Converter={conv:MediaStatesToStringConverter}, 
-                                                FallbackValue=Play, 
-                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}}, 
-                                                TargetNullValue=Play}"
-                                        Width="15"/>
+
+            <Grid>
+
+                <iconPacks:PackIconMaterial Kind="{Binding CurrentPlayer.State, ConverterParameter=audioMessage, 
+                                                           Converter={conv:MediaStatesToStringConverter}, 
+                                                           FallbackValue=Play, 
+                                                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}}, 
+                                                           TargetNullValue=Play}"
+                                            Width="15"/>
+            </Grid>
         </Button>
-
-        <!-- Error Icon -->
-        <iconPacks:PackIconMaterial Kind="AlertCircle"
-                                    Visibility="{Binding State,Converter={conv:ChatStateToVisibilityConverter}}"/>
-
 
         <!--Animation to show load progress-->
         <Controls:ProgressRing Height="40" 

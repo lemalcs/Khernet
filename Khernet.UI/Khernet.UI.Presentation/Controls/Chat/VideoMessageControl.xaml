@@ -23,7 +23,7 @@
           HorizontalAlignment="Left">
 
         <!--Video message container-->
-        <Grid Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}" 
+        <Grid Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}" 
               HorizontalAlignment="Left"
               Width="{Binding VideoWidth}"
               Height="{Binding VideoHeight}">
@@ -33,7 +33,8 @@
             </Grid.InputBindings>
 
             <!--Thumbnail video-->
-            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage},FallbackValue={StaticResource DefaultImage}}"
+            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage},
+                                    FallbackValue={StaticResource DefaultImage}}"
                    Name="img"
                    MaxHeight="420"
                    MaxWidth="420"
@@ -80,12 +81,14 @@
                         Width="{Binding Path=ActualWidth,ElementName=img}"
                         Height="{Binding Path=ActualHeight,ElementName=img}"/>
 
-                <!--Play icon-->
-                <iconPacks:PackIconMaterial Kind="Play" 
+                <!-- Icon of state: Ready, error or download pending -->
+                <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                       ConverterParameter=Play}"
                                             Foreground="White"
-                                            VerticalAlignment="Center"
                                             HorizontalAlignment="Center"
-                                            Visibility="{Binding IsReadingFile,Converter={conv:InverseBoolToVisibilityGoneConverter}}"/>
+                                            VerticalAlignment="Center"
+                                            Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
                 <!--Duration-->
                 <TextBlock VerticalAlignment="Bottom"

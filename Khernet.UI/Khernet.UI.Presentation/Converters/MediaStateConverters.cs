@@ -27,7 +27,7 @@ namespace Khernet.UI.Converters
     /// <summary>
     /// Converts and boolean value to <see cref="Cursor"/>.
     /// </summary>
-    public class MediaStatesToCursorConverter : BaseValueConverter<MediaStatesToCursorConverter>
+    public class BoolToCursorConverter : BaseValueConverter<BoolToCursorConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

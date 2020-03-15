@@ -189,7 +189,7 @@ namespace Khernet.UI
             {
                 Id = idMessage,
                 FileType = MessageType.Video,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.GetMetadata
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -208,11 +208,33 @@ namespace Khernet.UI
                 //Show image in dialog
                 await IoCContainer.UI.ShowDialog(this);
             }
+            else if (IsFileLoaded && FileState == FileChatState.Ready)
+            {
+                //Request to download to cache
+                FileState = FileChatState.NotDownloaded;
+                FilePath = string.Empty;
+            }
             else
             {
+                //Download the actual file to cache
                 IsFileLoaded = false;
-                ProcessVideo(Id);
+                DownloadFile(Id);
             }
+        }
+
+        private void DownloadFile(int idMessage)
+        {
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                Id = idMessage,
+                FileType = MessageType.Video,
+                OperationRequest = MessageOperation.Download
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
         }
 
         public override ChatMessageItemViewModel Clone()
@@ -260,7 +282,6 @@ namespace Khernet.UI
         /// <param name="info">The metadata of video</param>
         public void OnGetMetadata(FileResponse info)
         {
-            duration = info.Duration;
 
             //Check if file has video tracks to get thumbnail
             if (info.Thumbnail != null)
@@ -287,8 +308,10 @@ namespace Khernet.UI
                 VideoHeight = info.Height * 200 / info.Width;
             }
 
-            if (info.Operation == MessageOperation.Download)
+            if (info.Operation == MessageOperation.GetMetadata)
             {
+                duration = info.Duration;
+
                 if (info.ThumbnailBytes != null)
                 {
                     SetImageThumbnail(info.ThumbnailBytes);
@@ -309,13 +332,13 @@ namespace Khernet.UI
                 FileName = Path.GetFileName(info.OriginalFileName);
 
                 UID = info.UID;
+
+                //get video size in bytes
+                FileSize = info.Size;
             }
 
             //Set video file path
             FilePath = info.FilePath;
-
-            //get video size in bytes
-            FileSize = info.Size;
 
             //Notify that reading metadata has ended
             IsLoading = false;
@@ -324,6 +347,8 @@ namespace Khernet.UI
 
             //Notify that reading operation has started
             IsReadingFile = true;
+
+            FileState = FileChatState.Ready;
         }
 
         public void OnProcessing(long bytesProcessed)
@@ -334,11 +359,15 @@ namespace Khernet.UI
         public void OnCompleted(ChatMessageProcessResult result)
         {
             Id = result.Id;
-            IsMessageLoaded = true;
             SetChatState(result.State);
 
             IsReadingFile = false;
             IsFileLoaded = true;
+
+            if (State == ChatMessageState.Error)
+                FileState = FileChatState.Damaged;
+
+            IsMessageLoaded = true;
         }
 
         /// <summary>

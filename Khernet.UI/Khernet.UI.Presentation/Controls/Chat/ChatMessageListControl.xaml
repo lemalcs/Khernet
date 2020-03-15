@@ -38,7 +38,7 @@
                   >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <local:VirtualizingStackPanelEx GotKeyboardFocus="VirtualizingStackPanelEx_GotKeyboardFocus"/>
+                    <local:VirtualizingStackPanelEx />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </TreeView>

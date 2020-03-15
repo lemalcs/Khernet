@@ -1,5 +1,6 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
+using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
@@ -319,10 +320,41 @@ namespace Khernet.UI
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public void OpenAnimation(object par)
+        public async void OpenAnimation(object par)
         {
-            //Show model dialog for image
-            IoCContainer.UI.ShowDialog(this);
+            FileOperations operations = new FileOperations();
+            if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
+            {
+                //Show image in dialog
+                await IoCContainer.UI.ShowDialog(this);
+            }
+            else if (IsFileLoaded && FileState == FileChatState.Ready)
+            {
+                //Request to download to cache
+                FileState = FileChatState.NotDownloaded;
+                FilePath = string.Empty;
+            }
+            else
+            {
+                //Download the actual file to cache
+                IsFileLoaded = false;
+                DownloadFile(Id);
+            }
+        }
+
+        private void DownloadFile(int idMessage)
+        {
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                Id = idMessage,
+                FileType = MessageType.GIF,
+                OperationRequest = MessageOperation.Download
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
         }
 
         public override ChatMessageItemViewModel Clone()
@@ -347,7 +379,7 @@ namespace Khernet.UI
         {
             IsLoading = false;
 
-            if (info.Operation == Managers.MessageOperation.Download)
+            if (info.Operation == MessageOperation.Download)
             {
                 //Get thumbanil of GIF
                 if (info.ThumbnailBytes != null)
@@ -365,7 +397,11 @@ namespace Khernet.UI
             FileName = info.OriginalFileName;
             FileSize = info.Size;
 
+            OnPropertyChanged(nameof(FilePath));
+
             IsReadingFile = true;
+
+            FileState = FileChatState.Ready;
         }
 
         public void OnProcessing(long bytesProcessed)
@@ -376,7 +412,6 @@ namespace Khernet.UI
         public void OnCompleted(ChatMessageProcessResult result)
         {
             Id = result.Id;
-            IsMessageLoaded = true;
 
             SetChatState(result.State);
 
@@ -384,6 +419,11 @@ namespace Khernet.UI
             IsFileLoaded = true;
 
             OnPropertyChanged(nameof(FilePath));
+            
+            if (State == ChatMessageState.Error)
+                FileState = FileChatState.Damaged;
+
+            IsMessageLoaded = true;
         }
 
         public void OnError(Exception exception)

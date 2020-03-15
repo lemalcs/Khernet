@@ -25,9 +25,9 @@
         <Grid.RowDefinitions>
 
             <!-- Description of page -->
-            <!-- Size in bytes -->
             <RowDefinition Height="Auto"/>
 
+            <!-- Size in bytes -->
             <RowDefinition Height="*"/>
 
             <!-- Unit size -->
@@ -43,14 +43,24 @@
                    Style="{StaticResource TextblockHeader}"
                    Grid.Row="0"/>
 
-        <!-- Refresh size button -->
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+
+            <Button Style="{StaticResource IconButton}"
+                    Command="{Binding OpenCacheFolderCommand}"
+                    Margin="0 0 10 0"
+                    ToolTip="Open cache folder">
+                <iconPacks:PackIconMaterial Kind="FolderOpen" Width="15" Height="15"/>
+            </Button>
+
+            <!-- Refresh size button -->
         <Button Style="{StaticResource IconButton}"
-                Grid.Row="0"
-                Grid.Column="1"
                 ToolTip="Update space used value"
                 Command="{Binding GetCacheSizeCommand}">
             <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
         </Button>
+        </StackPanel>
 
         <!-- Size in bytes -->
         <TextBlock Text="{Binding Size,Converter={conv:SizeUnitConverter}}"

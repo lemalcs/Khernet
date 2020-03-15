@@ -4,14 +4,13 @@ using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for image messages.
+    /// View model for audio messages.
     /// </summary>
     public class AudioChatMessageViewModel : FileMessageItemViewModel, IFileObserver
     {
@@ -132,7 +131,7 @@ namespace Khernet.UI
             Media = new MediaRequest
             {
                 FileName = fileName,
-                OperationRequest = Managers.MessageOperation.Upload,
+                OperationRequest = MessageOperation.Upload,
                 FileType = MessageType.Audio,
                 SenderToken = IoCContainer.Get<IIdentity>().Token,
                 ReceiptToken = User.Token,
@@ -153,7 +152,7 @@ namespace Khernet.UI
             {
                 Id = idMessage,
                 FileType = MessageType.Audio,
-                OperationRequest = Managers.MessageOperation.Download
+                OperationRequest = MessageOperation.GetMetadata
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -172,10 +171,17 @@ namespace Khernet.UI
                 //Show audio player
                 IoCContainer.UI.ShowPlayer(this);
             }
+            else if (IsFileLoaded && FileState == FileChatState.Ready)
+            {
+                //Request to download to cache
+                FileState = FileChatState.NotDownloaded;
+                FilePath = string.Empty;
+            }
             else
             {
+                //Download the actual file to cache
                 IsFileLoaded = false;
-                ProcessAudio(Id);
+                DownloadFile(Id);
             }
         }
 
@@ -216,27 +222,46 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
+        private void DownloadFile(int idMessage)
+        {
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                Id = idMessage,
+                FileType = MessageType.Audio,
+                OperationRequest = MessageOperation.Download
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
+        }
+
         #region IFileObserver members
 
         public void OnGetMetadata(FileResponse info)
         {
-            if (info.Operation == Managers.MessageOperation.Download)
+            if (info.Operation == MessageOperation.GetMetadata)
             {
                 FileName = info.OriginalFileName;
                 FilePath = info.FilePath;
                 UID = info.UID;
+
+                //Get duration of audio file
+                Duration = info.Duration;
+
+                FileSize = info.Size;
+
+                //Get file name with extension
+                FileName = Path.GetFileName(info.OriginalFileName);
             }
 
-            //Get duration of audio file
-            Duration = info.Duration;
-
-            FileSize = info.Size;
-
-            //Get file name with extension
-            FileName = Path.GetFileName(info.OriginalFileName);
+            FilePath = info.FilePath;
 
             IsLoading = false;
             IsReadingFile = true;
+
+            FileState = FileChatState.Ready;
         }
 
         public void OnProcessing(long bytesProcessed)
@@ -247,18 +272,21 @@ namespace Khernet.UI
         public void OnCompleted(ChatMessageProcessResult result)
         {
             Id = result.Id;
-            IsMessageLoaded = true;
             SetChatState(result.State);
 
             IsReadingFile = false;
             IsFileLoaded = true;
+
+            if (State == ChatMessageState.Error)
+                FileState = FileChatState.Damaged;
+
+            IsMessageLoaded = true;
         }
 
         public void OnError(Exception exception)
         {
             IsReadingFile = false;
             IsLoading = false;
-            SetChatState(ChatMessageState.Error);
         }
 
         #endregion

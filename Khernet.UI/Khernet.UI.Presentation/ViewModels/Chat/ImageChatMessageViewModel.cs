@@ -13,7 +13,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for image messages (HTML inner format).
+    /// View model for image messages.
     /// </summary>
     public class ImageChatMessageViewModel : FileMessageItemViewModel, IFileObserver
     {
@@ -195,7 +195,7 @@ namespace Khernet.UI
             {
                 Id = idMessage,
                 FileType = MessageType.Image,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.GetMetadata
             };
 
             Id = idMessage;
@@ -216,29 +216,51 @@ namespace Khernet.UI
                 //Show image in dialog
                 await IoCContainer.UI.ShowDialog(this);
             }
+            else if (IsFileLoaded && FileState == FileChatState.Ready)
+            {
+                //Request to download to cache
+                FileState = FileChatState.NotDownloaded;
+                FilePath = string.Empty;
+            }
             else
             {
+                //Download the actual file to cache
                 IsFileLoaded = false;
-                ProcessImage(Id);
+                DownloadFile(Id);
             }
+        }
+
+        private void DownloadFile(int idMessage)
+        {
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                Id = idMessage,
+                FileType = MessageType.Image,
+                OperationRequest = MessageOperation.Download
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
         }
 
         #region IFileObserver members
 
         public void OnGetMetadata(FileResponse info)
         {
-            if (info.Operation == MessageOperation.Download)
+            if (info.Operation == MessageOperation.GetMetadata)
             {
                 if (info.ThumbnailBytes != null)
                 {
                     SetImageThumbnail(info.ThumbnailBytes);
                 }
                 UID = info.UID;
+                FileName = info.OriginalFileName;
+                FileSize = info.Size;
             }
 
             FilePath = info.FilePath;
-            FileName = info.OriginalFileName;
-            FileSize = info.Size;
 
             IsLoading = false;
 
@@ -246,6 +268,8 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(FilePath));
 
             IsReadingFile = true;
+
+            FileState = FileChatState.Ready;
         }
 
         public void OnProcessing(long bytesProcessed)
@@ -256,12 +280,16 @@ namespace Khernet.UI
         public void OnCompleted(ChatMessageProcessResult result)
         {
             Id = result.Id;
-            IsMessageLoaded = true;
 
             SetChatState(result.State);
 
             IsReadingFile = false;
             IsFileLoaded = true;
+
+            if (State == ChatMessageState.Error)
+                FileState = FileChatState.Damaged;
+
+            IsMessageLoaded = true;
         }
 
         public void OnError(Exception exception)

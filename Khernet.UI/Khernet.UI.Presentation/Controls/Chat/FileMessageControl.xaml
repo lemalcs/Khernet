@@ -62,24 +62,15 @@
                                              StrokeBrush="{StaticResource BlueBrush}"
                                              Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-            <!--Open icon-->
-            <iconPacks:PackIconMaterial Kind="File"
+            <!-- State of file: Error or download pending -->
+            <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                       ConverterParameter=File}"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
-                
-                <iconPacks:PackIconMaterial.Visibility>
-                    <MultiBinding Converter="{conv:ChatStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
-                        <Binding Path="IsFileLoaded"/>
-                        <Binding Path="State"/>
-                    </MultiBinding>
-                </iconPacks:PackIconMaterial.Visibility>
-            </iconPacks:PackIconMaterial>
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-            <!-- Error Icon -->
-            <iconPacks:PackIconMaterial Kind="AlertCircle"
-                                        Visibility="{Binding State,Converter={conv:ChatStateToVisibilityConverter}}"/>
-            
             <!-- File details -->
             <Grid Grid.Column="1"
                   Margin="3 0 10 0"
@@ -118,7 +109,6 @@
 
                 </StackPanel>
             </Grid>
-
         </Grid>
     </Border>
 </UserControl>

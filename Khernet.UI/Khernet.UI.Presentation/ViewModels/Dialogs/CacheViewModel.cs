@@ -77,7 +77,6 @@ namespace Khernet.UI
 
         #endregion
 
-
         #region Commands
 
         /// <summary>
@@ -90,14 +89,22 @@ namespace Khernet.UI
         /// </summary>
         public ICommand GetCacheSizeCommand { get; private set; }
 
+        public ICommand OpenCacheFolderCommand { get; private set; }
+
         #endregion
 
         public CacheViewModel()
         {
             ClearCacheCommand = new UI.RelayCommand(ClearCache);
             GetCacheSizeCommand = new UI.RelayCommand(GetCacheSize);
+            OpenCacheFolderCommand = new RelayCommand(OpenCache);
 
             GetCacheSize(null);
+        }
+
+        private void OpenCache(object obj)
+        {
+            Process.Start(Configurations.CacheDirectory.FullName);
         }
 
         public CacheViewModel(IPagedDialog pagedDialog) : this()

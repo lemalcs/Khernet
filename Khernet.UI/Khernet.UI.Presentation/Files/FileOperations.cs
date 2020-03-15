@@ -64,22 +64,26 @@ namespace Khernet.UI.Files
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
                     idMessage = result.Id;
                 }
-                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
                 {
                     idMessage = observer.Media.Id;
 
                     FileResponse response = GetFileMetadata(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     state = response.State;
 
                     observer.OnGetMetadata(response);
+                }
+                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                {
+                    idMessage = observer.Media.Id;
 
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    FileResponse response = new FileResponse
                     {
-                        response.FilePath = GetCacheFile(observer);
-                        observer.OnGetMetadata(response);
-                    }
+                        FilePath = GetCacheFile(observer)
+                    };
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -290,22 +294,27 @@ namespace Khernet.UI.Files
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
                     idMessage = result.Id;
                 }
-                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
                 {
                     idMessage = observer.Media.Id;
 
                     FileResponse response = GetFileMetadata(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     state = response.State;
 
                     observer.OnGetMetadata(response);
+                }
+                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                {
+                    idMessage = observer.Media.Id;
 
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    FileResponse response = new FileResponse
                     {
-                        response.FilePath = GetCacheFile(observer);
-                        observer.OnGetMetadata(response);
-                    }
+                        FilePath = GetCacheFile(observer)
+                    };
+
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -367,26 +376,35 @@ namespace Khernet.UI.Files
                     metadata.FilePath = observer.Media.FileName;
                     metadata.Size = FileHelper.GetFileSize(observer.Media.FileName);
 
+                    metadata.Operation = MessageOperation.GetMetadata;
+                    //observer.OnGetMetadata(metadata);
+
                     MessageProcessResult result = UploadFile(observer, metadata);
+
+
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
                     idMessage = result.Id;
+                }
+                else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
+                {
+                    idMessage = observer.Media.Id;
+
+                    FileResponse response = GetFileMetadata(observer);
+                    response.Operation = MessageOperation.GetMetadata;
+
+                    state = response.State;
+
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Download)
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = GetFileMetadata(observer);
-                    response.Operation = MessageOperation.Download;
-
-                    state = response.State;
-
-                    observer.OnGetMetadata(response);
-
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    FileResponse response = new FileResponse
                     {
-                        response.FilePath = GetCacheFile(observer);
-                        observer.OnGetMetadata(response);
-                    }
+                        FilePath = GetCacheFile(observer)
+                    };
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -422,8 +440,6 @@ namespace Khernet.UI.Files
             }
         }
 
-
-
         /// <summary>
         /// Sends and receives any type of files
         /// </summary>
@@ -450,22 +466,26 @@ namespace Khernet.UI.Files
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
                     idMessage = result.Id;
                 }
-                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
                 {
                     idMessage = observer.Media.Id;
 
                     FileResponse response = GetFileMetadata(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     state = response.State;
 
                     observer.OnGetMetadata(response);
+                }
+                else if (observer.Media.OperationRequest == MessageOperation.Download)
+                {
+                    idMessage = observer.Media.Id;
 
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    FileResponse response =new FileResponse 
                     {
-                        response.FilePath = GetCacheFile(observer);
-                        observer.OnGetMetadata(response);
-                    }
+                       FilePath = GetCacheFile(observer)
+                    };
+                    observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
@@ -510,6 +530,8 @@ namespace Khernet.UI.Files
         /// <returns>The id of file</returns>
         private MessageProcessResult UploadFile(IFileObserver observer, FileResponse response)
         {
+            response.UID = observer.Media.UID;
+
             //Notify the sender about metadata of file
             observer.OnGetMetadata(response);
 
@@ -573,6 +595,7 @@ namespace Khernet.UI.Files
             response.State = (ChatMessageState)((int)message.State);
             response.ThumbnailBytes = IoCContainer.Get<Messenger>().GetThumbnail(observer.Media.Id);
             response.UID = message.UID;
+            response.FilePath= IoCContainer.Get<Messenger>().GetCacheFilePath(observer.Media.Id);
 
             return response;
         }
@@ -584,12 +607,17 @@ namespace Khernet.UI.Files
         /// <returns>The path of physical file</returns>
         private string GetCacheFile(IFileObserver observer)
         {
+            ConversationMessage message = (ConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Media.Id);
+
+            //Check if file is stored correctly in local database otherwise do not download file
+            if (message.State == MessageState.Error || message.State == MessageState.UnCommited)
+                return null;
+
             //Get file information
             byte[] fileInfo = IoCContainer.Get<Messenger>().GetMessageContent(observer.Media.Id);
 
             FileInformation info = JSONSerializer<FileInformation>.DeSerialize(fileInfo);
 
-            ConversationMessage message = (ConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Media.Id);
 
             FileMessage fileMessage = new FileMessage
             {
@@ -648,6 +676,11 @@ namespace Khernet.UI.Files
             return outFile;
         }
 
+        /// <summary>
+        /// Saves file of database in cache folder
+        /// </summary>
+        /// <param name="observer"></param>
+        /// <returns></returns>
         private FileResponse GetLocalFile(IFileObserver observer)
         {
             //Build name of file for local file system
@@ -709,7 +742,7 @@ namespace Khernet.UI.Files
         /// <param name="cacheFile">The path of cache file</param>
         /// <param name="originalFileSize">The size of original file</param>
         /// <param name="idMessage">The id of message thats owns the file</param>
-        /// <returns></returns>
+        /// <returns>True if both file in database and file in cache are equal, otherwise false</returns>
         public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, int idMessage)
         {
             try
@@ -763,6 +796,7 @@ namespace Khernet.UI.Files
         /// <param name="cacheFile">The path of cache file</param>
         /// <param name="originalFileSize">The size of original file</param>
         /// <param name="observer">The observer to be notified about progress</param>
+        /// <returns>True if both file in database and file in cache are equal, otherwise false</returns>
         public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, IFileObserver observer)
         {
             try

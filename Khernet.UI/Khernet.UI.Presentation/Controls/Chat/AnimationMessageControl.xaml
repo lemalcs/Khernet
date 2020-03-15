@@ -10,24 +10,19 @@
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vm:AnimationChatMessageDesignModel,IsDesignTimeCreatable=True}"
              Template="{StaticResource messageContainer}"
              ContextMenu="{StaticResource animationMessageContextMenu}">
 
-            <!--Chat bubble container-->
+    <!--Chat bubble container-->
     <Grid HorizontalAlignment="Left">
 
-        <!--Animation preview image-->
-        <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
-               MaxHeight="{Binding Height}"
-               MaxWidth="{Binding Width}"
-               Stretch="Uniform"
-               StretchDirection="DownOnly"/>
 
         <!--Animation message container-->
         <Border CornerRadius="5"
-                Cursor="{Binding IsFileLoaded,Converter={conv:MediaStatesToCursorConverter}}">
+                Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}">
 
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
@@ -35,25 +30,48 @@
 
             <Grid>
 
-            <!--Background circle for progress indicators-->
-            <Border Width="50"
+                <!--Animation preview image-->
+                <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
+                       MaxHeight="{Binding Height}"
+                       MaxWidth="{Binding Width}"
+                       Stretch="Uniform"
+                       StretchDirection="DownOnly"/>
+
+                <!--Background circle for progress indicators-->
+                <Border Width="50"
                         Panel.ZIndex="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Height="{Binding Width,RelativeSource={RelativeSource Self}}"
                         CornerRadius="{Binding Width,RelativeSource={RelativeSource Self}}"
-                        Background="{StaticResource OpaqueWhiteBrush}"
-                        Visibility="{Binding IsFileLoaded,Converter={conv:InverseBoolToVisibilityGoneConverter}}"/>
+                        Background="{StaticResource OpaqueWhiteBrush}">
 
-            <!--Animation to show load progress-->
-            <Controls:ProgressRing Width="40" 
+                    <Border.Visibility>
+                        <MultiBinding Converter="{conv:InverseFileStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                            <Binding Path="IsFileLoaded"/>
+                            <Binding Path="FileState"/>
+                        </MultiBinding>
+                    </Border.Visibility>
+
+                    <!-- State of file: Error or download pending -->
+                    <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                       ConverterParameter=Animation}"
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Foreground="White"/>
+                </Border>
+
+                <!--Animation to show load progress-->
+                <Controls:ProgressRing Width="40" 
                                        Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
                                        HorizontalAlignment="Center"
                                        Foreground="White"
                                        Panel.ZIndex="2"/>
 
-            <!--Progress circle indicator-->
-            <ucontrols:ProgressCircleControl Radius="20"
+                <!--Progress circle indicator-->
+                <ucontrols:ProgressCircleControl Radius="20"
                                                  Minimum="0"
                                                  Maximum="{Binding FileSize}"
                                                  Thickness="5"
@@ -63,9 +81,8 @@
                                                  StrokeBrush="White"
                                                  Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-                
                 <!--Animation-->
-            <MediaElement Name="mediaElement"
+                <MediaElement Name="mediaElement"
                                   Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter},FallbackValue=Hidden}"
                                   Source="{Binding FilePath}"
                                   MaxHeight="{Binding Height}"
@@ -75,8 +92,6 @@
                                   depend:EnableVideoLoopProperty.Value="True"
                                   MediaOpened="MediaElement_MediaOpened"/>
             </Grid>
-            
-            </Border>
-        </Grid>
-
+        </Border>
+    </Grid>
 </UserControl>

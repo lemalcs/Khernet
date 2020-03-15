@@ -97,4 +97,66 @@ namespace Khernet.UI.Converters
             return null;
         }
     }
+
+    public class FileChatStateToVisibilityConverter : BaseValueConverter<FileChatStateToVisibilityConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var chatState = (FileChatState)value;
+            switch(chatState)// == FileChatState.Error || chatState == ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
+            {
+                case FileChatState.NotDownloaded: return "Download";
+                case FileChatState.Damaged: return "AlertCircle";
+                default:return parameter;
+            }
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Shows play button if underlying file is ready to use, otherwise hides it
+    /// </summary>
+    public class AudioStateToVisibilityMultiConverter : BaseMultiValueConverter<AudioStateToVisibilityMultiConverter>
+    {
+        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
+                return null;
+
+            bool isFileLoaded = (bool)values[0];
+            FileChatState state = (FileChatState)values[1];
+
+            return isFileLoaded && state == FileChatState.Ready ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class InverseFileStateToVisibilityMultiConverter : BaseMultiValueConverter<InverseFileStateToVisibilityMultiConverter>
+    {
+        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
+                return null;
+
+            bool isFileLoaded = (bool)values[0];
+            FileChatState state = (FileChatState)values[1];
+
+            return isFileLoaded && state == FileChatState.Ready ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
 }

@@ -10,6 +10,8 @@
             IsLoading = false;
             CurrentReadBytes = 120;
             FileSize = 125;
+
+            SetChatState(ChatMessageState.Processed);
         }
     }
 }
