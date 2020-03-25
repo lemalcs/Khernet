@@ -57,6 +57,15 @@ namespace Khernet.UI
         }
 
         /// <summary>
+        /// The number of unread messages from all user in the list
+        /// </summary>
+        public int TotalUnreadMessages 
+        { 
+            get ; 
+            private set; 
+        }
+
+        /// <summary>
         /// Find and user based on token
         /// </summary>
         /// <param name="token">The token of user</param>
@@ -143,6 +152,35 @@ namespace Khernet.UI
 
                 Items.Add(userInfo);
             });
+        }
+
+        public void AddUnreadMessages(int unreadMessageNumber)
+        {
+            if (unreadMessageNumber <= 0)
+                return;
+
+            TotalUnreadMessages += unreadMessageNumber;
+        }
+
+        public void SubtractUnreadMessages(int unreadMessageNumber)
+        {
+            if (unreadMessageNumber <= 0)
+                return;
+
+            TotalUnreadMessages -= unreadMessageNumber;
+            ClearNewMessageNotificationIcon();
+        }
+
+        public void ClearUnreadMessages()
+        {
+            TotalUnreadMessages = 0;
+            ClearNewMessageNotificationIcon();
+        }
+
+        private void ClearNewMessageNotificationIcon()
+        {
+            if (TotalUnreadMessages == 0)
+                IoCContainer.UI.ClearNotificationNewMessageIcon();
         }
     }
 }

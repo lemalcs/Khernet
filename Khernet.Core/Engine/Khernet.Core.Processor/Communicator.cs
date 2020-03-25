@@ -309,6 +309,18 @@ namespace Khernet.Core.Processor
             return null;
         }
 
+        public string GetPeerAdress(string token, string serviceType)
+        {
+            CommunicatorData commData = new CommunicatorData();
+            DataTable dataList = commData.GetPeerAdress(token,serviceType);
+            if (dataList.Rows.Count > 0)
+            {
+                return dataList.Rows[0][0].ToString();
+            }
+
+            return null;
+        }
+
         public Peer GetSelfProfile()
         {
             CommunicatorData commData = new CommunicatorData();

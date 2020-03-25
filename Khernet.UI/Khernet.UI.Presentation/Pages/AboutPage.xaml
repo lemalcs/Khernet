@@ -15,8 +15,14 @@
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
+            
+            <!-- Application logo -->
             <RowDefinition Height="*"/>
+            
+            <!-- Name of application -->
             <RowDefinition Height="Auto"/>
+            
+            <!-- Version information -->
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -35,10 +41,9 @@
                 <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
                            FontSize="{StaticResource RegularFontSize}">
 
-                    <Run Text="Version 0.4.2"/>
+                    <Run Text="Version 0.7.0"/>
                     <LineBreak/>
-                    <Hyperlink Command="{Binding OpenIssueCommand}" 
-                   >
+                    <Hyperlink Command="{Binding OpenIssueCommand}" >
                         <Run Text="Report an issue"/>
                     </Hyperlink>
                 

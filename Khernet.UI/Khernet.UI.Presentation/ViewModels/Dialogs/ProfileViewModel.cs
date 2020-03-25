@@ -79,7 +79,6 @@ namespace Khernet.UI
 
         #endregion
 
-
         #region Commands
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace Khernet.UI
                 SaveAvatar(tempPath);
             }
 
-            ImageChatMessageViewModel imageModel = new ImageChatMessageViewModel(new ChatMessageListViewModel())
+            ImageChatMessageViewModel imageModel = new ImageChatMessageViewModel(new ChatMessageListViewModel(), new ModalApplicationDialog())
             {
                 FilePath = tempPath,
             };
@@ -342,7 +341,6 @@ namespace Khernet.UI
 
             try
             {
-                //user.Avatar = avatar;
                 user.SetAvatarThumbnail(avatar);
             }
             catch (Exception error)
@@ -430,6 +428,7 @@ namespace Khernet.UI
             //Set the view model for settings list
             pagedDialog.CurrentViewModel = this;
 
+            
             pagedDialog.SetHomePage(pagedDialog.CurrentPage, pagedDialog.Category, this);
 
             await IoCContainer.Get<IUIManager>().ShowDialog(pagedDialog);

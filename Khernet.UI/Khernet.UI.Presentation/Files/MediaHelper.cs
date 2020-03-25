@@ -244,7 +244,7 @@ namespace Khernet.UI.Media
                             if (mediaInfo.Tracks[i].Type != Vlc.DotNet.Core.Interops.Signatures.MediaTrackTypes.Video)
                                 continue;
 
-                            VideoTrack track = (VideoTrack)mediaInfo.Tracks[0].TrackInfo;
+                            VideoTrack track = (VideoTrack)mediaInfo.Tracks[i].TrackInfo;
 
                             videoSize.Width = track.Width;
                             videoSize.Height = track.Height;

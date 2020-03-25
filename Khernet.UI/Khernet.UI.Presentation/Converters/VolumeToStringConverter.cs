@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Input;
-using Vlc.DotNet.Core.Interops.Signatures;
 
 namespace Khernet.UI.Converters
 {

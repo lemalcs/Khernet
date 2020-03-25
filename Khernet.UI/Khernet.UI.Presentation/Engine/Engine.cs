@@ -215,6 +215,10 @@ namespace Khernet.UI
                 Debug.WriteLine(ex.Message);
                 Debugger.Break();
             }
+            finally
+            {
+                IoCContainer.UI.ClearNotificationNewMessageIcon();
+            }
         }
 
         private static void Listener_EndSendingFile(object sender, SendingFileEventArgs e)
@@ -301,22 +305,32 @@ namespace Khernet.UI
 
         private static void Listener_PeerChanged(object sender, ContactChangedEventArgs e)
         {
-            LogDumper.WriteInformation("NEW contact " + e.EventInformation.Token);
             if (State != EngineState.Executing)
             {
-                LogDumper.WriteInformation("ENGINE stopped " + e.EventInformation.Token);
                 return;
             }
 
             try
             {
-                IoCContainer.Get<UserManager>().ProcessState(
-                    new UserState
-                    {
-                        Token = e.EventInformation.Token,
-                        Username = e.EventInformation.Type == NotificationType.StateChange ? "" : e.EventInformation.Content,
-                        Change = e.EventInformation.Type == NotificationType.AvatarChange ? UserChangeType.AvatarChange : UserChangeType.ProfileChange,
-                    });
+                var userState = new UserState
+                {
+                    Token = e.EventInformation.Token,
+                    Username = e.EventInformation.Type == NotificationType.StateChange ? null : e.EventInformation.Content,
+                    Change = e.EventInformation.Type == NotificationType.AvatarChange ? UserChangeType.AvatarChange : UserChangeType.ProfileChange,
+                };
+
+                if (e.EventInformation.Type == NotificationType.AvatarChange)
+                    userState.Change = UserChangeType.AvatarChange;
+                else if (e.EventInformation.Type == NotificationType.ProfileChange)
+                {
+                    userState.Change = UserChangeType.ProfileChange;
+                }
+                else if(e.EventInformation.Type==NotificationType.StateChange)
+                {
+                    userState.Change = UserChangeType.StateChange;
+                }
+
+                IoCContainer.Get<UserManager>().ProcessState(userState);
             }
             catch (Exception error)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.Linq;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
@@ -35,6 +36,10 @@ namespace Khernet.Services.Common
             foreach (ChannelDispatcherBase channelBase in serviceHostBase.ChannelDispatchers)
             {
                 ChannelDispatcher channelDispatcher = channelBase as ChannelDispatcher;
+
+                if (channelDispatcher.Endpoints.Any((endpointDispatcher) => endpointDispatcher.IsSystemEndpoint))
+                    continue;
+
                 channelDispatcher.ErrorHandlers.Add(errorHandler);
             }
         }

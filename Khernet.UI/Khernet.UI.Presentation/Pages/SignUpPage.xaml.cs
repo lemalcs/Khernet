@@ -32,5 +32,11 @@ namespace Khernet.UI.Pages
                 return pass2.SecurePassword;
             }
         }
+
+        public void Clear()
+        {
+            pass1.Clear();
+            pass2.Clear();
+        }
     }
 }

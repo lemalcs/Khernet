@@ -12,7 +12,7 @@ namespace Khernet.UI
     /// <summary>
     /// View model for text messages (HTML inner format).
     /// </summary>
-    public class HtmlChatMessageViewModel : ChatMessageItemViewModel, ITextObserver
+    public class HtmlChatMessageViewModel : TextMessageItemViewModel, ITextObserver
     {
         #region Properties
 
@@ -63,7 +63,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -146,7 +146,7 @@ namespace Khernet.UI
         /// Get a copy of this chat message
         /// </summary>
         /// <returns></returns>
-        public override ChatMessageItemViewModel Clone()
+        public override ChatMessageItemViewModel GetInstanceCopy()
         {
             HtmlChatMessageViewModel chatMessage = new HtmlChatMessageViewModel(messageManager);
             chatMessage.IsSentByMe = true;

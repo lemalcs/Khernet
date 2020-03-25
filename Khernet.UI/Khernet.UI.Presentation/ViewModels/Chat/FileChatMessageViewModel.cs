@@ -21,13 +21,16 @@ namespace Khernet.UI
 
         public MediaRequest Media { get; set; }
 
+        private IApplicationDialog applicationDialog;
+
         #endregion
 
         public ICommand OpenFileCommand { get; private set; }
 
-        public FileChatMessageViewModel(IMessageManager messageManager)
+        public FileChatMessageViewModel(IMessageManager messageManager,IApplicationDialog applicationDialog):base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
 
             OpenFileCommand = new RelayCommand(OpenFile, VerifyLoadedFile);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
@@ -194,12 +197,14 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a copy of this message
+        /// Get a copy of this message with the given dependencies
         /// </summary>
-        /// <returns></returns>
-        public override ChatMessageItemViewModel Clone()
+        /// <param name="messageManager">The chat list to which this message belongs</param>
+        /// <param name="applicationDialog">The application window that this message belongs</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instance with a copy of this message</returns>
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
-            FileChatMessageViewModel chatMessage = new FileChatMessageViewModel(messageManager);
+            FileChatMessageViewModel chatMessage = new FileChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
@@ -208,6 +213,7 @@ namespace Khernet.UI
 
             return chatMessage;
         }
+
 
         #region IFileObserver members
 
@@ -222,6 +228,9 @@ namespace Khernet.UI
 
                 //Get file size in bytes
                 FileSize = info.Size;
+
+                //if (!IsSentByMe)
+                SendDate = info.SendDate;
             }
 
             FilePath = info.FilePath;
@@ -245,9 +254,9 @@ namespace Khernet.UI
             IsReadingFile = false;
             IsFileLoaded = true;
 
-            if (State == ChatMessageState.Error)
+            if (State == ChatMessageState.Error || State == ChatMessageState.UnCommited)
                 FileState = FileChatState.Damaged;
-            
+
             IsMessageLoaded = true;
         }
 
@@ -269,7 +278,7 @@ namespace Khernet.UI
             //Request upload a file
             Media = new MediaRequest
             {
-                Id = ResendId,//Id,
+                Id = ResendId,
                 FileName = FileName,
                 FileType = MessageType.Binary,
                 OperationRequest = MessageOperation.Resend,

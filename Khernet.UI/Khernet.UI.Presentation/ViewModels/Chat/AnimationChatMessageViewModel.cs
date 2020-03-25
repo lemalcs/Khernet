@@ -42,6 +42,8 @@ namespace Khernet.UI
         /// </summary>
         public MediaRequest Media { get; set; }
 
+        private IApplicationDialog applicationDialog;
+
         public double Width
         {
             get => width;
@@ -99,9 +101,10 @@ namespace Khernet.UI
 
         #endregion
 
-        public AnimationChatMessageViewModel(IMessageManager messageManager)
+        public AnimationChatMessageViewModel(IMessageManager messageManager,IApplicationDialog applicationDialog):base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
 
             OpenMediaCommand = new RelayCommand(OpenAnimation, VerifyLoadedAnimation);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
@@ -232,7 +235,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -357,9 +360,15 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public override ChatMessageItemViewModel Clone()
+        /// <summary>
+        /// Get a copy of this message with the given dependencies
+        /// </summary>
+        /// <param name="messageManager">The chat list to which this message belongs</param>
+        /// <param name="applicationDialog">The application window that this message belongs</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
-            AnimationChatMessageViewModel chatMessage = new AnimationChatMessageViewModel(messageManager);
+            AnimationChatMessageViewModel chatMessage = new AnimationChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
@@ -388,6 +397,8 @@ namespace Khernet.UI
                 }
 
                 UID = info.UID;
+
+                SendDate = info.SendDate;
             }
 
             Height = info.Height;
@@ -419,8 +430,8 @@ namespace Khernet.UI
             IsFileLoaded = true;
 
             OnPropertyChanged(nameof(FilePath));
-            
-            if (State == ChatMessageState.Error)
+
+            if (State == ChatMessageState.Error || State == ChatMessageState.UnCommited)
                 FileState = FileChatState.Damaged;
 
             IsMessageLoaded = true;

@@ -23,18 +23,7 @@ namespace Khernet.UI
 
         public MediaRequest Media { get; set; }
 
-        //public byte[] Thumbnail
-        //    {
-        //    get => thumbnail;
-        //    set
-        //    {
-        //        if (thumbnail != value)
-        //        {
-        //            thumbnail = value;
-        //            OnPropertyChanged(nameof(Thumbnail));
-        //        }
-        //    }
-        //}
+        private IApplicationDialog applicationDialog;
 
         public ReadOnlyCollection<byte> Thumbnail { get; private set; }
 
@@ -46,10 +35,11 @@ namespace Khernet.UI
 
         #endregion
 
-        public ImageChatMessageViewModel(IMessageManager messageManager)
+        public ImageChatMessageViewModel(IMessageManager messageManager,IApplicationDialog applicationDialog):base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
-
+            this.applicationDialog=applicationDialog?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
+            
             OpenImageCommand = new RelayCommand(OpenImage, VerifyLoadedImage);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
@@ -68,7 +58,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -214,7 +204,7 @@ namespace Khernet.UI
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
             {
                 //Show image in dialog
-                await IoCContainer.UI.ShowDialog(this);
+                await applicationDialog.ShowDialog(this).ConfigureAwait(false);
             }
             else if (IsFileLoaded && FileState == FileChatState.Ready)
             {
@@ -258,6 +248,8 @@ namespace Khernet.UI
                 UID = info.UID;
                 FileName = info.OriginalFileName;
                 FileSize = info.Size;
+
+                SendDate = info.SendDate;
             }
 
             FilePath = info.FilePath;
@@ -286,7 +278,7 @@ namespace Khernet.UI
             IsReadingFile = false;
             IsFileLoaded = true;
 
-            if (State == ChatMessageState.Error)
+            if (State == ChatMessageState.Error || State == ChatMessageState.UnCommited)
                 FileState = FileChatState.Damaged;
 
             IsMessageLoaded = true;
@@ -300,9 +292,15 @@ namespace Khernet.UI
 
         #endregion
 
-        public override ChatMessageItemViewModel Clone()
+        /// <summary>
+        /// Get a copy of this message with the given dependencies
+        /// </summary>
+        /// <param name="messageManager">The chat list to which this message belongs</param>
+        /// <param name="applicationDialog">The application window that this message belongs</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager,IApplicationDialog applicationDialog)
         {
-            ImageChatMessageViewModel chatMessage = new ImageChatMessageViewModel(messageManager);
+            ImageChatMessageViewModel chatMessage = new ImageChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;

@@ -221,6 +221,9 @@
     <Compile Include="Controls\Media\AnimationViewerControl.xaml.cs">
       <DependentUpon>AnimationViewerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Media\ImageItemControl.xaml.cs">
+      <DependentUpon>ImageItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Media\AudioItemControl.xaml.cs">
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
@@ -458,6 +461,7 @@
     <Compile Include="Resources\Constants.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\TextMessageItemViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessageProcessResult.cs" />
     <Compile Include="ViewModels\Chat\FileMessageItemViewModel.cs" />
     <Compile Include="ViewModels\Chat\MarkdownChatMessageViewModel.cs" />
@@ -551,6 +555,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\FieldEditorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Media\ImageItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -825,6 +833,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="LogoIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newMessageIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,11 +48,6 @@ namespace Khernet.UI
         /// </summary>
         public TimeSpan Duration { get => duration; set => duration = value; }
 
-        /// <summary>
-        /// The thumbnail of video
-        /// </summary>
-        private byte[] thumbnail;
-
         public double VideoWidth
         {
             get => videoWidth;
@@ -84,13 +79,17 @@ namespace Khernet.UI
             get; private set;
         }
 
+        private IApplicationDialog applicationDialog;
+
         #endregion
 
         public ICommand OpenMediaCommand { get; private set; }
 
-        public VideoChatMessageViewModel(IMessageManager messageManager)
+        public VideoChatMessageViewModel(IMessageManager messageManager, IApplicationDialog applicationDialog) : base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
+
 
             OpenMediaCommand = new RelayCommand(OpenVideo, VerifyLoadedVideo);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
@@ -114,7 +113,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -159,7 +158,7 @@ namespace Khernet.UI
         /// <summary>
         /// Process video from file
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">The path of video file</param>
         public void ProcessVideo(string fileName)
         {
             //Get file name with extension
@@ -206,7 +205,7 @@ namespace Khernet.UI
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
             {
                 //Show image in dialog
-                await IoCContainer.UI.ShowDialog(this);
+                await applicationDialog.ShowDialog(this);
             }
             else if (IsFileLoaded && FileState == FileChatState.Ready)
             {
@@ -237,9 +236,15 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public override ChatMessageItemViewModel Clone()
+        /// <summary>
+        /// Get a copy of this message with the given dependencies
+        /// </summary>
+        /// <param name="messageManager">The chat list to which this message belongs</param>
+        /// <param name="applicationDialog">The application window that this message belongs</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instance with a copy of this message</returns>
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
-            VideoChatMessageViewModel chatMessage = new VideoChatMessageViewModel(messageManager);
+            VideoChatMessageViewModel chatMessage = new VideoChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
@@ -282,7 +287,6 @@ namespace Khernet.UI
         /// <param name="info">The metadata of video</param>
         public void OnGetMetadata(FileResponse info)
         {
-
             //Check if file has video tracks to get thumbnail
             if (info.Thumbnail != null)
             {
@@ -335,6 +339,8 @@ namespace Khernet.UI
 
                 //get video size in bytes
                 FileSize = info.Size;
+
+                SendDate = info.SendDate;
             }
 
             //Set video file path
@@ -364,7 +370,7 @@ namespace Khernet.UI
             IsReadingFile = false;
             IsFileLoaded = true;
 
-            if (State == ChatMessageState.Error)
+            if (State == ChatMessageState.Error || State == ChatMessageState.UnCommited)
                 FileState = FileChatState.Damaged;
 
             IsMessageLoaded = true;

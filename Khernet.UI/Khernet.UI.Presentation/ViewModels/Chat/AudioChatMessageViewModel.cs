@@ -25,6 +25,8 @@ namespace Khernet.UI
 
         public MediaRequest Media { get; set; }
 
+        private IApplicationDialog applicationDialog;
+
         public TimeSpan Duration
         {
             get => duration;
@@ -49,9 +51,10 @@ namespace Khernet.UI
 
         #endregion
 
-        public AudioChatMessageViewModel(IMessageManager messageManager)
+        public AudioChatMessageViewModel(IMessageManager messageManager,IApplicationDialog applicationDialog):base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
 
             OpenMediaCommand = new RelayCommand(OpenAudio, VerifyLoadedAudio);
             CloseMediaCommand = new RelayCommand(CloseMedia);
@@ -77,7 +80,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -186,12 +189,14 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a copy of this message
+        /// Get a copy of this message with the given dependencies
         /// </summary>
-        /// <returns>A <see cref="AudioChatMessageViewModel"/> object</returns>
-        public override ChatMessageItemViewModel Clone()
+        /// <param name="messageManager">The chat list to which this message belongs</param>
+        /// <param name="applicationDialog">The application window that this message belongs</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
-            AudioChatMessageViewModel chatMessage = new AudioChatMessageViewModel(messageManager);
+            AudioChatMessageViewModel chatMessage = new AudioChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
@@ -208,7 +213,7 @@ namespace Khernet.UI
             {
                 Id = ResendId,
                 FileName = FileName,
-                OperationRequest = Managers.MessageOperation.Resend,
+                OperationRequest = MessageOperation.Resend,
                 FileType = MessageType.Audio,
                 SenderToken = IoCContainer.Get<IIdentity>().Token,
                 ReceiptToken = User.Token,
@@ -254,6 +259,8 @@ namespace Khernet.UI
 
                 //Get file name with extension
                 FileName = Path.GetFileName(info.OriginalFileName);
+
+                SendDate = info.SendDate;
             }
 
             FilePath = info.FilePath;
@@ -277,7 +284,7 @@ namespace Khernet.UI
             IsReadingFile = false;
             IsFileLoaded = true;
 
-            if (State == ChatMessageState.Error)
+            if (State == ChatMessageState.Error || State == ChatMessageState.UnCommited)
                 FileState = FileChatState.Damaged;
 
             IsMessageLoaded = true;

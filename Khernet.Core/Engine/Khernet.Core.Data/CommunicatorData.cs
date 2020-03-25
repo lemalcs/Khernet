@@ -55,20 +55,72 @@ namespace Khernet.Core.Data
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
+                    //Username
                     table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+
+                    //Token
                     table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Full name
                     if (table.Rows[i][2] != DBNull.Value)
                         table.Rows[i][2] = EncryptionHelper.DecryptByteArray(table.Rows[i][2] as byte[], keys.Item1, keys.Item2);
 
+                    //Display name
                     if (table.Rows[i][3] != DBNull.Value)
                         table.Rows[i][3] = EncryptionHelper.DecryptByteArray(table.Rows[i][3] as byte[], keys.Item1, keys.Item2);
 
+                    //Hexadecimal color of profile
                     if (table.Rows[i][4] != DBNull.Value)
                         table.Rows[i][4] = EncryptionHelper.DecryptString(table.Rows[i][4].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Initials
                     if (table.Rows[i][5] != DBNull.Value)
                         table.Rows[i][5] = EncryptionHelper.DecryptString(table.Rows[i][5].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+                }
+                keys = null;
+
+                return table;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get the address of a specific service published by peer
+        /// </summary>
+        /// <param name="token">The peer that publish service</param>
+        /// <param name="serviceType">The type of service</param>
+        /// <returns></returns>
+        public DataTable GetPeerAdress(string token,string serviceType)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                FbCommand cmd = new FbCommand("GET_PEER_ADDRESS");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(token, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@SRVTYPE", FbDbType.Binary).Value = EncryptionHelper.EncryptString(serviceType, Encoding.UTF8, keys.Item1, keys.Item2);
+                keys = null;
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+
+                    FbDataAdapter fda = new FbDataAdapter(cmd);
+                    fda.Fill(table);
+                }
+
+                keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    if (table.Rows[i][0] != DBNull.Value)
+                        table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString() , Encoding.UTF8, keys.Item1, keys.Item2);
                 }
                 keys = null;
 
@@ -101,18 +153,23 @@ namespace Khernet.Core.Data
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
+                    //Token
                     if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
                         table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Username
                     if (!string.IsNullOrEmpty(table.Rows[i][1].ToString()))
                         table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Slogan
                     if (!string.IsNullOrEmpty(table.Rows[i][3].ToString()))
                         table.Rows[i][3] = EncryptionHelper.DecryptString(table.Rows[i][3].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Group name
                     if (!string.IsNullOrEmpty(table.Rows[i][4].ToString()))
                         table.Rows[i][4] = EncryptionHelper.DecryptString(table.Rows[i][4].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
+                    //Full name
                     if (table.Rows[i][5] != DBNull.Value)
                         table.Rows[i][5] = EncryptionHelper.DecryptByteArray((byte[])table.Rows[i][5], keys.Item1, keys.Item2);
                 }

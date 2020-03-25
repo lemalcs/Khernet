@@ -3,6 +3,7 @@ using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Converters;
 using Khernet.UI.IoC;
+using Khernet.UI.Managers;
 using Khernet.UI.Media;
 using System;
 using System.Collections.Generic;
@@ -93,6 +94,11 @@ namespace Khernet.UI
         /// The message of chat list
         /// </summary>
         private ObservableCollection<ChatMessageItemViewModel> items;
+
+        /// <summary>
+        /// Represents the objet to display dialogs
+        /// </summary>
+        private PresentationApplicationDialog applicationDialog;
 
         public MessageType MessageFormat
         {
@@ -289,6 +295,8 @@ namespace Khernet.UI
             GoToBottomCommand = new RelayCommand(GoToBottom);
 
             MessageFormat = MessageType.Html;
+
+            applicationDialog = new PresentationApplicationDialog();
         }
 
         private void GoToBottom(object parameter)
@@ -405,7 +413,8 @@ namespace Khernet.UI
                 switch (FileHelper.GetContentType(f))
                 {
                     case MessageType.Image:
-                        var imageMessage = new ImageChatMessageViewModel(this)
+
+                        var imageMessage = new ImageChatMessageViewModel(this,applicationDialog)
                         {
                             User = UserContext.User,
                             IsSentByMe = true,
@@ -421,7 +430,8 @@ namespace Khernet.UI
 
                         break;
                     case MessageType.GIF:
-                        var animationMessage = new AnimationChatMessageViewModel(this)
+
+                        var animationMessage = new AnimationChatMessageViewModel(this, applicationDialog)
                         {
                             User = UserContext.User,
                             IsSentByMe = true,
@@ -436,8 +446,8 @@ namespace Khernet.UI
 
                         break;
                     case MessageType.Video:
-
-                        var videoMessage = new VideoChatMessageViewModel(this)
+                        
+                        var videoMessage = new VideoChatMessageViewModel(this, applicationDialog)
                         {
                             User = UserContext.User,
                             IsSentByMe = true,
@@ -452,7 +462,7 @@ namespace Khernet.UI
                         break;
                     case MessageType.Audio:
 
-                        var audioMessage = new AudioChatMessageViewModel(this)
+                        var audioMessage = new AudioChatMessageViewModel(this,applicationDialog)
                         {
                             User = UserContext.User,
                             IsSentByMe = true,
@@ -466,8 +476,8 @@ namespace Khernet.UI
                         Items.Add(audioMessage);
                         break;
                     default:
-
-                        var fileMessage = new FileChatMessageViewModel(this)
+                        
+                        var fileMessage = new FileChatMessageViewModel(this,applicationDialog)
                         {
                             User = UserContext.User,
                             IsSentByMe = true,
@@ -497,7 +507,7 @@ namespace Khernet.UI
             if (Items == null)
                 Items = new ObservableCollection<ChatMessageItemViewModel>();
 
-            var imageMessage = new ImageChatMessageViewModel(this);
+            var imageMessage = new ImageChatMessageViewModel(this,applicationDialog);
             imageMessage.User = UserContext.User;
             imageMessage.IsSentByMe = true;
             imageMessage.SendDate = DateTimeOffset.Now;
@@ -685,7 +695,7 @@ namespace Khernet.UI
                 return;
             try
             {
-                AnimationChatMessageViewModel animationChat = new AnimationChatMessageViewModel(this);
+                AnimationChatMessageViewModel animationChat = new AnimationChatMessageViewModel(this,applicationDialog);
 
                 animationChat.ResendId = animation.Id;
                 animationChat.FileName = animation.FileName;
@@ -764,7 +774,7 @@ namespace Khernet.UI
 
                 bool middleLocation = idMessage > UserContext.FirstIdMessage && idMessage < UserContext.LastIdMessage;
 
-                if(middleLocation)
+                if (middleLocation)
                 {
                     lastIdMessage = idMessage - 1;
                 }
@@ -811,7 +821,7 @@ namespace Khernet.UI
                     if (UserContext.LastIdMessage < unreadMessages[unreadMessages.Count - 1].Id)
                         UserContext.LastIdMessage = unreadMessages[unreadMessages.Count - 1].Id;
                 }
-                else if(!middleLocation)
+                else if (!middleLocation)
                 {
                     if (UserContext.FirstIdMessage == 0 || UserContext.FirstIdMessage > unreadMessages[unreadMessages.Count - 1].Id)
                         UserContext.FirstIdMessage = unreadMessages[unreadMessages.Count - 1].Id;
@@ -932,7 +942,8 @@ namespace Khernet.UI
                     break;
 
                 case MessageType.Image:
-                    var imageMessage = new ImageChatMessageViewModel(this)
+
+                    var imageMessage = new ImageChatMessageViewModel(this,applicationDialog)
                     {
                         Id = messageItem.Id,
                         User = UserContext.User,
@@ -951,7 +962,8 @@ namespace Khernet.UI
 
                     break;
                 case MessageType.GIF:
-                    var animationMessage = new AnimationChatMessageViewModel(this)
+                    
+                    var animationMessage = new AnimationChatMessageViewModel(this, applicationDialog)
                     {
                         Id = messageItem.Id,
                         User = UserContext.User,
@@ -969,7 +981,7 @@ namespace Khernet.UI
                     break;
                 case MessageType.Video:
 
-                    var videoMessage = new VideoChatMessageViewModel(this)
+                    var videoMessage = new VideoChatMessageViewModel(this, applicationDialog)
                     {
                         Id = messageItem.Id,
                         User = UserContext.User,
@@ -987,7 +999,7 @@ namespace Khernet.UI
                     break;
                 case MessageType.Audio:
 
-                    var audioMessage = new AudioChatMessageViewModel(this)
+                    var audioMessage = new AudioChatMessageViewModel(this,applicationDialog)
                     {
                         Id = messageItem.Id,
                         User = UserContext.User,
@@ -1005,8 +1017,8 @@ namespace Khernet.UI
 
                     break;
                 default:
-
-                    var fileMessage = new FileChatMessageViewModel(this)
+                    
+                    var fileMessage = new FileChatMessageViewModel(this,applicationDialog)
                     {
                         Id = messageItem.Id,
                         User = UserContext.User,
@@ -1039,7 +1051,7 @@ namespace Khernet.UI
             if (receiver != null)
             {
                 UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
-                UserContext.ResendMessage = messageModel.Clone();
+                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
 
                 OnPropertyChanged(nameof(CanSendMessage));
                 return;
@@ -1070,12 +1082,44 @@ namespace Khernet.UI
             if (resend.SelectedUser != null)
             {
                 UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
-                UserContext.ResendMessage = messageModel.Clone();
+                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
                 OnPropertyChanged(nameof(CanSendMessage));
             }
             else
                 FocusTextBox();
         }
+
+        /// <summary>
+        /// Get a copy of a chat message that id being resend
+        /// </summary>
+        /// <param name="chatMessage">The original chat message to copy to</param>
+        /// <returns>A new instance of <see cref="ChatMessageItemViewModel"/></returns>
+        private ChatMessageItemViewModel GetChatMessageCopy(ChatMessageItemViewModel chatMessage)
+        {
+            if (chatMessage is ImageChatMessageViewModel imageMessage)
+            {
+                return imageMessage.GetInstanceCopy(this, applicationDialog);
+            }
+            else if (chatMessage is VideoChatMessageViewModel videoMessage)
+            {
+                return videoMessage.GetInstanceCopy(this, applicationDialog);
+            }
+            else if (chatMessage is FileChatMessageViewModel FileMessage)
+            {
+                return FileMessage.GetInstanceCopy(this, applicationDialog);
+            }
+            else if (chatMessage is AnimationChatMessageViewModel animationMessage)
+            {
+                return animationMessage.GetInstanceCopy(this, applicationDialog);
+            }
+            else if (chatMessage is AudioChatMessageViewModel audioMessage)
+            {
+                return audioMessage.GetInstanceCopy(this, applicationDialog);
+            }
+            else
+                return ((TextMessageItemViewModel)chatMessage).GetInstanceCopy();
+        }
+
 
         public void SendReplyMessage(ChatMessageItemViewModel messageModel)
         {

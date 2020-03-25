@@ -79,8 +79,38 @@ namespace Khernet.Core.Host
         {
             Task.Factory.StartNew(() =>
             {
-                SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+                string foundToken = GetToken(e.EndpointDiscoveryMetadata);
+                if(e.UserState!=null)//Offline peers list
+                {
+                    List<PeerAddress> peerList = (List<PeerAddress>)e.UserState;
+                    var foundPeer=peerList.FirstOrDefault((p) => { return p.Token == foundToken; });
+                    if (foundPeer != null)
+                    {
+                        SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+                    }
+                }
+
+                //Save address of new users                
+                Communicator comm = new Communicator();
+
+                if(comm.GetPeerAdress(foundToken,Constants.CommunicatorService)==null)
+                    SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+
+                if (comm.GetPeerAdress(foundToken, Constants.FileService) == null)
+                    SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+
+                if (comm.GetPeerAdress(foundToken, Constants.NotifierService) == null)
+                    SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
             });
+        }
+
+        private string GetToken(EndpointDiscoveryMetadata metadata)
+        {
+            CryptographyProvider crypto = new CryptographyProvider();
+            byte[] cert = crypto.DecodeBase58Check(metadata.Extensions.Elements(Constants.PeerCertificateTag).FirstOrDefault().Value);
+            X509Certificate certificate = new X509Certificate(cert);
+
+            return certificate.Subject.Substring(3, 34);
         }
 
         private static void SavePeerAddress(EndpointDiscoveryMetadata metadata, PeerIdentity peer)
@@ -232,7 +262,8 @@ namespace Khernet.Core.Host
                             SaveFoundPeer(metadata, token, cert);
                         }
 
-                        comm.UpdatePeerState(token, PeerState.Offline);//0: Offline
+                        if(comm.GetPeerProfile(token).State!=PeerState.Offline)
+                            comm.UpdatePeerState(token, PeerState.Offline);//0: Offline
                     }
                 }
             }
@@ -262,7 +293,8 @@ namespace Khernet.Core.Host
             {
                 try
                 {
-                    List<PeerAddress> peerList = (List<PeerAddress>)e.UserState;
+                    List<PeerAddress> disconnectedPeers = ((List<PeerAddress>)e.UserState).ToList();
+                     
                     if (e.Result.Endpoints.Count > 0)
                     {
                         //Delete from user list with online state that were confirmed during discovery
@@ -278,23 +310,23 @@ namespace Khernet.Core.Host
                             X509Certificate certificate = new X509Certificate(cert);
 
                             string token = certificate.Subject.Substring(3, 34);
-                            PeerAddress peerAddr = peerList.Find((p) => { return p.Token == token; });
-
-                            peerList.Remove(peerAddr);
+                            PeerAddress peerAddr = disconnectedPeers.Find((p) => { return p.Token == token; });
+                            
+                            if (peerAddr != null)
+                               disconnectedPeers.Remove(peerAddr);
                         }
                     }
 
-                    if (peerList.Count > 0)
+                    if (disconnectedPeers.Count > 0)
                     {
                         //Set user state to offline when they do not appear in discovery results
                         Communicator communicator = new Communicator();
-                        peerList.ForEach((peer) =>
+                        disconnectedPeers.ForEach((peer) =>
                         {
-                            communicator.UpdatePeerState(peer.Token, PeerState.Offline);
+                            if (communicator.GetPeerProfile(peer.Token).State != PeerState.Offline)
+                                communicator.UpdatePeerState(peer.Token, PeerState.Offline);
                         });
                     }
-
-                    LogDumper.WriteInformation("Discovery phase ended");
                 }
                 catch (Exception error)
                 {
@@ -383,36 +415,44 @@ namespace Khernet.Core.Host
                         bool existsDisconnected = false;
                         for (int i = 0; i < tokenList.Count; i++)
                         {
-                            Uri addr = new Uri(tokenList[i].Address);
+                            Uri addr;
+                            if (!Uri.TryCreate(tokenList[i].Address, UriKind.Absolute, out addr))
+                            {
+                                existsDisconnected = true;
+                                continue;
+                            }
+
                             if (NetworkHelper.IsIPAddress(addr.Host))
                             {
                                 if (!NetworkHelper.TryConnectToIP(addr.Host, addr.Port))
                                 {
                                     existsDisconnected = true;
-                                    break;
                                 }
                                 else
                                 {
                                     IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                                    tokenList.RemoveAt(i);
+                                    i--;
                                 }
 
                             }
                             else if (!NetworkHelper.TryConnectToHost(addr.Host, addr.Port))
                             {
                                 existsDisconnected = true;
-                                break;
                             }
                             else
                             {
                                 IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                                tokenList.RemoveAt(i);
+                                i--;
                             }
                         }
 
                         if (existsDisconnected)
                         {
                             discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
-                            discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)));
-                            discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)));
+                            discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)), tokenList);
+                            discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)), tokenList);
                             autoReset.WaitOne();
                         }
                     }

@@ -11,7 +11,7 @@ namespace Khernet.UI
     /// <summary>
     /// View model for text messages (XAML inner format).
     /// </summary>
-    public class TextChatMessageViewModel : ChatMessageItemViewModel, ITextObserver
+    public class TextChatMessageViewModel : TextMessageItemViewModel, ITextObserver
     {
         #region Properties
 
@@ -70,7 +70,7 @@ namespace Khernet.UI
         /// Gets a summary about this message
         /// </summary>
         /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/>An object containing summary</returns>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -148,7 +148,7 @@ namespace Khernet.UI
         /// Get a copy of this chat message
         /// </summary>
         /// <returns></returns>
-        public override ChatMessageItemViewModel Clone()
+        public override ChatMessageItemViewModel GetInstanceCopy()
         {
             TextChatMessageViewModel chatMessage = new TextChatMessageViewModel(messageManager);
             chatMessage.IsSentByMe = true;

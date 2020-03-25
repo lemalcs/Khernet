@@ -20,7 +20,7 @@ namespace Khernet.UI.Converters
             if (isWriting)
                 return "Typing message...";
 
-            if(isSendingFile)
+            if (isSendingFile)
                 return "Sending file...";
 
             return string.Empty;

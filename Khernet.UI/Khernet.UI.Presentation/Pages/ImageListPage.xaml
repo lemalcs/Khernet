@@ -6,6 +6,7 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                 x:Class="Khernet.UI.Pages.ImageListPage"
                 x:TypeArguments="vm:FileListViewModel"
                 mc:Ignorable="d" 
@@ -20,21 +21,12 @@
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalContentAlignment="Center"
                  HorizontalAlignment="Stretch"
-                 SelectionChanged="ListBox_SelectionChanged"
-                 PreviewMouseRightButtonDown="ListBox_PreviewMouseRightButtonDown"
-                 Padding="20 0 0 0">
-            
+                 Padding="20 0 0 0"
+                 Template="{StaticResource fileListContainer}">
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    
-                    <!-- Image item -->
-                    <Image Stretch="Uniform"
-                           StretchDirection="DownOnly"
-                           MaxHeight="100"
-                           Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
-                           ContextMenu="{StaticResource fileMessageContextMenu}"
-                           >
-                    </Image>
+                    <ucontrols:ImageItemControl MaxHeight="100"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
@@ -43,6 +35,7 @@
                     <WrapPanel Width="360"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+
         </ListBox>
         
         <!--Animation to show load progress-->

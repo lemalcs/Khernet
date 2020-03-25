@@ -10,6 +10,11 @@ namespace Khernet.UI
     {
         SecureString password { get; }
         SecureString secondPassword { get; }
+
+        /// <summary>
+        /// Clear any passwords typed
+        /// </summary>
+        void Clear();
     }
 
     /// <summary>

@@ -77,6 +77,8 @@ namespace Khernet.UI
         /// </summary>
         private FileChatState fileState;
 
+        private IApplicationDialog applicationDialog;
+
         public string FileName
         {
             get => fileName;
@@ -172,12 +174,12 @@ namespace Khernet.UI
             }
         }
 
-        public FileChatState FileState 
-        { 
+        public FileChatState FileState
+        {
             get => fileState;
-            set 
-            { 
-                if(fileState != value)
+            set
+            {
+                if (fileState != value)
                 {
                     fileState = value;
                     OnPropertyChanged(nameof(FileState));
@@ -189,9 +191,11 @@ namespace Khernet.UI
 
         public ICommand SaveCommand { get; protected set; }
 
-        public FileMessageItemViewModel()
+        public FileMessageItemViewModel(IApplicationDialog applicationDialog)
         {
             SaveCommand = new RelayCommand(SaveFile, IsReadyFile);
+
+            this.applicationDialog = applicationDialog;
         }
 
         /// <summary>
@@ -202,14 +206,14 @@ namespace Khernet.UI
         {
             try
             {
-                string newFileName = IoCContainer.UI.ShowSaveFileDialog(Path.GetFileName(FileName));
+                string newFileName = applicationDialog.ShowSaveFileDialog(Path.GetFileName(FileName));
 
                 SaveFile(newFileName);
             }
             catch (Exception error)
             {
                 LogDumper.WriteLog(error);
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                await applicationDialog.ShowMessageBox(new MessageBoxViewModel
                 {
                     Message = "Error while saving file.",
                     Title = "Khernet",
@@ -228,8 +232,6 @@ namespace Khernet.UI
         {
             if (fileName != null)
             {
-                byte[] fileInfo = IoCContainer.Get<Messenger>().GetMessageContent(Id);
-
                 using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(Id))
                 {
                     int chunk = 1048576;

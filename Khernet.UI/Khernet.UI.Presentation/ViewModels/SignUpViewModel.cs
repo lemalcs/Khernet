@@ -121,16 +121,18 @@ namespace Khernet.UI
             //Disable button
             CanLogin = false;
 
+            var t = parameter as IPasswordContainer;
+
             try
             {
-                var t = (parameter as IPasswordContainer);
 
-                bool isValid = await ValidatePasswords(t.password, t.secondPassword).ConfigureAwait(false);
+                bool isValid = await ValidatePasswords(t.password, t.secondPassword).ConfigureAwait(true);
 
                 if (!isValid)
                     return;
 
-                PeerIdentity peer = await CreateUser(t.password);
+                PeerIdentity peer = await CreateUser(t.password).ConfigureAwait(true);
+                t.Clear();
 
                 if (peer != null)
                 {
@@ -169,6 +171,9 @@ namespace Khernet.UI
 
                 //Enable button
                 CanLogin = true;
+
+                if (t != null)
+                    t.Clear();
             }
 
         }
@@ -262,7 +267,6 @@ namespace Khernet.UI
                 }
                 return string.Empty;
             }
-
         }
     }
 }

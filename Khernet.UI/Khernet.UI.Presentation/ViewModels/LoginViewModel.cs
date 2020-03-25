@@ -121,11 +121,13 @@ namespace Khernet.UI
             //Disable button
             CanLogin = false;
 
+            var t = parameter as IPasswordContainer;
+
             try
             {
-                var t = (parameter as IPasswordContainer).password;
 
-                PeerIdentity peer = await AuthenticateUser(t);
+                PeerIdentity peer = await AuthenticateUser(t.password).ConfigureAwait(true);
+                t.Clear();
 
                 if (peer != null)
                 {
@@ -166,6 +168,9 @@ namespace Khernet.UI
 
                 //Enable button
                 CanLogin = true;
+
+                if (t != null)
+                   t.Clear();
             }
         }
 

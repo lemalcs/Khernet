@@ -28,7 +28,12 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Request to load avatar
         /// </summary>
-        AvatarLoading = 4
+        AvatarLoading = 4,
+
+        /// <summary>
+        /// Peer has changed its state
+        /// </summary>
+        StateChange=5
     }
     public class UserState
     {
@@ -154,6 +159,9 @@ namespace Khernet.UI.Managers
                                 case UserChangeType.AvatarLoading:
                                     user.SetAvatarThumbnail(IoCContainer.Get<Messenger>().GetPeerAvatar(user.Token));
                                     break;
+
+                                case UserChangeType.StateChange:
+                                    break;
                             }
                         }
                         catch (Exception)
@@ -177,6 +185,12 @@ namespace Khernet.UI.Managers
             }
         }
 
+        /// <summary>
+        /// Get a peer from peer list if it does not exist add the new peer to list
+        /// </summary>
+        /// <param name="userToken"></param>
+        /// <param name="username"></param>
+        /// <returns>A <see cref="UserItemViewModel"/> of peer</returns>
         private UserItemViewModel GetUserFromList(string userToken, string username)
         {
             var userList = IoCContainer.Get<UserListViewModel>();
@@ -192,6 +206,12 @@ namespace Khernet.UI.Managers
                 };
 
                 user.BuildDisplayName();
+                var unreadMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(userToken);
+
+                if (unreadMessages == null)
+                    user.SetUnReadMessages(0);
+                else
+                    user.SetUnReadMessages(unreadMessages.Count);
 
                 //Add new user to list
                 IoCContainer.Get<UserListViewModel>().AddUser(user);
@@ -200,6 +220,10 @@ namespace Khernet.UI.Managers
             return user;
         }
 
+        /// <summary>
+        /// Fill profile of a peer.
+        /// </summary>
+        /// <param name="userModel">The object profile of peer</param>
         private void FillUserProfile(UserItemViewModel userModel)
         {
             Peer peer = IoCContainer.Get<Messenger>().GetPeerProfile(userModel.Token);
@@ -213,12 +237,6 @@ namespace Khernet.UI.Managers
             userModel.ColorHex = peer.HexColor;
 
             userModel.BuildDisplayName();
-
-            var unreadMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(userModel.Token);
-            if (unreadMessages == null)
-                userModel.SetUnReadMessages(0);
-            else
-                userModel.SetUnReadMessages(unreadMessages.Count);
         }
 
         public void StopProcessor()

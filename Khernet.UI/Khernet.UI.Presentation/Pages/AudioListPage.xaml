@@ -22,7 +22,8 @@
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
                  ScrollViewer.CanContentScroll="False"
-                 SelectedIndex="-1">
+                 SelectedIndex="-1"
+                 Template="{StaticResource fileListContainer}">
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

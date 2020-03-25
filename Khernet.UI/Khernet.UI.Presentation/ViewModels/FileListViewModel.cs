@@ -1,13 +1,12 @@
 ﻿using Khernet.Core.Host;
-using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Converters;
 using Khernet.UI.IoC;
+using Khernet.UI.Managers;
 using Khernet.UI.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace Khernet.UI
 {
@@ -20,14 +19,30 @@ namespace Khernet.UI
         /// </summary>
         private bool isLoading;
 
+        /// <summary>
+        /// Indicates if file list is empty
+        /// </summary>
         private bool isEmpty;
 
+        /// <summary>
+        /// Operation to be done on chat message such as reply o resend
+        /// </summary>
         public Action Done { get; set; }
 
         /// <summary>
         /// The file list
         /// </summary>
         private ObservableCollection<FileMessageItemViewModel> items;
+
+        /// <summary>
+        /// Represents the objet to display dialogs
+        /// </summary>
+        private ModalApplicationDialog modalDialog;
+
+        /// <summary>
+        /// The number of loaded files
+        /// </summary>
+        private int itemsCount;
 
         public ObservableCollection<FileMessageItemViewModel> Items
         {
@@ -73,14 +88,31 @@ namespace Khernet.UI
             }
         }
 
+        public int ItemsCount 
+        { 
+            get => itemsCount;
+            set 
+            { 
+                if(itemsCount != value)
+                {
+                    itemsCount = value;
+                    OnPropertyChanged(nameof(ItemsCount));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Constructor needed for design time
+        /// </summary>
         public FileListViewModel()
         {
-
+            
         }
 
         public FileListViewModel(IMessageManager messageManager)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            modalDialog = new ModalApplicationDialog();
 
             IsLoading = true;
             IsEmpty = false;
@@ -123,6 +155,7 @@ namespace Khernet.UI
                     }
 
                     IsEmpty = fileList.Count == 0;
+                    ItemsCount = fileList.Count;
                 }
                 catch (Exception error)
                 {
@@ -174,68 +207,33 @@ namespace Khernet.UI
 
         private void LoadMessage(int idMessage, MessageType messageType)
         {
+            try
+            {
             var chat = IoCContainer.Get<Messenger>().GetMessageDetail(idMessage);
 
             UserItemViewModel user = chat.SenderToken == IoCContainer.Get<IIdentity>().Token ? null : User;
-
-            try
-            {
                 switch (messageType)
                 {
                     case MessageType.Image:
 
-                        ImageChatMessageViewModel imageModel = new ImageChatMessageViewModel(this);
+                        ImageChatMessageViewModel imageModel = new ImageChatMessageViewModel(this, modalDialog);
                         imageModel.Id = idMessage;
                         imageModel.User = user;
                         imageModel.IsSentByMe = user == null;
 
-                        FileInformation info = JSONSerializer<FileInformation>.DeSerialize(
-                           IoCContainer.Get<Messenger>().GetMessageContent(idMessage));
-
-                        imageModel.FileName = info.FileName;
-                        imageModel.FileSize = info.Size;
-
-                        byte[] thumbNail = IoCContainer.Get<Messenger>().GetThumbnail(idMessage);
-
-                        if (thumbNail != null)
-                        {
-                            imageModel.SetImageThumbnail(thumbNail);
-                        }
-
-                        string outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(idMessage);
-
-                        imageModel.FilePath = outFile;
-                        imageModel.OnCompleted(new ChatMessageProcessResult(idMessage, ChatMessageState.Processed));
+                        imageModel.ProcessImage(idMessage);
 
                         Items.Add(imageModel);
 
                         break;
                     case MessageType.Video:
 
-                        VideoChatMessageViewModel videoModel = new VideoChatMessageViewModel(this);
+                        VideoChatMessageViewModel videoModel = new VideoChatMessageViewModel(this, modalDialog);
                         videoModel.Id = idMessage;
                         videoModel.User = user;
                         videoModel.IsSentByMe = user == null;
 
-                        info = JSONSerializer<FileInformation>.DeSerialize(
-                           IoCContainer.Get<Messenger>().GetMessageContent(idMessage));
-
-                        videoModel.FileName = info.FileName;
-                        videoModel.FileSize = info.Size;
-                        videoModel.Duration = info.Duration;
-                        videoModel.SendDate = IoCContainer.Get<Messenger>().GetMessageDetail(idMessage).SendDate;
-
-                        thumbNail = IoCContainer.Get<Messenger>().GetThumbnail(idMessage);
-
-                        if (thumbNail != null)
-                        {
-                            videoModel.SetImageThumbnail(thumbNail);
-                        }
-
-                        outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(idMessage);
-
-                        videoModel.FilePath = outFile;
-                        videoModel.OnCompleted(new ChatMessageProcessResult(idMessage, ChatMessageState.Processed));
+                        videoModel.ProcessVideo(idMessage);
 
                         Items.Add(videoModel);
 
@@ -243,24 +241,12 @@ namespace Khernet.UI
 
                     case MessageType.Binary:
 
-                        FileChatMessageViewModel fileModel = new FileChatMessageViewModel(this);
+                        FileChatMessageViewModel fileModel = new FileChatMessageViewModel(this,modalDialog);
                         fileModel.Id = idMessage;
                         fileModel.User = user;
                         fileModel.IsSentByMe = user == null;
 
-                        info = JSONSerializer<FileInformation>.DeSerialize(
-                            IoCContainer.Get<Messenger>().GetMessageContent(idMessage));
-
-                        outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(idMessage);
-
-                        fileModel.IsFileLoaded = File.Exists(outFile);
-
-                        fileModel.FilePath = outFile;
-                        fileModel.FileName = info.FileName;
-                        fileModel.FileSize = info.Size;
-                        fileModel.SendDate = chat.SendDate;
-
-                        fileModel.OnCompleted(new ChatMessageProcessResult(idMessage, ChatMessageState.Processed));
+                        fileModel.ProcessFile(fileModel.Id);
 
                         Items.Add(fileModel);
 
@@ -268,28 +254,12 @@ namespace Khernet.UI
 
                     case MessageType.Audio:
 
-                        AudioChatMessageViewModel audioModel = new AudioChatMessageViewModel(this);
+                        AudioChatMessageViewModel audioModel = new AudioChatMessageViewModel(this,modalDialog);
                         audioModel.Id = idMessage;
                         audioModel.User = user;
                         audioModel.IsSentByMe = user == null;
 
-                        info = JSONSerializer<FileInformation>.DeSerialize(
-                            IoCContainer.Get<Messenger>().GetMessageContent(idMessage));
-
-                        outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(idMessage);
-
-                        audioModel.IsFileLoaded = File.Exists(outFile);
-
-                        audioModel.FileName = info.FileName;
-                        audioModel.FileSize = info.Size;
-                        audioModel.Duration = info.Duration;
-                        audioModel.SendDate = chat.SendDate;
-
-                        outFile = IoCContainer.Get<Messenger>().GetCacheFilePath(idMessage);
-
-                        audioModel.FilePath = outFile;
-
-                        audioModel.OnCompleted(new ChatMessageProcessResult(idMessage, ChatMessageState.Processed));
+                        audioModel.ProcessAudio(idMessage);
 
                         Items.Add(audioModel);
 

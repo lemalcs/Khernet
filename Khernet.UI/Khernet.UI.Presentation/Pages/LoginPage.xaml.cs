@@ -26,5 +26,10 @@ namespace Khernet.UI.Pages
         }
 
         public SecureString secondPassword => null;
+
+        public void Clear()
+        {
+            pass1.Clear();
+        }
     }
 }

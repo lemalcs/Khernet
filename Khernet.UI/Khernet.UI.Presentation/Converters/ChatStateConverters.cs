@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Markup;
 
 namespace Khernet.UI.Converters
 {
@@ -20,7 +18,7 @@ namespace Khernet.UI.Converters
             bool isSentByMe = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            if (state == ChatMessageState.Error|| state == ChatMessageState.UnCommited)
+            if (state == ChatMessageState.Error || state == ChatMessageState.UnCommited)
                 return Application.Current.FindResource("DarkRedBrush");
 
             if (!isSentByMe || state == ChatMessageState.Pendding)
@@ -43,7 +41,7 @@ namespace Khernet.UI.Converters
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var chatState = (ChatMessageState)value;
-            return chatState == ChatMessageState.Error||chatState==ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
+            return chatState == ChatMessageState.Error || chatState == ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -66,7 +64,7 @@ namespace Khernet.UI.Converters
             bool isFileLoaded = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            return isFileLoaded&&(state==ChatMessageState.Processed||state==ChatMessageState.Pendding)?Visibility.Visible:Visibility.Collapsed;
+            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pendding) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -98,16 +96,19 @@ namespace Khernet.UI.Converters
         }
     }
 
+    /// <summary>
+    /// Show an icon depending if file is ready to be downloaded otherwise show and alert icon.
+    /// </summary>
     public class FileChatStateToVisibilityConverter : BaseValueConverter<FileChatStateToVisibilityConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var chatState = (FileChatState)value;
-            switch(chatState)// == FileChatState.Error || chatState == ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
+            switch (chatState)
             {
                 case FileChatState.NotDownloaded: return "Download";
                 case FileChatState.Damaged: return "AlertCircle";
-                default:return parameter;
+                default: return parameter;
             }
         }
 
@@ -118,7 +119,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Shows play button if underlying file is ready to use, otherwise hides it
+    /// Shows play button if underlying file is ready to use, otherwise hides it.
     /// </summary>
     public class AudioStateToVisibilityMultiConverter : BaseMultiValueConverter<AudioStateToVisibilityMultiConverter>
     {
@@ -140,6 +141,9 @@ namespace Khernet.UI.Converters
         }
     }
 
+    /// <summary>
+    /// Shows and icon if file of chat message is ready to be used otherwise hides it.
+    /// </summary>
     public class InverseFileStateToVisibilityMultiConverter : BaseMultiValueConverter<InverseFileStateToVisibilityMultiConverter>
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

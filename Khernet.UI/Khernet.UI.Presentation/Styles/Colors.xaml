@@ -80,13 +80,16 @@
     <Color x:Key="OpaqueBlueColor">#44386cbb</Color>
     <SolidColorBrush x:Key="OpaqueBlueBrush" Color="{StaticResource OpaqueBlueColor}"/>
 
+    <Color x:Key="TransparentBlackColor">#00FFFFFF</Color>
+    <SolidColorBrush x:Key="TransparentBlackBrush" Color="{StaticResource TransparentBlackColor}"/>
+
     <Color x:Key="AquaBlueColor">#4285f4</Color>
     <SolidColorBrush x:Key="AquaBlueBrush" Color="{StaticResource AquaBlueColor}"/>
 
     <Color x:Key="OpaqueWhiteColor">#99000000</Color>
     <SolidColorBrush x:Key="OpaqueWhiteBrush" Color="{StaticResource OpaqueWhiteColor}"/>
 
-    <Color x:Key="LightRed">#E31587</Color>
+    <Color x:Key="LightRed">#ef5859</Color>
     <SolidColorBrush x:Key="LightRedBrush" Color="{StaticResource LightRed}"/>
 
     <Color x:Key="DarkRed">#da9694</Color>

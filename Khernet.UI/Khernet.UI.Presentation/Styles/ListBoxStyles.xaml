@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="clr-namespace:Khernet.UI.Converters">
     
     <Style x:Key="{x:Type ListBoxItem}"
            TargetType="{x:Type ListBoxItem}">
@@ -105,4 +106,32 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <ControlTemplate x:Key="fileListContainer" TargetType="ListBox">
+        <Grid>
+            <Grid.RowDefinitions>
+
+                <!-- Number of files -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- Files list -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Number of files -->
+            <TextBlock Grid.Row="0" 
+                       Foreground="{StaticResource DarkGrayBrush}"
+                       Visibility="{Binding IsLoading,Converter={conv:InverseBoolToVisibilityConverter}}"
+                       Padding="20 0 0 10">
+                <Run Text="{Binding ItemsCount}"/>
+                <Run Text=" elements"/>
+            </TextBlock>
+
+            <!-- Files list -->
+            <ScrollViewer Grid.Row="1">
+                <ItemsPresenter />
+            </ScrollViewer>
+        </Grid>
+    </ControlTemplate>
+    
 </ResourceDictionary>

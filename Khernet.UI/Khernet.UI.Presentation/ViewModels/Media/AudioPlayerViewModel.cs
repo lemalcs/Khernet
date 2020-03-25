@@ -65,7 +65,7 @@ namespace Khernet.UI
 
         #endregion
 
-        public AudioPlayerViewModel(Action<object> Play,Action Mute)
+        public AudioPlayerViewModel(Action<object> Play, Action Mute)
         {
             PlayCommand = new RelayCommand(Play);
             MuteCommand = new RelayCommand(Mute);

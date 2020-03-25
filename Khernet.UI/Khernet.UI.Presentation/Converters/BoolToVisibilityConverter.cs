@@ -43,7 +43,7 @@ namespace Khernet.UI.Converters
             bool isWriting = (bool)values[0];
             bool isSendingFile = (bool)values[1];
 
-            if (isWriting ||isSendingFile)
+            if (isWriting || isSendingFile)
                 return Visibility.Visible;
 
             return Visibility.Collapsed;

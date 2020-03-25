@@ -20,14 +20,6 @@ namespace Khernet.UI.IoC
         Task ShowDialog<T>(T viewModel) where T : BaseModel;
 
         /// <summary>
-        /// Show an child modal dialog owned by parent modial dialog
-        /// </summary>
-        /// <typeparam name="T">The type of view model for dialog</typeparam>
-        /// <param name="viewModel">The view model</param>
-        /// <returns></returns>
-        Task ShowChildDialog<T>(T viewModel) where T : BaseModel;
-
-        /// <summary>
         /// Show system dialog to open files
         /// </summary>
         /// <returns></returns>

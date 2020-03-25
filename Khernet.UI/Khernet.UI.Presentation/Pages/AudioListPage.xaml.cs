@@ -1,15 +1,10 @@
-﻿using Khernet.UI.Files;
-using Khernet.UI.IoC;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Read only profile page.
+    /// List of audio files interchanged with a peer.
     /// </summary>
     public partial class AudioListPage : BasePage<FileListViewModel>
     {

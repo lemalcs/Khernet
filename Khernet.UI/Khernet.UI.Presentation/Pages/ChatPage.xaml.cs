@@ -47,8 +47,10 @@ namespace Khernet.UI.Pages
         /// <param name="e">Arguments for event</param>
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-
             var textbox = sender as MarkedRichTextBox;
+
+            if (e.Key == Key.Escape)
+                return;
 
             if (e.Key == Key.Enter)
             {
@@ -181,6 +183,14 @@ namespace Khernet.UI.Pages
                 textbox.Document.LineHeight = lineheight;
             }
 
+            ActivateMarkdownPreview();
+        }
+
+        /// <summary>
+        /// Renders a preview of markdown message
+        /// </summary>
+        private void ActivateMarkdownPreview()
+        {
             if (SpecificViewModel.MessageFormat == MessageType.Markdown)
             {
                 FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
@@ -300,6 +310,11 @@ namespace Khernet.UI.Pages
         public bool HasDocument()
         {
             return rtxt.HasDocument;
+        }
+
+        private void tgBtn_Markdown_Checked(object sender, RoutedEventArgs e)
+        {
+            ActivateMarkdownPreview();
         }
     }
 }

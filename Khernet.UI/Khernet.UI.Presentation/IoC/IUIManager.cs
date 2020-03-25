@@ -136,5 +136,10 @@ namespace Khernet.UI.IoC
         /// Shows the notification icon for application.
         /// </summary>
         void ShowNotificationIcon();
+
+        /// <summary>
+        /// Hide the new message indicator of icon located in notification area
+        /// </summary>
+        void ClearNotificationNewMessageIcon();
     }
 }

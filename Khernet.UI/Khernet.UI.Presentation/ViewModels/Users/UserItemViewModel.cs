@@ -61,8 +61,14 @@ namespace Khernet.UI
         /// </summary>
         private bool isSendingFile;
 
+        /// <summary>
+        /// The HTML format of full name
+        /// </summary>
         private string sourceFullName;
 
+        /// <summary>
+        /// The HTML format of display name
+        /// </summary>
         private string sourceDisplayName;
 
         private ReadOnlyCollection<byte> fullName;
@@ -163,7 +169,6 @@ namespace Khernet.UI
                 }
             }
         }
-
 
         public bool IsSelected
         {
@@ -325,6 +330,7 @@ namespace Khernet.UI
         public void IncreaseUnReadMessages()
         {
             UnreadMessages++;
+            IoCContainer.Get<UserListViewModel>().AddUnreadMessages(1);
         }
 
         /// <summary>
@@ -333,7 +339,10 @@ namespace Khernet.UI
         public void DecreaseUnReadMessages()
         {
             if (UnreadMessages > 0)
+            {
                 UnreadMessages--;
+                IoCContainer.Get<UserListViewModel>().SubtractUnreadMessages(1);
+            }
         }
 
         /// <summary>
@@ -342,6 +351,7 @@ namespace Khernet.UI
         public void ClearUnReadMessages()
         {
             UnreadMessages = 0;
+            IoCContainer.Get<UserListViewModel>().ClearUnreadMessages();
         }
 
         /// <summary>
@@ -353,6 +363,8 @@ namespace Khernet.UI
                 throw new ArgumentException("Message quatity must be equals or greater than zero");
 
             UnreadMessages = messageQuantity;
+
+            IoCContainer.Get<UserListViewModel>().AddUnreadMessages(messageQuantity);
         }
 
         public void SetAvatarThumbnail(byte[] avatarBytes)

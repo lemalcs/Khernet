@@ -34,7 +34,7 @@ namespace Khernet.UI.Managers
 
         public AudioManager()
         {
-            AudioModel = new AudioPlayerViewModel(Play,Mute);
+            AudioModel = new AudioPlayerViewModel(Play, Mute);
             currentVolume = defaultVolume;
         }
 

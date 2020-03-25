@@ -16,8 +16,7 @@
              ContextMenu="{StaticResource fileMessageContextMenu}">
 
     <!--Chat bubble container-->
-    <Grid Grid.Column="1"
-          MinWidth="{Binding VideoWidth}"
+    <Grid MinWidth="{Binding VideoWidth}"
           MinHeight="{Binding VideoHeight}"
           Background="Black"
           HorizontalAlignment="Left">
@@ -72,7 +71,6 @@
                                          StrokeBrush="White"
                                          Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-
             <Grid Visibility="{Binding IsLoading,Converter={conv:InverseBoolToVisibilityGoneConverter},FallbackValue=Collapsed}">
                 
                 <!--Overlay dark panel -->
@@ -107,16 +105,6 @@
                        Padding="8 8 8 0"
                        MaxWidth="{Binding Path=ActualWidth,ElementName=img}"/>
 
-            <!-- Download icon -->
-            <iconPacks:PackIconMaterial Kind="Download">
-                <iconPacks:PackIconMaterial.Visibility>
-                    <MultiBinding Converter="{conv:FileStateToVisibilityMultiConverter}">
-                        <Binding Path="IsLoading"/>
-                        <Binding Path="IsReadingFile"/>
-                        <Binding Path="IsFileLoaded"/>
-                    </MultiBinding>
-                </iconPacks:PackIconMaterial.Visibility>
-            </iconPacks:PackIconMaterial>
         </Grid>
     </Grid>
 </UserControl>

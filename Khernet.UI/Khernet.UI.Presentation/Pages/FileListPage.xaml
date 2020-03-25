@@ -8,6 +8,7 @@
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 x:Class="Khernet.UI.Pages.FileListPage"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                 x:TypeArguments="vm:FileListViewModel"
                 mc:Ignorable="d" 
                 d:DesignHeight="400" d:DesignWidth="400"
@@ -16,88 +17,122 @@
                 Loaded="BasePage_Loaded">
 
     <Grid>
-        
+
         <!-- The list of files -->
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
-                 SelectionChanged="ListBox_SelectionChanged"
                  ScrollViewer.CanContentScroll="False"
-                 PreviewMouseRightButtonDown="ListBox_PreviewMouseRightButtonDown">
-            
+                 Template="{StaticResource fileListContainer}">
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="24 5 10 5"
-                          ContextMenu="{StaticResource fileMessageContextMenu}">
+                    <Border Background="{StaticResource TransparentBlackBrush}"
+                            Padding="15 10 15 10"
+                            ContextMenu="{StaticResource fileMessageContextMenu}">
 
-                        <Grid.ColumnDefinitions>
-                            
-                            <!-- The extension of file -->
-                            <ColumnDefinition Width="50"/>
-                            
-                            <!-- Details of file -->
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <Border.Cursor>
+                            <MultiBinding Converter="{conv:ChatStateToCursorMultiConverter}" FallbackValue="Arrow">
+                                <Binding Path="IsFileLoaded"/>
+                                <Binding Path="State"/>
+                            </MultiBinding>
+                        </Border.Cursor>
 
-                        <!-- The extension of file -->
-                        <Border Grid.Column="0"
-                                BorderBrush="{StaticResource BlueBrush}"
-                                BorderThickness="1"
-                                Width="50"
-                                Height="50">
-                            <Grid>
-                                <TextBlock Text="{Binding FileName,Converter={conv:FileNameToExtensionConverter}}"
-                                           FontSize="{StaticResource LargeFontSize}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter}}"/>
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenFileCommand}"/>
+                        </Border.InputBindings>
 
-                                <iconPacks:PackIconMaterial Kind="Download">
-                                    <iconPacks:PackIconMaterial.Visibility>
-                                        <MultiBinding Converter="{conv:FileStateToVisibilityMultiConverter}">
-                                            <Binding Path="IsLoading"/>
-                                            <Binding Path="IsReadingFile"/>
-                                            <Binding Path="IsFileLoaded"/>
-                                        </MultiBinding>
-                                    </iconPacks:PackIconMaterial.Visibility>
-                                </iconPacks:PackIconMaterial>
+                        <!--File message-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Animation to show load progress-->
+                            <Controls:ProgressRing Width="36"
+                                                   Grid.Column="0"
+                                                   Grid.RowSpan="2"
+                                                   Panel.ZIndex="1"
+                                                   Height="{Binding Width,RelativeSource={RelativeSource Self},FallbackValue=0}" 
+                                                   Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                                                   HorizontalContentAlignment="Center"/>
+
+                            <!--Progress circle indicator-->
+                            <ucontrols:ProgressCircleControl Radius="18"
+                                                             Grid.Column="0"
+                                                             Grid.RowSpan="2"
+                                                             Minimum="0"
+                                                             Maximum="{Binding FileSize}"
+                                                             Thickness="5"
+                                                             Value="{Binding CurrentReadBytes}"
+                                                             Panel.ZIndex="2"
+                                                             StrokeBackground="White"
+                                                             StrokeBrush="{StaticResource BlueBrush}"
+                                                             Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+                            <!-- State of file: Error or download pending -->
+                            <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                                       ConverterParameter=File}"
+                                                        Grid.Column="0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+                            <!-- File details -->
+                            <Grid Grid.Column="1"
+                                  Margin="3 0 10 0"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left">
+
+                                <Grid.RowDefinitions>
+
+                                    <!-- File name -->
+                                    <RowDefinition Height="Auto"/>
+
+                                    <!-- File size -->
+                                    <RowDefinition Height="Auto"/>
+                                    
+                                    <!-- Send/receive date -->
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- File name-->
+                                <TextBlock Text="{Binding FileName}"
+                                           FontFamily="{StaticResource RobotoBoldFont}"
+                                           Grid.Row="0"
+                                           Margin="0"
+                                           TextWrapping="WrapWithOverflow"
+                                           Width="250"/>
+
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal">
+
+                                    <!-- Current read bytes -->
+                                    <TextBlock Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}">
+                                        <Run Text="{Binding CurrentReadBytes,Converter={conv:SizeUnitConverter}}"/>
+                                        <Run Text="/" />
+                                    </TextBlock>
+
+                                    <!--File size-->
+                                    <TextBlock>
+                                        <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
+                                        <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+                                    </TextBlock>
+
+                                </StackPanel>
+
+                                <!-- Send/receive date -->
+                                <TextBlock Grid.Row="2"
+                                           Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
+                                           Foreground="{StaticResource DarkGrayBrush}"/>
                             </Grid>
-                        </Border>
-
-                        <!-- Progress ring to show load progress-->
-                        <Controls:ProgressRing Width="32" 
-                                               Grid.Column="0"
-                                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityConverter},FallbackValue=Collapsed}"
-                                               Foreground="{StaticResource BlueBrush}"
-                                               Panel.ZIndex="2"
-                                               HorizontalContentAlignment="Center"
-                                               VerticalAlignment="Center"/>
-                        <!-- Details of file -->
-                        <StackPanel Grid.Column="1"
-                                    Margin="10 5 0 5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
-                        
-                            <!-- The name of file -->
-                            <TextBlock HorizontalAlignment="Left"
-                                       Text="{Binding FileName}" 
-                                       FontFamily="{StaticResource RobotoBoldFont}"
-                                       TextWrapping="WrapWithOverflow"
-                                       Width="250"/>
-                            
-                            <!-- The size of file -->
-                            <TextBlock Foreground="{StaticResource DarkGrayBrush}">
-                                <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
-                                <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
-                            </TextBlock>
-                            
-                            <!-- The send date of file -->
-                            <TextBlock Text="{Binding SendDate}" Foreground="{StaticResource DarkGrayBrush}"/>
-                        </StackPanel>
-                    </Grid>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-        
+
         <!--Animation to show load progress-->
         <Controls:ProgressRing Width="32" 
                                Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
@@ -113,6 +148,6 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource TextblockStyle}"
                    Margin="0 0 0 20"/>
-        
+
     </Grid>
 </local:BasePage>

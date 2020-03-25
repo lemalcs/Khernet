@@ -3,12 +3,12 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Container for audio chat messages
+    /// Displays images chat messages.
     /// </summary>
-    public partial class AudioMessageControl : UserControl
+    public partial class ImageItemControl : UserControl
     {
 
-        public AudioMessageControl()
+        public ImageItemControl()
         {
             InitializeComponent();
         }

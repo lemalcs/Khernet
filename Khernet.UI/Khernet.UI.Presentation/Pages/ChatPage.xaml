@@ -158,7 +158,8 @@
 
                 <!-- Typing message indicator -->
                 <TextBlock Grid.Row="1" 
-                           Background="{StaticResource LightBrush}">
+                           Background="{StaticResource LightBrush}"
+                           Padding="10 0 0 0">
                     <TextBlock.Text>
                         <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
                             <Binding Path="UserContext.User.IsWritingMessage"/>
@@ -267,7 +268,7 @@
                                       ToolTip="Markdown message"
                                       Style="{StaticResource IconToggleButton}"
                                       IsChecked="{Binding MessageFormat,Converter={conv:MessageFormatToStringConverter},Mode=TwoWay}"
-                                      >
+                                      Checked="tgBtn_Markdown_Checked">
                             <iconPacks:PackIconMaterial Kind="Markdown" />
                         </ToggleButton>
 

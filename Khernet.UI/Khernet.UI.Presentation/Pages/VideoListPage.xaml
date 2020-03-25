@@ -6,6 +6,9 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"                
                 x:Class="Khernet.UI.Pages.VideoListPage"
                 x:TypeArguments="vm:FileListViewModel"
                 mc:Ignorable="d" 
@@ -15,75 +18,140 @@
                 Loaded="BasePage_Loaded">
 
     <Grid>
-        
+
         <!-- The list of video files -->
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
-                 SelectionChanged="ListBox_SelectionChanged"
                  ScrollViewer.CanContentScroll="False"
-                 PreviewMouseRightButtonDown="ListBox_PreviewMouseRightButtonDown">
-            
+                 Template="{StaticResource fileListContainer}">
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="24 5 10 5"
-                          ContextMenu="{StaticResource fileMessageContextMenu}">
+                    <Border Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}"
+                            Background="{StaticResource TransparentBlackBrush}"
+                            ContextMenu="{StaticResource fileMessageContextMenu}">
                         
-                        <Grid.ColumnDefinitions>
-                            
-                            <!-- Thumbnail of video file -->
-                            <ColumnDefinition Width="100"/>
-                            
-                            <!-- Details of video file -->
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <!-- Thumbnail of video file-->
-                        <Image Grid.Column="0"
-                               Stretch="Uniform"
-                               StretchDirection="DownOnly"
-                               MaxHeight="100"
-                               VerticalAlignment="Top"
-                           Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
-                           >
-                        </Image>
-                        
-                        <!-- The duration of video -->
-                        <Border Background="{StaticResource VaryDarkGrayBrush}"
-                                Grid.Column="0"
-                                VerticalAlignment="Bottom"
-                                HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}" 
-                                       Foreground="{StaticResource LightBrush}"
-                                       FontFamily="{StaticResource RobotoBoldFont}"
-                                       Margin="2"/>
-                        </Border>
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
+                        </Border.InputBindings>
 
-                        <!-- Details of video file -->
-                        <StackPanel Grid.Column="1"
-                                    Margin="10 0 0 0"
-                                    HorizontalAlignment="Left">
-                            
-                            <!-- Name of video file-->
-                            <TextBlock HorizontalAlignment="Left"
-                                       Text="{Binding FileName}" 
-                                       FontFamily="{StaticResource RobotoBoldFont}"
-                                       TextWrapping="WrapWithOverflow"
-                                       Width="230"/>
+                        <Grid Margin="24 5 10 5">
+                            <Grid.ColumnDefinitions>
 
-                            <!-- Size of video file -->
-                            <TextBlock Foreground="{StaticResource DarkGrayBrush}">
-                                <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
-                                <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
-                            </TextBlock>
-                            
-                            <!-- The send date of video -->
-                            <TextBlock Text="{Binding SendDate}" Foreground="{StaticResource DarkGrayBrush}"/>
-                        </StackPanel>
-                    </Grid>
+                                <!-- Video container -->
+                                <ColumnDefinition Width="Auto"/>
+
+                                <!-- Video details -->
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0"
+                                  Height="61.875"
+                                  Width="110"
+                                  Background="Black"
+                                  HorizontalAlignment="Left">
+
+                                <!--Video message container-->
+                                <Grid HorizontalAlignment="Center">
+
+                                    <!--Thumbnail video-->
+                                    <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},
+                                                            TargetNullValue={StaticResource DefaultImage},
+                                                            FallbackValue={StaticResource DefaultImage}}"
+                                           Name="img"
+                                           MaxHeight="100"
+                                           depend:ClipFromBorderProperty.Value="True"
+                                           Stretch="Uniform"
+                                           StretchDirection="DownOnly"
+                                           HorizontalAlignment="Center"/>
+
+                                    <!--Background circle for progress indicators-->
+                                    <Border Width="50"
+                                            Panel.ZIndex="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Height="{Binding Width,RelativeSource={RelativeSource Self}}"
+                                            CornerRadius="{Binding Width,RelativeSource={RelativeSource Self}}"
+                                            Background="{StaticResource OpaqueWhiteBrush}"
+                                            Visibility="{Binding IsFileLoaded,Converter={conv:InverseBoolToVisibilityGoneConverter}}">
+                                    </Border>
+
+
+                                    <!--Animation to show load progress-->
+                                    <Controls:ProgressRing Width="40" 
+                                                           Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                                                           Foreground="White"
+                                                           Panel.ZIndex="2"
+                                                           HorizontalContentAlignment="Center"/>
+
+                                    <!--Progress circle indicator-->
+                                    <ucontrols:ProgressCircleControl Radius="20"
+                                                                     Minimum="0"
+                                                                     Maximum="{Binding FileSize}"
+                                                                     Thickness="5"
+                                                                     Value="{Binding CurrentReadBytes}"
+                                                                     Panel.ZIndex="3"
+                                                                     StrokeBackground="{StaticResource OpaqueGrayColorBrush}"
+                                                                     StrokeBrush="White"
+                                                                     Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+
+                                    <Grid Visibility="{Binding IsLoading,Converter={conv:InverseBoolToVisibilityGoneConverter},FallbackValue=Collapsed}">
+
+                                        <!--Overlay dark panel -->
+                                        <Border Background="Black"
+                                                Opacity="0.5"
+                                                Width="{Binding Path=ActualWidth,ElementName=img}"
+                                                Height="{Binding Path=ActualHeight,ElementName=img}"/>
+
+                                        <!-- Icon of state: Ready, error or download pending -->
+                                        <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                                           Converter={conv:FileChatStateToVisibilityConverter},
+                                                                           ConverterParameter=Play}"
+                                                                    Foreground="White"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"
+                                                                    Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+                                    </Grid>
+                                </Grid>
+                                
+                                <!--Duration-->
+                                <TextBlock VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Left"
+                                           Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"
+                                           Foreground="White"
+                                           Padding="4 0 0 4"/>
+                            </Grid>
+
+                            <StackPanel Grid.Column="1" 
+                                        Orientation="Vertical"
+                                        Margin="10 0 0 0">
+                                <!--Video Name-->
+                                <TextBlock Text="{Binding FileName}" 
+                                           HorizontalAlignment="Left"
+                                           FontFamily="{StaticResource RobotoBoldFont}"
+                                           TextWrapping="WrapWithOverflow"
+                                           Width="230"/>
+
+                                <!--File size-->
+                                <TextBlock Foreground="{StaticResource DarkGrayBrush}">
+                                     <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
+                                     <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+                                </TextBlock>
+
+                                <!-- Send/receive date -->
+                                <TextBlock Grid.Row="2"
+                                           Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
+                                           Foreground="{StaticResource DarkGrayBrush}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-        
+
         <!--Animation to show load progress-->
         <Controls:ProgressRing Width="32" 
                                Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"

@@ -88,7 +88,7 @@ namespace Khernet.UI.Files
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
                     FileResponse response = GetLocalFile(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
@@ -198,7 +198,7 @@ namespace Khernet.UI.Files
                     observer.Media.FileName = Path.GetFileNameWithoutExtension(observer.Media.FileName) + aviExtension;
 
                     FileResponse response = GetLocalFile(observer);
-                    response.Operation = MessageOperation.Resend;
+                    response.Operation = MessageOperation.Download;
 
                     MessageProcessResult result = UploadFile(observer, response);
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
@@ -319,7 +319,7 @@ namespace Khernet.UI.Files
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
                     FileResponse response = GetLocalFile(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
@@ -377,8 +377,7 @@ namespace Khernet.UI.Files
                     metadata.Size = FileHelper.GetFileSize(observer.Media.FileName);
 
                     metadata.Operation = MessageOperation.GetMetadata;
-                    //observer.OnGetMetadata(metadata);
-
+                    
                     MessageProcessResult result = UploadFile(observer, metadata);
 
 
@@ -409,7 +408,7 @@ namespace Khernet.UI.Files
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
                     FileResponse response = GetLocalFile(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
@@ -483,14 +482,14 @@ namespace Khernet.UI.Files
 
                     FileResponse response =new FileResponse 
                     {
-                       FilePath = GetCacheFile(observer)
+                        FilePath = GetCacheFile(observer)
                     };
                     observer.OnGetMetadata(response);
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
                     FileResponse response = GetLocalFile(observer);
-                    response.Operation = MessageOperation.Download;
+                    response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
                     state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
@@ -531,6 +530,8 @@ namespace Khernet.UI.Files
         private MessageProcessResult UploadFile(IFileObserver observer, FileResponse response)
         {
             response.UID = observer.Media.UID;
+            response.Operation = MessageOperation.GetMetadata;
+            response.SendDate = observer.Media.SendDate;
 
             //Notify the sender about metadata of file
             observer.OnGetMetadata(response);
@@ -595,7 +596,8 @@ namespace Khernet.UI.Files
             response.State = (ChatMessageState)((int)message.State);
             response.ThumbnailBytes = IoCContainer.Get<Messenger>().GetThumbnail(observer.Media.Id);
             response.UID = message.UID;
-            response.FilePath= IoCContainer.Get<Messenger>().GetCacheFilePath(observer.Media.Id);
+            response.FilePath = IoCContainer.Get<Messenger>().GetCacheFilePath(observer.Media.Id);
+            response.SendDate = message.SendDate;
 
             return response;
         }

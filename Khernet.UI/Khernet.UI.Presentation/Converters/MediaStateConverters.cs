@@ -51,7 +51,7 @@ namespace Khernet.UI.Converters
             MediaStates state = (MediaStates)value;
 
             //Returns arrow when reading a file and hand when file is reading to open
-            return state==MediaStates.Playing ||state==MediaStates.Paused? Visibility.Visible : Visibility.Collapsed;
+            return state == MediaStates.Playing || state == MediaStates.Paused ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

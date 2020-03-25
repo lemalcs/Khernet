@@ -215,12 +215,6 @@ namespace Khernet.UI
         public abstract ReplyMessageViewModel GetMessageSummary(MessageDirection operation);
 
         /// <summary>
-        /// Gets a copy of this message
-        /// </summary>
-        /// <returns></returns>
-        public abstract ChatMessageItemViewModel Clone();
-
-        /// <summary>
         /// Sends this message to other user
         /// </summary>
         public abstract void ProcessResend();
@@ -233,9 +227,6 @@ namespace Khernet.UI
         {
             lock (syncLock)
             {
-                //if (State == ChatMessageState.Processed)
-                //    return;
-
                 State = state;
             }
         }
