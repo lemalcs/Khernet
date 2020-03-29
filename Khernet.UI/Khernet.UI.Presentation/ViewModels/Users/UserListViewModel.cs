@@ -103,6 +103,7 @@ namespace Khernet.UI
         public void ClearSelection()
         {
             SelectedUser = null;
+            IoCContainer.Get<ChatMessageListViewModel>().SaveDraftMessage();
             IoCContainer.Get<ChatMessageListViewModel>().UserContext = null;
             IoCContainer.Get<ApplicationViewModel>().GoToPage(Converters.ApplicationPage.Session);
         }

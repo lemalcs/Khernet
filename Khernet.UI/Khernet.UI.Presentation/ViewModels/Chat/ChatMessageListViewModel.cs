@@ -63,7 +63,7 @@ namespace Khernet.UI
         /// <summary>
         /// Scrolls the chat list
         /// </summary>
-        public Action ScrollAction { get; set; }
+        public Action ScrollToCurrentContent { get; set; }
 
         /// <summary>
         /// Set draft message
@@ -74,6 +74,11 @@ namespace Khernet.UI
         /// Get draft message
         /// </summary>
         public Func<byte[]> GetContent { get; set; }
+
+        /// <summary>
+        /// Get draft message
+        /// </summary>
+        public Action<ChatMessageItemViewModel,int> ScrollToChatMessage { get; set; }
 
         /// <summary>
         /// The state of user
@@ -201,7 +206,7 @@ namespace Khernet.UI
 
         public bool CanSendMessage
         {
-            get { return HasMessage || UserContext.ResendMessage != null; }
+            get { return HasMessage || (UserContext!=null&& UserContext.ResendMessage != null); }
         }
 
         public bool IsTextBoxFocused
@@ -338,7 +343,6 @@ namespace Khernet.UI
                 MediaVM = new MediaGalleryViewModel();
             }
 
-
             IsGIFGalleryOpen = true;
         }
 
@@ -357,7 +361,7 @@ namespace Khernet.UI
 
         private bool CanSend(object obj)
         {
-            return HasMessage || UserContext.ResendMessage != null;
+            return HasMessage || (UserContext!=null && UserContext.ResendMessage != null);
         }
 
         /// <summary>
@@ -762,7 +766,6 @@ namespace Khernet.UI
             }
         }
 
-
         private void LoadMessages(bool loadForward, int idMessage)
         {
             lock (SyncObject)
@@ -796,7 +799,6 @@ namespace Khernet.UI
 
                 //Load messages ten by ten at time
                 List<MessageItem> unreadMessages = IoCContainer.Get<Messenger>().GetLastMessages(UserContext.User.Token, loadForward, lastIdMessage, messageQuantity);
-
 
                 if (unreadMessages == null)
                     return;
@@ -832,6 +834,12 @@ namespace Khernet.UI
 
                 bool savedUnreadMessageLocation = false;
 
+                ChatMessageItemViewModel firstUnreadMessageModel = null;
+
+                int lastIndexChat = Items.IndexOf(UserContext.CurrentChatModel);
+
+                bool scrollToFirstUnreadmessage = lastIndexChat == Items.Count - 1;
+
                 for (int i = 0; i < unreadMessages.Count; i++)
                 {
                     if (UserContext.SentMessages != null)
@@ -850,14 +858,19 @@ namespace Khernet.UI
                     if (!unreadMessages[i].IsRead && (loadForward && !savedUnreadMessageLocation))
                     {
                         UserContext.FirstUnreadMessageIndex = Items.Count - 1;
+                        firstUnreadMessageModel = Items[Items.Count - 1];
                         savedUnreadMessageLocation = true;
                     }
                 }
 
+                //Check if it has to scroll to first unread message
+                if (scrollToFirstUnreadmessage && firstUnreadMessageModel != null)
+                    ScrollToChatMessage(firstUnreadMessageModel, userContext.FirstUnreadMessageIndex);
+
                 //Scroll to current sent message
                 if (Items.Count > 1 && Items[Items.Count - 2] == UserContext.CurrentChatModel)
                 {
-                    ScrollAction?.Invoke();
+                    ScrollToCurrentContent?.Invoke();
                 }
             }
         }
@@ -1131,7 +1144,7 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(ReplyMessagePending));
         }
 
-        public void SetCurrentMessage(ChatMessageItemViewModel messageModel)
+        public void CheckUnreadMessageAsRead(ChatMessageItemViewModel messageModel)
         {
             if (messageModel == null)
                 return;
@@ -1175,13 +1188,13 @@ namespace Khernet.UI
             if (user == null)
                 return;
 
+            //Got to chat page to start to send messages
+            IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat, IoCContainer.Get<ChatMessageListViewModel>());
+
             //By default indicate that there is not a draft message
             HasMessage = false;
 
-            if (UserContext != null)
-            {
-                UserContext.DraftMessage = GetContent?.Invoke();
-            }
+            SaveDraftMessage();
 
             //Retrieve chat list from cache, add if it does not exist
             ObservableCollection<ChatMessageItemViewModel> chatList = IoCContainer.Chat.GetChat(user);
@@ -1196,6 +1209,7 @@ namespace Khernet.UI
             SetChatList(chatList);
 
             //Get draft message
+            MessageFormat = UserContext.DraftMessageFormat;
             SetContent?.Invoke(UserContext.DraftMessage);
             OnPropertyChanged(nameof(CanSendMessage));
 
@@ -1210,13 +1224,29 @@ namespace Khernet.UI
 
             CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
 
-            //Got to chat page to start to send messages
-            IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Chat, IoCContainer.Get<ChatMessageListViewModel>());
-
             //Remove unread message number from users list
             UserContext.User.ClearUnReadMessages();
 
             FocusTextBox();
+
+            //Scroll to last viewed message
+            if (UserContext.User.UnreadMessages == 0)
+            {
+                int startIndex = Items.IndexOf(UserContext.CurrentChatModel);
+                ScrollToChatMessage?.Invoke(UserContext.CurrentChatModel, startIndex);
+            }
+        }
+
+        /// <summary>
+        /// Saves draft message in HTML format if any exists.
+        /// </summary>
+        public void SaveDraftMessage()
+        {
+            if (UserContext != null)
+            {
+                UserContext.DraftMessageFormat = MessageFormat;
+                UserContext.DraftMessage = GetContent?.Invoke();
+            }
         }
 
         public void FocusTextBox()

@@ -15,8 +15,7 @@
     </UserControl.Resources>
     <Grid d:DataContext="{d:DesignInstance vm:ChatMessageListDesignModel,IsDesignTimeCreatable=True}"
           Background="White"
-          Name="messageContainer"
-          >
+          Name="messageContainer">
 
         <!--List of messages-->
         <TreeView Name="container" 
@@ -34,8 +33,8 @@
                   Loaded="container_Loaded"
                   SelectedValuePath="Id"
                   ScrollBar.Scroll="container_Scroll"
-                  Focusable="False"
-                  >
+                  Focusable="False">
+            
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <local:VirtualizingStackPanelEx />

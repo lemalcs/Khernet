@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Khernet.UI.Media;
+using System.Collections.Generic;
 
 namespace Khernet.UI
 {
@@ -47,6 +48,11 @@ namespace Khernet.UI
         /// </summary>
         public byte[] DraftMessage { get; set; }
 
+        /// <summary>
+        /// The format of draft message
+        /// </summary>
+        public MessageType DraftMessageFormat { get; set; }
+
         public ReplyMessageViewModel ReplyMessage
         {
             get => replyMessage;
@@ -71,6 +77,7 @@ namespace Khernet.UI
         public UserChatContext(UserItemViewModel user)
         {
             User = user;
+            DraftMessageFormat = MessageType.Html;
         }
 
         #endregion
@@ -87,6 +94,10 @@ namespace Khernet.UI
                 UnreadMessagesNumber--;
         }
 
+        /// <summary>
+        /// Store message that current user sent.
+        /// </summary>
+        /// <param name="chatMessage">The model of chat message</param>
         public void AddSentMessage(ChatMessageItemViewModel chatMessage)
         {
             if (SentMessages == null)

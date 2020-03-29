@@ -1,5 +1,6 @@
 ﻿using Khernet.UI.IoC;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,9 @@ namespace Khernet.UI.Controls
         /// </summary>
         bool allowLoadMessages = false;
 
+        /// <summary>
+        /// Indicates if chat list is scrolling to bottom side
+        /// </summary>
         private bool scrollingToEnd = false;
 
         /// <summary>
@@ -27,14 +31,19 @@ namespace Khernet.UI.Controls
         bool allowScroll = false;
 
         /// <summary>
-        /// Indicates if there is a request to make an item visible in chat list
-        /// </summary>
-        bool requestingBringIntoView = false;
-
-        /// <summary>
         /// Indicates if it is the first time this control is loaded so it does not have any messages
         /// </summary>
         bool isFirstLoad = false;
+
+        /// <summary>
+        /// The chat message model to scroll to when chat list is loaded
+        /// </summary>
+        private ChatMessageItemViewModel penddingChatModel;
+
+        /// <summary>
+        /// Index of chat message within underlying items source
+        /// </summary>
+        private int penddingChatModelIndex = -1;
 
         public ChatMessageListControl()
         {
@@ -69,7 +78,7 @@ namespace Khernet.UI.Controls
         {
             scrollingToEnd = true;
 
-            var scrollControl = GetScrollViewer(container as DependencyObject);
+            var scrollControl = FindVisualChild<ScrollViewer>(container);
 
             if (scrollControl == null)
                 return;
@@ -82,9 +91,7 @@ namespace Khernet.UI.Controls
             if (count == 0)
                 return;
 
-            requestingBringIntoView = true;
-
-            var panel = (VirtualizingStackPanelEx)GetPanel(container);
+            var panel = FindVisualChild<VirtualizingStackPanelEx>(container);
 
             if (!panel.IsLoaded)
                 return;
@@ -111,102 +118,7 @@ namespace Khernet.UI.Controls
                 scrollControl.ScrollToVerticalOffset(scrollControl.ScrollableHeight - scrollControl.ViewportHeight);
             }
 
-            requestingBringIntoView = false;
-
             scrollingToEnd = false;
-        }
-
-        public void ScrollToItem(ChatMessageItemViewModel messageModel)
-        {
-            if (messageModel == null)
-                return;
-
-            var scrollControl = GetScrollViewer(container as DependencyObject);
-
-            if (scrollControl == null)
-                return;
-
-            if (IoCContainer.Get<ChatMessageListViewModel>().Items == null)
-                return;
-
-            int count = IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(messageModel);
-
-            if (count <= 0)
-                return;
-
-            if (!container.HasItems)
-                return;
-
-            var panel = (VirtualizingStackPanelEx)GetPanel(container);
-
-            panel.BringIntoViewPublic(count);
-
-            TreeViewItem i = null;
-
-            //Determine if the calling thread has access to the thread the TreeView is on
-            if (container.Dispatcher.CheckAccess())
-            {
-                Dispatcher.Invoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate (object unused)
-                           {
-                               i = (TreeViewItem)container.ItemContainerGenerator.ContainerFromIndex(count);
-                               var i2 = (TreeViewItem)container.ItemContainerGenerator.ContainerFromItem(messageModel);
-                               return null;
-                           }, null);
-
-                if (i != null)
-                {
-                    i.IsSelected = true;
-                    i.BringIntoView();
-                    i.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
-
-                }
-            }
-
-            requestingBringIntoView = true;
-        }
-
-        private ScrollViewer GetScrollViewer(DependencyObject hostControl)
-        {
-            ScrollViewer scroll = null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(hostControl as DependencyObject); i++)
-            {
-                var child = VisualTreeHelper.GetChild(hostControl as DependencyObject, i);
-                if (child is ScrollViewer)
-                {
-                    scroll = child as ScrollViewer;
-                    break;
-                }
-                else
-                {
-                    scroll = GetScrollViewer(child);
-                    if (scroll is ScrollViewer)
-                        break;
-                }
-
-            }
-            return scroll;
-        }
-
-        private VirtualizingStackPanel GetPanel(DependencyObject hostControl)
-        {
-            VirtualizingStackPanel scroll = null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(hostControl as DependencyObject); i++)
-            {
-                var child = VisualTreeHelper.GetChild(hostControl as DependencyObject, i);
-                if (child is VirtualizingStackPanel)
-                {
-                    scroll = child as VirtualizingStackPanel;
-                    break;
-                }
-                else
-                {
-                    scroll = GetPanel(child);
-                    if (scroll is VirtualizingStackPanel)
-                        break;
-                }
-
-            }
-            return scroll;
         }
 
         private void Container_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -214,7 +126,7 @@ namespace Khernet.UI.Controls
             //Scroll to up
             if (e.Delta > 0)
             {
-                var scroll = GetScrollViewer(sender as DependencyObject);
+                var scroll = FindVisualChild<ScrollViewer>(container);
 
                 if (scroll.VerticalOffset == 0)
                 {
@@ -226,14 +138,15 @@ namespace Khernet.UI.Controls
 
         private void container_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            var scrollControl = GetScrollViewer(container as DependencyObject);
-            var panel = GetPanel(scrollControl);
+            var scrollControl = FindVisualChild<ScrollViewer>(container);
+
+            var panel = FindVisualChild<VirtualizingStackPanel>(scrollControl);
 
             var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, e.ViewportHeight));
 
             if (hitTest != null)
             {
-                IoCContainer.Get<ChatMessageListViewModel>().SetCurrentMessage((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
+                IoCContainer.Get<ChatMessageListViewModel>().CheckUnreadMessageAsRead((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
                 if (allowScroll)
                     IoCContainer.Get<ChatMessageListViewModel>().SetCurrentChatModel((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
             }
@@ -254,22 +167,160 @@ namespace Khernet.UI.Controls
                 if (scrollDifference >= 0 && scrollDifference <= 1)
                     IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(true);
             }
-            if (!allowScroll)
-            {
-                if (!requestingBringIntoView)
-                {
-                    var messageModel = IoCContainer.Get<ChatMessageListViewModel>().GetCurrentChatModel();
+        }
 
-                    ScrollToItem(messageModel);
+        public void ScrollToItem(ChatMessageItemViewModel chatModel,int index)
+        {
+            if (chatModel == null)
+                return;
+
+            if (container.IsLoaded)
+                GetTreeViewItem(container, chatModel,index);
+            else
+            {
+                penddingChatModel = chatModel;
+                penddingChatModelIndex = index;
+            }
+        }
+
+
+        /// <summary>
+        /// Recursively search for an item in this subtree.
+        /// </summary>
+        /// <param name="container">
+        /// The parent ItemsControl. This can be a TreeView or a TreeViewItem.
+        /// </param>
+        /// <param name="item">
+        /// The item to search for.
+        /// </param>
+        /// <returns>
+        /// The TreeViewItem that contains the specified item.
+        /// </returns>
+        private TreeViewItem GetTreeViewItem(ItemsControl container, object item, int startIndex=0)
+        {
+            if (container != null)
+            {
+                if (container.DataContext == item)
+                {
+                    return container as TreeViewItem;
+                }
+
+                // Expand the current container
+                if (container is TreeViewItem && !((TreeViewItem)container).IsExpanded)
+                {
+                    container.SetValue(TreeViewItem.IsExpandedProperty, true);
+                }
+
+                // Try to generate the ItemsPresenter and the ItemsPanel.
+                // by calling ApplyTemplate.  Note that in the 
+                // virtualizing case even if the item is marked 
+                // expanded we still need to do this step in order to 
+                // regenerate the visuals because they may have been virtualized away.
+
+                container.ApplyTemplate();
+                ItemsPresenter itemsPresenter =
+                    (ItemsPresenter)container.Template.FindName("ItemsHost", container);
+                if (itemsPresenter != null)
+                {
+                    itemsPresenter.ApplyTemplate();
+                }
+                else
+                {
+                    // The Tree template has not named the ItemsPresenter, 
+                    // so walk the descendents and find the child.
+                    itemsPresenter = FindVisualChild<ItemsPresenter>(container);
+                    if (itemsPresenter == null)
+                    {
+                        container.UpdateLayout();
+
+                        itemsPresenter = FindVisualChild<ItemsPresenter>(container);
+                    }
+                }
+
+                Panel itemsHostPanel = (Panel)VisualTreeHelper.GetChild(itemsPresenter, 0);
+
+                VirtualizingStackPanelEx virtualizingPanel = itemsHostPanel as VirtualizingStackPanelEx;
+
+                for (int i = startIndex, count = container.Items.Count; i < count; i++)
+                {
+                    TreeViewItem subContainer;
+                    if (virtualizingPanel != null)
+                    {
+                        // Bring the item into view so 
+                        // that the container will be generated.
+                        virtualizingPanel.BringIntoViewPublic(i);
+
+                        subContainer =
+                            (TreeViewItem)container.ItemContainerGenerator.
+                            ContainerFromIndex(i);
+                    }
+                    else
+                    {
+                        subContainer =
+                            (TreeViewItem)container.ItemContainerGenerator.
+                            ContainerFromIndex(i);
+
+                        // Bring the item into view to maintain the 
+                        // same behavior as with a virtualizing panel.
+                        subContainer.BringIntoView();
+                    }
+
+                    if (subContainer != null)
+                    {
+                        // Search the next level for the object.
+                        TreeViewItem resultContainer = GetTreeViewItem(subContainer, item);
+                        if (resultContainer != null)
+                        {
+                            return resultContainer;
+                        }
+                        else
+                        {
+                            // The object is not under this TreeViewItem
+                            // so collapse it.
+                            subContainer.IsExpanded = false;
+                        }
+                    }
                 }
             }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Search for an element of a certain type in the visual tree.
+        /// </summary>
+        /// <typeparam name="T">The type of element to find.</typeparam>
+        /// <param name="visual">The parent element.</param>
+        /// <returns></returns>
+        private T FindVisualChild<T>(Visual visual) where T : Visual
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
+            {
+                Visual child = (Visual)VisualTreeHelper.GetChild(visual, i);
+                if (child != null)
+                {
+                    T correctlyTyped = child as T;
+                    if (correctlyTyped != null)
+                    {
+                        return correctlyTyped;
+                    }
+
+                    T descendent = FindVisualChild<T>(child);
+                    if (descendent != null)
+                    {
+                        return descendent;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private void container_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.PageUp)
             {
-                var scroll = GetScrollViewer(sender as DependencyObject);
+                var scroll = FindVisualChild<ScrollViewer>(sender as Visual);
 
                 if (scroll.VerticalOffset == 0)
                 {
@@ -283,8 +334,7 @@ namespace Khernet.UI.Controls
 
         private void container_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-
-            var scrollControl = GetScrollViewer(sender as DependencyObject);
+            var scrollControl = FindVisualChild<ScrollViewer>(sender as Visual);
 
             if (scrollControl == null)
             {
@@ -299,9 +349,16 @@ namespace Khernet.UI.Controls
 
         private void container_Loaded(object sender, RoutedEventArgs e)
         {
+            if(penddingChatModel!=null)
+            {
+                ScrollToItem(penddingChatModel,penddingChatModelIndex);
+                penddingChatModel = null;
+                penddingChatModelIndex = -1;
+            }
+
             if (isFirstLoad)
             {
-                var scrollControl = GetScrollViewer(sender as DependencyObject);
+                var scrollControl = FindVisualChild<ScrollViewer>(sender as Visual);
                 if (scrollControl != null)
                 {
                     isFirstLoad = false;

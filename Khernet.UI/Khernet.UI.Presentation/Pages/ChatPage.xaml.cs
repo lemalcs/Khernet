@@ -33,9 +33,10 @@ namespace Khernet.UI.Pages
         /// <param name="viewModel">The view model</param>
         public ChatPage(ChatMessageListViewModel viewModel) : base(viewModel)
         {
-            viewModel.ScrollAction = ScrollToCurrentContent;
+            viewModel.ScrollToCurrentContent = ScrollToCurrentContent;
             viewModel.GetContent = GetMessageContent;
             viewModel.SetContent = SetMessageContent;
+            viewModel.ScrollToChatMessage = ScrollToChatMessage;
 
             InitializeComponent();
         }
@@ -191,6 +192,9 @@ namespace Khernet.UI.Pages
         /// </summary>
         private void ActivateMarkdownPreview()
         {
+            if (!IsLoaded)
+                return;
+
             if (SpecificViewModel.MessageFormat == MessageType.Markdown)
             {
                 FlowDocumentMarkdownConverter converter = new FlowDocumentMarkdownConverter();
@@ -226,7 +230,7 @@ namespace Khernet.UI.Pages
 
         private byte[] GetMessageContent()
         {
-            return GetTextMessage(rtxt.Document);
+            return GetHtmlMessage(rtxt.Document);
         }
 
         private void SetMessageContent(byte[] message)
@@ -234,14 +238,18 @@ namespace Khernet.UI.Pages
             ClearContent();
             if (message == null)
             {
-
                 return;
             }
 
             SetTextMessage(message);
         }
 
-        private byte[] GetTextMessage(FlowDocument document)
+        /// <summary>
+        /// Get a text message in HTML format.
+        /// </summary>
+        /// <param name="document">The <see cref="FlowDocument"/> that contains text message</param>
+        /// <returns>A byte array containing HTML string encoded in UTF-8</returns>
+        private byte[] GetHtmlMessage(FlowDocument document)
         {
             if (document == null)
                 return null;
@@ -257,6 +265,11 @@ namespace Khernet.UI.Pages
             return result;
         }
 
+        /// <summary>
+        /// Get a text message in markdown format.
+        /// </summary>
+        /// <param name="document">The <see cref="FlowDocument"/> that contains text message</param>
+        /// <returns>A byte array containing markdown string encoded in UTF-8</returns>
         private byte[] GetMarkdownTextMessage(FlowDocument document)
         {
             if (document == null)
@@ -285,6 +298,10 @@ namespace Khernet.UI.Pages
                 FlowDocumentHtmlConverter converter = new FlowDocumentHtmlConverter();
                 FlowDocument fw = converter.ConvertFromHtml(Encoding.UTF8.GetString(message));
                 rtxt.Document = fw;
+                
+                //Check is preview has to be activated for markdown message
+                if (SpecificViewModel.MessageFormat == MessageType.Markdown)                
+                    ActivateMarkdownPreview();
             }
             catch (Exception error)
             {
@@ -297,7 +314,7 @@ namespace Khernet.UI.Pages
         {
             if (format == MessageType.Html)
             {
-                return GetTextMessage(rtxt.Document);
+                return GetHtmlMessage(rtxt.Document);
             }
             else if (format == MessageType.Markdown)
             {
@@ -315,6 +332,11 @@ namespace Khernet.UI.Pages
         private void tgBtn_Markdown_Checked(object sender, RoutedEventArgs e)
         {
             ActivateMarkdownPreview();
+        }
+
+        public void ScrollToChatMessage(ChatMessageItemViewModel chatModel,int startIndex)
+        {
+            chatList.ScrollToItem(chatModel,startIndex);
         }
     }
 }

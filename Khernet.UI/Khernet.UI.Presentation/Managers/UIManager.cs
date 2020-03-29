@@ -99,7 +99,6 @@ namespace Khernet.UI
         /// <param name="viewModel">The view model for player</param>
         public void ShowPlayer<T>(T viewModel) where T : BaseModel
         {
-            //App.Current.Resources["MediaVm"] = null;
             IoCContainer.Get<ApplicationViewModel>().ShowPlayer(viewModel);
         }
 
@@ -253,7 +252,6 @@ namespace Khernet.UI
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                //Application.Current.MainWindow.Show();
                 Application.Current.MainWindow.Activate();
                 Application.Current.MainWindow.Show();
                 if (Application.Current.MainWindow.WindowState == WindowState.Minimized)
@@ -354,7 +352,7 @@ namespace Khernet.UI
             result = (byte[])Application.Current.Dispatcher.Invoke(new Func<string, byte[]>((h) =>
                {
                    FlowDocumentHtmlConverter documentConverter = new FlowDocumentHtmlConverter();
-                   FlowDocument document = documentConverter.ConvertFromHtml(/*html*/h);
+                   FlowDocument document = documentConverter.ConvertFromHtml(h);
 
                    TextRange range = new TextRange(document.ContentStart, document.ContentEnd);
                    byte[] messageContent = new byte[0];
@@ -364,7 +362,6 @@ namespace Khernet.UI
                        messageContent = mem.ToArray();
                    }
 
-                   //result = messageContent;
                    return messageContent;
                }), html);
 
