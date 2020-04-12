@@ -54,6 +54,12 @@ namespace Khernet.UI
         /// </summary>
         private MessageDirection operation;
 
+        private ChatMessageItemViewModel chatMessage;
+
+        private bool isSentByMe;
+
+        private ChatMessageState state;
+
         public UserItemViewModel User
         {
             get
@@ -148,6 +154,43 @@ namespace Khernet.UI
             get;
             set;
         }
+        public ChatMessageItemViewModel ChatMessage 
+        { 
+            get => chatMessage;
+            set 
+            { 
+                if(chatMessage != value)
+                {
+                    chatMessage = value;
+                    OnPropertyChanged(nameof(ChatMessage));
+                }
+            }
+        }
+        public bool IsSentByMe 
+        { 
+            get => isSentByMe;
+            set
+            { 
+                if(isSentByMe != value)
+                {
+                    isSentByMe = value;
+                    OnPropertyChanged(nameof(IsSentByMe));
+                }
+            }
+        }
+
+        public ChatMessageState State 
+        { 
+            get => state;
+            set 
+            { 
+                if(state != value)
+                {
+                    state = value;
+                    OnPropertyChanged(nameof(State));
+                }
+            }
+        }
 
         #endregion
 
@@ -198,15 +241,19 @@ namespace Khernet.UI
                 };
                 User.ReadDisplayName(peer.FullName);
                 User.BuildDisplayName();
+                IsSentByMe = true;
             }
             else
             {
                 User = IoCContainer.Get<UserListViewModel>().FindUser(messageDetail.SenderToken);
+                IsSentByMe = false;
             }
 
             var replyContent = IoCContainer.Get<Messenger>().GetMessageContent(idReplyMessage);
 
             Operation = MessageDirection.Reply;
+
+            State = (ChatMessageState)((int)messageDetail.State);
 
             switch (messageDetail.Type)
             {

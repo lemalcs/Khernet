@@ -10,7 +10,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vm:ReplyMessageDesignModel,IsDesignTimeCreatable=True}">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -19,27 +19,20 @@
 
         <!--Reply icon-->
         <iconPacks:PackIconMaterial Kind="{Binding Operation,Converter={conv:MessageOperationToStringConverter}}" 
-                                        Grid.Column="0"
-                                        Margin="10 0 0 0"
-                                        Visibility="{Binding IsReplying,Converter={conv:BoolToVisibilityGoneConverter}}"
-                                        Foreground="{StaticResource BlueBrush}"/>
+                                    Grid.Column="0"
+                                    Margin="10 0 0 0"
+                                    Visibility="{Binding IsReplying,Converter={conv:BoolToVisibilityGoneConverter}}"
+                                    Foreground="{StaticResource BlueBrush}"/>
 
         <!--Reply container-->
-    <Border BorderThickness="{Binding IsReplying,Converter={conv:BoolToThicknessConverter}}"
-            BorderBrush="{StaticResource BlueBrush}"
-            HorizontalAlignment="Stretch"
-            Margin="5"
+        <Border BorderThickness="{Binding IsReplying,Converter={conv:BoolToThicknessConverter}}"
+                BorderBrush="{StaticResource BlueBrush}"
+                HorizontalAlignment="Stretch"
+                Margin="2"
                 Grid.Column="1">
 
-        <Grid Margin="5">
-            <Grid.ColumnDefinitions>
-                 <!--Picture message-->
-                 <ColumnDefinition Width="Auto"/>
-
-                <!--Text message-->
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
+            <Grid Margin="5">
+                
                 <Grid.RowDefinitions>
                     <!--Message sender-->
                     <RowDefinition Height="Auto"/>
@@ -48,50 +41,118 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-
-
-            <!--Message sender-->
+                <!--Message sender-->
                 <RichTextBox depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"
                              Background="Transparent"
-                               IsReadOnly="True"
-                                 BorderThickness="0"
-                                             IsReadOnlyCaretVisible="False"
+                             IsReadOnly="True"
+                             BorderThickness="0"
+                             IsReadOnlyCaretVisible="False"
                              Grid.Row="0"
-                           Grid.ColumnSpan="2"
+                             Grid.ColumnSpan="2"
                              Grid.Column="0"/>
 
-                <!--Picture for image and video message-->
-                <Image Grid.Column="0"
-                       Grid.Row="1"
-                       Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
-                       Visibility="{Binding Thumbnail,Converter={conv:StringToVisibilityConverter}}"
-                       HorizontalAlignment="Left"
-                          Height="30"
-                       Margin="10 0 10 0"/>
+                <Grid Grid.Row="1">
 
-                <!--Icon for audio and file message-->
-                <iconPacks:PackIconMaterial Kind="{Binding IconName}"
-                                            Visibility="{Binding IconName,Converter={conv:StringToVisibilityConverter}}"
-                                            Grid.Column="0"
-                                            Grid.Row="1"
-                                            Height="30"
-                                            Margin="10 0 10 0"
-                                            />
+                    <Grid.ColumnDefinitions>
 
-                <!--Text message-->
-                <TextBlock Grid.Column="1"
+                        <!-- Anchors -->
+                        <ColumnDefinition Width="Auto"/>
+                        
+                        <!--Picture message-->
+                        <ColumnDefinition Width="Auto"/>
+
+                        <!--Text message-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+
+                        <!-- Upper anchor -->
+                        <RowDefinition Height="Auto"/>
+
+                        <!-- Vertical line -->
+                        <RowDefinition Height="*"/>
+
+                        <!-- Bottom lines -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Upper anchor -->
+                    <Path Grid.Column="0" 
+                          Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
+                          Margin="8 0 0 0" 
+                          StrokeThickness="1"
+                          Grid.Row="0" >
+                        <Path.Stroke>
+                            <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
+                                <Binding Path="IsSentByMe"/>
+                                <Binding Path="State"/>
+                            </MultiBinding>
+                        </Path.Stroke>
+                    </Path>
+
+                    <!-- Vertical line -->
+                    <Path Grid.Column="0" 
+                          Data="M0,0 L0,1" 
+                          Fill="#FFF4F4F5" 
+                          Margin="8 -1 0 -1" 
+                          StrokeThickness="1"
+                          Grid.Row="1" 
+                          Stretch="Fill"
+                          HorizontalAlignment="{Binding IsSentByMe,Converter={conv:SentByMeToAligment}}">
+                        <Path.Stroke>
+                            <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id2">
+                                <Binding Path="IsSentByMe"/>
+                                <Binding Path="State"/>
+                            </MultiBinding>
+                        </Path.Stroke>
+                    </Path>
+
+                    <!-- Bottom anchor -->
+                    <Path Grid.Column="0" 
+                          Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=bottomAnchor}" 
+                          Margin="8 0 0 0" 
+                          StrokeThickness="1"
+                          Grid.Row="2" >
+                        <Path.Stroke>
+                            <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id3">
+                                <Binding Path="IsSentByMe"/>
+                                <Binding Path="State"/>
+                            </MultiBinding>
+                        </Path.Stroke>
+                    </Path>
+
+                    <!--Picture for image and video message-->
+                    <Image Grid.Column="1"
                            Grid.Row="1"
-                           depend:InlineSourceProperty.Value="{Binding TextContent}"
-                           Margin="5 0 0 0"
-                           />
+                           Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
+                           Visibility="{Binding Thumbnail,Converter={conv:StringToVisibilityConverter}}"
+                           HorizontalAlignment="Left"
+                           Height="30"
+                           Margin="9 0 10 0"/>
 
-                <!--File name-->
-                <TextBlock Grid.Column="1"
-                           Grid.Row="1"
-                           Text="{Binding FileName}"
-                           Visibility="{Binding FileName,Converter={conv:StringToVisibilityConverter}}"
-                           VerticalAlignment="Center"
-                           Margin="5 0 0 0"/>
+                    <!--Icon for audio and file message-->
+                    <iconPacks:PackIconMaterial Kind="{Binding IconName}"
+                                                Visibility="{Binding IconName,Converter={conv:StringToVisibilityConverter}}"
+                                                Grid.Column="1"
+                                                Grid.Row="1"
+                                                Height="30"
+                                                Margin="9 0 10 0"/>
+
+                    <!--Text message-->
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               depend:InlineSourceProperty.Value="{Binding TextContent}"
+                               Margin="8 5 0 5"/>
+
+                    <!--File name-->
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               Text="{Binding FileName}"
+                               Visibility="{Binding FileName,Converter={conv:StringToVisibilityConverter}}"
+                               VerticalAlignment="Center"
+                               Margin="0"/>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

@@ -1,6 +1,5 @@
 ﻿using Khernet.UI.IoC;
 using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -130,7 +129,7 @@ namespace Khernet.UI.Controls
 
                 if (scroll.VerticalOffset == 0)
                 {
-                    IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(false);
+                    LoadMessages(false);
                 }
             }
             allowScroll = true;
@@ -151,11 +150,19 @@ namespace Khernet.UI.Controls
                     IoCContainer.Get<ChatMessageListViewModel>().SetCurrentChatModel((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
             }
 
+            var firstItem = VisualTreeHelper.HitTest(panel, new Point(1, 30));
+
+            if (firstItem != null)
+            {
+                IoCContainer.Get<ChatMessageListViewModel>().SetFirstViewChatModel(
+                    (ChatMessageItemViewModel)((FrameworkElement)firstItem.VisualHit).DataContext);
+            }
+
             if (e.VerticalOffset == 0 && e.VerticalChange < 0)
             {
                 if (allowLoadMessages)
                 {
-                    IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(false);
+                    LoadMessages(false);
                 }
                 allowLoadMessages = true;
             }
@@ -165,17 +172,54 @@ namespace Khernet.UI.Controls
                 double scrollDifference = Math.Abs(e.ExtentHeight - e.VerticalOffset - e.ViewportHeight);
 
                 if (scrollDifference >= 0 && scrollDifference <= 1)
-                    IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(true);
+                {
+                    LoadMessages(true);
+                }
             }
         }
 
-        public void ScrollToItem(ChatMessageItemViewModel chatModel,int index)
+        /// <summary>
+        /// Loads messages to chat list asynchronously.
+        /// </summary>
+        /// <param name="loadFordward">True to load new messages otherwise false.</param>
+        private void LoadMessages(bool loadFordward)
+        {
+            ChatMessageItemViewModel lastChatModel = null;
+
+            if (IoCContainer.Get<ChatMessageListViewModel>().UserContext != null)
+            {
+                lastChatModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;
+            }
+            
+            IoCContainer.UI.ExecuteAsync(() =>
+            {
+                IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(loadFordward);
+
+                if (loadFordward)
+                    return;
+
+                ChatMessageItemViewModel firstChatModel = null;
+
+                if (IoCContainer.Get<ChatMessageListViewModel>().UserContext != null)
+                {
+                    firstChatModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.FirstViewChatModel;
+                }
+                if (IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(firstChatModel) != 0)
+                {
+
+                    int lastIndex = IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(lastChatModel);
+                    ScrollToItem(lastChatModel, lastIndex);
+                }
+            });
+        }
+
+        public void ScrollToItem(ChatMessageItemViewModel chatModel, int index)
         {
             if (chatModel == null)
                 return;
 
             if (container.IsLoaded)
-                GetTreeViewItem(container, chatModel,index);
+                GetTreeViewItem(container, chatModel, index);
             else
             {
                 penddingChatModel = chatModel;
@@ -196,7 +240,7 @@ namespace Khernet.UI.Controls
         /// <returns>
         /// The TreeViewItem that contains the specified item.
         /// </returns>
-        private TreeViewItem GetTreeViewItem(ItemsControl container, object item, int startIndex=0)
+        private TreeViewItem GetTreeViewItem(ItemsControl container, object item, int startIndex = 0)
         {
             if (container != null)
             {
@@ -324,7 +368,10 @@ namespace Khernet.UI.Controls
 
                 if (scroll.VerticalOffset == 0)
                 {
-                    IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(false);
+                    IoCContainer.UI.ExecuteAsync(() =>
+                    {
+                        IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(false);
+                    });
                 }
             }
 
@@ -349,9 +396,9 @@ namespace Khernet.UI.Controls
 
         private void container_Loaded(object sender, RoutedEventArgs e)
         {
-            if(penddingChatModel!=null)
+            if (penddingChatModel != null)
             {
-                ScrollToItem(penddingChatModel,penddingChatModelIndex);
+                ScrollToItem(penddingChatModel, penddingChatModelIndex);
                 penddingChatModel = null;
                 penddingChatModelIndex = -1;
             }
@@ -363,7 +410,6 @@ namespace Khernet.UI.Controls
                 {
                     isFirstLoad = false;
                 }
-
             }
             IoCContainer.Get<ChatMessageListViewModel>().FocusTextBox();
         }

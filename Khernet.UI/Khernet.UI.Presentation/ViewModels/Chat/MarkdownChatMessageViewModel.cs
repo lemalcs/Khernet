@@ -154,6 +154,9 @@ namespace Khernet.UI
             }
             else
                 reply.User = User;
+
+            reply.IsSentByMe = IsSentByMe;
+            reply.State = State;
             reply.IsReplying = true;
 
             var messageContent = IoCContainer.UI.ConvertMarkdownToDocument(TextContent);

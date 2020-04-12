@@ -788,7 +788,7 @@ namespace Khernet.UI
                 else
                     lastIdMessage = UserContext.FirstIdMessage;
 
-                int messageQuantity = 10;
+                int messageQuantity = 20;
 
                 if (idMessage > 0)
                 {
@@ -840,6 +840,8 @@ namespace Khernet.UI
 
                 bool scrollToFirstUnreadmessage = lastIndexChat == Items.Count - 1;
 
+                bool isFirstLoad = Items.Count == 0;
+
                 for (int i = 0; i < unreadMessages.Count; i++)
                 {
                     if (UserContext.SentMessages != null)
@@ -866,6 +868,11 @@ namespace Khernet.UI
                 //Check if it has to scroll to first unread message
                 if (scrollToFirstUnreadmessage && firstUnreadMessageModel != null)
                     ScrollToChatMessage(firstUnreadMessageModel, userContext.FirstUnreadMessageIndex);
+                else if (isFirstLoad)
+                {
+                    SetCurrentChatModel(Items[Items.Count - 1]);
+                    ScrollToChatMessage(Items[Items.Count - 1], Items.Count - 1);
+                }
 
                 //Scroll to current sent message
                 if (Items.Count > 1 && Items[Items.Count - 2] == UserContext.CurrentChatModel)
@@ -1171,6 +1178,12 @@ namespace Khernet.UI
         public void SetCurrentChatModel(ChatMessageItemViewModel messageModel)
         {
             AddCurrentChatModel(messageModel);
+        }
+
+        public void SetFirstViewChatModel(ChatMessageItemViewModel messageModel)
+        {
+            if (UserContext.CurrentChatModel != messageModel)
+                UserContext.FirstViewChatModel = messageModel;
         }
 
         public ChatMessageItemViewModel GetCurrentChatModel()

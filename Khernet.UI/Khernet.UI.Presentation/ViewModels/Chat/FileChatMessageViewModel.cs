@@ -77,6 +77,8 @@ namespace Khernet.UI
             else
                 reply.User = User;
 
+            reply.IsSentByMe = IsSentByMe;
+            reply.State = State;
             reply.IsReplying = true;
             reply.FileName = FileName;
             reply.IconName = "File";

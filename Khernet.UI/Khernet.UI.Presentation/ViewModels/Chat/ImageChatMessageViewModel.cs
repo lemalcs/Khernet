@@ -77,6 +77,8 @@ namespace Khernet.UI
             else
                 reply.User = User;
 
+            reply.IsSentByMe = IsSentByMe;
+            reply.State = State;
             reply.IsReplying = true;
             reply.SetThumbnail(Thumbnail.ToArray());
             reply.FileName = "Image";

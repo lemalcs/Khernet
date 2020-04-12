@@ -89,6 +89,9 @@ namespace Khernet.UI
             }
             else
                 reply.User = User;
+
+            reply.IsSentByMe = IsSentByMe;
+            reply.State = State;
             reply.IsReplying = true;
             reply.SetTextContent(TextContent.ToArray());
             reply.Operation = operation;
