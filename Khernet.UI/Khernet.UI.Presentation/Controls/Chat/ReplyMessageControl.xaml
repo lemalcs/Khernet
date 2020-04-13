@@ -49,7 +49,9 @@
                              IsReadOnlyCaretVisible="False"
                              Grid.Row="0"
                              Grid.ColumnSpan="2"
-                             Grid.Column="0"/>
+                             Grid.Column="0"
+                             FontWeight="Bold"
+                             Foreground="{StaticResource BlueBrush}"/>
 
                 <Grid Grid.Row="1">
 

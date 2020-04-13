@@ -231,7 +231,7 @@ namespace Khernet.UI.Managers
                            observer.Text.UID);
 
                 idMessage = result.Id;
-                state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                state = (ChatMessageState)((int)result.Result);
 
             }
             catch (Exception error)
@@ -265,7 +265,7 @@ namespace Khernet.UI.Managers
                     Operation = MessageOperation.Download,
                     UID = detail.UID,
                 };
-                state = detail.State == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                state = ((ChatMessageState)(int)detail.State);
 
                 observer.OnGetMetadata(response);
             }

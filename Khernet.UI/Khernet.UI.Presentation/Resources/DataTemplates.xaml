@@ -2,8 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                     xmlns:conv="clr-namespace:Khernet.UI.Converters"
-                    xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf">
-    
+                    xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
+                    xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties">
+
     <!--Data templates for every chat message type-->
     <DataTemplate x:Key="TextDataTemplate">
         <ucontrols:TextMessageControl/>
@@ -33,7 +34,7 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
-        <Grid Margin="20 2 20 2">
+        <Grid Margin="20 2 20 10">
             <Grid.ColumnDefinitions>
 
                 <!-- Picture -->
@@ -63,7 +64,7 @@
                         Grid.Column="0"
                         Grid.Row="1"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
+                        VerticalAlignment="Top"
                         Background="{Binding User.ColorHex, Converter={conv:StringRGBToColorConverter}}"
                         Margin="0 0 10 0"
                         
@@ -91,7 +92,7 @@
                     Grid.Column="0"
                     Grid.Row="1"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Top"
                     Width="{Binding Height,RelativeSource={RelativeSource Self}}"
                     Height="32"
                     Margin="0 0 10 0">
@@ -107,8 +108,8 @@
                       Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
                       Margin="0" 
                       StrokeThickness="1"
-                      Grid.Row="0" 
-                      >
+                      Grid.Row="0"
+                  VerticalAlignment="Bottom">
                 <Path.Stroke>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
                         <Binding Path="IsSentByMe"/>
@@ -137,9 +138,34 @@
             <!--The content of user-->
             <Border Grid.Column="2"
                         Grid.Row="1"
-                        Margin="20 0 0 0"
+                        Margin="15 0 0 0"
                         Height="{Binding Path=Height,ElementName=cont}">
-                <ContentPresenter Name="cont"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+
+                        <!-- Hour -->
+                        <RowDefinition Height="Auto"/>
+                        
+                        <!-- User content -->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Hour-->
+                    <TextBlock Margin="0 0 0 5"
+                               Grid.Row="0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Foreground="{StaticResource DarkGrayBrush}"
+                               Style="{StaticResource TimeTextBlock}"
+                               FontSize="{StaticResource SmallFontSize}"
+                               FontFamily="{StaticResource RobotoRegularFont}"
+                               Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"/>
+
+
+                    <!-- User content -->
+                    <ContentPresenter Grid.Row="1" 
+                                  Name="cont"/>
+                </Grid>
             </Border>
 
             <!-- Bottom anchor -->
@@ -156,23 +182,15 @@
                 </Path.Stroke>
             </Path>
 
-
+            <!--
             <TextBlock Margin="0"
                            Grid.Column="2"
                            Grid.Row="2"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Left"
                            Text="{Binding Id}"/>
+-->
 
-            <!--Hour-->
-            <TextBlock Margin="0"
-                           Grid.Column="2"
-                           Grid.Row="2"
-                           VerticalAlignment="Bottom"
-                           HorizontalAlignment="Right"
-                           Foreground="{StaticResource DarkGrayBrush}"
-                           Style="{StaticResource TimeTextBlock}"
-                           Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"/>
 
             <!-- Bottom horizontal line -->
             <Path Grid.Column="2" 

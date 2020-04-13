@@ -44,6 +44,7 @@ namespace Khernet.UI.DependencyProperties
                     range.ApplyPropertyValue(TextElement.FontFamilyProperty, new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto"));
 
                     control.Document = fw;
+                    control.Document.PagePadding = new Thickness(0, 0, 0, 0);
                 }
                 catch (Exception error)
                 {

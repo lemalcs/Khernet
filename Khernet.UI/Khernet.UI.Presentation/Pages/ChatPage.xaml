@@ -70,15 +70,18 @@
                         <iconPacks:PackIconMaterial Kind="CircleOutline" />
                     </Button>
 
-                    <!-- Diaplay name-->
-                    <RichTextBox Height="30"
-                                 Grid.Column="1"
+                    <!-- Display name-->
+                    
+                    <RichTextBox Grid.Column="1"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  IsReadOnly="True"
                                  IsReadOnlyCaretVisible="False"
                                  Focusable="False"
+                                 FontWeight="Bold"
+                                 FontSize="{StaticResource RegularFontSize}"
                                  Cursor="Arrow"
+                                 VerticalAlignment="Center"
                                  depend:DocumentSourceProperty.Value="{Binding UserContext.User.DisplayName}"/>
 
                     <!--Details button-->

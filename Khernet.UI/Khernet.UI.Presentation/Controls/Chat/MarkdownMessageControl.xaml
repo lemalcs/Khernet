@@ -26,14 +26,14 @@
 
         <!--Chat message-->
         <RichTextBox depend:FormatedDocumentSourceProperty.Value="{Binding TextContent,Converter={conv:ByteToDocumentConverter}}"
-                         HorizontalAlignment="Stretch"
-                         HorizontalContentAlignment="Stretch"
-                         VerticalAlignment="Center"
-                         Grid.Row="1"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         IsReadOnly="True"
-                         IsReadOnlyCaretVisible="False"
-                         ContextMenu="{DynamicResource markdownContextMenu}"/>
+                     HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Grid.Row="1"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     IsReadOnlyCaretVisible="False"
+                     ContextMenu="{DynamicResource markdownContextMenu}"/>
     </Grid>
 </UserControl>

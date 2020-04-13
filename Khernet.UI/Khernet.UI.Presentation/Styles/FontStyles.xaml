@@ -6,7 +6,7 @@
     <system:Double x:Key="LargeFontSize">20</system:Double>
     <system:Double x:Key="MediumFontSize">16</system:Double>
     <system:Double x:Key="RegularFontSize">12.5</system:Double>
-    <system:Double x:Key="SmallFontSize">10</system:Double>
+    <system:Double x:Key="SmallFontSize">11</system:Double>
 
     <media:FontFamily x:Key="RobotoMediumFont">/Khernet;component/Fonts/#roboto medium</media:FontFamily>
     <media:FontFamily x:Key="RobotoRegularFont">/Khernet;component/Fonts/#roboto regular</media:FontFamily>
