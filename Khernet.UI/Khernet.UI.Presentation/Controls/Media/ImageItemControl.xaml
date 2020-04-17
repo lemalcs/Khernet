@@ -66,13 +66,14 @@
                                              Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
             <!-- Image message -->
-            <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage}}"
+            <Image Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
                    MaxHeight="420"
                    MaxWidth="420"
                    depend:ClipFromBorderProperty.Value="True"
                    Stretch="Uniform"
                    StretchDirection="DownOnly"
                    ContextMenu="{StaticResource fileMessageContextMenu}"/>
+
         </Grid>
     </Border>
 </UserControl>

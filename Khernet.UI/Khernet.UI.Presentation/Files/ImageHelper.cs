@@ -160,5 +160,22 @@ namespace Khernet.UI
 
             return fs;
         }
+
+        /// <summary>
+        /// Get thw width and height of an image.
+        /// </summary>
+        /// <param name="fileName">The path of image</param>
+        /// <returns>The <see cref="Size"/> of image.</returns>
+        public static Size GetImageDimensions(string fileName)
+        {
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            img.UriSource = new Uri(fileName);
+            img.EndInit();
+
+            Size size = new Size(img.Width, img.Height);
+
+            return size;
+        }
     }
 }

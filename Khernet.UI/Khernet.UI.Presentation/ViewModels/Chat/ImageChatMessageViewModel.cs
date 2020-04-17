@@ -27,10 +27,46 @@ namespace Khernet.UI
 
         public ReadOnlyCollection<byte> Thumbnail { get; private set; }
 
+        /// <summary>
+        /// The width of image.
+        /// </summary>
+        private double width;
+
+        /// <summary>
+        /// The height of imahe.
+        /// </summary>
+        private double height;
+        public double Width 
+        { 
+            get => width;
+            set 
+            { 
+                if(width != value)
+                {
+                    width = value;
+                    OnPropertyChanged(nameof(Width));
+                }
+            }
+        }
+
+        public double Height 
+        { 
+            get => height;
+            set 
+            { 
+                if(height != value)
+                {
+                    height = value;
+                    OnPropertyChanged(nameof(Height));
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
         public ICommand OpenImageCommand { get; private set; }
+        
 
 
         #endregion
@@ -182,12 +218,12 @@ namespace Khernet.UI
 
         public void ProcessImage(int idMessage)
         {
-            //Request to upload and image retrieved from database
+            //Request to download the image from local database to file system
             Media = new MediaRequest
             {
                 Id = idMessage,
                 FileType = MessageType.Image,
-                OperationRequest = MessageOperation.GetMetadata
+                OperationRequest = MessageOperation.Download
             };
 
             Id = idMessage;
@@ -241,7 +277,7 @@ namespace Khernet.UI
 
         public void OnGetMetadata(FileResponse info)
         {
-            if (info.Operation == MessageOperation.GetMetadata)
+            if (info.Operation == MessageOperation.Download)
             {
                 if (info.ThumbnailBytes != null)
                 {
@@ -253,6 +289,9 @@ namespace Khernet.UI
 
                 SendDate = info.SendDate;
             }
+
+            Width = info.Width;
+            Height = info.Height;
 
             FilePath = info.FilePath;
 

@@ -6,6 +6,7 @@ using Khernet.UI.Cache;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.IO;
 using System.Windows;
@@ -55,6 +56,10 @@ namespace Khernet.UI.Files
                     metadata.Operation = MessageOperation.Upload;
                     metadata.Size = FileHelper.GetFileSize(outFile);
 
+                    Size size = ImageHelper.GetImageDimensions(outFile);
+                    metadata.Width = size.Width;
+                    metadata.Height = size.Height;
+
                     using (MemoryStream mem = ImageHelper.GetImageThumbnail(outFile))
                     {
                         metadata.ThumbnailBytes = mem.ToArray();
@@ -79,11 +84,24 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response = new FileResponse
-                    {
-                        FilePath = GetCacheFile(observer)
-                    };
+                    //FileResponse response = new FileResponse
+                    //{
+                    //    FilePath = GetCacheFile(observer)
+                    //};
+                    //observer.OnGetMetadata(response);
+
+                    FileResponse response = GetFileMetadata(observer);
+                    response.Operation = MessageOperation.Download;
+
+                    state = response.State;
+
                     observer.OnGetMetadata(response);
+
+                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    {
+                        response.FilePath = GetCacheFile(observer);
+                        observer.OnGetMetadata(response);
+                    }
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Resend)
                 {
