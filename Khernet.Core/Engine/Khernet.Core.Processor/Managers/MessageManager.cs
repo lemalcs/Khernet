@@ -92,6 +92,16 @@ namespace Khernet.Core.Processor.Managers
                     if (usersList.Count == 0)
                         autoResetEvent.WaitOne();
                 }
+                catch (ThreadAbortException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
+                }
+                catch (ThreadInterruptedException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
+                }
                 catch (Exception exception)
                 {
                     LogDumper.WriteLog(exception);
@@ -185,63 +195,7 @@ namespace Khernet.Core.Processor.Managers
             if (messageList == null)
                 return;
 
-            //Try to one send a message to test if peer is connected
-            try
-            {
-                RequestPendingMessage(messageList[0]);
-            }
-            catch (EndpointNotFoundException ex)
-            {
-                LogDumper.WriteLog(ex, "Peer disconnected");
-
-                //If peer is disconnected then continue with next peer
-                return;
-            }
-            catch (Exception ex2)
-            {
-                SetMessageState(messageList[0], MessageState.Error);
-                LogDumper.WriteLog(ex2);
-            }
-
-            messageList = communicator.GetRequestPendingMessageForUser(receiptToken, 0);
-
-            if (messageList == null)
-                return;
-
-            //Send pendding messages 
-            for (int j = 0; j < messageList.Count; j++)
-            {
-                try
-                {
-                    RequestPendingMessage(messageList[j]);
-                }
-                catch (EndpointNotFoundException error1)
-                {
-                    LogDumper.WriteLog(error1, "Peer disconnected");
-
-                    //If current peer turns disconnected then continue with next peer
-                    break;
-                }
-                catch (Exception error)
-                {
-                    SetMessageState(messageList[j], MessageState.Error);
-                    LogDumper.WriteLog(error, "Error while requesting pendding message");
-                }
-            }
-        }
-
-        private void RequestPendingMessage(int idMesssage)
-        {
-            try
-            {
-                FileCommunicator fileCommunicator = new FileCommunicator();
-                fileCommunicator.RequestPendingFile(idMesssage);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            IoCContainer.Get<FileManager>().ProcessFile(messageList[0]);
         }
 
         private void SetMessageState(int idMessage, MessageState state)
@@ -259,9 +213,7 @@ namespace Khernet.Core.Processor.Managers
                 {
                     penddingThread.Interrupt();
                     autoResetEvent.Set();
-
-                    if (!penddingThread.Join(TimeSpan.FromSeconds(3)))
-                        penddingThread.Abort();
+                    penddingThread.Abort();
                 }
             }
             catch (Exception exception)

@@ -1,5 +1,6 @@
 ﻿using Khernet.UI.IoC;
 using Khernet.UI.Managers;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -65,6 +66,7 @@ namespace Khernet.UI
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns>True if application is running otherwise false</returns>
+        [DebuggerStepThrough]
         private bool VerifyRunning(object parameter)
         {
             return running;

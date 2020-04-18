@@ -74,9 +74,15 @@ namespace Khernet.Core.Processor.Managers
                     if (messageList.IsEmpty)
                         autoReset.WaitOne();
                 }
+                catch (ThreadAbortException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
+                }
                 catch (ThreadInterruptedException exception)
                 {
                     LogDumper.WriteLog(exception);
+                    return;
                 }
                 catch (Exception exception)
                 {
@@ -94,8 +100,7 @@ namespace Khernet.Core.Processor.Managers
                 {
                     processor.Interrupt();
                     autoReset.Set();
-                    if (!processor.Join(TimeSpan.FromMinutes(2)))
-                        processor.Abort();
+                    processor.Abort();
                 }
             }
             catch (Exception exception)

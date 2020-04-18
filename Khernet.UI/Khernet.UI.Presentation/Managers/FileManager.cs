@@ -120,14 +120,22 @@ namespace Khernet.UI.Managers
                                 }
                             }
                         }
+                        catch (ThreadAbortException exception)
+                        {
+                            return;
+                        }
+                        catch (ThreadInterruptedException exception)
+                        {
+                            return;
+                        }
                         catch (Exception)
                         {
-                            System.Diagnostics.Debugger.Break();
                             throw;
                         }
                         finally
                         {
-                            observersList.TryDequeue(out observer);
+                            if (observersList != null)
+                                observersList.TryDequeue(out observer);
                         }
                     }
 
@@ -150,17 +158,13 @@ namespace Khernet.UI.Managers
         {
             try
             {
-                observersList = null;
+                stopProcessing = true;
                 if (processor != null && processor.ThreadState != ThreadState.Unstarted)
                 {
                     autoReset.Set();
 
-                    stopProcessing = true;
                     processor.Interrupt();
-
-                    //If thread does not stop through 1 minute, abort thread
-                    if (!processor.Join(TimeSpan.FromMinutes(1)))
-                        processor.Abort();
+                    processor.Abort();
                 }
             }
             catch (Exception)
@@ -173,6 +177,8 @@ namespace Khernet.UI.Managers
 
                 if (autoReset != null)
                     autoReset.Close();
+
+                observersList = null;
             }
         }
 

@@ -139,9 +139,9 @@ namespace Khernet.UI
 
             try
             {
-                StopServer();
-
                 StopClient();
+
+                StopServer();
 
                 State = EngineState.Stopped;
             }
@@ -170,28 +170,18 @@ namespace Khernet.UI
         {
             try
             {
-                try
-                {
-                    IoCContainer.Get<EventListenerClient>().Stop();
-                }
-                catch (Exception error)
-                {
-                    Debug.WriteLine(error.Message);
-                    Debugger.Break();
-                }
-                finally
-                {
-                    var listener = IoCContainer.Get<EventListenerClient>();
+                var listener = IoCContainer.Get<EventListenerClient>();
+                listener.Stop();
 
-                    //Attach events to listen notifications
-                    listener.PeerChanged -= Listener_PeerChanged;
-                    listener.WritingMessage -= Listener_WritingMessage;
-                    listener.MessageArrived -= Listener_MessageArrived;
-                    listener.FileArrived -= Listener_FileArrived;
-                    listener.BeginSendingFile -= Listener_BeginSendingFile;
-                    listener.EndSendingFile -= Listener_EndSendingFile;
-                    listener.MessageSent -= Listener_MessageSent;
-                }
+                //Detach listener events
+                listener.PeerChanged -= Listener_PeerChanged;
+                listener.WritingMessage -= Listener_WritingMessage;
+                listener.MessageArrived -= Listener_MessageArrived;
+                listener.FileArrived -= Listener_FileArrived;
+                listener.BeginSendingFile -= Listener_BeginSendingFile;
+                listener.EndSendingFile -= Listener_EndSendingFile;
+                listener.MessageSent -= Listener_MessageSent;
+                
 
                 IoCContainer.UnConfigure<AccountIdentity>();
                 IoCContainer.UnConfigure<EventListenerClient>();

@@ -105,16 +105,12 @@ namespace Khernet.UI.Managers
         {
             try
             {
-                idMessageList = null;
                 if (stateMonitor != null && stateMonitor.ThreadState != ThreadState.Unstarted)
                 {
                     stateAutoReset.Set();
                     stopMonitoring = true;
                     stateMonitor.Interrupt();
-
-                    //If thread does not stop through 1 minute, abort thread
-                    if (!stateMonitor.Join(TimeSpan.FromMinutes(1)))
-                        stateMonitor.Abort();
+                    stateMonitor.Abort();
                 }
             }
             catch (Exception)
@@ -127,6 +123,8 @@ namespace Khernet.UI.Managers
 
                 if (stateAutoReset != null)
                     stateAutoReset.Close();
+
+                idMessageList = null;
             }
         }
 

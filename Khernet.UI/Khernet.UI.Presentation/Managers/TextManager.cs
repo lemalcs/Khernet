@@ -292,16 +292,12 @@ namespace Khernet.UI.Managers
         {
             try
             {
-                sendersList = null;
                 if (messageSender != null && messageSender.ThreadState != ThreadState.Unstarted)
                 {
                     senderAutoReset.Set();
                     stopProcessing = true;
                     messageSender.Interrupt();
-
-                    //If thread does not stop through 1 minute, abort thread
-                    if (!messageSender.Join(TimeSpan.FromMinutes(1)))
-                        messageSender.Abort();
+                    messageSender.Abort();
                 }
             }
             catch (Exception)
@@ -314,20 +310,18 @@ namespace Khernet.UI.Managers
 
                 if (senderAutoReset != null)
                     senderAutoReset.Close();
+
+                sendersList = null;
             }
 
             try
             {
-                receiversList = null;
                 if (messageReceiver != null && messageReceiver.ThreadState != ThreadState.Unstarted)
                 {
                     receiverAutoReset.Set();
                     stopProcessing = true;
                     messageReceiver.Interrupt();
-
-                    //If thread does not stop through 1 minute, abort thread
-                    if (!messageReceiver.Join(TimeSpan.FromMinutes(1)))
-                        messageReceiver.Abort();
+                    messageReceiver.Abort();
                 }
             }
             catch (Exception)
@@ -340,6 +334,8 @@ namespace Khernet.UI.Managers
 
                 if (receiverAutoReset != null)
                     receiverAutoReset.Close();
+                
+                receiversList = null;
             }
         }
 

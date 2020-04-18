@@ -374,7 +374,6 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
         }
 
@@ -386,12 +385,10 @@ namespace Khernet.Core.Host
                 {
                     commHost.Close();
                 }
-
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
         }
 
@@ -403,7 +400,6 @@ namespace Khernet.Core.Host
                 {
                     notifierHost.Close();
                 }
-
             }
             catch (Exception exception)
             {
@@ -419,7 +415,6 @@ namespace Khernet.Core.Host
                 {
                     eventHost.Close();
                 }
-
             }
             catch (Exception exception)
             {

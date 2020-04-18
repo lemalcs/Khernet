@@ -1,6 +1,7 @@
 ﻿using Khernet.UI.Resources;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ namespace Khernet.UI
         private static ConcurrentDictionary<string, Assembly> assemblyList;
 
         [STAThread]
+        [DebuggerStepThrough]
         public static void Main(string[] args)
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;

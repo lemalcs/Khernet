@@ -104,9 +104,6 @@ namespace Khernet.Core.Processor
             //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
             commData.RegisterPenddingMessage(receiptToken, idMessage);
-
-            //Try to send file again
-            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(receiptToken);
         }
 
         public string GetUIDMessage(int idMessage)

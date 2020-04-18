@@ -114,7 +114,6 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw;
             }
         }
     }

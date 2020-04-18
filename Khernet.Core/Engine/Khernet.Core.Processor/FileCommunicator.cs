@@ -409,114 +409,6 @@ namespace Khernet.Core.Processor
             }
         }
 
-        public void RequestPendingFile(int idMessage)
-        {
-            FileObserver fileObserver = null;
-            ReadCompletedEventHandler readCompleted = null;
-            ReadFailedEventHandler readFailed = null;
-
-            try
-            {
-                Communicator communicator = new Communicator();
-
-                ConversationMessage message = communicator.GetMessageDetail(idMessage);
-                FileInformation info = JSONSerializer<FileInformation>.DeSerialize(communicator.GetMessageContent(idMessage));
-
-                FileMessage fileMessage = new FileMessage
-                {
-                    SenderToken = message.SenderToken,
-                    ReceiptToken = message.ReceiptToken,
-                    Metadata = info,
-                    SendDate = message.SendDate,
-                    Type = message.Type,
-                    UID = message.UID,
-                    UIDReply = message.UIDReply,
-                };
-
-                fileObserver = new FileObserver(fileMessage);
-                fileObserver.Id = idMessage;
-
-                IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(message.SenderToken);
-
-                readCompleted =
-                    (sender) => { IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)sender).Data.SenderToken); };
-
-                readFailed =
-                    (s, ev) => { IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)s).Data.SenderToken); };
-
-                fileObserver.ReadCompleted += readCompleted;
-                fileObserver.ReadFailed += readFailed;
-
-                RequestFile(fileObserver);
-
-                SendNotification(idMessage, fileMessage);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                if(fileObserver!=null)
-                {
-                    fileObserver.ReadCompleted -= readCompleted;
-                    fileObserver.ReadFailed -= readFailed;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Send notification to a consumer about a new received file 
-        /// </summary>
-        /// <param name="idMessage">The id of message</param>
-        /// <param name="fileMessage">Metadata of file</param>
-        private void SendNotification(int idMessage, FileMessage fileMessage)
-        {
-            try
-            {
-                InternalFileMessage internalMessage = new InternalFileMessage();
-                internalMessage.SenderToken = fileMessage.SenderToken;
-                internalMessage.ReceiptToken = fileMessage.ReceiptToken;
-                internalMessage.SendDate = fileMessage.SendDate;
-                internalMessage.Metadata = fileMessage.Metadata;
-                internalMessage.Type = fileMessage.Type;
-                internalMessage.UID = fileMessage.UID;
-                internalMessage.UIDReply = fileMessage.UIDReply;
-                internalMessage.Id = idMessage;
-
-                PublisherClient publisherClient = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisherClient.ProcessNewFile(internalMessage);
-            }
-            catch (Exception error)
-            {
-                LogDumper.WriteLog(error);
-            }
-        }
-
-        /// <summary>
-        /// Get file from local application database
-        /// </summary>
-        /// <param name="senderToken">The token of user that sent file</param>
-        /// <param name="idFile">Identifier of file (GUID)</param>
-        /// <returns></returns>
-        public Stream GetFile(string senderToken, string idFile)
-        {
-            try
-            {
-                FileCommunicatorData fileData = new FileCommunicatorData();
-
-                string tempId = BuildIdFile(senderToken, idFile);
-
-                return fileData.GetFile(tempId);
-            }
-            catch (Exception error)
-            {
-                LogDumper.WriteLog(error);
-                throw error;
-            }
-        }
-
         public Stream GetFile(int idMessage)
         {
             try
@@ -566,18 +458,6 @@ namespace Khernet.Core.Processor
                 fileId = BuildIdFile(message.SenderToken, message.UID);
 
             return fileId;
-        }
-
-        public bool ExistsFile(int idMessage)
-        {
-            FileCommunicatorData fileData = new FileCommunicatorData();
-
-            Communicator comm = new Communicator();
-
-            ConversationMessage message = comm.GetMessageDetail(idMessage);
-
-            string tempId = BuildIdFile(message.SenderToken, message.UID);
-            return fileData.ExistsFile(tempId);
         }
 
         public byte[] GetThumbnail(int idMessage)

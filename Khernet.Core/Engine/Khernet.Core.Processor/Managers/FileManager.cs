@@ -6,6 +6,7 @@ using Khernet.Services.Client;
 using Khernet.Services.Messages;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Khernet.Core.Processor.Managers
@@ -91,16 +92,31 @@ namespace Khernet.Core.Processor.Managers
                             fileObserver.ReadCompleted += FileObserver_ReadCompleted;
                             fileObserver.ReadFailed += FileObserver_ReadFailed;
 
-                            fileCommunicator.RequestFile(fileObserver);
+                            try
+                            {
+                                fileCommunicator.RequestFile(fileObserver);
+                            }
+                            catch (Exception)
+                            {
+                                List<int> pendingList = communicator.GetRequestPendingMessageForUser(message.SenderToken, 0);
+                                if (pendingList == null || (pendingList != null && !pendingList.Contains(idMessage)))
+                                    communicator.RegisterPenddingMessage(message.SenderToken, idMessage);
+
+                                throw;
+                            }
 
                             SendNotification(idMessage, fileMessage);
 
                             fileList.TryDequeue(out idMessage);
                         }
+                        catch(ThreadAbortException ex)
+                        {
+                            LogDumper.WriteLog(ex);
+                            return;
+                        }
                         catch (Exception ex)
                         {
                             LogDumper.WriteLog(ex);
-                            communicator.RegisterPenddingMessage(message.SenderToken, idMessage);
                         }
                         finally
                         {
@@ -118,9 +134,15 @@ namespace Khernet.Core.Processor.Managers
                     if (fileList.IsEmpty)
                         autoReset.WaitOne();
                 }
+                catch (ThreadAbortException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
+                }
                 catch (ThreadInterruptedException exception)
                 {
                     LogDumper.WriteLog(exception);
+                    return;
                 }
                 catch (Exception exception)
                 {
@@ -176,8 +198,7 @@ namespace Khernet.Core.Processor.Managers
                 {
                     processor.Interrupt();
                     autoReset.Set();
-                    if (!processor.Join(TimeSpan.FromMinutes(2)))
-                        processor.Abort();
+                    processor.Abort();
                 }
             }
             catch (Exception exception)

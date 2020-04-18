@@ -309,12 +309,6 @@ namespace Khernet.Core.Host
             try
             {
                 continueChecking = false;
-                if (connectionChecker != null)
-                {
-                    connectionChecker.Interrupt();
-                    connectionChecker.Join();
-                }
-
                 if (listenerClient != null && listenerService != null)
                 {
                     if (listenerClient.State == CommunicationState.Opened)
@@ -339,11 +333,16 @@ namespace Khernet.Core.Host
                         }
                     }
                 }
+                
+                if (connectionChecker != null)
+                {
+                    connectionChecker.Interrupt();
+                    connectionChecker.Abort();
+                }
             }
             catch (Exception exception)
             {
-                LogDumper.WriteLog(exception, "Stop");
-                throw;
+                LogDumper.WriteLog(exception, "Client event listener stopped");
             }
         }
 

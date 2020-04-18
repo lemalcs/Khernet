@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -236,6 +237,7 @@ namespace Khernet.UI
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
+        [DebuggerStepThrough]
         protected bool IsReadyMessage(object obj)
         {
             return IsMessageLoaded;

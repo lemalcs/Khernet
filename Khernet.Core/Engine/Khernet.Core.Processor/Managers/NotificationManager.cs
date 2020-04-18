@@ -132,9 +132,19 @@ namespace Khernet.Core.Processor.Managers
                     autoReset.WaitOne();
                 }
             }
+            catch (ThreadAbortException exception)
+            {
+                LogDumper.WriteLog(exception);
+                return;
+            }
+            catch (ThreadInterruptedException exception)
+            {
+                LogDumper.WriteLog(exception);
+                return;
+            }
             catch (Exception)
             {
-                Console.WriteLine("Notification Monitor aborted.");
+                Console.WriteLine("Notification Monitor stopped.");
             }
 
         }
@@ -408,9 +418,7 @@ namespace Khernet.Core.Processor.Managers
                 {
                     notificationMonitor.Interrupt();
                     autoReset.Set();
-
-                    if (!notificationMonitor.Join(TimeSpan.FromMinutes(2)))
-                        notificationMonitor.Abort();
+                    notificationMonitor.Abort();
                 }
             }
             catch (Exception exception)

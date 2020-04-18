@@ -1,6 +1,7 @@
 ﻿using Khernet.UI.Converters;
 using Khernet.UI.Pages;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,6 +41,7 @@ namespace Khernet.UI.Controls
 
         public IInputElement CommandTarget { get; set; }
 
+        [DebuggerHidden]
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
@@ -87,6 +89,7 @@ namespace Khernet.UI.Controls
             }
         }
 
+        [DebuggerStepThrough]
         private void CanExecuteChanged(object sender, EventArgs e)
         {
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -6,6 +7,7 @@ namespace Khernet.UI
     /// <summary>
     /// Command to be executed by controls
     /// </summary>
+    [DebuggerStepThrough]
     public class RelayCommand : ICommand
     {
 

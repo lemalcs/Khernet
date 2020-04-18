@@ -80,10 +80,10 @@ namespace Khernet.Core.Host
             Task.Factory.StartNew(() =>
             {
                 string foundToken = GetToken(e.EndpointDiscoveryMetadata);
-                if(e.UserState!=null)//Offline peers list
+                if (e.UserState != null)//Offline peers list
                 {
                     List<PeerAddress> peerList = (List<PeerAddress>)e.UserState;
-                    var foundPeer=peerList.FirstOrDefault((p) => { return p.Token == foundToken; });
+                    var foundPeer = peerList.FirstOrDefault((p) => { return p.Token == foundToken; });
                     if (foundPeer != null)
                     {
                         SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
@@ -93,7 +93,7 @@ namespace Khernet.Core.Host
                 //Save address of new users                
                 Communicator comm = new Communicator();
 
-                if(comm.GetPeerAdress(foundToken,Constants.CommunicatorService)==null)
+                if (comm.GetPeerAdress(foundToken, Constants.CommunicatorService) == null)
                     SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
 
                 if (comm.GetPeerAdress(foundToken, Constants.FileService) == null)
@@ -168,7 +168,7 @@ namespace Khernet.Core.Host
             }
         }
 
-        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata,string token, byte[] cert)
+        private static void SaveFoundPeer(EndpointDiscoveryMetadata metadata, string token, byte[] cert)
         {
             CryptographyProvider crypto = new CryptographyProvider();
 
@@ -262,7 +262,7 @@ namespace Khernet.Core.Host
                             SaveFoundPeer(metadata, token, cert);
                         }
 
-                        if(comm.GetPeerProfile(token).State!=PeerState.Offline)
+                        if (comm.GetPeerProfile(token).State != PeerState.Offline)
                             comm.UpdatePeerState(token, PeerState.Offline);//0: Offline
                     }
                 }
@@ -294,7 +294,7 @@ namespace Khernet.Core.Host
                 try
                 {
                     List<PeerAddress> disconnectedPeers = ((List<PeerAddress>)e.UserState).ToList();
-                     
+
                     if (e.Result.Endpoints.Count > 0)
                     {
                         //Delete from user list with online state that were confirmed during discovery
@@ -311,9 +311,9 @@ namespace Khernet.Core.Host
 
                             string token = certificate.Subject.Substring(3, 34);
                             PeerAddress peerAddr = disconnectedPeers.Find((p) => { return p.Token == token; });
-                            
+
                             if (peerAddr != null)
-                               disconnectedPeers.Remove(peerAddr);
+                                disconnectedPeers.Remove(peerAddr);
                         }
                     }
 
@@ -408,35 +408,21 @@ namespace Khernet.Core.Host
             {
                 try
                 {
-                    try
+                    List<PeerAddress> tokenList = communicator.GetConnectedPeers(Constants.CommunicatorService);
+
+                    bool existsDisconnected = false;
+                    for (int i = 0; i < tokenList.Count; i++)
                     {
-                        List<PeerAddress> tokenList = communicator.GetConnectedPeers(Constants.CommunicatorService);
-
-                        bool existsDisconnected = false;
-                        for (int i = 0; i < tokenList.Count; i++)
+                        Uri addr;
+                        if (!Uri.TryCreate(tokenList[i].Address, UriKind.Absolute, out addr))
                         {
-                            Uri addr;
-                            if (!Uri.TryCreate(tokenList[i].Address, UriKind.Absolute, out addr))
-                            {
-                                existsDisconnected = true;
-                                continue;
-                            }
+                            existsDisconnected = true;
+                            continue;
+                        }
 
-                            if (NetworkHelper.IsIPAddress(addr.Host))
-                            {
-                                if (!NetworkHelper.TryConnectToIP(addr.Host, addr.Port))
-                                {
-                                    existsDisconnected = true;
-                                }
-                                else
-                                {
-                                    IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
-                                    tokenList.RemoveAt(i);
-                                    i--;
-                                }
-
-                            }
-                            else if (!NetworkHelper.TryConnectToHost(addr.Host, addr.Port))
+                        if (NetworkHelper.IsIPAddress(addr.Host))
+                        {
+                            if (!NetworkHelper.TryConnectToIP(addr.Host, addr.Port))
                             {
                                 existsDisconnected = true;
                             }
@@ -446,22 +432,39 @@ namespace Khernet.Core.Host
                                 tokenList.RemoveAt(i);
                                 i--;
                             }
-                        }
 
-                        if (existsDisconnected)
+                        }
+                        else if (!NetworkHelper.TryConnectToHost(addr.Host, addr.Port))
                         {
-                            discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
-                            discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)), tokenList);
-                            discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)), tokenList);
-                            autoReset.WaitOne();
+                            existsDisconnected = true;
+                        }
+                        else
+                        {
+                            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                            tokenList.RemoveAt(i);
+                            i--;
                         }
                     }
-                    catch (Exception error)
+
+                    if (existsDisconnected)
                     {
-                        LogDumper.WriteLog(error);
+                        discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
+                        discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)), tokenList);
+                        discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)), tokenList);
+                        autoReset.WaitOne();
                     }
 
                     Thread.Sleep(10000);
+                }
+                catch (ThreadAbortException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
+                }
+                catch (ThreadInterruptedException exception)
+                {
+                    LogDumper.WriteLog(exception);
+                    return;
                 }
                 catch (Exception exception)
                 {
@@ -557,14 +560,11 @@ namespace Khernet.Core.Host
         {
             try
             {
+                continueMonitor = false;
                 if (stateMonitor != null && stateMonitor.ThreadState != ThreadState.Unstarted)
                 {
-                    continueMonitor = false;
                     stateMonitor.Interrupt();
-                    if (!stateMonitor.Join(TimeSpan.FromMinutes(1)))
-                    {
-                        stateMonitor.Abort();
-                    }
+                    stateMonitor.Abort();
                 }
             }
             catch (Exception exception)
@@ -611,7 +611,6 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
-                throw exception;
             }
             finally
             {

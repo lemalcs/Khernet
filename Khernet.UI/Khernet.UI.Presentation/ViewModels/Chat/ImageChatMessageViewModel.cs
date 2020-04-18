@@ -284,11 +284,11 @@ namespace Khernet.UI
                     SetImageThumbnail(info.ThumbnailBytes);
                 }
                 UID = info.UID;
-                FileName = info.OriginalFileName;
-                FileSize = info.Size;
-
                 SendDate = info.SendDate;
             }
+            
+            FileName = info.OriginalFileName;
+            FileSize = info.Size;
 
             Width = info.Width;
             Height = info.Height;
