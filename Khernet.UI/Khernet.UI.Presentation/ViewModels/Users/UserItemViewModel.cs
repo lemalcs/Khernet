@@ -342,6 +342,7 @@ namespace Khernet.UI
             {
                 UnreadMessages--;
                 IoCContainer.Get<UserListViewModel>().SubtractUnreadMessages(1);
+                IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
             }
         }
 

@@ -34,7 +34,7 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
-        <Grid Margin="20 2 20 10">
+        <Grid Margin="20 2 20 8">
             <Grid.ColumnDefinitions>
 
                 <!-- Picture -->

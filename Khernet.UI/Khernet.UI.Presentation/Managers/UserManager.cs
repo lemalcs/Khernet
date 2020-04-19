@@ -213,6 +213,9 @@ namespace Khernet.UI.Managers
                 else
                     user.SetUnReadMessages(unreadMessages.Count);
 
+                if (unreadMessages != null && unreadMessages.Count > 0)
+                    IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
+
                 //Add new user to list
                 IoCContainer.Get<UserListViewModel>().AddUser(user);
             }
@@ -243,16 +246,12 @@ namespace Khernet.UI.Managers
         {
             try
             {
-                userStateMessageList = null;
                 stopMonitoring = true;
                 if (userStateMonitor != null && userStateMonitor.ThreadState != ThreadState.Unstarted)
                 {
                     userStateAutoReset.Set();
                     userStateMonitor.Interrupt();
-
-                    //If thread does not stop through 1 minute, abort thread
-                    if (!userStateMonitor.Join(TimeSpan.FromMinutes(1)))
-                        userStateMonitor.Abort();
+                    userStateMonitor.Abort();
                 }
             }
             catch (Exception)
@@ -265,6 +264,8 @@ namespace Khernet.UI.Managers
 
                 if (userStateAutoReset != null)
                     userStateAutoReset.Close();
+
+                userStateMessageList = null;
             }
         }
 

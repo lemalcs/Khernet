@@ -1237,9 +1237,6 @@ namespace Khernet.UI
 
             CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
 
-            //Remove unread message number from users list
-            UserContext.User.ClearUnReadMessages();
-
             FocusTextBox();
 
             //Scroll to last viewed message

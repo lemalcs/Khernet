@@ -141,5 +141,11 @@ namespace Khernet.UI.IoC
         /// Hide the new message indicator of icon located in notification area
         /// </summary>
         void ClearNotificationNewMessageIcon();
+
+        /// <summary>
+        /// Shows the number of unread message on taskbar icon.
+        /// </summary>
+        /// <param name="unreadMessages">The number of unreadMessages</param>
+        void ShowUnreadMessagesNumber(int unreadMessages);
     }
 }

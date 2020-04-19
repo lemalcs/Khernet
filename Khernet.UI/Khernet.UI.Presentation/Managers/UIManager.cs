@@ -170,43 +170,45 @@ namespace Khernet.UI
                 notificationIcon.HideBalloonTip();
                 notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/newMessageIcon.ico"));
 
-                //Show overlay icon in taskbar with unread message count
-                if(App.Current.MainWindow.TaskbarItemInfo==null)
-                {
-                    System.Windows.Shell.TaskbarItemInfo taskBarInfo = new System.Windows.Shell.TaskbarItemInfo();
-                    App.Current.MainWindow.TaskbarItemInfo = taskBarInfo;
-                }
+                ////Show overlay icon in taskbar with unread message count
+                //if(App.Current.MainWindow.TaskbarItemInfo==null)
+                //{
+                //    System.Windows.Shell.TaskbarItemInfo taskBarInfo = new System.Windows.Shell.TaskbarItemInfo();
+                //    App.Current.MainWindow.TaskbarItemInfo = taskBarInfo;
+                //}
 
-                int unreadMessagesCount = IoCContainer.Get<UserListViewModel>().TotalUnreadMessages;
+                //int unreadMessagesCount = IoCContainer.Get<UserListViewModel>().TotalUnreadMessages;
 
-                double textLeftMargin = 12;
+                //double textLeftMargin = 12;
 
-                if (unreadMessagesCount >= 10)
-                    textLeftMargin = 2;
+                //if (unreadMessagesCount >= 10)
+                //    textLeftMargin = 2;
 
-                FormattedText text = new FormattedText
-                (
-                    unreadMessagesCount.ToString(),//Text to render
-                    new CultureInfo("en-us"),
-                    FlowDirection.LeftToRight,
-                    new Typeface((FontFamily)App.Current.FindResource("RobotoRegularFont"), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
-                    43, //Font size
-                    (Brush)(Brush)App.Current.FindResource("LightBrush")//Foreground
-                );
+                //FormattedText text = new FormattedText
+                //(
+                //    unreadMessagesCount.ToString(),//Text to render
+                //    new CultureInfo("en-us"),
+                //    FlowDirection.LeftToRight,
+                //    new Typeface((FontFamily)App.Current.FindResource("RobotoRegularFont"), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
+                //    43, //Font size
+                //    (Brush)(Brush)App.Current.FindResource("LightBrush")//Foreground
+                //);
 
-                DrawingVisual drawingVisual = new DrawingVisual();
-                DrawingContext drawingContext = drawingVisual.RenderOpen();
-                drawingContext.DrawEllipse((Brush)App.Current.FindResource("LightRedBrush"), 
-                                            new Pen((Brush)App.Current.FindResource("LightRedBrush"), 0), 
-                                            new Point(26, 33), 28, 28);
-                drawingContext.DrawText(text, new Point(textLeftMargin, 6));
-                drawingContext.Close();
+                //DrawingVisual drawingVisual = new DrawingVisual();
+                //DrawingContext drawingContext = drawingVisual.RenderOpen();
+                //drawingContext.DrawEllipse((Brush)App.Current.FindResource("LightRedBrush"), 
+                //                            new Pen((Brush)App.Current.FindResource("LightRedBrush"), 0), 
+                //                            new Point(26, 33), 28, 28);
+                //drawingContext.DrawText(text, new Point(textLeftMargin, 6));
+                //drawingContext.Close();
 
-                RenderTargetBitmap newMessageImage = new RenderTargetBitmap(68, 68, 120, 96, PixelFormats.Pbgra32);
-                newMessageImage.Render(drawingVisual);
+                //RenderTargetBitmap newMessageImage = new RenderTargetBitmap(68, 68, 120, 96, PixelFormats.Pbgra32);
+                //newMessageImage.Render(drawingVisual);
 
-                //Show unread messages count over taskbar icon
-                App.Current.MainWindow.TaskbarItemInfo.Overlay = newMessageImage;
+                ////Show unread messages count over taskbar icon
+                //App.Current.MainWindow.TaskbarItemInfo.Overlay = newMessageImage;
+
+                ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
 
                 //Show application on taskbar if it is hidden
                 if (!App.Current.MainWindow.IsVisible)
@@ -408,6 +410,9 @@ namespace Khernet.UI
             }));
         }
 
+        /// <summary>
+        /// Hide the new message indicator of icon located in notification area
+        /// </summary>
         public void ClearNotificationNewMessageIcon()
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -417,8 +422,60 @@ namespace Khernet.UI
                     notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/LogoIcon.ico", UriKind.RelativeOrAbsolute));
 
                     if(App.Current.MainWindow.TaskbarItemInfo!=null)
-                        App.Current.MainWindow.TaskbarItemInfo.Overlay = null;
+                        App.Current.MainWindow.TaskbarItemInfo = null;
                 }
+            }));
+        }
+
+        /// <summary>
+        /// Shows the number of unread message on taskbar icon.
+        /// </summary>
+        /// <param name="unreadMessages">The number of unreadMessages</param>
+        public void ShowUnreadMessagesNumber(int unreadMessages)
+        {
+            if (unreadMessages <= 0)
+            {
+                ClearNotificationNewMessageIcon();
+                return;
+            }
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                double textLeftMargin = 12;
+
+                if (unreadMessages >= 10)
+                    textLeftMargin = 2;
+
+                FormattedText text = new FormattedText
+                (
+                    unreadMessages.ToString(),//Text to render
+                    new CultureInfo("en-us"),
+                    FlowDirection.LeftToRight,
+                    new Typeface((FontFamily)App.Current.FindResource("RobotoRegularFont"), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
+                    43, //Font size
+                    (Brush)(Brush)App.Current.FindResource("LightBrush")//Foreground
+                );
+
+                DrawingVisual drawingVisual = new DrawingVisual();
+                DrawingContext drawingContext = drawingVisual.RenderOpen();
+                drawingContext.DrawEllipse((Brush)App.Current.FindResource("LightRedBrush"),
+                                            new Pen((Brush)App.Current.FindResource("LightRedBrush"), 0),
+                                            new Point(26, 33), 28, 28);
+                drawingContext.DrawText(text, new Point(textLeftMargin, 6));
+                drawingContext.Close();
+
+                RenderTargetBitmap newMessageImage = new RenderTargetBitmap(68, 68, 120, 96, PixelFormats.Pbgra32);
+                newMessageImage.Render(drawingVisual);
+
+                //Show overlay icon in taskbar with unread message count
+                if (App.Current.MainWindow.TaskbarItemInfo == null)
+                {
+                    System.Windows.Shell.TaskbarItemInfo taskBarInfo = new System.Windows.Shell.TaskbarItemInfo();
+                    App.Current.MainWindow.TaskbarItemInfo = taskBarInfo;
+                }
+
+                //Show unread messages count over taskbar icon
+                App.Current.MainWindow.TaskbarItemInfo.Overlay = newMessageImage;
             }));
         }
     }
