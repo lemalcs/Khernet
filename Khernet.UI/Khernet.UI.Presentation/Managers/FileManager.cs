@@ -120,11 +120,11 @@ namespace Khernet.UI.Managers
                                 }
                             }
                         }
-                        catch (ThreadAbortException exception)
+                        catch (ThreadAbortException)
                         {
                             return;
                         }
-                        catch (ThreadInterruptedException exception)
+                        catch (ThreadInterruptedException)
                         {
                             return;
                         }

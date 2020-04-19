@@ -149,9 +149,16 @@ namespace Khernet.UI.Managers
                                 SendMessage(observer);
                             }
                         }
+                        catch (ThreadAbortException)
+                        {
+                            return;
+                        }
+                        catch (ThreadInterruptedException)
+                        {
+                            return;
+                        }
                         catch (Exception)
                         {
-                            System.Diagnostics.Debugger.Break();
                             throw;
                         }
                         finally
@@ -195,9 +202,16 @@ namespace Khernet.UI.Managers
                                 ReceiveMessage(observer);
                             }
                         }
+                        catch (ThreadAbortException)
+                        {
+                            return;
+                        }
+                        catch (ThreadInterruptedException)
+                        {
+                            return;
+                        }
                         catch (Exception)
                         {
-                            System.Diagnostics.Debugger.Break();
                             throw;
                         }
                         finally

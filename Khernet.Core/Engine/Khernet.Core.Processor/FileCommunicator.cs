@@ -535,21 +535,33 @@ namespace Khernet.Core.Processor
             fileData.UpdateCacheFilePath(idMessage, filePath);
         }
 
-        public List<int> GetFileList(string userToken, ContentType fileType)
+        public Dictionary<int,int> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
         {
             FileCommunicatorData fileData = new FileCommunicatorData();
 
-            DataTable data = fileData.GetFileList(userToken, (int)fileType);
+            DataTable data = fileData.GetFileList(userToken, (int)fileType, lastIdMessage, quantity);
 
             if (data.Rows.Count == 0)
                 return null;
 
-            List<int> fileList = new List<int>();
+            Dictionary<int, int> fileList = new Dictionary<int, int>();
 
             for (int i = 0; i < data.Rows.Count; i++)
-                fileList.Add(Convert.ToInt32(data.Rows[i][0]));
+                fileList.Add(Convert.ToInt32(data.Rows[i][0]), Convert.ToInt32(data.Rows[i][1]));
 
             return fileList;
+        }
+
+        /// <summary>
+        /// Gte the number of files shared between current user and remote peer.
+        /// </summary>
+        /// <param name="userToken">The type of file.</param>
+        /// <param name="fileType">The token of remote peer.</param>
+        /// <returns>The number of files.</returns>
+        public int GetFileCount(string userToken, ContentType fileType)
+        {
+            FileCommunicatorData fileData = new FileCommunicatorData();
+            return fileData.GetFileCount(userToken, (int)fileType);
         }
     }
 }

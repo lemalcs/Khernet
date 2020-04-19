@@ -21,9 +21,11 @@
         <!-- List of audio files -->
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
+                 Name="fileContainer"
                  ScrollViewer.CanContentScroll="False"
                  SelectedIndex="-1"
-                 Template="{StaticResource fileListContainer}">
+                 Template="{StaticResource fileListContainer}"
+                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -37,15 +39,6 @@
             </ItemsControl.ItemTemplate>
         </ListBox>
         
-        <!--Animation to show load progress-->
-        <Controls:ProgressRing Width="32" 
-                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
-                               Foreground="{StaticResource BlueBrush}"
-                               Panel.ZIndex="2"
-                               HorizontalContentAlignment="Center"
-                               VerticalAlignment="Center"
-                                       />
-
         <TextBlock Text="No audio files found"
                    Visibility="{Binding IsEmpty,Converter={conv:BoolToVisibilityConverter}}"
                    HorizontalAlignment="Center"

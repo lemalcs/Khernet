@@ -361,7 +361,7 @@ namespace Khernet.UI
         {
             FileListViewModel imageListModel = new FileListViewModel(messageManager);
             imageListModel.User = user;
-
+            imageListModel.ItemsCount= IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Image);
 
             pagedDialog.CurrentViewModel = imageListModel;
             pagedDialog.CurrentPage = ApplicationPage.ImageList;
@@ -372,6 +372,8 @@ namespace Khernet.UI
         {
             FileListViewModel fileListModel = new FileListViewModel(messageManager);
             fileListModel.User = user;
+            fileListModel.ItemsCount = IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Binary);
+
 
             pagedDialog.CurrentViewModel = fileListModel;
             pagedDialog.CurrentPage = ApplicationPage.FileList;
@@ -380,10 +382,12 @@ namespace Khernet.UI
 
         private void OpenVideoList()
         {
-            FileListViewModel videiListModel = new FileListViewModel(messageManager);
-            videiListModel.User = user;
+            FileListViewModel videoListModel = new FileListViewModel(messageManager);
+            videoListModel.User = user;
+            videoListModel.ItemsCount = IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Video);
 
-            pagedDialog.CurrentViewModel = videiListModel;
+
+            pagedDialog.CurrentViewModel = videoListModel;
             pagedDialog.CurrentPage = ApplicationPage.VideoList;
             pagedDialog.Category = "Videos";
         }
@@ -392,6 +396,8 @@ namespace Khernet.UI
         {
             FileListViewModel audioListModel = new FileListViewModel(messageManager);
             audioListModel.User = user;
+            audioListModel.ItemsCount = IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Audio);
+
 
             pagedDialog.CurrentViewModel = audioListModel;
             pagedDialog.CurrentPage = ApplicationPage.AudioList;

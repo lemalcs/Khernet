@@ -408,13 +408,53 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetFileList(string userToken, int fileType)
+        public DataTable GetFileList(string userToken, int fileType, int lastIdMessage, int quantity)
         {
             try
             {
                 DataTable table = new DataTable();
 
                 FbCommand cmd = new FbCommand("GET_FILE_LIST");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@USER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(userToken, Encoding.UTF8, keys.Item1, keys.Item2); ;
+                keys = null;
+
+                cmd.Parameters.Add("@FILE_TYPE", FbDbType.Integer).Value = fileType;
+                cmd.Parameters.Add("@LAST_ID_MESSAGE", FbDbType.Integer).Value = lastIdMessage;
+                cmd.Parameters.Add("@QUANTITY", FbDbType.Integer).Value = quantity;
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+
+                    FbDataAdapter fda = new FbDataAdapter(cmd);
+                    fda.Fill(table);
+                }
+
+                return table;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Gte the number of files shared between current user and remote peer.
+        /// </summary>
+        /// <param name="userToken">The type of file.</param>
+        /// <param name="fileType">The token of remote peer.</param>
+        /// <returns>The number of files.</returns>
+        public int GetFileCount(string userToken, int fileType)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                FbCommand cmd = new FbCommand("GET_FILE_COUNT");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
@@ -431,7 +471,14 @@ namespace Khernet.Core.Data
                     fda.Fill(table);
                 }
 
-                return table;
+                if (table.Rows.Count > 0)
+                {
+                    if (table.Rows[0][0] == null || table.Rows[0][0] == DBNull.Value)
+                        return 0;
+
+                    return Convert.ToInt32(table.Rows[0][0]);
+                }
+                return 0;
             }
             catch (Exception)
             {

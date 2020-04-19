@@ -7,6 +7,7 @@ using Khernet.UI.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Khernet.UI
 {
@@ -131,17 +132,26 @@ namespace Khernet.UI
                     if (User == null)
                     {
                         IsLoading = false;
-                        IsEmpty = true;
                         return;
                     }
 
+                    int lastIdMessage = 0;
 
-                    List<int> fileList = IoCContainer.Get<Messenger>().GetFileList(User.Token, (ContentType)((int)messageType));
+                    if (Items != null && Items.Count > 0)
+                        lastIdMessage = Items[Items.Count - 1].Id;
+
+                    int quantity = 20;
+
+                    Dictionary<int,int> fileList = IoCContainer.Get<Messenger>().GetFileList(
+                        User.Token, 
+                        (ContentType)((int)messageType),
+                        lastIdMessage,
+                        quantity
+                        );
 
                     if (fileList == null)
                     {
                         IsLoading = false;
-                        IsEmpty = true;
                         return;
                     }
 
@@ -149,13 +159,12 @@ namespace Khernet.UI
                     if (Items == null)
                         Items = new ObservableCollection<FileMessageItemViewModel>();
 
-                    for (int i = 0; i < fileList.Count; i++)
+                    foreach(var idMessage in fileList.Keys)
                     {
-                        LoadMessage(fileList[i], messageType);
+                        LoadMessage(idMessage,fileList[idMessage], messageType);
                     }
 
-                    IsEmpty = fileList.Count == 0;
-                    ItemsCount = fileList.Count;
+                    IsEmpty = Items.Count == 0;
                 }
                 catch (Exception error)
                 {
@@ -205,13 +214,12 @@ namespace Khernet.UI
             Done();
         }
 
-        private void LoadMessage(int idMessage, MessageType messageType)
+        private void LoadMessage(int idMessage,int idUser, MessageType messageType)
         {
             try
             {
-            var chat = IoCContainer.Get<Messenger>().GetMessageDetail(idMessage);
+                UserItemViewModel user = idUser == 0 ? null : User;
 
-            UserItemViewModel user = chat.SenderToken == IoCContainer.Get<IIdentity>().Token ? null : User;
                 switch (messageType)
                 {
                     case MessageType.Image:
@@ -246,7 +254,7 @@ namespace Khernet.UI
                         fileModel.User = user;
                         fileModel.IsSentByMe = user == null;
 
-                        fileModel.ProcessFile(fileModel.Id);
+                        fileModel.ProcessFile(idMessage);
 
                         Items.Add(fileModel);
 

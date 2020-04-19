@@ -22,7 +22,8 @@
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
                  ScrollViewer.CanContentScroll="False"
-                 Template="{StaticResource fileListContainer}">
+                 Template="{StaticResource fileListContainer}"
+                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -92,7 +93,7 @@
 
                                     <!-- File size -->
                                     <RowDefinition Height="Auto"/>
-                                    
+
                                     <!-- Send/receive date -->
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
@@ -132,14 +133,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-
-        <!--Animation to show load progress-->
-        <Controls:ProgressRing Width="32" 
-                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
-                               Foreground="{StaticResource BlueBrush}"
-                               Panel.ZIndex="2"
-                               HorizontalContentAlignment="Center"
-                               VerticalAlignment="Center"/>
 
         <!-- Empty list message -->
         <TextBlock Text="No files found"

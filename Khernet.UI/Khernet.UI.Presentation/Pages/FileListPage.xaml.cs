@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Khernet.UI.Pages
 {
@@ -22,12 +24,25 @@ namespace Khernet.UI.Pages
         private void BasePage_Loaded(object sender, RoutedEventArgs e)
         {
             //Load files when this control finishes loading
-            TaskEx.Delay(500).ContinueWith((t) => SpecificViewModel.LoadFiles(Media.MessageType.Binary));
+            TaskEx.Run(() => SpecificViewModel.LoadFiles(Media.MessageType.Binary));
         }
 
         private void Close()
         {
             OnCommited();
+        }
+
+        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (!((Control)sender).IsLoaded)
+                return;
+
+            double scrollDifference = Math.Abs(e.ExtentHeight - e.VerticalOffset - e.ViewportHeight);
+
+            if (scrollDifference >= 0 && scrollDifference <= 1)
+            {
+                SpecificViewModel.LoadFiles(Media.MessageType.Binary);
+            }
         }
     }
 }

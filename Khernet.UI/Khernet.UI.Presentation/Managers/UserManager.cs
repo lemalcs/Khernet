@@ -164,6 +164,14 @@ namespace Khernet.UI.Managers
                                     break;
                             }
                         }
+                        catch (ThreadAbortException)
+                        {
+                            return;
+                        }
+                        catch (ThreadInterruptedException)
+                        {
+                            return;
+                        }
                         catch (Exception)
                         {
 
@@ -171,7 +179,8 @@ namespace Khernet.UI.Managers
                         }
                         finally
                         {
-                            userStateMessageList.TryDequeue(out state);
+                            if (userStateMessageList != null)
+                                userStateMessageList.TryDequeue(out state);
                         }
                     }
 

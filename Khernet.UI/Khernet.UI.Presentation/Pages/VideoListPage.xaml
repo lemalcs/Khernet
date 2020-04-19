@@ -23,14 +23,15 @@
         <ListBox ItemsSource="{Binding Items}"
                  HorizontalAlignment="Stretch"
                  ScrollViewer.CanContentScroll="False"
-                 Template="{StaticResource fileListContainer}">
+                 Template="{StaticResource fileListContainer}"
+                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}"
                             Background="{StaticResource TransparentBlackBrush}"
                             ContextMenu="{StaticResource fileMessageContextMenu}">
-                        
+
                         <Border.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
                         </Border.InputBindings>
@@ -115,7 +116,7 @@
 
                                     </Grid>
                                 </Grid>
-                                
+
                                 <!--Duration-->
                                 <TextBlock VerticalAlignment="Bottom"
                                            HorizontalAlignment="Left"
@@ -151,14 +152,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-
-        <!--Animation to show load progress-->
-        <Controls:ProgressRing Width="32" 
-                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
-                               Foreground="{StaticResource BlueBrush}"
-                               Panel.ZIndex="2"
-                               HorizontalContentAlignment="Center"
-                               VerticalAlignment="Center"/>
 
         <!-- Empty list message -->
         <TextBlock Text="No videos found"

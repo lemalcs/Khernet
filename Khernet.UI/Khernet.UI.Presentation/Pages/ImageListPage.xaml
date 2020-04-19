@@ -22,7 +22,8 @@
                  HorizontalContentAlignment="Center"
                  HorizontalAlignment="Stretch"
                  Padding="20 0 0 0"
-                 Template="{StaticResource fileListContainer}">
+                 Template="{StaticResource fileListContainer}"
+                 ScrollViewer.ScrollChanged="ListBox_ScrollChanged">
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -37,14 +38,6 @@
             </ItemsControl.ItemsPanel>
 
         </ListBox>
-        
-        <!--Animation to show load progress-->
-        <Controls:ProgressRing Width="32" 
-                               Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
-                               Foreground="{StaticResource BlueBrush}"
-                               Panel.ZIndex="2"
-                               HorizontalContentAlignment="Center"
-                               VerticalAlignment="Center"/>
 
         <!-- Empty list message -->
         <TextBlock Text="No images found"

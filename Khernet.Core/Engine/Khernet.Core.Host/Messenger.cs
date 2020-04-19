@@ -296,10 +296,16 @@ namespace Khernet.Core.Host
             fileData.UpdateCacheFilePath(idMessage, filePath);
         }
 
-        public List<int> GetFileList(string userToken, ContentType fileType)
+        public Dictionary<int,int> GetFileList(string userToken, ContentType fileType,int lastIdMessage, int quantity)
         {
             FileCommunicator fileData = new FileCommunicator();
-            return fileData.GetFileList(userToken, fileType);
+            return fileData.GetFileList(userToken, fileType, lastIdMessage, quantity);
+        }
+
+        public int GetFileCount(string userToken, ContentType fileType)
+        {
+            FileCommunicator fileData = new FileCommunicator();
+            return fileData.GetFileCount(userToken, fileType);
         }
     }
 }
