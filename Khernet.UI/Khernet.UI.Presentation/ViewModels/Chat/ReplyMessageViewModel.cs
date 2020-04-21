@@ -4,6 +4,8 @@ using Khernet.Services.Messages;
 using Khernet.UI.IoC;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 
@@ -317,6 +319,31 @@ namespace Khernet.UI
 
 
             Id = idReplyMessage;
+        }
+
+        /// <summary>
+        /// Get a copu of this instance to be attached to responce message
+        /// </summary>
+        /// <returns>An instance of <see cref="ReplyMessageViewModel"/>.</returns>
+        public ReplyMessageViewModel GetSendCopy()
+        {
+            ReplyMessageViewModel replyMessage = new ReplyMessageViewModel();
+            replyMessage.FileName = FileName;
+            replyMessage.IconName = IconName;
+            replyMessage.User = User;
+            replyMessage.IsReplying = false;
+            replyMessage.IsSentByMe = IsSentByMe;
+            replyMessage.Id = Id;
+            replyMessage.State = State;
+            replyMessage.Operation = Operation;
+
+            if (Thumbnail != null)
+                replyMessage.Thumbnail = new ReadOnlyCollection<byte>(Thumbnail.ToArray());
+
+            if (TextContent != null)
+                replyMessage.TextContent = new ReadOnlyCollection<byte>(TextContent.ToArray());
+
+            return replyMessage;
         }
     }
 }

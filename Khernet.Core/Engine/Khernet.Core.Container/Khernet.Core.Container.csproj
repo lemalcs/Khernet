@@ -69,11 +69,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Khernet.App.Container.1.0.3\build\Khernet.App.Container.targets" Condition="Exists('..\..\packages\Khernet.App.Container.1.0.3\build\Khernet.App.Container.targets')" />
+  <Import Project="..\..\packages\Khernet.App.Container.1.0.4\build\Khernet.App.Container.targets" Condition="Exists('..\..\packages\Khernet.App.Container.1.0.4\build\Khernet.App.Container.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Khernet.App.Container.1.0.3\build\Khernet.App.Container.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Khernet.App.Container.1.0.3\build\Khernet.App.Container.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Khernet.App.Container.1.0.4\build\Khernet.App.Container.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Khernet.App.Container.1.0.4\build\Khernet.App.Container.targets'))" />
   </Target>
 </Project>

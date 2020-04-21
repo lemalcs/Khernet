@@ -25,15 +25,6 @@
                       MinWidth="700"
                       TitleAlignment="Left"
                       PreviewKeyDown="MainWin_PreviewKeyDown">
-    
-    <!-- It will be used MahApps library version 1.6.0 because it is me maximum version supported by Visual Studio 2015-->
-    <Window.Resources>
-        <ResourceDictionary>
-          
-            <!--Apparently there is a bug in Visual Studio 2015 that do not recognize MetroWindow when setting Style without using the style below-->
-            <!--<Style TargetType="{x:Type Controls:MetroWindow}" x:Key="WinStyle" BasedOn="{StaticResource CleanWindowStyleKey}"/>-->
-        </ResourceDictionary>
-    </Window.Resources>
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>

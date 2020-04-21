@@ -586,20 +586,7 @@ namespace Khernet.UI
                 //Copy reply message view model for current message
                 if (UserContext.ReplyMessage != null && UserContext.ResendMessage == null)
                 {
-                    reply = new ReplyMessageViewModel();
-                    reply.FileName = UserContext.ReplyMessage.FileName;
-                    reply.IconName = UserContext.ReplyMessage.IconName;
-
-                    if (UserContext.ReplyMessage.Thumbnail != null)
-                        reply.SetThumbnail(UserContext.ReplyMessage.Thumbnail.ToArray());
-
-                    reply.User = UserContext.ReplyMessage.User;
-                    reply.IsReplying = false;
-
-                    if (UserContext.ReplyMessage.TextContent != null)
-                        reply.SetTextContent(UserContext.ReplyMessage.TextContent.ToArray());
-
-                    reply.Id = UserContext.ReplyMessage.Id;
+                    reply = UserContext.ReplyMessage.GetSendCopy();
                 }
 
                 if (UserContext.UnreadMessagesNumber > Items.Count)
