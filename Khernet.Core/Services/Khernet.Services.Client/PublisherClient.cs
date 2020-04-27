@@ -23,7 +23,7 @@ namespace Khernet.Services.Client
             return binding;
         }
 
-        public void ProcessNewMessage(InternalConversationMessage message)
+        public void ProcessNewMessage(MessageNotification message)
         {
             try
             {
@@ -39,22 +39,7 @@ namespace Khernet.Services.Client
             }
         }
 
-        public void ProcessNewFile(InternalFileMessage fileMessage)
-        {
-            try
-            {
-                using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
-                {
-                    client.serviceContract.ProcessNewFile(fileMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-        public void ProcessContactChange(Notification notification)
+        public void ProcessContactChange(PeerNotification notification)
         {
             try
             {
@@ -70,13 +55,13 @@ namespace Khernet.Services.Client
             }
         }
 
-        public void ProcessBeginSendingFile(string accountToken)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             try
             {
                 using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
                 {
-                    client.serviceContract.ProcessBeginSendingFile(accountToken);
+                    client.serviceContract.ProcessMessageProcessing(notification);
                 }
             }
             catch (Exception ex)
@@ -86,61 +71,13 @@ namespace Khernet.Services.Client
             }
         }
 
-        public void ProcessEndSendingFile(string accountToken)
+        public void ProcessMessageStateChanged(MessageStateNotification notification)
         {
             try
             {
                 using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
                 {
-                    client.serviceContract.ProcessEndSendingFile(accountToken);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public void ProcessReadingFile(string token, string idFile, long readBytes)
-        {
-            try
-            {
-                using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
-                {
-                    client.serviceContract.ProcessReadingFile(token, idFile, readBytes);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public void ProcessWritingMessage(string accountToken)
-        {
-            try
-            {
-                using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
-                {
-                    client.serviceContract.ProcessWritingMessage(accountToken);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public void ProcessMessageSent(string token, int idMessage)
-        {
-            try
-            {
-                using (ServiceClient<IEventListenerCallBack> client = new ServiceClient<IEventListenerCallBack>(GetBinding(), Address))
-                {
-                    client.serviceContract.ProcessMessageSent(token, idMessage);
+                    client.serviceContract.ProcessMessageStateChanged(notification);
                 }
             }
             catch (Exception ex)

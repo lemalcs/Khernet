@@ -127,7 +127,11 @@ namespace Khernet.Core.Processor
             //Mark message as sent to receipt
             commData.SetMessageState(conversation.Id, (int)MessageState.Processed);
 
-            IoCContainer.Get<NotificationManager>().ProcessMessageSent(conversation.ReceiptToken, conversation.Id);
+            IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification 
+            { 
+                MessageId=conversation.Id,
+                State=MessageState.Processed,
+            });
         }
 
         public void SetMessageState(int idMessage, MessageState state)
@@ -139,7 +143,12 @@ namespace Khernet.Core.Processor
         public void SendWritingMessage(string senderToken, string receiptToken)
         {
             EventNotifierClient notifierClient = new EventNotifierClient(receiptToken);
-            notifierClient.ProcessWritingMessage(senderToken);
+            
+            notifierClient.ProcessMessageProcessing(new MessageProcessingNotification
+            {
+                Process = MessageProcessing.WritingText,
+                SenderToken = senderToken,
+            });
         }
 
         public void ProcessTextMessage(ConversationMessage message)
@@ -151,8 +160,7 @@ namespace Khernet.Core.Processor
                 DataTable chunksList = commData.GetPartialTextMessage(message.UID);
 
                 List<byte> messageBytes = new List<byte>();
-                byte[] buffer = null;
-
+                byte[] buffer;
                 for (int j = 0; j < chunksList.Rows.Count; j++)
                 {
                     buffer = chunksList.Rows[j][1] as byte[];
@@ -204,7 +212,13 @@ namespace Khernet.Core.Processor
                     conversation.IdReply = idReplyMessage.HasValue ? idReplyMessage.Value : 0;
                     conversation.Type = message.Type;
 
-                    publisherClient.ProcessNewMessage(conversation);
+                    publisherClient.ProcessNewMessage(new MessageNotification 
+                    { 
+                        MessageId=idMessage,
+                        SenderToken=message.SenderToken,
+                        State=MessageState.Processed,
+                        Format=message.Type,
+                    });
                 }
             }
             else
@@ -437,14 +451,13 @@ namespace Khernet.Core.Processor
             //Enviar una notificación de cliente nuevo a la Interfaz de usuario
             if (serviceType == Constants.CommunicatorService || serviceType == Constants.FileService)
             {
-                Notification notification = new Notification();
-                notification.Token = token;
-                notification.Type = serviceType == Constants.CommunicatorService ? NotificationType.ProfileChange : NotificationType.AvatarChange;
-                notification.ArriveDate = DateTime.Now;
-                notification.Content = userName;
-
                 PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisher.ProcessContactChange(notification);
+                publisher.ProcessContactChange(new PeerNotification 
+                {
+                    Token=token,
+                    State=PeerState.New,
+                    Change= serviceType == Constants.CommunicatorService ? PeerChangeType.ProfileChange : PeerChangeType.AvatarChange,
+                });
             }
         }
 
@@ -486,14 +499,12 @@ namespace Khernet.Core.Processor
             PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
 
             //Send a notification of offline client to suscribers
-
-            Notification notification = new Notification();
-            notification.Token = token;
-            notification.Type = NotificationType.StateChange;
-            notification.Content = status.ToString();
-            notification.ArriveDate = DateTime.Now;
-
-            publisher.ProcessContactChange(notification);
+            publisher.ProcessContactChange(new PeerNotification 
+            {
+                Token=token,
+                Change=PeerChangeType.StateChange,
+                State=status
+            });
         }
 
         public void ClearPeers()
@@ -530,7 +541,6 @@ namespace Khernet.Core.Processor
 
         public void UpdatePeerProfile(string token)
         {
-            CommunicatorData commData = new CommunicatorData();
             CommunicatorClient commClient = new CommunicatorClient(token);
             Peer peer = commClient.GetProfile();
 

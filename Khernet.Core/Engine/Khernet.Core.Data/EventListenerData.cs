@@ -16,7 +16,7 @@ namespace Khernet.Core.Data
             return st.BuildConnectionString(StorageType.Repository);
         }
 
-        public void SaveNotification(string token, byte notificationType, string content)
+        public void SaveNotification(string id,short type_notification, byte[] content)
         {
             try
             {
@@ -24,9 +24,9 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(token, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@TYPE_NOT", FbDbType.SmallInt).Value = notificationType;
-                cmd.Parameters.Add("@CONTENT", FbDbType.Date).Value = EncryptionHelper.EncryptString(content, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@ID", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(id, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@TYPE_NOTF", FbDbType.SmallInt).Value = type_notification;
+                cmd.Parameters.Add("@CONTENT", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(content, keys.Item1, keys.Item2);
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
@@ -42,7 +42,7 @@ namespace Khernet.Core.Data
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static void DeleteNotification(string token, byte notificationType)
+        public static void DeleteNotification(string id)
         {
             try
             {
@@ -50,8 +50,8 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(token, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@TYPE_NOT", FbDbType.SmallInt).Value = notificationType;
+                cmd.Parameters.Add("@ID", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(id, Encoding.UTF8, keys.Item1, keys.Item2);
+                
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
@@ -91,7 +91,7 @@ namespace Khernet.Core.Data
             {
                 DataTable table = new DataTable();
 
-                FbCommand cmd = new FbCommand("GET_NOTIFICATIONS_DETAIL");
+                FbCommand cmd = new FbCommand("GET_NOTIFICATIONS_LIST");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
@@ -118,15 +118,19 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetMeesageDetail(int idMessage)
+        public DataTable GetNotificationDetail(string id)
         {
             try
             {
                 DataTable table = new DataTable();
 
-                FbCommand cmd = new FbCommand("GET_MESSAGE_DETAIL");
+                FbCommand cmd = new FbCommand("GET_NOTIFICATION_DETAIL");
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@ID", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(id, Encoding.UTF8, keys.Item1, keys.Item2);
+
+                keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
                 {
@@ -136,13 +140,12 @@ namespace Khernet.Core.Data
                     fda.Fill(table);
                 }
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                    table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
-                    table.Rows[i][2] = EncryptionHelper.DecryptString(table.Rows[i][2].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+                    table.Rows[i][0] = EncryptionHelper.DecryptByteArray(table.Rows[i][0] as byte[], keys.Item1, keys.Item2);
                 }
+                keys = null;
 
                 return table;
             }

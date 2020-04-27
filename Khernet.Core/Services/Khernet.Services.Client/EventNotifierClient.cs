@@ -13,13 +13,13 @@ namespace Khernet.Services.Client
             Address = address;
         }
 
-        public void ProcessContactChange(Notification info)
+        public void ProcessContactChange(PeerNotification notification)
         {
             try
             {
-                using (ServiceClient<IEventNotifier> client = new Services.Client.ServiceClient<IEventNotifier>(Address, ServiceType.NotifierService))
+                using (ServiceClient<IEventNotifier> client = new ServiceClient<IEventNotifier>(Address, ServiceType.NotifierService))
                 {
-                    client.serviceContract.ProcessContactChange(info);
+                    client.serviceContract.ProcessContactChange(notification);
                 }
             }
             catch (Exception ex)
@@ -29,13 +29,13 @@ namespace Khernet.Services.Client
             }
         }
 
-        public void ProcessWritingMessage(string accountToken)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             try
             {
                 using (ServiceClient<IEventNotifier> client = new Services.Client.ServiceClient<IEventNotifier>(Address, ServiceType.NotifierService))
                 {
-                    client.serviceContract.ProcessWritingMessage(accountToken);
+                    client.serviceContract.ProcessMessageProcessing(notification);
                 }
             }
             catch (Exception ex)

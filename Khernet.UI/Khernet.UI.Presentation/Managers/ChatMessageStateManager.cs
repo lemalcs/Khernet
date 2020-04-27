@@ -8,6 +8,15 @@ using System.Threading;
 
 namespace Khernet.UI.Managers
 {
+    public class MessageStateInfo
+    {
+        public int Id { get; set; }
+
+        public MessageState State { get; set; }
+
+    }
+
+
     public class ChatMessageStateManager : IDisposable
     {
         /// <summary>
@@ -28,19 +37,19 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Queue of id messages
         /// </summary>
-        private ConcurrentQueue<int> idMessageList;
+        private ConcurrentQueue<MessageStateInfo> idMessageList;
 
         public ChatMessageStateManager()
         {
             stateAutoReset = new AutoResetEvent(false);
         }
 
-        public void ProcessState(int idMessage)
+        public void ProcessState(MessageStateInfo messageState)
         {
             if (idMessageList == null)
-                idMessageList = new ConcurrentQueue<int>();
+                idMessageList = new ConcurrentQueue<MessageStateInfo>();
 
-            idMessageList.Enqueue(idMessage);
+            idMessageList.Enqueue(messageState);
 
             StartStateMonitor();
         }
@@ -64,19 +73,19 @@ namespace Khernet.UI.Managers
                 {
                     while (!idMessageList.IsEmpty)
                     {
-                        int idMessage;
-                        idMessageList.TryPeek(out idMessage);
+                        MessageStateInfo messageState;
+                        idMessageList.TryPeek(out messageState);
 
                         try
                         {
-                            ChatMessage message = IoCContainer.Get<Messenger>().GetMessageDetail(idMessage);
+                            ChatMessage message = IoCContainer.Get<Messenger>().GetMessageDetail(messageState.Id);
                             if (message != null)
                             {
                                 var chatList = IoCContainer.Chat.GetChat(message.ReceiptToken);
                                 if (chatList != null)
                                 {
-                                    var result = chatList.Where((chat, i) => chat.Id == idMessage).FirstOrDefault();
-                                    result?.SetChatState(ChatMessageState.Processed);
+                                    var result = chatList.Where((chat, i) => chat.Id == messageState.Id).FirstOrDefault();
+                                    result?.SetChatState((ChatMessageState)(int)message.State);
                                 }
                             }
                         }
@@ -87,7 +96,7 @@ namespace Khernet.UI.Managers
                         }
                         finally
                         {
-                            idMessageList.TryDequeue(out idMessage);
+                            idMessageList.TryDequeue(out messageState);
                         }
                     }
 

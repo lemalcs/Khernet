@@ -39,95 +39,48 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                List<Notification> notificationList = null;
+                Dictionary<string, short> notificationList = null;
 
                 while (continueMonitoring)
                 {
-                    EventListener eventListener = new EventListener();
-                    notificationList = eventListener.GetNotificationsDetail();
-                    Notification notification = null;
-                    for (int i = 0; i < notificationList.Count; i++)
+                    if (suscriber == null)
                     {
-                        notification = notificationList[i];
-                        try
+                        Thread.Sleep(1000);
+                        continue;
+                    }
+                    try
+                    {
+                        EventListener eventListener = new EventListener();
+                        notificationList = eventListener.GetNotificationsDetail();
+                        string notificationId = null;
+
+                        foreach (var key in notificationList.Keys)
                         {
+                            notificationId = key;
 
-                            try
+                            var notificationDetail = eventListener.GetNotificationDetail(notificationId);
+                            NotificationType notificationType = (NotificationType)notificationList[key];
+
+                            switch (notificationType)
                             {
-                                switch (notification.Type)
-                                {
-                                    case NotificationType.WritingMessage:
-                                        suscriber.ProcessWritingMessage(notification.Token);
-                                        break;
-                                    case NotificationType.BeginSendingFile:
-                                        suscriber.ProcessBeginSendingFile(notification.Token);
-                                        break;
-                                    case NotificationType.EndSendingFile:
-                                        suscriber.ProcessEndSendingFile(notification.Token);
-                                        break;
-                                    case NotificationType.ReadingFile:
+                                case NotificationType.MessageProcessingChange:
+                                    suscriber.ProcessMessageProcessing(JSONSerializer<MessageProcessingNotification>.DeSerialize(notificationDetail));
+                                    break;
+                                case NotificationType.NewMessage:
+                                    suscriber.ProcessNewMessage(JSONSerializer<MessageNotification>.DeSerialize(notificationDetail));
+                                    break;
 
-                                        string[] readFileDetails = notification.Content.Split('|');
-                                        suscriber.ProcessReadingFile(notification.Token, readFileDetails[0], long.Parse(readFileDetails[1]));
-                                        break;
-                                    case NotificationType.NewMessage:
-                                        int idMessage = Convert.ToInt32(notification.Content);
-
-                                        Communicator comm = new Communicator();
-                                        ConversationMessage message = comm.GetMessageDetail(idMessage);
-
-                                        InternalConversationMessage conversation = new InternalConversationMessage();
-                                        conversation.SenderToken = message.SenderToken;
-                                        conversation.ReceiptToken = message.ReceiptToken;
-                                        conversation.SendDate = message.SendDate;
-                                        conversation.Id = idMessage;
-
-                                        //Set notification as processed
-                                        suscriber.ProcessNewMessage(conversation);
-
-                                        break;
-                                    case NotificationType.NewFile:
-                                        int idFileMessage = Convert.ToInt32(notification.Content);
-
-                                        comm = new Communicator();
-                                        message = comm.GetMessageDetail(idFileMessage);
-
-
-                                        InternalFileMessage fileMessage = new InternalFileMessage();
-                                        fileMessage.SenderToken = message.SenderToken;
-                                        fileMessage.ReceiptToken = message.ReceiptToken;
-
-                                        FileInformation info = JSONSerializer<FileInformation>.DeSerialize(comm.GetMessageContent(idFileMessage));
-
-                                        fileMessage.Metadata = info;
-                                        fileMessage.Type = message.Type;
-                                        fileMessage.UID = message.UID;
-
-                                        fileMessage.SendDate = message.SendDate;
-                                        fileMessage.Id = idFileMessage;
-
-                                        suscriber.ProcessNewFile(fileMessage);
-
-                                        break;
-                                    case NotificationType.MessageSent:
-
-                                        suscriber.ProcessMessageSent(notification.Token, int.Parse(notification.Content));
-
-                                        break;
-                                }
-
-                                eventListener.DeleteNotification(notification.Token, notification.Type);
+                                case NotificationType.MessageChange:
+                                    suscriber.ProcessMessageStateChanged(JSONSerializer<MessageStateNotification>.DeSerialize(notificationDetail));
+                                    break;
                             }
-                            catch (Exception)
-                            {
-                                Console.WriteLine("No client is connected.");
-                            }
-                        }
-                        catch (Exception)
-                        {
 
-                            throw;
+                            eventListener.DeleteNotification(key);
                         }
+                    }
+                    catch (Exception error)
+                    {
+                        LogDumper.WriteLog(error);
                     }
                     autoReset.WaitOne();
                 }
@@ -146,7 +99,6 @@ namespace Khernet.Core.Processor.Managers
             {
                 Console.WriteLine("Notification Monitor stopped.");
             }
-
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -221,12 +173,12 @@ namespace Khernet.Core.Processor.Managers
                 throw new Exception("Invalid key");
         }
 
-        public void ProcessNewMessage(InternalConversationMessage message)
+        public void ProcessNewMessage(MessageNotification notification)
         {
             try
             {
                 //Calls to this method can fail even if client can connet to this service
-                suscriber.ProcessNewMessage(message);
+                suscriber.ProcessNewMessage(/*message*/notification);
             }
             catch (Exception exception)
             {
@@ -234,174 +186,71 @@ namespace Khernet.Core.Processor.Managers
 
                 //Save notification on database if this could not be sent to client
                 EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = message.SenderToken,
-                    Type = NotificationType.NewMessage,
-                    Content = message.Id.ToString()
-                });
+                eventListener.SaveNotification(
+                    Guid.NewGuid().ToString().Replace("-", ""),
+                    NotificationType.NewMessage,
+                    JSONSerializer<MessageNotification>.Serialize(notification));
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
             }
         }
 
-        public void ProcessNewFile(InternalFileMessage fileMessage)
+        public void ProcessContactChange(PeerNotification notification)
         {
             try
             {
-                suscriber.ProcessNewFile(fileMessage);
+                suscriber.ProcessContactChange(notification);
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
 
                 EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = fileMessage.SenderToken,
-                    Type = NotificationType.NewFile,
-                    Content = fileMessage.Id.ToString()
-                });
+                eventListener.SaveNotification(
+                    Guid.NewGuid().ToString().Replace("-", ""),
+                    NotificationType.PeerChange,
+                    JSONSerializer<PeerNotification>.Serialize(notification));
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
             }
         }
 
-        public void ProcessContactChange(Notification info)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             try
             {
-                suscriber.ProcessContactChange(info);
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-
-                //Verify if info.Content is a enum value
-                PeerState content;
-                bool result = Enum.TryParse(info.Content, out content);
-
-                //If info.Content is not a enum value get the current value
-                string state = result ? ((sbyte)content).ToString() : info.Content;
-
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = info.Token,
-                    Type = info.Type,
-                    Content = state
-                });
-
-                if (!autoReset.SafeWaitHandle.IsClosed)
-                    autoReset.Set();
-            }
-        }
-
-        public void ProcessBeginSendingFile(string token)
-        {
-            try
-            {
-                suscriber.ProcessBeginSendingFile(token);
+                suscriber.ProcessMessageProcessing(notification);
             }
             catch (Exception)
             {
                 EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = token,
-                    Type = NotificationType.BeginSendingFile,
-                    Content = string.Empty
-                });
+                eventListener.SaveNotification(
+                    Guid.NewGuid().ToString().Replace("-", ""),
+                    NotificationType.MessageProcessingChange,
+                    JSONSerializer<MessageProcessingNotification>.Serialize(notification));
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
             }
         }
 
-        public void ProcessEndSendingFile(string token)
+        public void ProcessMessageStateChanged(MessageStateNotification notification)
         {
             try
             {
-                suscriber.ProcessEndSendingFile(token);
-            }
-            catch (Exception)
-            {
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = token,
-                    Type = NotificationType.EndSendingFile,
-                    Content = string.Empty
-                });
-
-                if (!autoReset.SafeWaitHandle.IsClosed)
-                    autoReset.Set();
-            }
-        }
-
-        public void ProcessReadingFile(string token, string idFile, long readBytes)
-        {
-            try
-            {
-                suscriber.ProcessReadingFile(token, idFile, readBytes);
-            }
-            catch (Exception)
-            {
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = token,
-                    Type = NotificationType.ReadingFile,
-                    Content = string.Format("{0}|{1}", idFile, readBytes)
-                });
-
-                if (!autoReset.SafeWaitHandle.IsClosed)
-                    autoReset.Set();
-            }
-        }
-
-        public void ProcessWritingMessage(string token)
-        {
-            try
-            {
-                suscriber.ProcessWritingMessage(token);
+                suscriber.ProcessMessageStateChanged(notification);
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
 
                 EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = token,
-                    Type = NotificationType.WritingMessage,
-                    Content = string.Empty
-                });
-
-                if (!autoReset.SafeWaitHandle.IsClosed)
-                    autoReset.Set();
-            }
-        }
-
-        public void ProcessMessageSent(string token, int idMessage)
-        {
-            try
-            {
-                suscriber.ProcessMessageSent(token, idMessage);
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(new Notification
-                {
-                    Token = token,
-                    Type = NotificationType.MessageSent,
-                    Content = idMessage.ToString()
-                });
+                eventListener.SaveNotification(
+                    Guid.NewGuid().ToString().Replace("-", ""),
+                    NotificationType.MessageChange,
+                    JSONSerializer<MessageStateNotification>.Serialize(notification));
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();

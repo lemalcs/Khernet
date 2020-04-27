@@ -90,13 +90,21 @@ namespace Khernet.UI
         public void SetUnreadMessage(int quantity)
         {
             if (quantity >= 0)
+            {
                 UnreadMessagesNumber = quantity;
+            }
+
+            if (UnreadMessagesNumber == 0)
+                User.ClearUnReadMessages();
         }
 
         public void DecreaseUnreadMessage()
         {
             if (UnreadMessagesNumber > 0)
                 UnreadMessagesNumber--;
+
+            if (UnreadMessagesNumber == 0)
+                User.ClearUnReadMessages();
         }
 
         /// <summary>

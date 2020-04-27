@@ -308,7 +308,11 @@ namespace Khernet.Core.Processor
 
                 commData.SetMessageState(conversationMessage.Id, (int)MessageState.Processed);
 
-                IoCContainer.Get<NotificationManager>().ProcessMessageSent(conversationMessage.ReceiptToken, conversationMessage.Id);
+                IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification 
+                {
+                    MessageId=conversationMessage.Id,
+                    State=MessageState.Processed,
+                });
             }
             catch (Exception error)
             {

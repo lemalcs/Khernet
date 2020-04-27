@@ -8,12 +8,12 @@ namespace Khernet.Core.Processor
 {
     public class EventNotifier
     {
-        public void ProcessContactChange(Notification info)
+        public void ProcessContactChange(PeerNotification notification)
         {
             try
             {
                 PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisher.ProcessContactChange(info);
+                publisher.ProcessContactChange(notification);
             }
             catch (Exception error)
             {
@@ -22,12 +22,12 @@ namespace Khernet.Core.Processor
             }
         }
 
-        public void ProcessWritingMessage(string accountToken)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             try
             {
                 PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisher.ProcessWritingMessage(accountToken);
+                publisher.ProcessMessageProcessing(notification);
             }
             catch (Exception error)
             {

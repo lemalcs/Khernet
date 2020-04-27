@@ -19,13 +19,9 @@ namespace Khernet.Core.Host
         volatile bool continueChecking = false;
 
         public event MessageArrivedEventHandler MessageArrived;
-        public event FileArrivedEventHandler FileArrived;
         public event ContactChangedEventHandler PeerChanged;
-        public event WritingMessageEventHandler WritingMessage;
-        public event SendingFileEventHandler BeginSendingFile;
-        public event SendingFileEventHandler EndSendingFile;
-        public event ReadingFileEventHandler ReadingFile;
-        public event MessageSentEventHandler MessageSent;
+        public event MessageProcessingHandler ProcessingMessage;
+        public event MessageStateChangedEventHandler MessageStateChanged;
 
         public void Start()
         {
@@ -131,13 +127,13 @@ namespace Khernet.Core.Host
 
 
 
-        protected void OnMessageArrive(InternalConversationMessage message)
+        protected void OnMessageArrive(MessageNotification notification)
         {
             Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    MessageArrived?.Invoke(this, new Host.MessageArrivedEventArgs(message));
+                    MessageArrived?.Invoke(this, new MessageArrivedEventArgs(notification));
                 }
                 catch (Exception exception)
                 {
@@ -147,20 +143,7 @@ namespace Khernet.Core.Host
             });
         }
 
-        protected void OnFileArrive(InternalFileMessage file)
-        {
-            try
-            {
-                FileArrived?.BeginInvoke(this, new FileArrivedEventArgs(file), CallBackProgress, "");
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
-        }
-
-        protected void OnContactChange(Notification notification)
+        protected void OnContactChange(PeerNotification notification)
         {
             Task.Factory.StartNew(() =>
             {
@@ -176,13 +159,13 @@ namespace Khernet.Core.Host
             });
         }
 
-        protected void OnWritingMessage(string accountToken)
+        protected void OnMessageProcessing(MessageProcessingNotification notification)
         {
             Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    WritingMessage?.Invoke(this, new WritingMessageEventArgs(accountToken));
+                    ProcessingMessage?.Invoke(this, new MessageProcessingEventArgs(notification));
                 }
                 catch (Exception exception)
                 {
@@ -191,64 +174,18 @@ namespace Khernet.Core.Host
                 }
             });
         }
-        protected void OnBeginSendingFile(string accountToken)
+
+        protected void OnMessageStateChanged(MessageStateNotification notification)
         {
             try
             {
-                BeginSendingFile?.Invoke(this, new SendingFileEventArgs(accountToken));
+                MessageStateChanged?.Invoke(this, new MessageStateChangedEventArgs(notification));
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
                 throw exception;
             }
-        }
-
-        protected void OnEndSendingFile(string accountToken)
-        {
-            try
-            {
-                EndSendingFile?.Invoke(this, new SendingFileEventArgs(accountToken));
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
-        }
-
-        protected void OnReadingFile(string token, string idFile, long readBytes)
-        {
-            try
-            {
-                ReadingFile?.Invoke(this, new ReadingFileEventArgs(token, idFile, readBytes));
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
-        }
-
-        protected void OnMessageSent(string token, int idMessage)
-        {
-            try
-            {
-                MessageSent?.Invoke(this, new MessageSentEventArgs(token, idMessage));
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
-        }
-
-        private void CallBackProgress(IAsyncResult result)
-        {
-            AsyncResult res = (AsyncResult)result;
-            FileArrivedEventHandler handler = (FileArrivedEventHandler)res.AsyncDelegate;
-
-            handler.EndInvoke(result);
         }
 
         [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
@@ -261,43 +198,24 @@ namespace Khernet.Core.Host
                 client = listenerClient;
             }
 
-            public void ProcessNewMessage(InternalConversationMessage message)
+            public void ProcessNewMessage(MessageNotification message)
             {
                 client.OnMessageArrive(message);
             }
 
-            public void ProcessNewFile(InternalFileMessage fileMessage)
-            {
-                client.OnFileArrive(fileMessage);
-            }
-            public void ProcessContactChange(Notification info)
+            public void ProcessContactChange(PeerNotification info)
             {
                 client.OnContactChange(info);
             }
 
-            public void ProcessBeginSendingFile(string accountToken)
+            public void ProcessMessageProcessing(MessageProcessingNotification notification)
             {
-                client.OnBeginSendingFile(accountToken);
+                client.OnMessageProcessing(notification);
             }
 
-            public void ProcessEndSendingFile(string accountToken)
+            public void ProcessMessageStateChanged(MessageStateNotification notification)
             {
-                client.OnEndSendingFile(accountToken);
-            }
-
-            public void ProcessWritingMessage(string accountToken)
-            {
-                client.OnWritingMessage(accountToken);
-            }
-
-            public void ProcessReadingFile(string token, string idFile, long readBytes)
-            {
-                client.OnReadingFile(token, idFile, readBytes);
-            }
-
-            public void ProcessMessageSent(string token, int idMessage)
-            {
-                client.OnMessageSent(token, idMessage);
+                client.OnMessageStateChanged(notification);
             }
         }
 
@@ -345,6 +263,5 @@ namespace Khernet.Core.Host
                 LogDumper.WriteLog(exception, "Client event listener stopped");
             }
         }
-
     }
 }

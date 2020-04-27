@@ -39,6 +39,7 @@ BEGIN
        AND A.ID_RECEIPT=C.ID_RECEIPT
        WHERE
        B.ID=:RECEIVERID
+	    AND A.STATE<1 --Filter processed and error message
        ORDER BY A.ID
        INTO :ID_MESSAGE
        DO
@@ -54,6 +55,7 @@ BEGIN
        AND A.ID_RECEIPT=C.ID_RECEIPT
        WHERE
        B.ID=:RECEIVERID
+	    AND A.STATE<1 --Filter processed and error message
        ORDER BY A.ID
        INTO :ID_MESSAGE
        DO
