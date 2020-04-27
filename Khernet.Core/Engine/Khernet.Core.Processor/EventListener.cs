@@ -16,37 +16,45 @@ namespace Khernet.Core.Processor
             eventData.ClearNotifications();
         }
 
-        public List<Notification> GetNotificationsDetail()
+        public Dictionary<string,short> GetNotificationsDetail()
         {
             EventListenerData eventData = new EventListenerData();
 
             DataTable data = eventData.GetNotificationsDetail();
-            List<Notification> notificationList = new List<Notification>();
+            Dictionary<string, short> notificationList = new Dictionary<string, short>();
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-                Notification notification = new Notification
-                {
-                    Token = data.Rows[i][0].ToString(),
-                    Content = data.Rows[i][2].ToString(),
-                    Type = (NotificationType)Enum.Parse(typeof(NotificationType), data.Rows[i][1].ToString())
-                };
-
-                notificationList.Add(notification);
+                notificationList.Add(data.Rows[i][0].ToString(),Convert.ToInt16(data.Rows[i][1]));
             }
 
             return notificationList;
         }
 
-        public void DeleteNotification(string token, NotificationType type)
-        {
-            EventListenerData.DeleteNotification(token, (byte)type);
-        }
-
-        public void SaveNotification(Notification notification)
+        public byte[] GetNotificationDetail(string id)
         {
             EventListenerData eventData = new EventListenerData();
-            eventData.SaveNotification(notification.Token, (byte)notification.Type, notification.Content);
+
+            DataTable data = eventData.GetNotificationDetail(id);
+            byte[] notification = null;
+
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                notification=data.Rows[i][0] as byte[];
+            }
+
+            return notification;
+        }
+
+        public void DeleteNotification(string id)
+        {
+            EventListenerData.DeleteNotification(id);
+        }
+
+        public void SaveNotification(string id, NotificationType type, byte[] content)
+        {
+            EventListenerData eventData = new EventListenerData();
+            eventData.SaveNotification(id, (short)type, content);
         }
 
         public void Suscribe(string listenerKey)
@@ -61,44 +69,24 @@ namespace Khernet.Core.Processor
             IoCContainer.Get<NotificationManager>().UnSuscribe(listenerKey);
         }
 
-        public void ProcessNewMessage(InternalConversationMessage message)
+        public void ProcessNewMessage(MessageNotification notification)
         {
-            IoCContainer.Get<NotificationManager>().ProcessNewMessage(message);
+            IoCContainer.Get<NotificationManager>().ProcessNewMessage(notification);
         }
 
-        public void ProcessNewFile(InternalFileMessage fileMessage)
+        public void ProcessContactChange(PeerNotification notification)
         {
-            IoCContainer.Get<NotificationManager>().ProcessNewFile(fileMessage);
+            IoCContainer.Get<NotificationManager>().ProcessContactChange(notification);
         }
 
-        public void ProcessContactChange(Notification info)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
-            IoCContainer.Get<NotificationManager>().ProcessContactChange(info);
+            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(notification);
         }
 
-        public void ProcessBeginSendingFile(string token)
+        public void ProcessMessageStateChanged(MessageStateNotification notification)
         {
-            IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(token);
-        }
-
-        public void ProcessEndSendingFile(string token)
-        {
-            IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(token);
-        }
-
-        public void ProcessReadingFile(string token, string idFile, long readBytes)
-        {
-            IoCContainer.Get<NotificationManager>().ProcessReadingFile(token, idFile, readBytes);
-        }
-
-        public void ProcessWritingMessage(string token)
-        {
-            IoCContainer.Get<NotificationManager>().ProcessWritingMessage(token);
-        }
-
-        public void ProcessMessageSent(string token, int idMessage)
-        {
-            IoCContainer.Get<NotificationManager>().ProcessMessageSent(token, idMessage);
+            IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(notification);
         }
     }
 }

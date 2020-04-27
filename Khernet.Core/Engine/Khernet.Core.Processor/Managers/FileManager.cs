@@ -86,8 +86,12 @@ namespace Khernet.Core.Processor.Managers
 
                             fileObserver = new FileObserver(fileMessage);
                             fileObserver.Id = idMessage;
-
-                            IoCContainer.Get<NotificationManager>().ProcessBeginSendingFile(message.SenderToken);
+                            
+                            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification 
+                            {
+                                Process=MessageProcessing.BeginSendingFile,
+                                SenderToken=message.SenderToken,
+                            });
 
                             fileObserver.ReadCompleted += FileObserver_ReadCompleted;
                             fileObserver.ReadFailed += FileObserver_ReadFailed;
@@ -121,7 +125,11 @@ namespace Khernet.Core.Processor.Managers
                         finally
                         {
                             if (message != null)
-                                IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(message.SenderToken);
+                                IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification
+                                {
+                                    Process = MessageProcessing.EndSendingFile,
+                                    SenderToken = message.SenderToken,
+                                });
 
                             if (fileObserver != null)
                             {
@@ -153,12 +161,20 @@ namespace Khernet.Core.Processor.Managers
 
         private void FileObserver_ReadFailed(object sender, ReadFailedEventArgs e)
         {
-            IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)sender).Data.SenderToken);
+            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification
+            {
+                Process = MessageProcessing.EndSendingFile,
+                SenderToken = ((FileObserver)sender).Data.SenderToken,
+            });
         }
 
         private void FileObserver_ReadCompleted(object sender)
         {
-            IoCContainer.Get<NotificationManager>().ProcessEndSendingFile(((FileObserver)sender).Data.SenderToken);
+            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification
+            {
+                Process = MessageProcessing.EndSendingFile,
+                SenderToken = ((FileObserver)sender).Data.SenderToken,
+            });
         }
 
         /// <summary>
@@ -181,7 +197,13 @@ namespace Khernet.Core.Processor.Managers
                 internalMessage.Id = idMessage;
 
                 PublisherClient publisherClient = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisherClient.ProcessNewFile(internalMessage);
+                publisherClient.ProcessNewMessage(new MessageNotification 
+                {
+                    MessageId=idMessage,
+                    SenderToken=fileMessage.SenderToken,
+                    State=MessageState.Processed,
+                    Format=fileMessage.Type,
+                });
             }
             catch (Exception error)
             {

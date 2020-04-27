@@ -8,27 +8,22 @@ namespace Khernet.Services.WCF
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, UseSynchronizationContext = false)]
     public class EventListenerService : IEventListener, IEventListenerCallBack
     {
-        public void ProcessNewMessage(InternalConversationMessage message)
+        public void ProcessNewMessage(MessageNotification notification)
         {
             EventListener eventListener = new EventListener();
-            eventListener.ProcessNewMessage(message);
-        }
-        public void ProcessNewFile(InternalFileMessage fileMessage)
-        {
-            EventListener eventListener = new EventListener();
-            eventListener.ProcessNewFile(fileMessage);
+            eventListener.ProcessNewMessage(notification);
         }
 
-        public void ProcessContactChange(Notification info)
+        public void ProcessContactChange(PeerNotification notification)
         {
             EventListener eventListener = new EventListener();
-            eventListener.ProcessContactChange(info);
+            eventListener.ProcessContactChange(notification);
         }
 
-        public void ProcessWritingMessage(string accountToken)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             EventListener eventListener = new EventListener();
-            eventListener.ProcessWritingMessage(accountToken);
+            eventListener.ProcessMessageProcessing(notification);
         }
 
         public void Suscribe(string listenerKey)
@@ -48,27 +43,10 @@ namespace Khernet.Services.WCF
             eventListener.UnSuscribe(listenerKey);
         }
 
-        public void ProcessBeginSendingFile(string accountToken)
+        public void ProcessMessageStateChanged(MessageStateNotification notification)
         {
             EventListener eventListener = new EventListener();
-            eventListener.ProcessBeginSendingFile(accountToken);
-        }
-
-        public void ProcessEndSendingFile(string accountToken)
-        {
-            EventListener eventListener = new EventListener();
-            eventListener.ProcessEndSendingFile(accountToken);
-        }
-
-        public void ProcessReadingFile(string token, string idFile, long readBytes)
-        {
-            EventListener eventListener = new EventListener();
-            eventListener.ProcessReadingFile(token, idFile, readBytes);
-        }
-
-        public void ProcessMessageSent(string token, int idMessage)
-        {
-            EventListener eventListener = new EventListener();
+            eventListener.ProcessMessageStateChanged(notification);
         }
     }
 }

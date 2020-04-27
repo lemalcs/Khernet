@@ -1169,7 +1169,7 @@ namespace Khernet.UI
 
         public void SetFirstViewChatModel(ChatMessageItemViewModel messageModel)
         {
-            if (UserContext.CurrentChatModel != messageModel)
+            if (UserContext.FirstViewChatModel != messageModel)
                 UserContext.FirstViewChatModel = messageModel;
         }
 
@@ -1227,7 +1227,7 @@ namespace Khernet.UI
             FocusTextBox();
 
             //Scroll to last viewed message
-            if (UserContext.User.UnreadMessages == 0)
+            if (UserContext.UnreadMessagesNumber == 0)
             {
                 int startIndex = Items.IndexOf(UserContext.CurrentChatModel);
                 ScrollToChatMessage?.Invoke(UserContext.CurrentChatModel, startIndex);

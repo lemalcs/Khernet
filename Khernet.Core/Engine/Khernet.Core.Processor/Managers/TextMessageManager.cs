@@ -1,7 +1,9 @@
-﻿using Khernet.Core.Utility;
+﻿using Khernet.Core.Processor.IoC;
+using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using System;
 using System.Collections.Concurrent;
+using System.ServiceModel;
 using System.Threading;
 
 namespace Khernet.Core.Processor.Managers
@@ -62,9 +64,21 @@ namespace Khernet.Core.Processor.Managers
                         {
                             communicator.SendPenddingMessage((InternalConversationMessage)message);
                         }
-                        catch (Exception error)
+                        catch (EndpointNotFoundException error)
                         {
                             communicator.RegisterPenddingMessage(message.ReceiptToken, ((InternalConversationMessage)message).Id);
+                            LogDumper.WriteLog(error);
+                        }
+                        catch (Exception error)
+                        {
+                            communicator.SetMessageState(((InternalConversationMessage)message).Id, MessageState.Error);
+
+                            IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
+                            {
+                                MessageId = idMessage,
+                                State = MessageState.Error,
+                            });
+
                             LogDumper.WriteLog(error);
                         }
 

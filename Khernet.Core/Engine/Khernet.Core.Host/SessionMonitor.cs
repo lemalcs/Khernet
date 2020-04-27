@@ -74,18 +74,20 @@ namespace Khernet.Core.Host
             {
                 Communicator communicator = new Communicator();
                 List<Peer> addressList = communicator.GetPeers();
-                addressList.ForEach((peer) =>
+                addressList.ForEach(((peer) =>
                 {
-                    Task.Factory.StartNew((p) =>
+                    Task.Factory.StartNew(((p) =>
                     {
                         try
                         {
                             EventNotifierClient notifierClient = new EventNotifierClient(((Peer)p).AccountToken);
 
-                            Notification notification = new Notification();
-                            notification.Token = identity.Token;
-                            notification.Type = NotificationType.StateChange;
-                            notification.Content = state.ToString();
+                            PeerNotification notification = new PeerNotification
+                            {
+                                State = state,
+                                Token = identity.Token,
+                                Change=PeerChangeType.StateChange,
+                            };
 
                             notifierClient.ProcessContactChange(notification);
                         }
@@ -94,8 +96,8 @@ namespace Khernet.Core.Host
                             //Do not throw an exception if notification could no be sent
                             LogDumper.WriteLog(exception);
                         }
-                    }, peer);
-                });
+                    }), peer);
+                }));
             }
             catch (Exception exception)
             {

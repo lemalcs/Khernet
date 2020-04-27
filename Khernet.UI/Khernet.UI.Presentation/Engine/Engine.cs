@@ -109,13 +109,11 @@ namespace Khernet.UI
                 var listener = IoCContainer.Get<EventListenerClient>();
 
                 //Attach events to listen notifications
-                listener.PeerChanged += Listener_PeerChanged;
-                listener.WritingMessage += Listener_WritingMessage;
+                listener.ProcessingMessage += Listener_ProcessingMessage;
                 listener.MessageArrived += Listener_MessageArrived;
-                listener.FileArrived += Listener_FileArrived;
-                listener.BeginSendingFile += Listener_BeginSendingFile;
-                listener.EndSendingFile += Listener_EndSendingFile;
-                listener.MessageSent += Listener_MessageSent;
+                listener.PeerChanged += Listener_PeerChanged;
+                listener.MessageStateChanged += Listener_MessageStateChanged;
+
                 listener.Start();
             }
             catch (Exception)
@@ -125,9 +123,106 @@ namespace Khernet.UI
             }
         }
 
-        private static void Listener_MessageSent(object sender, MessageSentEventArgs e)
+        private static void Listener_MessageStateChanged(object sender, MessageStateChangedEventArgs e)
         {
-            IoCContainer.Get<ChatMessageStateManager>().ProcessState(e.IdMessage);
+            IoCContainer.Get<ChatMessageStateManager>().ProcessState(new MessageStateInfo 
+            {
+                Id=e.Notification.MessageId,
+                State=e.Notification.State,
+            });
+        }
+
+        private static void Listener_PeerChanged(object sender, ContactChangedEventArgs e)
+        {
+            if (State != EngineState.Executing)
+            {
+                return;
+            }
+
+            try
+            {
+
+                var userState = new UserState
+                {
+                    Token = e.EventInformation.Token,
+                    Change=e.EventInformation.Change==PeerChangeType.AvatarChange?UserChangeType.AvatarChange:UserChangeType.ProfileChange,
+                };
+
+                if (e.EventInformation.Change == PeerChangeType.AvatarChange)
+                    userState.Change = UserChangeType.AvatarChange;
+                else if (e.EventInformation.Change == PeerChangeType.ProfileChange)
+                {
+                    userState.Change = UserChangeType.ProfileChange;
+                }
+                else if (e.EventInformation.Change == PeerChangeType.StateChange)
+                {
+                    userState.Change = UserChangeType.StateChange;
+                }
+
+                IoCContainer.Get<UserManager>().ProcessState(userState);
+            }
+            catch (Exception error)
+            {
+                Debug.WriteLine(error.Message);
+                Debugger.Break();
+            }
+        }
+
+        private static void Listener_MessageArrived(object sender, MessageArrivedEventArgs e)
+        {
+            var currentUser = IoCContainer.Get<ChatMessageListViewModel>().UserContext;
+
+            if (State != EngineState.Executing)
+                return;
+
+
+            if (!IoCContainer.UI.IsMainWindowActive() ||
+                currentUser == null ||
+                currentUser.User.Token != e.Notification.SenderToken
+                )
+            {
+                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
+
+                if (user == null)
+                    return;
+
+                user.IncreaseUnReadMessages();
+                IoCContainer.UI.ShowNotification(new NotificationViewModel
+                {
+                    User = user,
+                    MessageType = (MessageType)(int)e.Notification.Format,
+                });
+            }
+            else
+            {
+                IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
+            }
+
+        }
+
+        private static void Listener_ProcessingMessage(object sender, MessageProcessingEventArgs e)
+        {
+            if (State != EngineState.Executing)
+                return;
+
+            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
+            if (user == null)
+                return;
+
+            switch(e.Notification.Process)
+            {
+                case MessageProcessing.WritingText:
+                    user.ShowUserWriting();
+                    break;
+
+                case MessageProcessing.BeginSendingFile:
+                    user.ShowUserSendingFile();
+                    break;
+
+                case MessageProcessing.EndSendingFile:
+                    user.HideUserSendingFile();
+                    break;
+            }
         }
 
         public static void Stop()
@@ -175,13 +270,9 @@ namespace Khernet.UI
 
                 //Detach listener events
                 listener.PeerChanged -= Listener_PeerChanged;
-                listener.WritingMessage -= Listener_WritingMessage;
+                listener.ProcessingMessage -= Listener_ProcessingMessage;
                 listener.MessageArrived -= Listener_MessageArrived;
-                listener.FileArrived -= Listener_FileArrived;
-                listener.BeginSendingFile -= Listener_BeginSendingFile;
-                listener.EndSendingFile -= Listener_EndSendingFile;
-                listener.MessageSent -= Listener_MessageSent;
-                
+                listener.MessageStateChanged -= Listener_MessageStateChanged;
 
                 IoCContainer.UnConfigure<AccountIdentity>();
                 IoCContainer.UnConfigure<EventListenerClient>();
@@ -208,124 +299,6 @@ namespace Khernet.UI
             finally
             {
                 IoCContainer.UI.ClearNotificationNewMessageIcon();
-            }
-        }
-
-        private static void Listener_EndSendingFile(object sender, SendingFileEventArgs e)
-        {
-            if (State != EngineState.Executing)
-                return;
-
-            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.AccountToken);
-            if (user != null)
-                user.HideUserSendingFile();
-        }
-
-        private static void Listener_BeginSendingFile(object sender, SendingFileEventArgs e)
-        {
-            if (State != EngineState.Executing)
-                return;
-
-            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.AccountToken);
-            if (user != null)
-                user.ShowUserSendingFile();
-        }
-
-        private static void Listener_FileArrived(object sender, FileArrivedEventArgs e)
-        {
-            var currentUser = IoCContainer.Get<ChatMessageListViewModel>().UserContext;
-
-            if (State != EngineState.Executing)
-                return;
-
-            if (!IoCContainer.UI.IsMainWindowActive() ||
-                currentUser == null ||
-                currentUser.User.Token != e.File.SenderToken
-                )
-            {
-                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.File.SenderToken);
-                user.IncreaseUnReadMessages();
-                IoCContainer.UI.ShowNotification(new NotificationViewModel
-                {
-                    User = user,
-                    MessageType = (MessageType)(int)e.File.Type,
-                });
-            }
-            else
-            {
-                IoCContainer.UI.ShowUnReadMessage(e.File.Id);
-            }
-        }
-
-        private static void Listener_MessageArrived(object sender, MessageArrivedEventArgs e)
-        {
-            var currentUser = IoCContainer.Get<ChatMessageListViewModel>().UserContext;
-
-            if (State != EngineState.Executing)
-                return;
-
-            if (!IoCContainer.UI.IsMainWindowActive() ||
-                currentUser == null ||
-                currentUser.User.Token != e.Message.SenderToken
-                )
-            {
-                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Message.SenderToken);
-                user.IncreaseUnReadMessages();
-                IoCContainer.UI.ShowNotification(new NotificationViewModel
-                {
-                    User = user,
-                    MessageType = (MessageType)(int)e.Message.Type,
-                });
-            }
-            else
-            {
-                IoCContainer.UI.ShowUnReadMessage(e.Message.Id);
-            }
-        }
-
-        private static void Listener_WritingMessage(object sender, WritingMessageEventArgs e)
-        {
-            if (State != EngineState.Executing)
-                return;
-
-            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.AccountToken);
-            if (user != null)
-                user.ShowUserWriting();
-        }
-
-        private static void Listener_PeerChanged(object sender, ContactChangedEventArgs e)
-        {
-            if (State != EngineState.Executing)
-            {
-                return;
-            }
-
-            try
-            {
-                var userState = new UserState
-                {
-                    Token = e.EventInformation.Token,
-                    Username = e.EventInformation.Type == NotificationType.StateChange ? null : e.EventInformation.Content,
-                    Change = e.EventInformation.Type == NotificationType.AvatarChange ? UserChangeType.AvatarChange : UserChangeType.ProfileChange,
-                };
-
-                if (e.EventInformation.Type == NotificationType.AvatarChange)
-                    userState.Change = UserChangeType.AvatarChange;
-                else if (e.EventInformation.Type == NotificationType.ProfileChange)
-                {
-                    userState.Change = UserChangeType.ProfileChange;
-                }
-                else if(e.EventInformation.Type==NotificationType.StateChange)
-                {
-                    userState.Change = UserChangeType.StateChange;
-                }
-
-                IoCContainer.Get<UserManager>().ProcessState(userState);
-            }
-            catch (Exception error)
-            {
-                Debug.WriteLine(error.Message);
-                Debugger.Break();
             }
         }
     }

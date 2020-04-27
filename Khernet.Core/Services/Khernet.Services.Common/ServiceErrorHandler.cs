@@ -14,6 +14,10 @@ namespace Khernet.Services.Common
         public bool HandleError(Exception error)
         {
             LogDumper.WriteLog(error);
+
+            if (error.InnerException != null)
+                LogDumper.WriteLog(error.InnerException);
+
             return true;
         }
 

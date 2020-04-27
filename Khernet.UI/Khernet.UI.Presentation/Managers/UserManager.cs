@@ -38,11 +38,6 @@ namespace Khernet.UI.Managers
     public class UserState
     {
         /// <summary>
-        /// The user name
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
         /// The token of user
         /// </summary>
         public string Token { get; set; }
@@ -115,7 +110,7 @@ namespace Khernet.UI.Managers
                             if (state == null)
                                 continue;
 
-                            UserItemViewModel user = GetUserFromList(state.Token, state.Username);
+                            UserItemViewModel user = GetUserFromList(state.Token);
 
                             if (user == null)
                                 continue;
@@ -200,7 +195,7 @@ namespace Khernet.UI.Managers
         /// <param name="userToken"></param>
         /// <param name="username"></param>
         /// <returns>A <see cref="UserItemViewModel"/> of peer</returns>
-        private UserItemViewModel GetUserFromList(string userToken, string username)
+        private UserItemViewModel GetUserFromList(string userToken)
         {
             var userList = IoCContainer.Get<UserListViewModel>();
 
@@ -208,10 +203,14 @@ namespace Khernet.UI.Managers
 
             if (user == null)
             {
+                Peer newUser= IoCContainer.Get<Messenger>().GetPeerProfile(userToken);
+
                 user = new UserItemViewModel
                 {
                     Token = userToken,
-                    Username = username,
+                    Username = newUser.UserName,
+                    Initials = newUser.Initials,
+                    ColorHex=newUser.HexColor,
                 };
 
                 user.BuildDisplayName();
@@ -224,6 +223,9 @@ namespace Khernet.UI.Managers
 
                 if (unreadMessages != null && unreadMessages.Count > 0)
                     IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
+
+                if (newUser.Avatar != null)
+                    user.SetAvatarThumbnail(newUser.Avatar);
 
                 //Add new user to list
                 IoCContainer.Get<UserListViewModel>().AddUser(user);

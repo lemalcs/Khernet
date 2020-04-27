@@ -131,6 +131,13 @@ namespace Khernet.Core.Processor.Managers
             catch (Exception ex2)
             {
                 SetMessageState(messageList[0], MessageState.Error);
+
+                IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
+                {
+                    MessageId = messageList[0],
+                    State = MessageState.Error,
+                });
+
                 LogDumper.WriteLog(ex2);
             }
 
@@ -157,6 +164,11 @@ namespace Khernet.Core.Processor.Managers
                 catch (Exception error)
                 {
                     SetMessageState(messageList[j], MessageState.Error);
+                    IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
+                    {
+                        MessageId = messageList[j],
+                        State = MessageState.Error,
+                    });
                     LogDumper.WriteLog(error, "Error while reading pendding message");
                 }
             }

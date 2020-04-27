@@ -11,16 +11,16 @@ namespace Khernet.Services.WCF
     [KhernetServiceInspectorBehavior]
     public class EventNotifierService : IEventNotifier
     {
-        public void ProcessContactChange(Notification info)
+        public void ProcessContactChange(PeerNotification notification)
         {
             EventNotifier eventNotifier = new EventNotifier();
-            eventNotifier.ProcessContactChange(info);
+            eventNotifier.ProcessContactChange(notification);
         }
 
-        public void ProcessWritingMessage(string accountToken)
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             EventNotifier eventNotifier = new EventNotifier();
-            eventNotifier.ProcessWritingMessage(accountToken);
+            eventNotifier.ProcessMessageProcessing(notification);
         }
     }
 }
