@@ -1,6 +1,5 @@
 ﻿using Khernet.Core.Entity;
 using Khernet.Core.Host;
-using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Cache;
 using Khernet.UI.IoC;
@@ -125,10 +124,10 @@ namespace Khernet.UI
 
         private static void Listener_MessageStateChanged(object sender, MessageStateChangedEventArgs e)
         {
-            IoCContainer.Get<ChatMessageStateManager>().ProcessState(new MessageStateInfo 
+            IoCContainer.Get<ChatMessageStateManager>().ProcessState(new MessageStateInfo
             {
-                Id=e.Notification.MessageId,
-                State=e.Notification.State,
+                Id = e.Notification.MessageId,
+                State = e.Notification.State,
             });
         }
 
@@ -145,7 +144,7 @@ namespace Khernet.UI
                 var userState = new UserState
                 {
                     Token = e.EventInformation.Token,
-                    Change=e.EventInformation.Change==PeerChangeType.AvatarChange?UserChangeType.AvatarChange:UserChangeType.ProfileChange,
+                    Change = e.EventInformation.Change == PeerChangeType.AvatarChange ? UserChangeType.AvatarChange : UserChangeType.ProfileChange,
                 };
 
                 if (e.EventInformation.Change == PeerChangeType.AvatarChange)
@@ -209,7 +208,7 @@ namespace Khernet.UI
             if (user == null)
                 return;
 
-            switch(e.Notification.Process)
+            switch (e.Notification.Process)
             {
                 case MessageProcessing.WritingText:
                     user.ShowUserWriting();

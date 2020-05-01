@@ -59,10 +59,10 @@ namespace Khernet.UI
         /// <summary>
         /// The number of unread messages from all user in the list
         /// </summary>
-        public int TotalUnreadMessages 
-        { 
-            get ; 
-            private set; 
+        public int TotalUnreadMessages
+        {
+            get;
+            private set;
         }
 
         /// <summary>

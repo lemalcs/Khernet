@@ -6,7 +6,6 @@ using Khernet.UI.Cache;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
-using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.IO;
 using System.Windows;
@@ -395,7 +394,7 @@ namespace Khernet.UI.Files
                     metadata.Size = FileHelper.GetFileSize(observer.Media.FileName);
 
                     metadata.Operation = MessageOperation.GetMetadata;
-                    
+
                     MessageProcessResult result = UploadFile(observer, metadata);
 
 
@@ -498,7 +497,7 @@ namespace Khernet.UI.Files
                 {
                     idMessage = observer.Media.Id;
 
-                    FileResponse response =new FileResponse 
+                    FileResponse response = new FileResponse
                     {
                         FilePath = GetCacheFile(observer)
                     };

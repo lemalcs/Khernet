@@ -421,7 +421,7 @@ namespace Khernet.UI
                 {
                     notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/LogoIcon.ico", UriKind.RelativeOrAbsolute));
 
-                    if(App.Current.MainWindow.TaskbarItemInfo!=null)
+                    if (App.Current.MainWindow.TaskbarItemInfo != null)
                         App.Current.MainWindow.TaskbarItemInfo = null;
                 }
             }));

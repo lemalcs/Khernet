@@ -7,7 +7,7 @@ namespace Khernet.UI
     /// </summary>
     public class AnimationChatMessageDesignModel : AnimationChatMessageViewModel
     {
-        public AnimationChatMessageDesignModel() : base(new ChatMessageListDesignModel(),new PresentationApplicationDialog())
+        public AnimationChatMessageDesignModel() : base(new ChatMessageListDesignModel(), new PresentationApplicationDialog())
         {
             FilePath = @"C:\MediaFiles\02 Pista 2.wma";
             IsFileLoaded = true;

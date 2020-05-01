@@ -4,7 +4,7 @@ namespace Khernet.UI.ViewModels
 {
     public class FileChatMessageDesignModel : FileChatMessageViewModel
     {
-        public FileChatMessageDesignModel() : base(new ChatMessageListDesignModel(),new PresentationApplicationDialog())
+        public FileChatMessageDesignModel() : base(new ChatMessageListDesignModel(), new PresentationApplicationDialog())
         {
             FileName = "AdobeDreamweaver10en_USLanguagePack.msi";
             IsFileLoaded = true;

@@ -16,16 +16,16 @@ namespace Khernet.Core.Processor
             eventData.ClearNotifications();
         }
 
-        public Dictionary<string,short> GetNotificationsDetail()
+        public Dictionary<string, short> GetNotificationsList()
         {
             EventListenerData eventData = new EventListenerData();
 
-            DataTable data = eventData.GetNotificationsDetail();
+            DataTable data = eventData.GetNotificationsList();
             Dictionary<string, short> notificationList = new Dictionary<string, short>();
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-                notificationList.Add(data.Rows[i][0].ToString(),Convert.ToInt16(data.Rows[i][1]));
+                notificationList.Add(data.Rows[i][0].ToString(), Convert.ToInt16(data.Rows[i][1]));
             }
 
             return notificationList;
@@ -40,7 +40,7 @@ namespace Khernet.Core.Processor
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-                notification=data.Rows[i][0] as byte[];
+                notification = data.Rows[i][0] as byte[];
             }
 
             return notification;

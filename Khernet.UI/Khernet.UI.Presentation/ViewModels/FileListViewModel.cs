@@ -7,7 +7,6 @@ using Khernet.UI.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Khernet.UI
 {
@@ -89,12 +88,12 @@ namespace Khernet.UI
             }
         }
 
-        public int ItemsCount 
-        { 
+        public int ItemsCount
+        {
             get => itemsCount;
-            set 
-            { 
-                if(itemsCount != value)
+            set
+            {
+                if (itemsCount != value)
                 {
                     itemsCount = value;
                     OnPropertyChanged(nameof(ItemsCount));
@@ -107,7 +106,7 @@ namespace Khernet.UI
         /// </summary>
         public FileListViewModel()
         {
-            
+
         }
 
         public FileListViewModel(IMessageManager messageManager)
@@ -142,8 +141,8 @@ namespace Khernet.UI
 
                     int quantity = 20;
 
-                    Dictionary<int,int> fileList = IoCContainer.Get<Messenger>().GetFileList(
-                        User.Token, 
+                    Dictionary<int, int> fileList = IoCContainer.Get<Messenger>().GetFileList(
+                        User.Token,
                         (ContentType)((int)messageType),
                         lastIdMessage,
                         quantity
@@ -159,9 +158,9 @@ namespace Khernet.UI
                     if (Items == null)
                         Items = new ObservableCollection<FileMessageItemViewModel>();
 
-                    foreach(var idMessage in fileList.Keys)
+                    foreach (var idMessage in fileList.Keys)
                     {
-                        LoadMessage(idMessage,fileList[idMessage], messageType);
+                        LoadMessage(idMessage, fileList[idMessage], messageType);
                     }
 
                     IsEmpty = Items.Count == 0;
@@ -214,7 +213,7 @@ namespace Khernet.UI
             Done();
         }
 
-        private void LoadMessage(int idMessage,int idUser, MessageType messageType)
+        private void LoadMessage(int idMessage, int idUser, MessageType messageType)
         {
             try
             {
@@ -249,7 +248,7 @@ namespace Khernet.UI
 
                     case MessageType.Binary:
 
-                        FileChatMessageViewModel fileModel = new FileChatMessageViewModel(this,modalDialog);
+                        FileChatMessageViewModel fileModel = new FileChatMessageViewModel(this, modalDialog);
                         fileModel.Id = idMessage;
                         fileModel.User = user;
                         fileModel.IsSentByMe = user == null;
@@ -262,7 +261,7 @@ namespace Khernet.UI
 
                     case MessageType.Audio:
 
-                        AudioChatMessageViewModel audioModel = new AudioChatMessageViewModel(this,modalDialog);
+                        AudioChatMessageViewModel audioModel = new AudioChatMessageViewModel(this, modalDialog);
                         audioModel.Id = idMessage;
                         audioModel.User = user;
                         audioModel.IsSentByMe = user == null;

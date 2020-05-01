@@ -86,7 +86,7 @@ namespace Khernet.Core.Host
                             {
                                 State = state,
                                 Token = identity.Token,
-                                Change=PeerChangeType.StateChange,
+                                Change = PeerChangeType.StateChange,
                             };
 
                             notifierClient.ProcessContactChange(notification);

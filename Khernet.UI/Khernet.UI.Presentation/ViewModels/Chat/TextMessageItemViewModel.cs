@@ -1,12 +1,9 @@
-﻿using System;
-using System.Windows.Input;
-
-namespace Khernet.UI
+﻿namespace Khernet.UI
 {
     /// <summary>
     /// Base class for text messages such as include HTML, markdown and XAML formats.
     /// </summary>
-    public abstract class TextMessageItemViewModel: ChatMessageItemViewModel 
+    public abstract class TextMessageItemViewModel : ChatMessageItemViewModel
     {
         /// <summary>
         /// Gets a copy of this message

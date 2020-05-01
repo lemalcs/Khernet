@@ -33,7 +33,7 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Peer has changed its state
         /// </summary>
-        StateChange=5
+        StateChange = 5
     }
     public class UserState
     {
@@ -203,14 +203,14 @@ namespace Khernet.UI.Managers
 
             if (user == null)
             {
-                Peer newUser= IoCContainer.Get<Messenger>().GetPeerProfile(userToken);
+                Peer newUser = IoCContainer.Get<Messenger>().GetPeerProfile(userToken);
 
                 user = new UserItemViewModel
                 {
                     Token = userToken,
                     Username = newUser.UserName,
                     Initials = newUser.Initials,
-                    ColorHex=newUser.HexColor,
+                    ColorHex = newUser.HexColor,
                 };
 
                 user.BuildDisplayName();

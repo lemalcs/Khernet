@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 
 namespace Khernet.Core.Processor
@@ -95,7 +96,7 @@ namespace Khernet.Core.Processor
             catch (Exception ex)
             {
                 LogDumper.WriteLog(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -127,10 +128,10 @@ namespace Khernet.Core.Processor
             //Mark message as sent to receipt
             commData.SetMessageState(conversation.Id, (int)MessageState.Processed);
 
-            IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification 
-            { 
-                MessageId=conversation.Id,
-                State=MessageState.Processed,
+            IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
+            {
+                MessageId = conversation.Id,
+                State = MessageState.Processed,
             });
         }
 
@@ -143,7 +144,7 @@ namespace Khernet.Core.Processor
         public void SendWritingMessage(string senderToken, string receiptToken)
         {
             EventNotifierClient notifierClient = new EventNotifierClient(receiptToken);
-            
+
             notifierClient.ProcessMessageProcessing(new MessageProcessingNotification
             {
                 Process = MessageProcessing.WritingText,
@@ -212,12 +213,12 @@ namespace Khernet.Core.Processor
                     conversation.IdReply = idReplyMessage.HasValue ? idReplyMessage.Value : 0;
                     conversation.Type = message.Type;
 
-                    publisherClient.ProcessNewMessage(new MessageNotification 
-                    { 
-                        MessageId=idMessage,
-                        SenderToken=message.SenderToken,
-                        State=MessageState.Processed,
-                        Format=message.Type,
+                    publisherClient.ProcessNewMessage(new MessageNotification
+                    {
+                        MessageId = idMessage,
+                        SenderToken = message.SenderToken,
+                        State = MessageState.Processed,
+                        Format = message.Type,
                     });
                 }
             }
@@ -227,7 +228,7 @@ namespace Khernet.Core.Processor
             }
         }
 
-        private int? GetIdReply(string uid)
+        public int? GetIdReply(string uid)
         {
             CommunicatorData commData = new CommunicatorData();
 
@@ -323,7 +324,7 @@ namespace Khernet.Core.Processor
         public string GetPeerAdress(string token, string serviceType)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable dataList = commData.GetPeerAdress(token,serviceType);
+            DataTable dataList = commData.GetPeerAdress(token, serviceType);
             if (dataList.Rows.Count > 0)
             {
                 return dataList.Rows[0][0].ToString();
@@ -448,15 +449,15 @@ namespace Khernet.Core.Processor
             //Save the found user
             CommunicatorData.SavePeer(userName, token, certificate, address, serviceType, hexColor, initials);
 
-            //Enviar una notificación de cliente nuevo a la Interfaz de usuario
+            //Send a notification when a new peer is found
             if (serviceType == Constants.CommunicatorService || serviceType == Constants.FileService)
             {
                 PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisher.ProcessContactChange(new PeerNotification 
+                publisher.ProcessContactChange(new PeerNotification
                 {
-                    Token=token,
-                    State=PeerState.New,
-                    Change= serviceType == Constants.CommunicatorService ? PeerChangeType.ProfileChange : PeerChangeType.AvatarChange,
+                    Token = token,
+                    State = PeerState.New,
+                    Change = serviceType == Constants.CommunicatorService ? PeerChangeType.ProfileChange : PeerChangeType.AvatarChange,
                 });
             }
         }
@@ -499,11 +500,11 @@ namespace Khernet.Core.Processor
             PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
 
             //Send a notification of offline client to suscribers
-            publisher.ProcessContactChange(new PeerNotification 
+            publisher.ProcessContactChange(new PeerNotification
             {
-                Token=token,
-                Change=PeerChangeType.StateChange,
-                State=status
+                Token = token,
+                Change = PeerChangeType.StateChange,
+                State = status
             });
         }
 
@@ -628,11 +629,12 @@ namespace Khernet.Core.Processor
                     MessageItem message = new MessageItem
                     {
                         Id = Convert.ToInt32(messagedata.Rows[i][0]),
-                        Format = (ContentType)Convert.ToInt32(messagedata.Rows[i][1]),
-                        RegisterDate = Convert.ToDateTime(messagedata.Rows[i][2]),
-                        State = Convert.ToInt32(messagedata.Rows[i][3]) == 1 ? MessageState.Processed : MessageState.Pendding,
-                        IsRead = Convert.ToBoolean(messagedata.Rows[i][4]),
-                        UID = messagedata.Rows[i][5] != DBNull.Value ? messagedata.Rows[i][5].ToString() : string.Empty,
+                        IdSenderPeer = Convert.ToInt32(messagedata.Rows[i][1]),
+                        Format = (ContentType)Convert.ToInt32(messagedata.Rows[i][2]),
+                        RegisterDate = Convert.ToDateTime(messagedata.Rows[i][3]),
+                        State = Convert.ToInt32(messagedata.Rows[i][4]) == 1 ? MessageState.Processed : MessageState.Pendding,
+                        IsRead = Convert.ToBoolean(messagedata.Rows[i][5]),
+                        UID = messagedata.Rows[i][6] != DBNull.Value ? messagedata.Rows[i][6].ToString() : string.Empty,
                     };
 
                     messageList.Add(message);

@@ -170,7 +170,7 @@ namespace Khernet.UI
                 CanLogin = true;
 
                 if (t != null)
-                   t.Clear();
+                    t.Clear();
             }
         }
 

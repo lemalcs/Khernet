@@ -1,5 +1,4 @@
-﻿using Khernet.Core.Common;
-using Khernet.Core.Data;
+﻿using Khernet.Core.Data;
 using Khernet.Core.Entity;
 using Khernet.Core.Processor.IoC;
 using Khernet.Core.Processor.Managers;
@@ -274,7 +273,7 @@ namespace Khernet.Core.Processor
                 if (content.Rows.Count > 0)
                     info = JSONSerializer<FileInformation>.DeSerialize(content.Rows[0][0] as byte[]);
 
-                if(info.Size>GetFileSize(conversationMessage.Id))
+                if (info.Size > GetFileSize(conversationMessage.Id))
                 {
                     throw new Exception("Invalid file size");
                 }
@@ -308,10 +307,10 @@ namespace Khernet.Core.Processor
 
                 commData.SetMessageState(conversationMessage.Id, (int)MessageState.Processed);
 
-                IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification 
+                IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
                 {
-                    MessageId=conversationMessage.Id,
-                    State=MessageState.Processed,
+                    MessageId = conversationMessage.Id,
+                    State = MessageState.Processed,
                 });
             }
             catch (Exception error)
@@ -397,11 +396,11 @@ namespace Khernet.Core.Processor
             {
                 throw;
             }
-            catch(CommunicationObjectFaultedException)
+            catch (CommunicationObjectFaultedException)
             {
                 throw;
             }
-            catch(CommunicationException)
+            catch (CommunicationException)
             {
                 throw;
             }
@@ -539,7 +538,7 @@ namespace Khernet.Core.Processor
             fileData.UpdateCacheFilePath(idMessage, filePath);
         }
 
-        public Dictionary<int,int> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
+        public Dictionary<int, int> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
         {
             FileCommunicatorData fileData = new FileCommunicatorData();
 

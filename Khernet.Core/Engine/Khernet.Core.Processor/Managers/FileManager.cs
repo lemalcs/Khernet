@@ -86,11 +86,11 @@ namespace Khernet.Core.Processor.Managers
 
                             fileObserver = new FileObserver(fileMessage);
                             fileObserver.Id = idMessage;
-                            
-                            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification 
+
+                            IoCContainer.Get<NotificationManager>().ProcessMessageProcessing(new MessageProcessingNotification
                             {
-                                Process=MessageProcessing.BeginSendingFile,
-                                SenderToken=message.SenderToken,
+                                Process = MessageProcessing.BeginSendingFile,
+                                SenderToken = message.SenderToken,
                             });
 
                             fileObserver.ReadCompleted += FileObserver_ReadCompleted;
@@ -110,10 +110,8 @@ namespace Khernet.Core.Processor.Managers
                             }
 
                             SendNotification(idMessage, fileMessage);
-
-                            fileList.TryDequeue(out idMessage);
                         }
-                        catch(ThreadAbortException ex)
+                        catch (ThreadAbortException ex)
                         {
                             LogDumper.WriteLog(ex);
                             return;
@@ -136,6 +134,8 @@ namespace Khernet.Core.Processor.Managers
                                 fileObserver.ReadCompleted -= FileObserver_ReadCompleted;
                                 fileObserver.ReadFailed -= FileObserver_ReadFailed;
                             }
+
+                            fileList.TryDequeue(out idMessage);
                         }
                     }
 
@@ -197,12 +197,12 @@ namespace Khernet.Core.Processor.Managers
                 internalMessage.Id = idMessage;
 
                 PublisherClient publisherClient = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
-                publisherClient.ProcessNewMessage(new MessageNotification 
+                publisherClient.ProcessNewMessage(new MessageNotification
                 {
-                    MessageId=idMessage,
-                    SenderToken=fileMessage.SenderToken,
-                    State=MessageState.Processed,
-                    Format=fileMessage.Type,
+                    MessageId = idMessage,
+                    SenderToken = fileMessage.SenderToken,
+                    State = MessageState.Processed,
+                    Format = fileMessage.Type,
                 });
             }
             catch (Exception error)

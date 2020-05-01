@@ -51,7 +51,7 @@ namespace Khernet.Core.Processor.Managers
                     try
                     {
                         EventListener eventListener = new EventListener();
-                        notificationList = eventListener.GetNotificationsDetail();
+                        notificationList = eventListener.GetNotificationsList();
                         string notificationId = null;
 
                         foreach (var key in notificationList.Keys)

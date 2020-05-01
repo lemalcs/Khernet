@@ -36,12 +36,12 @@ namespace Khernet.UI
         /// The height of imahe.
         /// </summary>
         private double height;
-        public double Width 
-        { 
+        public double Width
+        {
             get => width;
-            set 
-            { 
-                if(width != value)
+            set
+            {
+                if (width != value)
                 {
                     width = value;
                     OnPropertyChanged(nameof(Width));
@@ -49,12 +49,12 @@ namespace Khernet.UI
             }
         }
 
-        public double Height 
-        { 
+        public double Height
+        {
             get => height;
-            set 
-            { 
-                if(height != value)
+            set
+            {
+                if (height != value)
                 {
                     height = value;
                     OnPropertyChanged(nameof(Height));
@@ -66,16 +66,16 @@ namespace Khernet.UI
 
         #region Commands
         public ICommand OpenImageCommand { get; private set; }
-        
+
 
 
         #endregion
 
-        public ImageChatMessageViewModel(IMessageManager messageManager,IApplicationDialog applicationDialog):base(applicationDialog)
+        public ImageChatMessageViewModel(IMessageManager messageManager, IApplicationDialog applicationDialog) : base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
-            this.applicationDialog=applicationDialog?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
-            
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
+
             OpenImageCommand = new RelayCommand(OpenImage, VerifyLoadedImage);
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
@@ -286,7 +286,7 @@ namespace Khernet.UI
                 UID = info.UID;
                 SendDate = info.SendDate;
             }
-            
+
             FileName = info.OriginalFileName;
             FileSize = info.Size;
 
@@ -339,7 +339,7 @@ namespace Khernet.UI
         /// <param name="messageManager">The chat list to which this message belongs</param>
         /// <param name="applicationDialog">The application window that this message belongs</param>
         /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
-        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager,IApplicationDialog applicationDialog)
+        public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
             ImageChatMessageViewModel chatMessage = new ImageChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;

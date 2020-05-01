@@ -361,7 +361,7 @@ namespace Khernet.UI
         {
             FileListViewModel imageListModel = new FileListViewModel(messageManager);
             imageListModel.User = user;
-            imageListModel.ItemsCount= IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Image);
+            imageListModel.ItemsCount = IoCContainer.Get<Messenger>().GetFileCount(user.Token, Services.Messages.ContentType.Image);
 
             pagedDialog.CurrentViewModel = imageListModel;
             pagedDialog.CurrentPage = ApplicationPage.ImageList;
@@ -434,7 +434,7 @@ namespace Khernet.UI
             //Set the view model for settings list
             pagedDialog.CurrentViewModel = this;
 
-            
+
             pagedDialog.SetHomePage(pagedDialog.CurrentPage, pagedDialog.Category, this);
 
             await IoCContainer.Get<IUIManager>().ShowDialog(pagedDialog);

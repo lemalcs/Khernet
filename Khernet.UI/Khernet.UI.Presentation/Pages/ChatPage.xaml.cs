@@ -298,9 +298,9 @@ namespace Khernet.UI.Pages
                 FlowDocumentHtmlConverter converter = new FlowDocumentHtmlConverter();
                 FlowDocument fw = converter.ConvertFromHtml(Encoding.UTF8.GetString(message));
                 rtxt.Document = fw;
-                
+
                 //Check is preview has to be activated for markdown message
-                if (SpecificViewModel.MessageFormat == MessageType.Markdown)                
+                if (SpecificViewModel.MessageFormat == MessageType.Markdown)
                     ActivateMarkdownPreview();
             }
             catch (Exception error)
@@ -334,9 +334,9 @@ namespace Khernet.UI.Pages
             ActivateMarkdownPreview();
         }
 
-        public void ScrollToChatMessage(ChatMessageItemViewModel chatModel,int startIndex)
+        public void ScrollToChatMessage(ChatMessageItemViewModel chatModel, int startIndex)
         {
-            chatList.ScrollToItem(chatModel,startIndex);
+            chatList.ScrollToItem(chatModel, startIndex);
         }
     }
 }

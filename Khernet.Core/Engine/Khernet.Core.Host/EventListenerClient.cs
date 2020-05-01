@@ -3,7 +3,6 @@ using Khernet.Core.Utility;
 using Khernet.Services.Contracts;
 using Khernet.Services.Messages;
 using System;
-using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -101,7 +100,7 @@ namespace Khernet.Core.Host
                         catch (CommunicationException commException)
                         {
                             LogDumper.WriteLog(commException, "CommunicationException ocurred.");
-                            
+
                             //Try to connect again
                             if (continueChecking)
                                 Connect();
@@ -251,7 +250,7 @@ namespace Khernet.Core.Host
                         }
                     }
                 }
-                
+
                 if (connectionChecker != null)
                 {
                     connectionChecker.Interrupt();

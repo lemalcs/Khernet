@@ -190,7 +190,7 @@ namespace Khernet.UI.Controls
             {
                 lastChatModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;
             }
-            
+
             IoCContainer.UI.ExecuteAsync(() =>
             {
                 IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(loadFordward);

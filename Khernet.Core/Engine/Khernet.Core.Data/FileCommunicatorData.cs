@@ -162,7 +162,7 @@ namespace Khernet.Core.Data
             LiteDatabase db = new LiteDatabase(st.FileRepoAddress);
 
             LiteFileInfo fileInfo = db.FileStorage.FindById(idFile);
-            
+
             if (fileInfo != null)
             {
                 return fileInfo.Length;

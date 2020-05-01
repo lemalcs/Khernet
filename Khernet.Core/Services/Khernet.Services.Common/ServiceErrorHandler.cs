@@ -14,11 +14,35 @@ namespace Khernet.Services.Common
         public bool HandleError(Exception error)
         {
             LogDumper.WriteLog(error);
+            GatFaultExceptionDetail(error);
 
             if (error.InnerException != null)
+            {
                 LogDumper.WriteLog(error.InnerException);
+                GatFaultExceptionDetail(error.InnerException);
+            }
 
             return true;
+        }
+
+        private void GatFaultExceptionDetail(Exception faultException)
+        {
+            if (faultException is FaultException fault)
+            {
+                LogDumper.WriteInformation($"Fault error description:\r" +
+                    $"Reason = {fault.Reason.GetMatchingTranslation().Text}\r" +
+                    $"Action = {fault.Action}\r" +
+                    $"Code Name = {fault.Code.Name}\r" +
+                    $"SubCode Namespace = {fault.Code.SubCode.Namespace}\r" +
+                    $"SubCode Name = {fault.Code.SubCode.Name}\r" +
+                    $"IsReceiverFault = {fault.Code.IsReceiverFault}\r" +
+                    $"IsSenderFault = {fault.Code.IsSenderFault}\r" +
+                    $"StackTrace:\r{fault.StackTrace}\r"
+                    );
+
+                if (fault.InnerException != null)
+                    LogDumper.WriteLog(fault.InnerException);
+            }
         }
 
         //It is called when an error is raised in service, allow the creation of a custom FaultException

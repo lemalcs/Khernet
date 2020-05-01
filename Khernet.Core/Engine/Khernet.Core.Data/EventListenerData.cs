@@ -16,7 +16,7 @@ namespace Khernet.Core.Data
             return st.BuildConnectionString(StorageType.Repository);
         }
 
-        public void SaveNotification(string id,short type_notification, byte[] content)
+        public void SaveNotification(string id, short type_notification, byte[] content)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@ID", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(id, Encoding.UTF8, keys.Item1, keys.Item2);
-                
+
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
@@ -85,7 +85,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetNotificationsDetail()
+        public DataTable GetNotificationsList()
         {
             try
             {

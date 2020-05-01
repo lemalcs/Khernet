@@ -272,6 +272,22 @@ namespace Khernet.Core.Host
             return fileData.GetFileId(idMessage);
         }
 
+        /// <summary>
+        /// Get the numeric Id of chat message.
+        /// </summary>
+        /// <param name="uid">The UID of chat message.</param>
+        /// <returns>The id of message.</returns>
+        public int? GetIdMessage(string uid)
+        {
+            Communicator communicator = new Communicator();
+
+            if (!string.IsNullOrEmpty(uid))
+            {
+                return communicator.GetIdReply(uid);
+            }
+            return null;
+        }
+
         public List<int> GetAnimationList()
         {
             FileCommunicator fileData = new FileCommunicator();
@@ -296,7 +312,7 @@ namespace Khernet.Core.Host
             fileData.UpdateCacheFilePath(idMessage, filePath);
         }
 
-        public Dictionary<int,int> GetFileList(string userToken, ContentType fileType,int lastIdMessage, int quantity)
+        public Dictionary<int, int> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
         {
             FileCommunicator fileData = new FileCommunicator();
             return fileData.GetFileList(userToken, fileType, lastIdMessage, quantity);

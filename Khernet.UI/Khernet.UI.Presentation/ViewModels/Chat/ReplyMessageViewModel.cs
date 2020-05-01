@@ -5,7 +5,6 @@ using Khernet.UI.IoC;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 
@@ -156,24 +155,24 @@ namespace Khernet.UI
             get;
             set;
         }
-        public ChatMessageItemViewModel ChatMessage 
-        { 
+        public ChatMessageItemViewModel ChatMessage
+        {
             get => chatMessage;
-            set 
-            { 
-                if(chatMessage != value)
+            set
+            {
+                if (chatMessage != value)
                 {
                     chatMessage = value;
                     OnPropertyChanged(nameof(ChatMessage));
                 }
             }
         }
-        public bool IsSentByMe 
-        { 
+        public bool IsSentByMe
+        {
             get => isSentByMe;
             set
-            { 
-                if(isSentByMe != value)
+            {
+                if (isSentByMe != value)
                 {
                     isSentByMe = value;
                     OnPropertyChanged(nameof(IsSentByMe));
@@ -181,12 +180,12 @@ namespace Khernet.UI
             }
         }
 
-        public ChatMessageState State 
-        { 
+        public ChatMessageState State
+        {
             get => state;
-            set 
-            { 
-                if(state != value)
+            set
+            {
+                if (state != value)
                 {
                     state = value;
                     OnPropertyChanged(nameof(State));

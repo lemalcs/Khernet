@@ -94,7 +94,7 @@ namespace Khernet.Core.Data
         /// <param name="token">The peer that publish service</param>
         /// <param name="serviceType">The type of service</param>
         /// <returns></returns>
-        public DataTable GetPeerAdress(string token,string serviceType)
+        public DataTable GetPeerAdress(string token, string serviceType)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace Khernet.Core.Data
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
                     if (table.Rows[i][0] != DBNull.Value)
-                        table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString() , Encoding.UTF8, keys.Item1, keys.Item2);
+                        table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
                 }
                 keys = null;
 
@@ -1273,12 +1273,12 @@ namespace Khernet.Core.Data
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
                         //State
-                        if (table.Rows[i][3] == DBNull.Value)
-                            table.Rows[i][3] = 0;
+                        if (table.Rows[i][4] == DBNull.Value)
+                            table.Rows[i][4] = 0;
 
                         //UID
-                        if (table.Rows[i][5] != DBNull.Value)
-                            table.Rows[i][5] = EncryptionHelper.DecryptString(table.Rows[i][5].ToString(), Encoding.UTF8, keys.Item1, keys.Item2); ;
+                        if (table.Rows[i][6] != DBNull.Value)
+                            table.Rows[i][6] = EncryptionHelper.DecryptString(table.Rows[i][6].ToString(), Encoding.UTF8, keys.Item1, keys.Item2); ;
                     }
                 }
 

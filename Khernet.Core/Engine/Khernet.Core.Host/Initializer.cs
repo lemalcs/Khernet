@@ -2,7 +2,6 @@
 using Khernet.Core.Entity;
 using Khernet.Core.Processor;
 using Khernet.Core.Utility;
-//using Khernet.Services.Client;
 using Khernet.Services.Client;
 using Khernet.Services.Contracts;
 using Khernet.Services.WCF;
@@ -79,6 +78,8 @@ namespace Khernet.Core.Host
                 binding.TransferMode = TransferMode.Buffered;
                 binding.MaxReceivedMessageSize = int.MaxValue;
                 binding.CloseTimeout = TimeSpan.MaxValue;
+                binding.ReceiveTimeout = TimeSpan.MaxValue;
+                binding.SendTimeout = TimeSpan.MaxValue;
                 binding.Security.Mode = SecurityMode.Message;
                 binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
 
@@ -162,6 +163,8 @@ namespace Khernet.Core.Host
                 binding.TransferMode = TransferMode.Buffered;
                 binding.MaxReceivedMessageSize = int.MaxValue;
                 binding.CloseTimeout = TimeSpan.MaxValue;
+                binding.ReceiveTimeout = TimeSpan.MaxValue;
+                binding.SendTimeout = TimeSpan.MaxValue;
                 binding.Security.Mode = SecurityMode.Message;
                 binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
 

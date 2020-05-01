@@ -127,6 +127,12 @@ namespace Khernet.Services.Messages
         public int Id { get; set; }
 
         /// <summary>
+        /// The peer that sent message.
+        /// </summary>
+        [DataMember]
+        public int IdSenderPeer { get; set; }
+
+        /// <summary>
         /// The type of message
         /// </summary>
         [DataMember]

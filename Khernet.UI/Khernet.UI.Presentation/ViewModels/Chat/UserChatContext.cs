@@ -24,10 +24,6 @@ namespace Khernet.UI
         /// </summary>
         public ChatMessageItemViewModel FirstViewChatModel { get; set; }
 
-        public int FirstIdMessage { get; set; }
-
-        public int LastIdMessage { get; set; }
-
         private ReplyMessageViewModel replyMessage;
 
         public int UnreadMessagesNumber

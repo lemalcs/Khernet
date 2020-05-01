@@ -348,7 +348,7 @@ namespace Khernet.UI.Managers
 
                 if (receiverAutoReset != null)
                     receiverAutoReset.Close();
-                
+
                 receiversList = null;
             }
         }
