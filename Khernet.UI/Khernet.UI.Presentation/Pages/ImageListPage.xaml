@@ -27,7 +27,7 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ucontrols:ImageItemControl MaxHeight="100"/>
+                    <ucontrols:ImageItemControl MaxHeight="150"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 

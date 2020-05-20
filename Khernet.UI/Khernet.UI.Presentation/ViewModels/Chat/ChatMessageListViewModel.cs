@@ -1113,6 +1113,9 @@ namespace Khernet.UI
             if (messageModel == null)
                 return;
 
+            if (!IoCContainer.Get<IUIManager>().IsMainWindowActive())
+                return;
+
             if (messageModel != null && !messageModel.IsRead)
             {
                 IoCContainer.Get<Messenger>().MarkAsReadMessage(messageModel.Id);

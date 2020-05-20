@@ -111,11 +111,13 @@ namespace Khernet.Services.Messages
         /// <summary>
         /// State of perr.
         /// </summary>
+        [DataMember]
         public PeerState State { get; set; }
 
         /// <summary>
         /// The type of change of peer.
         /// </summary>
+        [DataMember]
         public PeerChangeType Change { get; set; }
     }
 

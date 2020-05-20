@@ -174,11 +174,7 @@ namespace Khernet.UI
             if (State != EngineState.Executing)
                 return;
 
-
-            if (!IoCContainer.UI.IsMainWindowActive() ||
-                currentUser == null ||
-                currentUser.User.Token != e.Notification.SenderToken
-                )
+            if (currentUser == null || currentUser.User.Token != e.Notification.SenderToken)
             {
                 var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
 
@@ -192,11 +188,26 @@ namespace Khernet.UI
                     MessageType = (MessageType)(int)e.Notification.Format,
                 });
             }
-            else
+            else if(IoCContainer.UI.IsMainWindowActive())
             {
                 IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
             }
+            else
+            {
+                IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
+                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
 
+                if (user == null)
+                    return;
+
+                user.IncreaseUnReadMessages();
+
+                IoCContainer.UI.ShowNotification(new NotificationViewModel
+                {
+                    User = user,
+                    MessageType = (MessageType)(int)e.Notification.Format,
+                });
+            }
         }
 
         private static void Listener_ProcessingMessage(object sender, MessageProcessingEventArgs e)

@@ -22,7 +22,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Name="brd" 
-                            Padding="0 4 4 4"
+                            Padding="6"
                             HorizontalAlignment="Center"
                             ToolTip="{Binding Description}">
 
@@ -50,12 +50,6 @@
                             <ItemsPresenter/>
                         </ScrollViewer>
                     </Border>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                            <Setter Property="Background" Value="Red"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </ItemsControl.Template>
 

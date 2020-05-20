@@ -15,15 +15,30 @@
     
     <Border CornerRadius="5"
             Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}"
-            HorizontalAlignment="Left">
+            HorizontalAlignment="Left"
+            Background="{StaticResource TransparentBlackBrush}">
 
         <Border.InputBindings>
             <MouseBinding MouseAction="LeftClick" Command="{Binding OpenImageCommand}"/>
         </Border.InputBindings>
 
         <Grid>
+
+            <Grid.RowDefinitions>
+                
+                <!-- Image thumbnail-->
+                <RowDefinition Height="*"/>
+                
+                <!-- Send/Receive date -->
+                <RowDefinition Height="Auto"/>
+
+                <!-- Image size in bytes -->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <!--Background for progress or state indicators-->
-            <Border Width="50"
+            <Border Grid.Row="0" 
+                    Width="50"
                     Panel.ZIndex="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -48,14 +63,16 @@
             </Border>
 
             <!--Animation to show load progress-->
-            <Controls:ProgressRing Width="40" 
+            <Controls:ProgressRing Grid.Row="0" 
+                                   Width="40" 
                                    Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
                                    Foreground="White"
                                    Panel.ZIndex="2"
                                    HorizontalContentAlignment="Center"/>
 
             <!--Progress circle indicator-->
-            <ucontrols:ProgressCircleControl Radius="20"
+            <ucontrols:ProgressCircleControl Grid.Row="0" 
+                                             Radius="20"
                                              Minimum="0"
                                              Maximum="{Binding FileSize}"
                                              Thickness="5"
@@ -65,14 +82,34 @@
                                              StrokeBrush="White"
                                              Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-            <!-- Image message -->
-            <Image Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
+            <!-- Image thumbnail -->
+            <Image Grid.Row="0" 
+                   Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
                    MaxHeight="420"
                    MaxWidth="420"
                    depend:ClipFromBorderProperty.Value="True"
                    Stretch="Uniform"
                    StretchDirection="DownOnly"
-                   ContextMenu="{StaticResource fileMessageContextMenu}"/>
+                   ContextMenu="{StaticResource fileMessageContextMenu}"
+                   Margin="5 5 5 0"/>
+
+            <!-- Send/Receive date -->
+            <TextBlock Grid.Row="1" 
+                       Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
+                       Foreground="{StaticResource DarkGrayBrush}"
+                       FontSize="{StaticResource SmallFontSize}"
+                       Margin="5 5 0 0"
+                       Visibility="{Binding IsMessageLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+            <!-- Image size in bytes -->
+            <TextBlock Grid.Row="2"
+                       Foreground="{StaticResource DarkGrayBrush}"
+                       FontSize="{StaticResource SmallFontSize}"
+                       Margin="5 0 0 10"
+                       Visibility="{Binding IsMessageLoaded,Converter={conv:BoolToVisibilityGoneConverter}}">
+                        <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
+                        <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+            </TextBlock>
 
         </Grid>
     </Border>

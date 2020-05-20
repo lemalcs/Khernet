@@ -39,10 +39,9 @@ namespace Khernet.Core.Utility
                 return addressList;
 
             }
-            catch (Exception error)
+            catch (Exception)
             {
-                LogDumper.WriteLog(error);
-                throw error;
+                throw;
             }
         }
 
@@ -81,9 +80,8 @@ namespace Khernet.Core.Utility
 
                 return true;
             }
-            catch (Exception error)
+            catch (Exception)
             {
-                //LogDumper.WriteLog(error);
                 return false;
             }
         }
@@ -112,9 +110,8 @@ namespace Khernet.Core.Utility
 
                 return true;
             }
-            catch (Exception error)
+            catch (Exception)
             {
-                //LogDumper.WriteLog(error);
                 return false;
             }
         }

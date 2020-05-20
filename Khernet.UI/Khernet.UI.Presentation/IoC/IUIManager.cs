@@ -113,8 +113,9 @@ namespace Khernet.UI.IoC
         void ShowUnReadMessage(int idMessage);
 
         /// <summary>
-        /// Indicates if main window is visible or active
+        /// Indicates if main window is active.
         /// </summary>
+        /// <returns>True if window has physical focused otherwise false</returns>
         bool IsMainWindowActive();
 
         /// <summary>

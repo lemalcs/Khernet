@@ -235,15 +235,14 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicates if main window is visible or active
+        /// Indicates if main window is active.
         /// </summary>
+        /// <returns>True if window has physical focused otherwise false</returns>
         public bool IsMainWindowActive()
         {
             return (bool)Application.Current.Dispatcher.Invoke(new Func<bool>(() =>
             {
-                return Application.Current.MainWindow.IsActive ||
-                Application.Current.MainWindow.IsFocused ||
-                Application.Current.MainWindow.IsVisible;
+                return Application.Current.MainWindow.IsActive;
             }));
         }
 

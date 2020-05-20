@@ -5,13 +5,77 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Khernet.UI.Controls"
              xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
              xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vm:ImageChatMessageDesignModel,IsDesignTimeCreatable=True}"
              Template="{StaticResource messageContainer}"
              ContextMenu="{StaticResource messageContextMenu}">
 
+    <Border CornerRadius="5"
+            Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}"
+            HorizontalAlignment="Left">
+
+        <Border.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenImageCommand}"/>
+        </Border.InputBindings>
+
         <Grid>
-            <ucontrols:ImageItemControl/>
+            <!--Background for progress or state indicators-->
+            <Border Width="50"
+                    Panel.ZIndex="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Height="{Binding Width,RelativeSource={RelativeSource Self}}"
+                    CornerRadius="{Binding Width,RelativeSource={RelativeSource Self}}"
+                    Background="{StaticResource OpaqueWhiteBrush}">
+                <Border.Visibility>
+                    <MultiBinding Converter="{conv:InverseFileStateToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                        <Binding Path="IsFileLoaded"/>
+                        <Binding Path="FileState"/>
+                    </MultiBinding>
+                </Border.Visibility>
+
+                <!-- State of file: Error or download pending -->
+                <iconPacks:PackIconMaterial Kind="{Binding FileState,
+                                                       Converter={conv:FileChatStateToVisibilityConverter},
+                                                       ConverterParameter=Image}"
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"/>
+            </Border>
+
+            <!--Animation to show load progress-->
+            <Controls:ProgressRing Width="40" 
+                                   Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                                   Foreground="White"
+                                   Panel.ZIndex="2"
+                                   HorizontalContentAlignment="Center"/>
+
+            <!--Progress circle indicator-->
+            <ucontrols:ProgressCircleControl Radius="20"
+                                             Minimum="0"
+                                             Maximum="{Binding FileSize}"
+                                             Thickness="5"
+                                             Value="{Binding CurrentReadBytes}"
+                                             Panel.ZIndex="3"
+                                             StrokeBackground="{StaticResource OpaqueGrayColorBrush}"
+                                             StrokeBrush="White"
+                                             Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
+
+            <!-- Image message -->
+            <Image Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
+                   MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                   MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                   depend:ClipFromBorderProperty.Value="True"
+                   Stretch="Uniform"
+                   StretchDirection="DownOnly"
+                   ContextMenu="{StaticResource fileMessageContextMenu}"/>
+
         </Grid>
+    </Border>
 </UserControl>
