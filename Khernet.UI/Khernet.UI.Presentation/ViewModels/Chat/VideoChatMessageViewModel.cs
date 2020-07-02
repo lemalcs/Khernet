@@ -99,7 +99,7 @@ namespace Khernet.UI
             VideoWidth = defaultVideoWidth;
             VideoHeight = defaultVideoHeight;
 
-            State = ChatMessageState.Pendding;
+            State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
         }

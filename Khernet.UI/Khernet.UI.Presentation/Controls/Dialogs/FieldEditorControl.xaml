@@ -45,29 +45,29 @@
                 
                 <!--Text Field-->
                 <ucontrols:MarkedRichTextBox Grid.Column="0"
-                                         x:Name="rtxt"
-                                         Height="26"
-                                         Style="{StaticResource EditRichTextBox}"
-                                         depend:FormatedDocumentSourceProperty.Value="{Binding SourceDataField,Converter={conv:HtmlByteToDocumentConverter}}"
-                             depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"/>
+                                             x:Name="rtxt"
+                                             Height="28"
+                                             Style="{StaticResource EditRichTextBox}"
+                                             depend:FormatedDocumentSourceProperty.Value="{Binding SourceDataField,Converter={conv:HtmlByteToDocumentConverter}}"
+                                             depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"/>
 
                 <!--Emoji button-->
                 <Button Grid.Column="1"
-                                    Style="{StaticResource IconButton}"
-                                    VerticalAlignment="Top"
-                                    Height="40"
-                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                    Command="{Binding OpenMediaGalleryCommand}">
+                        Style="{StaticResource IconButton}"
+                        VerticalAlignment="Top"
+                        Height="40"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                        Command="{Binding OpenMediaGalleryCommand}">
                     <Grid>
                         <iconPacks:PackIconMaterial Kind="EmoticonHappy"/>
 
                         <Popup Name="popUp"
-                                       StaysOpen="False"
-                                       HorizontalAlignment="Center"
-                                       HorizontalOffset="8"
-                                       Placement="Top"
-                                       AllowsTransparency="True"
-                                       IsOpen="{Binding IsMediaGalleryOpen}">
+                               StaysOpen="False"
+                               HorizontalAlignment="Center"
+                               HorizontalOffset="8"
+                               Placement="Top"
+                               AllowsTransparency="True"
+                               IsOpen="{Binding IsMediaGalleryOpen}">
                             <ContentControl Content="{StaticResource emojiPalette}"
                                             Margin="5"/>
                         </Popup>

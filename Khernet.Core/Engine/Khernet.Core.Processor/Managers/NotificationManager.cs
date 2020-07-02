@@ -19,7 +19,7 @@ namespace Khernet.Core.Processor.Managers
 
         static NotificationManager()
         {
-            //Delete pendding notifications
+            //Delete pending notifications
             EventListener eventData = new EventListener();
             eventData.ClearNotifications();
         }

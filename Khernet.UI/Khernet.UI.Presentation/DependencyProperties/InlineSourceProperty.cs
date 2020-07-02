@@ -14,11 +14,6 @@ namespace Khernet.UI.DependencyProperties
     public class InlineSourceProperty : BaseAttachedProperty<InlineSourceProperty, ReadOnlyCollection<byte>>
     {
         /// <summary>
-        /// Called when elemet loads
-        /// </summary>
-        private RoutedEventHandler eventHandler;
-
-        /// <summary>
         /// The current number of characters
         /// </summary>
         private int symbolsCount = 0;
@@ -47,19 +42,12 @@ namespace Khernet.UI.DependencyProperties
                 if (e.NewValue == null || ((ReadOnlyCollection<byte>)e.NewValue).Count == 0)
                     return;
 
-                eventHandler = (s, ev) => TextBlock_Loaded(s, ev, (ReadOnlyCollection<byte>)e.NewValue);
-
-                control.Loaded += eventHandler;
+                SetInlines(control, (ReadOnlyCollection<byte>)e.NewValue);
             }
         }
 
-        private void TextBlock_Loaded(object sender, RoutedEventArgs ev, ReadOnlyCollection<byte> document)
+        private void SetInlines(TextBlock control, ReadOnlyCollection<byte> document)
         {
-            TextBlock control = sender as TextBlock;
-
-            if (control == null)
-                return;
-
             FlowDocument fw = new FlowDocument();
 
             TextRange range = new TextRange(fw.ContentStart, fw.ContentEnd);
@@ -71,6 +59,8 @@ namespace Khernet.UI.DependencyProperties
             if (range.Start.Paragraph != null)
             {
                 symbolsCount = 0;
+
+                control.Inlines.Clear();
                 textBlock = control;
 
                 //Read the first 20 characters of first line
@@ -78,9 +68,6 @@ namespace Khernet.UI.DependencyProperties
 
                 textBlock = null;
             }
-
-            if (control != null)
-                control.Loaded -= eventHandler;
         }
 
         private void ReadTextInlines(Paragraph block)
@@ -109,7 +96,7 @@ namespace Khernet.UI.DependencyProperties
                         symbolsCount = run.Text.Length;
                     }
                 }
-                else if (inlines.ElementAt(i) is LineBreak linebreak)
+                else if (inlines.ElementAt(i) is LineBreak)
                 {
                     return;
                 }

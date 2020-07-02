@@ -57,7 +57,7 @@ namespace Khernet.UI.Converters
         {
             if (value == null)
                 return null;
-            return $"pack://application:,,,/Khernet.UI.Container;component/{value.ToString()}.png";
+            return $"pack://application:,,,/Khernet.UI.Container;component/{value}.png";
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

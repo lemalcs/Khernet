@@ -185,7 +185,7 @@ namespace Khernet.Core.Processor
                     //Save file on local application database
                     SaveFileWithoutProgress(tempFile, fileObserver.PhysicalFileName, dt);
 
-                    commData.SetMessageState(idMessage, (int)MessageState.Pendding);
+                    commData.SetMessageState(idMessage, (int)MessageState.Pending);
                 }
                 fileObserver.OnCompleted();
 
@@ -230,8 +230,8 @@ namespace Khernet.Core.Processor
             {
                 if (idMessage > 0 && !string.IsNullOrEmpty(tempFile))
                 {
-                    RegisterPenddingMessage(fileObserver.Data.ReceiptToken, idMessage);
-                    MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pendding);
+                    RegisterPendingMessage(fileObserver.Data.ReceiptToken, idMessage);
+                    MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pending);
                     return result;
                 }
                 else if (tempFile != null)
@@ -246,21 +246,21 @@ namespace Khernet.Core.Processor
             }
         }
 
-        private void RegisterPenddingMessage(string receiptToken, int idMessage)
+        private void RegisterPendingMessage(string receiptToken, int idMessage)
         {
             //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
-            commData.RegisterPenddingMessage(receiptToken, idMessage);
+            commData.RegisterPendingMessage(receiptToken, idMessage);
 
             //Try to send file again
-            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(receiptToken);
+            IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(receiptToken);
         }
 
         /// <summary>
-        /// Send a pendding file message to receipt
+        /// Send a pending file message to receipt
         /// </summary>
         /// <param name="fileMessage">Message to be sent</param>
-        public void SendPenddingFile(InternalConversationMessage conversationMessage)
+        public void SendPendingFile(InternalConversationMessage conversationMessage)
         {
             try
             {

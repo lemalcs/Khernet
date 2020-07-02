@@ -37,12 +37,22 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// The chat message model to scroll to when chat list is loaded
         /// </summary>
-        private ChatMessageItemViewModel penddingChatModel;
+        private ChatMessageItemViewModel pendingChatModel;
 
         /// <summary>
         /// Index of chat message within underlying items source
         /// </summary>
-        private int penddingChatModelIndex = -1;
+        private int pendingChatModelIndex = -1;
+
+        /// <summary>
+        /// The <see cref="ScrollViewer"/> owned by <see cref="TreeView"/> container.
+        /// </summary>
+        private ScrollViewer scrollViewer;
+
+        /// <summary>
+        /// The <see cref="VirtualizingStackPanelEx"/> owned by <see cref="ScrollViewer"/>.
+        /// </summary>
+        private VirtualizingStackPanelEx panel;
 
         public ChatMessageListControl()
         {
@@ -77,9 +87,7 @@ namespace Khernet.UI.Controls
         {
             scrollingToEnd = true;
 
-            var scrollControl = FindVisualChild<ScrollViewer>(container);
-
-            if (scrollControl == null)
+            if (scrollViewer == null)
                 return;
 
             if (IoCContainer.Get<ChatMessageListViewModel>().Items == null)
@@ -89,8 +97,6 @@ namespace Khernet.UI.Controls
 
             if (count == 0)
                 return;
-
-            var panel = FindVisualChild<VirtualizingStackPanelEx>(container);
 
             if (!panel.IsLoaded)
                 return;
@@ -112,9 +118,9 @@ namespace Khernet.UI.Controls
             }
             else
             {
-                scrollControl.ScrollToEnd();
-                scrollControl.ScrollToBottom();
-                scrollControl.ScrollToVerticalOffset(scrollControl.ScrollableHeight - scrollControl.ViewportHeight);
+                scrollViewer.ScrollToEnd();
+                scrollViewer.ScrollToBottom();
+                scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight - scrollViewer.ViewportHeight);
             }
 
             scrollingToEnd = false;
@@ -125,9 +131,9 @@ namespace Khernet.UI.Controls
             //Scroll to up
             if (e.Delta > 0)
             {
-                var scroll = FindVisualChild<ScrollViewer>(container);
+                //var scroll = FindVisualChild<ScrollViewer>(container);
 
-                if (scroll.VerticalOffset == 0)
+                if (scrollViewer.VerticalOffset == 0)
                 {
                     LoadMessages(false);
                 }
@@ -137,9 +143,11 @@ namespace Khernet.UI.Controls
 
         private void container_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            var scrollControl = FindVisualChild<ScrollViewer>(container);
-
-            var panel = FindVisualChild<VirtualizingStackPanel>(scrollControl);
+            if (scrollViewer == null)
+            {
+                scrollViewer = FindVisualChild<ScrollViewer>(container);
+                panel = FindVisualChild<VirtualizingStackPanelEx>(scrollViewer);
+            }
 
             var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, e.ViewportHeight));
 
@@ -222,8 +230,8 @@ namespace Khernet.UI.Controls
                 GetTreeViewItem(container, chatModel, index);
             else
             {
-                penddingChatModel = chatModel;
-                penddingChatModelIndex = index;
+                pendingChatModel = chatModel;
+                pendingChatModelIndex = index;
             }
         }
 
@@ -364,9 +372,7 @@ namespace Khernet.UI.Controls
         {
             if (e.Key == Key.PageUp)
             {
-                var scroll = FindVisualChild<ScrollViewer>(sender as Visual);
-
-                if (scroll.VerticalOffset == 0)
+                if (scrollViewer.VerticalOffset == 0)
                 {
                     IoCContainer.UI.ExecuteAsync(() =>
                     {
@@ -381,9 +387,7 @@ namespace Khernet.UI.Controls
 
         private void container_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            var scrollControl = FindVisualChild<ScrollViewer>(sender as Visual);
-
-            if (scrollControl == null)
+            if (scrollViewer == null)
             {
                 isFirstLoad = true;
                 return;
@@ -396,17 +400,16 @@ namespace Khernet.UI.Controls
 
         private void container_Loaded(object sender, RoutedEventArgs e)
         {
-            if (penddingChatModel != null)
+            if (pendingChatModel != null)
             {
-                ScrollToItem(penddingChatModel, penddingChatModelIndex);
-                penddingChatModel = null;
-                penddingChatModelIndex = -1;
+                ScrollToItem(pendingChatModel, pendingChatModelIndex);
+                pendingChatModel = null;
+                pendingChatModelIndex = -1;
             }
 
             if (isFirstLoad)
             {
-                var scrollControl = FindVisualChild<ScrollViewer>(sender as Visual);
-                if (scrollControl != null)
+                if (scrollViewer != null)
                 {
                     isFirstLoad = false;
                 }

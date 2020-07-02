@@ -104,7 +104,7 @@ namespace Khernet.Core.Processor.Managers
                             {
                                 List<int> pendingList = communicator.GetRequestPendingMessageForUser(message.SenderToken, 0);
                                 if (pendingList == null || (pendingList != null && !pendingList.Contains(idMessage)))
-                                    communicator.RegisterPenddingMessage(message.SenderToken, idMessage);
+                                    communicator.RegisterPendingMessage(message.SenderToken, idMessage);
 
                                 throw;
                             }

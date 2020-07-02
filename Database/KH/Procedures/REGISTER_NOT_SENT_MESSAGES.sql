@@ -5,7 +5,7 @@
 -- Autor: Luis Lema
 --
 -- Description: 
--- Loads the list of messages that are pendding to be sent.
+-- Loads the list of messages that are pending to be sent.
 ------------------------------------------------------------------------------
 
 CREATE OR ALTER PROCEDURE REGISTER_NOT_SENT_MESSAGES
@@ -15,7 +15,7 @@ BEGIN
    TODAY=(SELECT CURRENT_TIMESTAMP FROM RDB$DATABASE);
 
    --Remove messages with a state different than PENDING (0)
-   DELETE FROM PENDDING_MESSAGE A 
+   DELETE FROM PENDING_MESSAGE A 
    WHERE
    EXISTS(SELECT 1 FROM MESSAGE B
 		WHERE
@@ -23,23 +23,23 @@ BEGIN
         AND B.STATE>0);
 
    --Pending file message to send to peer
-   INSERT INTO PENDDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
+   INSERT INTO PENDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
    SELECT ID_RECEIPT,ID,:TODAY FROM MESSAGE A
    WHERE
    ID_SENDER=0 --Current logged user
    AND STATE=0 --Not sent message
-   AND NOT EXISTS(SELECT 1 FROM PENDDING_MESSAGE B
+   AND NOT EXISTS(SELECT 1 FROM PENDING_MESSAGE B
                    WHERE
                    A.ID_RECEIPT=B.ID_RECEIPT
                    AND A.ID=B.ID_MESSAGE);
                    
    --Pending file message to request to peer                
-   INSERT INTO PENDDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
+   INSERT INTO PENDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
    SELECT ID_SENDER,ID,:TODAY FROM MESSAGE A
    WHERE
    ID_RECEIPT=0 --Current logged user
    AND STATE=-1 --Not downloaded file
-   AND NOT EXISTS(SELECT 1 FROM PENDDING_MESSAGE B
+   AND NOT EXISTS(SELECT 1 FROM PENDING_MESSAGE B
                    WHERE
                    A.ID_SENDER=B.ID_RECEIPT
                    AND A.ID=B.ID_MESSAGE);

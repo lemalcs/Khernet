@@ -17,11 +17,6 @@ namespace Khernet.UI.Pages
     /// </summary>
     public partial class ChatPage : BasePage<ChatMessageListViewModel>, IDocumentContainer
     {
-        /// <summary>
-        /// Line height for chat mesage
-        /// </summary>
-        double lineheight = 20;
-
         public ChatPage()
         {
             InitializeComponent();
@@ -177,12 +172,6 @@ namespace Khernet.UI.Pages
                 SpecificViewModel.SetHasMessage(textbox.HasDocument);
             else
                 return;
-
-            //Set line height
-            if (textbox.Document != null && textbox.Document.LineHeight != lineheight)
-            {
-                textbox.Document.LineHeight = lineheight;
-            }
 
             ActivateMarkdownPreview();
         }

@@ -52,7 +52,7 @@ namespace Khernet.UI
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
-            State = ChatMessageState.Pendding;
+            State = ChatMessageState.Pending;
             SaveMarkdownSourceCommand = new RelayCommand(SaveMarkdownSource);
             SaveHtmlSourceCommand = new RelayCommand(SaveHtmlSource);
 

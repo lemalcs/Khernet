@@ -19,7 +19,7 @@ namespace Khernet.UI.DependencyProperties
 
             var control = d as RichTextBox;
 
-            //Check if control is a EmojiPaletteControl
+            //Check if control is RichTextBox
             if (control != null)
             {
                 var emojiControl = e.NewValue as EmojiPaletteControl;
@@ -59,11 +59,12 @@ namespace Khernet.UI.DependencyProperties
             bm.EndInit();
             emojiImage.Source = bm;
 
-            emojiImage.Height = 20;
-            emojiImage.Margin = new Thickness(0, 0, 0, -3);
+            emojiImage.Height = 24;
+            emojiImage.Margin = new Thickness(0, 0, 0, 0);
             emojiImage.VerticalAlignment = VerticalAlignment.Center;
 
             emojiContainer.Child = emojiImage;
+            emojiContainer.BaselineAlignment = BaselineAlignment.Center;
 
             //Insert emoji at current caret position
             if (richText.CaretPosition.Parent is Run)

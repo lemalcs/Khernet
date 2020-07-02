@@ -1,11 +1,11 @@
-/* Definition for the GET_PENDDING_MESSAGES_OF_USER procedure :  */
+/* Definition for the GET_PENDING_MESSAGES_OF_USER procedure :  */
 
 ------------------------------------------------------------------------------
 -- Create date: 2020-02-15
 -- Autor: Luis Lema
 --
 -- Description: 
--- Get the pendding messages to be sent to a peer.
+-- Get the pending messages to be sent to a peer.
 --
 -- Parameters:
 -- RECEIPT_TOKEN - The token of peer.
@@ -15,7 +15,7 @@
 -- The list of ids of message (numbers).
 ------------------------------------------------------------------------------
 
-CREATE OR ALTER PROCEDURE GET_PENDDING_MESSAGES_OF_USER
+CREATE OR ALTER PROCEDURE GET_PENDING_MESSAGES_OF_USER
 (
   RECEIPT_TOKEN TYPE OF COLUMN PEER.TOKEN,
   QUANTITY INTEGER
@@ -34,7 +34,7 @@ BEGIN
        FOR SELECT A.ID
        FROM MESSAGE A JOIN PEER B
        ON A.ID_RECEIPT=B.ID
-       JOIN PENDDING_MESSAGE C
+       JOIN PENDING_MESSAGE C
        ON A.ID=C.ID_MESSAGE
        AND A.ID_RECEIPT=C.ID_RECEIPT
        WHERE
@@ -50,7 +50,7 @@ BEGIN
        FOR SELECT FIRST(:QUANTITY) A.ID
        FROM MESSAGE A JOIN PEER B
        ON A.ID_RECEIPT=B.ID
-       JOIN PENDDING_MESSAGE C
+       JOIN PENDING_MESSAGE C
        ON A.ID=C.ID_MESSAGE
        AND A.ID_RECEIPT=C.ID_RECEIPT
        WHERE

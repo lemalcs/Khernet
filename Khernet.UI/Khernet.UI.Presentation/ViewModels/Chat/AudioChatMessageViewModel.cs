@@ -61,14 +61,14 @@ namespace Khernet.UI
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
-            State = ChatMessageState.Pendding;
+            State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
         }
 
         private bool VerifyLoadedAudio(object obj)
         {
-            return IsMessageLoaded && (State == ChatMessageState.Pendding || State == ChatMessageState.Processed);
+            return IsMessageLoaded && (State == ChatMessageState.Pending || State == ChatMessageState.Processed);
         }
 
         private void Resend(object obj)

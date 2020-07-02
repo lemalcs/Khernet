@@ -23,7 +23,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="rtxtStyle" TargetType="RichTextBox">
+        <Style x:Key="txtStyle" TargetType="TextBlock">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
                     <Setter Property="Foreground" Value="{StaticResource LightBrush}"/>
@@ -98,17 +98,13 @@
                 </Grid.RowDefinitions>
 
                 <!--Name-->
-                <RichTextBox Height="22"
-                             Grid.Row="0"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             IsReadOnly="True"
-                             IsReadOnlyCaretVisible="False"
-                             Focusable="False"
-                             Margin="0 10 0 0"
-                             Width="{Binding ActualWidth,ElementName=gridContainer}"      
-                             Style="{StaticResource rtxtStyle}"
-                             depend:DocumentSourceProperty.Value="{Binding DisplayName}"/>
+                <TextBlock Grid.Row="0"
+                           Focusable="False"
+                           depend:InlineSourceProperty.Value="{Binding DisplayName}"
+                           Margin="0 10 0 0"
+                           Style="{StaticResource txtStyle}"
+                           FontFamily="{StaticResource RobotoRegularFont}"
+                           FontSize="{StaticResource RegularFontSize}"/>
 
                 <!-- Typing message indicator -->
                 <TextBlock Name="txtMessage"

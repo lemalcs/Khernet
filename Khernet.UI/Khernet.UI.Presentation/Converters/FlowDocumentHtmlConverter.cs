@@ -102,7 +102,7 @@ namespace Khernet.UI.Converters
                 {
                     sb.Append(WebUtility.HtmlEncode(run.Text));
                 }
-                else if (inlines.ElementAt(i) is LineBreak linebreak)
+                else if (inlines.ElementAt(i) is LineBreak)
                 {
                     sb.Append("<br>");
                 }
@@ -110,7 +110,7 @@ namespace Khernet.UI.Converters
                 {
                     EmojiConverter converter = new EmojiConverter();
                     string emoji = converter.ConvertToString(ui.Tag.ToString());
-                    sb.Append($"<img alt=\"{emoji}\" src=\"{ui.Tag.ToString()}\"/>");
+                    sb.Append($"<img alt=\"{emoji}\" src=\"{ui.Tag}\"/>");
                 }
                 else if (inlines.ElementAt(i).GetType() == typeof(Span))
                 {
@@ -200,11 +200,13 @@ namespace Khernet.UI.Converters
 
                     emojiImage.Source = bm;
 
-                    emojiImage.Height = 20;
-                    emojiImage.Margin = new Thickness(0, 0, 0, -3);
+                    emojiImage.Height = 24;
+                    emojiImage.Margin = new Thickness(0, 0, 0, 0);
                     emojiImage.VerticalAlignment = VerticalAlignment.Center;
 
                     inlineUI.Child = emojiImage;
+                    inlineUI.BaselineAlignment = BaselineAlignment.Center;
+
                     inlineUI.Tag = t.Attributes[1].Value;
 
                     AddInlineTo(inlineUI, parent);

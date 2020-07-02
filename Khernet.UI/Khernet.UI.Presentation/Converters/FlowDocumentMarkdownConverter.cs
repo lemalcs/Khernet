@@ -68,7 +68,7 @@ namespace Khernet.UI.Converters
                 {
                     sb.Append(run.Text);
                 }
-                else if (inlines.ElementAt(i) is LineBreak linebreak)
+                else if (inlines.ElementAt(i) is LineBreak)
                 {
                     sb.Append("  \n");
                 }

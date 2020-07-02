@@ -4,6 +4,7 @@ using Khernet.UI.IoC;
 using Khernet.UI.Resources;
 using System;
 using System.Security;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Khernet.UI

@@ -13,8 +13,8 @@ namespace Khernet.Core.Processor
 
         public static void StartMessageManager()
         {
-            IoCContainer.Configure<MessageManager>();
-            IoCContainer.Get<MessageManager>().Start();
+            IoCContainer.Configure<PendingMessageManager>();
+            IoCContainer.Get<PendingMessageManager>().Start();
         }
 
         public static void StartFileManager()
@@ -37,8 +37,8 @@ namespace Khernet.Core.Processor
 
         public static void StopMessageManager()
         {
-            IoCContainer.Get<MessageManager>().Stop();
-            IoCContainer.UnConfigure<MessageManager>();
+            IoCContainer.Get<PendingMessageManager>().Stop();
+            IoCContainer.UnConfigure<PendingMessageManager>();
         }
 
         public static void StopFileManager()

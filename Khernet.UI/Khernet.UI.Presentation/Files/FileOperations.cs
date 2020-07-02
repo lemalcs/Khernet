@@ -17,7 +17,7 @@ namespace Khernet.UI.Files
         public void ProcessImage(IFileObserver observer)
         {
             Stream dtStream = null;
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
             try
             {
@@ -65,7 +65,7 @@ namespace Khernet.UI.Files
                     }
 
                     MessageProcessResult result = UploadFile(observer, metadata);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
@@ -96,7 +96,7 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    if (response.State == ChatMessageState.Pending || response.State == ChatMessageState.Processed)
                     {
                         response.FilePath = GetCacheFile(observer);
                         observer.OnGetMetadata(response);
@@ -108,7 +108,7 @@ namespace Khernet.UI.Files
                     response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
 
                     observer.OnGetMetadata(response);
@@ -146,7 +146,7 @@ namespace Khernet.UI.Files
             Stream dtStream = null;
 
             string aviExtension = ".avi";
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
 
             try
@@ -190,7 +190,7 @@ namespace Khernet.UI.Files
                     metadata.Size = FileHelper.GetFileSize(outFile);
 
                     MessageProcessResult result = UploadFile(observer, metadata);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.Download)
@@ -204,7 +204,7 @@ namespace Khernet.UI.Files
 
                     observer.OnGetMetadata(response);
 
-                    if (response.State == ChatMessageState.Pendding || response.State == ChatMessageState.Processed)
+                    if (response.State == ChatMessageState.Pending || response.State == ChatMessageState.Processed)
                     {
                         response.FilePath = GetCacheFile(observer);
                         observer.OnGetMetadata(response);
@@ -218,7 +218,7 @@ namespace Khernet.UI.Files
                     response.Operation = MessageOperation.Download;
 
                     MessageProcessResult result = UploadFile(observer, response);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
 
                     observer.OnGetMetadata(response);
@@ -254,7 +254,7 @@ namespace Khernet.UI.Files
         public async void ProcessVideo(IFileObserver observer)
         {
             Stream dtStream = null;
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
 
             try
@@ -308,7 +308,7 @@ namespace Khernet.UI.Files
                     metadata.Size = FileHelper.GetFileSize(observer.Media.FileName);
 
                     MessageProcessResult result = UploadFile(observer, metadata);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
@@ -339,7 +339,7 @@ namespace Khernet.UI.Files
                     response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
 
                     observer.OnGetMetadata(response);
@@ -374,7 +374,7 @@ namespace Khernet.UI.Files
         public async void ProcessAudio(IFileObserver observer)
         {
             Stream dtStream = null;
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
 
             try
@@ -398,7 +398,7 @@ namespace Khernet.UI.Files
                     MessageProcessResult result = UploadFile(observer, metadata);
 
 
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
@@ -428,7 +428,7 @@ namespace Khernet.UI.Files
                     response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
 
                     observer.OnGetMetadata(response);
@@ -463,7 +463,7 @@ namespace Khernet.UI.Files
         public void ProcessFile(IFileObserver observer)
         {
             Stream dtStream = null;
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
             try
             {
@@ -479,7 +479,7 @@ namespace Khernet.UI.Files
                     metadata.Size = FileHelper.GetFileSize(observer.Media.FileName);
 
                     MessageProcessResult result = UploadFile(observer, metadata);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
                 }
                 else if (observer.Media.OperationRequest == MessageOperation.GetMetadata)
@@ -509,7 +509,7 @@ namespace Khernet.UI.Files
                     response.Operation = MessageOperation.GetMetadata;
 
                     MessageProcessResult result = UploadFile(observer, response);
-                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pendding;
+                    state = result.Result == MessageState.Processed ? ChatMessageState.Processed : ChatMessageState.Pending;
                     idMessage = result.Id;
 
                     observer.OnGetMetadata(response);

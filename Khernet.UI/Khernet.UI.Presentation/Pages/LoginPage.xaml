@@ -7,6 +7,7 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 x:Class="Khernet.UI.Pages.LoginPage"
                 mc:Ignorable="d" 
                 d:DesignHeight="300" d:DesignWidth="300"
@@ -14,61 +15,51 @@
                 x:Name="Login"
                 Title="LoginPage">
     
-    <StackPanel 
-            Orientation="Vertical" 
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Width="280"
-            Height="256">
+    <StackPanel Orientation="Vertical" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Width="280"
+                Height="256"
+                IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
 
         <!-- Title-->
-        <TextBlock  
-                Text="Sign in" 
-                Style="{StaticResource TitleText}"
-                FontFamily="{StaticResource RobotoRegularFont}"
-                Margin="0 0 0 20"
-                />
+        <TextBlock Text="Sign in" 
+                   Style="{StaticResource TitleText}"
+                   FontFamily="{StaticResource RobotoRegularFont}"
+                   Margin="0 0 0 20"/>
 
-        <TextBlock 
-                Text="Username" 
-                Style="{StaticResource TextblockStyle}"
-                />
+        <TextBlock Text="Username" 
+                   Style="{StaticResource TextblockStyle}"/>
 
         <!--Username textbox-->
-        <TextBox 
-                Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
-                Style="{StaticResource TextStyle2}"
-                depend:IsFocusedProperty.Value="True"
-                MaxLength="20" 
-                Template="{DynamicResource TextBoxControlTemplate1}"
-                Height="28"
-                VerticalContentAlignment="Center"
-                />
+        <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                 Style="{StaticResource TextStyle2}"
+                 depend:IsFocusedProperty.Value="True"
+                 MaxLength="20" 
+                 Template="{DynamicResource TextBoxControlTemplate1}"
+                 Height="28"
+                 VerticalContentAlignment="Center"/>
 
-        <TextBlock 
-                Text="Password" 
-                Style="{StaticResource TextblockStyle}"
-                />
+        <TextBlock Text="Password" 
+                   Style="{StaticResource TextblockStyle}"/>
 
         <!--Password textbox-->
-        <PasswordBox 
-                Name="pass1"
-                Style="{StaticResource PasswordStyle}" 
-                Template="{DynamicResource PasswordBoxControlTemplate1}"
-                Height="28"
-                />
+        <PasswordBox Name="pass1"
+                     Style="{StaticResource PasswordStyle}" 
+                     Template="{DynamicResource PasswordBoxControlTemplate1}"
+                     Height="28"/>
 
         <!--Login button-->
         <Button x:Name="button" 
-                    IsDefault="True"
-                    Content="Log in" 
-                    Width="139"
-                    IsEnabled="{Binding CanLogin}"
-                    depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
-                    Command="{Binding LoginCommand}"
-                    CommandParameter="{Binding ElementName=Login}"
-                    Style="{StaticResource ButtonStyle1}"
-            />
+                IsDefault="True"
+                Content="Log in" 
+                Width="139"
+                IsEnabled="{Binding CanLogin}"
+                depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=Login}"
+                Style="{StaticResource ButtonStyle1}"/>
+        
         <!--Remove Style="{StaticResource ButtonStyle1}" this to clear issue with generics-->
     </StackPanel>
 </local:BasePage>

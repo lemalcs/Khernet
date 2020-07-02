@@ -232,7 +232,7 @@ namespace Khernet.UI.Managers
 
         private void SendMessage(ITextObserver observer)
         {
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             int idMessage = 0;
             try
             {
@@ -266,7 +266,7 @@ namespace Khernet.UI.Managers
 
         private void ReceiveMessage(ITextObserver observer)
         {
-            ChatMessageState state = ChatMessageState.Pendding;
+            ChatMessageState state = ChatMessageState.Pending;
             try
             {
                 byte[] content = IoCContainer.Get<Messenger>().GetMessageContent(observer.Text.Id);

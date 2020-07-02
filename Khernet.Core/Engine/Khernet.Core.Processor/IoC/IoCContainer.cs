@@ -19,7 +19,7 @@ namespace Khernet.Core.Processor.IoC
         public static void Configure()
         {
             Kernel.Bind<FileManager>().ToConstant(new FileManager());
-            Kernel.Bind<MessageManager>().ToConstant(new MessageManager());
+            Kernel.Bind<PendingMessageManager>().ToConstant(new PendingMessageManager());
             Kernel.Bind<NotificationManager>().ToConstant(new NotificationManager());
             Kernel.Bind<TextMessageManager>().ToConstant(new TextMessageManager());
         }

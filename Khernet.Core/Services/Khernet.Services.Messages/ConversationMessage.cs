@@ -16,7 +16,7 @@ namespace Khernet.Services.Messages
         /// The message is pedding to sent
         /// </summary>
         [EnumMember]
-        Pendding = 0,
+        Pending = 0,
 
         /// <summary>
         /// The message was sent or received successfully

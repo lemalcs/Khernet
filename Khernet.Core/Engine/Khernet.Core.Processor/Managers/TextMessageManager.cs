@@ -62,12 +62,17 @@ namespace Khernet.Core.Processor.Managers
 
                         try
                         {
-                            communicator.SendPenddingMessage((InternalConversationMessage)message);
+                            communicator.SendPendingMessage((InternalConversationMessage)message);
                         }
                         catch (EndpointNotFoundException error)
                         {
-                            communicator.RegisterPenddingMessage(message.ReceiptToken, ((InternalConversationMessage)message).Id);
+                            communicator.RegisterPendingMessage(message.ReceiptToken, ((InternalConversationMessage)message).Id);
                             LogDumper.WriteLog(error);
+                        }
+                        catch (ThreadAbortException)
+                        {
+                            communicator.RegisterPendingMessage(message.ReceiptToken, ((InternalConversationMessage)message).Id);
+                            throw;
                         }
                         catch (Exception error)
                         {

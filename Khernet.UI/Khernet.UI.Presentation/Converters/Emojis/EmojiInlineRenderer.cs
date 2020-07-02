@@ -30,11 +30,12 @@ namespace Khernet.UI.Converters.Emojis
             bm.EndInit();
             emojiImage.Source = bm;
 
-            emojiImage.Height = 20;
-            emojiImage.Margin = new Thickness(0, 0, 0, -3);
+            emojiImage.Height = 24;
+            emojiImage.Margin = new Thickness(0, 0, 0, 0);
             emojiImage.VerticalAlignment = VerticalAlignment.Center;
 
             emojiContainer.Child = emojiImage;
+            emojiContainer.BaselineAlignment = BaselineAlignment.Center;
 
             renderer.WriteInline(emojiContainer);
         }

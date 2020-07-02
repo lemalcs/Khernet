@@ -80,7 +80,7 @@ namespace Khernet.UI
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
 
-            State = ChatMessageState.Pendding;
+            State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
         }

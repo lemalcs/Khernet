@@ -807,11 +807,11 @@ namespace Khernet.Core.Data
             }
         }
 
-        public void RegisterPenddingMessage(string receiptToken, int idMessage)
+        public void RegisterPendingMessage(string receiptToken, int idMessage)
         {
             try
             {
-                FbCommand cmd = new FbCommand("REGISTER_PENDDING_MESSAGE");
+                FbCommand cmd = new FbCommand("REGISTER_PENDING_MESSAGE");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
@@ -878,18 +878,18 @@ namespace Khernet.Core.Data
         }
 
         /// <summary>
-        /// Gets the pendding message of given user.
+        /// Gets the pending message of given user.
         /// </summary>
         /// <param name="receiptToken">The token of receipt user</param>
-        /// <param name="quantity">The number of pendding message to retrieve, send 0 to get all messages.</param>
+        /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
         /// <returns>The list of id messages</returns>
-        public DataTable GetPenddingMessageOfUser(string receiptToken, int quantity)
+        public DataTable GetPendingMessageOfUser(string receiptToken, int quantity)
         {
             try
             {
                 DataTable table = new DataTable();
 
-                FbCommand cmd = new FbCommand("GET_PENDDING_MESSAGES_OF_USER");
+                FbCommand cmd = new FbCommand("GET_PENDING_MESSAGES_OF_USER");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
@@ -918,7 +918,7 @@ namespace Khernet.Core.Data
         /// Gets the list of message to be requested to sender peer.
         /// </summary>
         /// <param name="receiptToken">The token of user that sent message</param>
-        /// <param name="quantity">The number of pendding message to retrieve, send 0 to get all messages.</param>
+        /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
         /// <returns>The list of id messages</returns>
         public DataTable GetRequestPendingMessageForUser(string senderToken, int quantity)
         {
@@ -1036,7 +1036,7 @@ namespace Khernet.Core.Data
         {
             try
             {
-                FbCommand cmd = new FbCommand("DELETE_PENDDING_MESSSAGE");
+                FbCommand cmd = new FbCommand("DELETE_PENDING_MESSSAGE");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);

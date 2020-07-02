@@ -43,7 +43,7 @@ namespace Khernet.Core.Processor
 
             try
             {
-                MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pendding);
+                MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pending);
 
                 IoCContainer.Get<TextMessageManager>().ProcessMessage(idMessage);
                 return result;
@@ -100,11 +100,11 @@ namespace Khernet.Core.Processor
             }
         }
 
-        public void RegisterPenddingMessage(string receiptToken, int idMessage)
+        public void RegisterPendingMessage(string receiptToken, int idMessage)
         {
             //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
-            commData.RegisterPenddingMessage(receiptToken, idMessage);
+            commData.RegisterPendingMessage(receiptToken, idMessage);
         }
 
         public string GetUIDMessage(int idMessage)
@@ -113,7 +113,7 @@ namespace Khernet.Core.Processor
             return commData.GetUIDMessage(idMessage);
         }
 
-        public void SendPenddingMessage(InternalConversationMessage conversation)
+        public void SendPendingMessage(InternalConversationMessage conversation)
         {
             CommunicatorData commData = new CommunicatorData();
             DataTable messageData = commData.GetMessageContent(conversation.Id);
@@ -239,10 +239,10 @@ namespace Khernet.Core.Processor
             return null;
         }
 
-        public List<int> GetPenddingMessageOfUser(string receiptToken, int quantity)
+        public List<int> GetPendingMessageOfUser(string receiptToken, int quantity)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPenddingMessageOfUser(receiptToken, quantity);
+            DataTable data = commData.GetPendingMessageOfUser(receiptToken, quantity);
 
             if (data.Rows.Count > 0)
             {
@@ -604,7 +604,7 @@ namespace Khernet.Core.Processor
                         Id = Convert.ToInt32(messagedata.Rows[i][0]),
                         Format = (ContentType)Convert.ToInt32(messagedata.Rows[i][1]),
                         RegisterDate = Convert.ToDateTime(messagedata.Rows[i][2]),
-                        State = Convert.ToInt32(messagedata.Rows[i][3]) == 1 ? MessageState.Processed : MessageState.Pendding,
+                        State = Convert.ToInt32(messagedata.Rows[i][3]) == 1 ? MessageState.Processed : MessageState.Pending,
                     };
 
                     messageList.Add(message);
@@ -632,7 +632,7 @@ namespace Khernet.Core.Processor
                         IdSenderPeer = Convert.ToInt32(messagedata.Rows[i][1]),
                         Format = (ContentType)Convert.ToInt32(messagedata.Rows[i][2]),
                         RegisterDate = Convert.ToDateTime(messagedata.Rows[i][3]),
-                        State = Convert.ToInt32(messagedata.Rows[i][4]) == 1 ? MessageState.Processed : MessageState.Pendding,
+                        State = Convert.ToInt32(messagedata.Rows[i][4]) == 1 ? MessageState.Processed : MessageState.Pending,
                         IsRead = Convert.ToBoolean(messagedata.Rows[i][5]),
                         UID = messagedata.Rows[i][6] != DBNull.Value ? messagedata.Rows[i][6].ToString() : string.Empty,
                     };

@@ -182,14 +182,21 @@
                 </Path.Stroke>
             </Path>
 
-<!--
-            <TextBlock Margin="0"
+
+            <!-- Additional fields of message for debug purposes only -->
+
+            <!--
+            <StackPanel Margin="0"
                        Grid.Column="2"
                        Grid.Row="2"
                        VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left"
-                       Text="{Binding Id}"/>
--->
+                       HorizontalAlignment="Left">
+
+                <TextBlock Text="{Binding Id}"/>
+                <TextBlock Text="{Binding IsRead}"/>
+                
+            </StackPanel>
+            -->
 
             <!-- Bottom horizontal line -->
             <Path Grid.Column="2" 

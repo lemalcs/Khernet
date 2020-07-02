@@ -157,7 +157,7 @@ namespace Khernet.Core.Host
                         metadata.Extensions.Elements(Constants.ServiceIDTag).FirstOrDefault().Value//Type of service
                         );
 
-                        IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(token);
+                        IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(token);
                     }
                 }
             }
@@ -428,7 +428,7 @@ namespace Khernet.Core.Host
                             }
                             else
                             {
-                                IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                                IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(tokenList[i].Token);
                                 tokenList.RemoveAt(i);
                                 i--;
                             }
@@ -440,7 +440,7 @@ namespace Khernet.Core.Host
                         }
                         else
                         {
-                            IoCContainer.Get<MessageManager>().ProcessPenddingMessagesOf(tokenList[i].Token);
+                            IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(tokenList[i].Token);
                             tokenList.RemoveAt(i);
                             i--;
                         }

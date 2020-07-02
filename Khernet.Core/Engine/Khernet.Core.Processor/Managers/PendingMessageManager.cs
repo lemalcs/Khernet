@@ -10,18 +10,18 @@ using System.Threading;
 namespace Khernet.Core.Processor.Managers
 {
     /// <summary>
-    /// Sends pendding messages to peers whem them turn online again.
+    /// Sends pending messages to peers whem them turn online again.
     /// </summary>
-    public class MessageManager : IDisposable
+    public class PendingMessageManager : IDisposable
     {
-        private Thread penddingThread;
+        private Thread pendingThread;
         private volatile bool continueExecution = false;
         AutoResetEvent autoResetEvent;
         Communicator communicator;
 
         private ConcurrentQueue<string> usersList;
 
-        public MessageManager()
+        public PendingMessageManager()
         {
             try
             {
@@ -38,15 +38,15 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                if (penddingThread == null)
+                if (pendingThread == null)
                 {
                     autoResetEvent = new AutoResetEvent(false);
 
-                    penddingThread = new Thread(SendPenddingMessages);
-                    penddingThread.Name = "PenddingSender";
+                    pendingThread = new Thread(SendPendingMessages);
+                    pendingThread.Name = "PendingSender";
 
                     continueExecution = true;
-                    penddingThread.Start();
+                    pendingThread.Start();
                 }
             }
             catch (Exception exception)
@@ -56,7 +56,7 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
-        public void ProcessPenddingMessagesOf(string receiptToken)
+        public void ProcessPendingMessagesOf(string receiptToken)
         {
             if (usersList == null)
                 usersList = new ConcurrentQueue<string>();
@@ -66,7 +66,7 @@ namespace Khernet.Core.Processor.Managers
             autoResetEvent.Set();
         }
 
-        private void SendPenddingMessages()
+        private void SendPendingMessages()
         {
             while (continueExecution)
             {
@@ -111,7 +111,7 @@ namespace Khernet.Core.Processor.Managers
 
         private void SendPendingMessageOf(string receiptToken)
         {
-            List<int> messageList = communicator.GetPenddingMessageOfUser(receiptToken, 1);
+            List<int> messageList = communicator.GetPendingMessageOfUser(receiptToken, 1);
 
             if (messageList == null)
                 return;
@@ -119,7 +119,7 @@ namespace Khernet.Core.Processor.Managers
             //Try to one send a message to test if peer is connected
             try
             {
-                SendPenddingMessage(messageList[0]);
+                SendPendingMessage(messageList[0]);
             }
             catch (EndpointNotFoundException ex)
             {
@@ -141,18 +141,18 @@ namespace Khernet.Core.Processor.Managers
                 LogDumper.WriteLog(ex2);
             }
 
-            //Get the full list of pendding messages
-            messageList = communicator.GetPenddingMessageOfUser(receiptToken, 0);
+            //Get the full list of pending messages
+            messageList = communicator.GetPendingMessageOfUser(receiptToken, 0);
 
             if (messageList == null)
                 return;
 
-            //Send pendding messages 
+            //Send pending messages 
             for (int j = 0; j < messageList.Count; j++)
             {
                 try
                 {
-                    SendPenddingMessage(messageList[j]);
+                    SendPendingMessage(messageList[j]);
                 }
                 catch (EndpointNotFoundException error1)
                 {
@@ -169,12 +169,12 @@ namespace Khernet.Core.Processor.Managers
                         MessageId = messageList[j],
                         State = MessageState.Error,
                     });
-                    LogDumper.WriteLog(error, "Error while reading pendding message");
+                    LogDumper.WriteLog(error, "Error while reading pending message");
                 }
             }
         }
 
-        private void SendPenddingMessage(int idMessage)
+        private void SendPendingMessage(int idMessage)
         {
             try
             {
@@ -185,12 +185,12 @@ namespace Khernet.Core.Processor.Managers
                     message.Type == ContentType.Markdown)
                 {
                     Communicator communicator = new Communicator();
-                    communicator.SendPenddingMessage((InternalConversationMessage)message);
+                    communicator.SendPendingMessage((InternalConversationMessage)message);
                 }
                 else
                 {
                     FileCommunicator fileManager = new FileCommunicator();
-                    fileManager.SendPenddingFile((InternalConversationMessage)message);
+                    fileManager.SendPendingFile((InternalConversationMessage)message);
                 }
 
             }
@@ -221,11 +221,11 @@ namespace Khernet.Core.Processor.Managers
             try
             {
                 continueExecution = false;
-                if (penddingThread != null && penddingThread.ThreadState != ThreadState.Unstarted)
+                if (pendingThread != null && pendingThread.ThreadState != ThreadState.Unstarted)
                 {
-                    penddingThread.Interrupt();
+                    pendingThread.Interrupt();
                     autoResetEvent.Set();
-                    penddingThread.Abort();
+                    pendingThread.Abort();
                 }
             }
             catch (Exception exception)

@@ -45,7 +45,7 @@ namespace Khernet.UI
         public int FirstUnreadMessageIndex { get; set; }
 
         /// <summary>
-        /// Pendding message to be sent
+        /// Pending message to be sent
         /// </summary>
         public byte[] DraftMessage { get; set; }
 

@@ -35,7 +35,7 @@ namespace Khernet.UI
         private MediaGalleryViewModel mediaVM;
 
         /// <summary>
-        /// Indicates if ther is a pendding message
+        /// Indicates if ther is a pending message
         /// </summary>
         private bool hasMessage;
 
@@ -858,7 +858,10 @@ namespace Khernet.UI
 
                 //Check if it has to scroll to first unread message
                 if (scrollToFirstUnreadmessage && firstUnreadMessageModel != null)
-                    ScrollToChatMessage(firstUnreadMessageModel, userContext.FirstUnreadMessageIndex);
+                {
+                    if (IoCContainer.UI.IsMainWindowActive())
+                        ScrollToChatMessage(firstUnreadMessageModel, userContext.FirstUnreadMessageIndex);
+                }
                 else if (isFirstLoad)
                 {
                     SetCurrentChatModel(Items[Items.Count - 1]);
@@ -866,7 +869,7 @@ namespace Khernet.UI
                 }
 
                 //Scroll to current sent message
-                if (Items.Count > 1 && Items[Items.Count - 2] == UserContext.CurrentChatModel)
+                if (Items.Count > 1 && (Items[Items.Count - 2] == UserContext.CurrentChatModel && UserContext.CurrentChatModel.IsSentByMe))
                 {
                     ScrollToCurrentContent?.Invoke();
                 }
@@ -1111,9 +1114,6 @@ namespace Khernet.UI
         public void CheckUnreadMessageAsRead(ChatMessageItemViewModel messageModel)
         {
             if (messageModel == null)
-                return;
-
-            if (!IoCContainer.Get<IUIManager>().IsMainWindowActive())
                 return;
 
             if (messageModel != null && !messageModel.IsRead)

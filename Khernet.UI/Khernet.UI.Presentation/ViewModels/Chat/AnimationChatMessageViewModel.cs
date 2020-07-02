@@ -114,14 +114,14 @@ namespace Khernet.UI
             Height = double.PositiveInfinity;
             width = double.PositiveInfinity;
 
-            State = ChatMessageState.Pendding;
+            State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
         }
 
         private bool VerifyLoadedAnimation(object obj)
         {
-            return IsMessageLoaded && (State == ChatMessageState.Pendding || State == ChatMessageState.Processed);
+            return IsMessageLoaded && (State == ChatMessageState.Pending || State == ChatMessageState.Processed);
         }
 
         private async void SaveAnimation(object obj)

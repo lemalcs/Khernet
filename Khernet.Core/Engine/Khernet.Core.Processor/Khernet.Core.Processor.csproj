@@ -96,7 +96,7 @@
     <Compile Include="Manager.cs" />
     <Compile Include="Managers\TextMessageManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
-    <Compile Include="Managers\MessageManager.cs" />
+    <Compile Include="Managers\PendingMessageManager.cs" />
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="PeerFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

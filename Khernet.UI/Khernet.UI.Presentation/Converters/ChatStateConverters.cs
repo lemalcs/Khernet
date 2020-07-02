@@ -21,7 +21,7 @@ namespace Khernet.UI.Converters
             if (state == ChatMessageState.Error || state == ChatMessageState.UnCommited)
                 return Application.Current.FindResource("DarkRedBrush");
 
-            if (!isSentByMe || state == ChatMessageState.Pendding)
+            if (!isSentByMe || state == ChatMessageState.Pending)
                 return Application.Current.FindResource("LightGrayAnchorBrush");
 
             return Application.Current.FindResource("LightBlueAnchorBrush");
@@ -64,7 +64,7 @@ namespace Khernet.UI.Converters
             bool isFileLoaded = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pendding) ? Visibility.Visible : Visibility.Collapsed;
+            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pending) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -87,7 +87,7 @@ namespace Khernet.UI.Converters
             bool isFileLoaded = (bool)values[0];
             ChatMessageState state = (ChatMessageState)values[1];
 
-            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pendding) ? Cursors.Hand : Cursors.Arrow;
+            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pending) ? Cursors.Hand : Cursors.Arrow;
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

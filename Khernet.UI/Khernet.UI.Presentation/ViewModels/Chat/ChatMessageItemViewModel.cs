@@ -15,9 +15,9 @@ namespace Khernet.UI
         UnCommited = -1,
 
         /// <summary>
-        /// The message is pendding to be sent
+        /// The message is pending to be sent
         /// </summary>
-        Pendding = 0,
+        Pending = 0,
 
         /// <summary>
         /// The message was sent or received successfully
