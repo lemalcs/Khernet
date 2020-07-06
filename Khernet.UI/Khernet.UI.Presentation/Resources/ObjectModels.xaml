@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Khernet.UI"
                     xmlns:tb="http://www.hardcodet.net/taskbar"
-                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
+                    xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+                    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                    >
     
     <!--Default image-->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/blank.png" x:Key="DefaultImage"/>
@@ -22,8 +24,14 @@
     <!--Emoji list view model-->
     <local:EmojiListCollection x:Key="emojiLightList"/>
 
-        <!--Context meny for taskbar notify icon-->
-    <ContextMenu x:Shared="false" x:Key="SysTrayMenu">
+    <Style x:Key="{x:Type ContextMenu}" TargetType="ContextMenu" BasedOn="{StaticResource MetroContextMenu}">
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+    </Style>
+
+    <!--Context meny for taskbar notify icon-->
+    <ContextMenu x:Shared="false" x:Key="SysTrayMenu" >
         <MenuItem Header="Show Window" Command="{Binding ShowWindowCommand}" />
         <MenuItem Header="Hide Window" Command="{Binding HideWindowCommand}" />
         <Separator />
@@ -44,35 +52,41 @@
 
     </tb:TaskbarIcon>
 
+    <ContextMenu x:Key="textboxContextMenu" >
+        <MenuItem Command="ApplicationCommands.Cut"/>
+        <MenuItem Command="ApplicationCommands.Copy"/>
+        <MenuItem Command="ApplicationCommands.Paste"/>
+    </ContextMenu>
+
     <!--Context menu for text messages-->
-    <ContextMenu x:Key="messageContextMenu">
+    <ContextMenu x:Key="messageContextMenu" >
         <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
         <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Command="ApplicationCommands.Cut" Style="{DynamicResource MetroMenuItem}" />
-        <MenuItem Command="ApplicationCommands.Copy" Style="{DynamicResource MetroMenuItem}" />
-        <MenuItem Command="ApplicationCommands.Paste" Style="{DynamicResource MetroMenuItem}" />
+        <MenuItem Command="ApplicationCommands.Cut"/>
+        <MenuItem Command="ApplicationCommands.Copy"/>
+        <MenuItem Command="ApplicationCommands.Paste"/>
     </ContextMenu>
 
     <!--Context menu for markdown messages-->
-    <ContextMenu x:Key="markdownContextMenu">
+    <ContextMenu x:Key="markdownContextMenu" >
         <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
         <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Command="ApplicationCommands.Cut" Style="{DynamicResource MetroMenuItem}" />
-        <MenuItem Command="ApplicationCommands.Copy" Style="{DynamicResource MetroMenuItem}" />
-        <MenuItem Command="ApplicationCommands.Paste" Style="{DynamicResource MetroMenuItem}" />
+        <MenuItem Command="ApplicationCommands.Cut"/>
+        <MenuItem Command="ApplicationCommands.Copy"/>
+        <MenuItem Command="ApplicationCommands.Paste"/>
         <MenuItem Header="Save as Markdown" Command="{Binding SaveMarkdownSourceCommand}" />
         <MenuItem Header="Save as HTML" Command="{Binding SaveHtmlSourceCommand}" />
     </ContextMenu>
 
     <!--Context menu for file messages-->
-    <ContextMenu x:Key="fileMessageContextMenu">
+    <ContextMenu x:Key="fileMessageContextMenu" >
         <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
         <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
         <MenuItem Header="Save as..." Command="{Binding SaveCommand}"/>
     </ContextMenu>
 
     <!--Context menu for animation messages-->
-    <ContextMenu x:Key="animationMessageContextMenu">
+    <ContextMenu x:Key="animationMessageContextMenu" >
         <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
         <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
         <MenuItem Header="Add GIF to gallery" Command="{Binding SaveAnimationCommand}"/>

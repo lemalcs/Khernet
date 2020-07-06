@@ -15,7 +15,8 @@
     
     <Page.Resources>
         <DataTemplate x:Key="DataTemplate1">
-            <Border Background="Transparent" Height="50">
+            <Border Background="Transparent" 
+                    Height="50">
 
                 <Border.InputBindings>
                     <MouseBinding MouseAction="LeftClick" Command="{Binding OpenSettingCommand}"/>
@@ -34,7 +35,8 @@
                                                         Grid.Column="0"/>
                     <TextBlock Grid.Column="1" 
                                Text="{Binding Name}"
-                               VerticalAlignment="Center"/>
+                               VerticalAlignment="Center"
+                               Style="{StaticResource TextblockItemStyle}"/>
                 </Grid>
             </Border>
         </DataTemplate>

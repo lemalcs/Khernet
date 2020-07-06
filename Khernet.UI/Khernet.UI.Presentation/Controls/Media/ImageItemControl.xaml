@@ -98,6 +98,7 @@
                        Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
                        Foreground="{StaticResource DarkGrayBrush}"
                        FontSize="{StaticResource SmallFontSize}"
+                       FontFamily="{StaticResource RobotoRegularFont}"
                        Margin="5 5 0 0"
                        Visibility="{Binding IsMessageLoaded,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
@@ -105,6 +106,7 @@
             <TextBlock Grid.Row="2"
                        Foreground="{StaticResource DarkGrayBrush}"
                        FontSize="{StaticResource SmallFontSize}"
+                       FontFamily="{StaticResource RobotoRegularFont}"
                        Margin="5 0 0 10"
                        Visibility="{Binding IsMessageLoaded,Converter={conv:BoolToVisibilityGoneConverter}}">
                         <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>

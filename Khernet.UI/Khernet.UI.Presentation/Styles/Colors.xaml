@@ -3,6 +3,11 @@
                     >
 
     <!--Color an brushes must be especified ordered: fisrt Color then Brush-->
+
+    <SolidColorBrush x:Key="OverBlueButton" Color="#0072f2"/>
+    <SolidColorBrush x:Key="BlueMainButton" Color="#0366d6"/>
+    <SolidColorBrush x:Key="ProgressRingbackgroud" Color="#ffffff"/>
+    
     <Color x:Key="LightColor">#ffffff</Color>
     <SolidColorBrush x:Key="LightBrush" Color="{StaticResource LightColor}"/>
 

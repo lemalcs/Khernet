@@ -121,6 +121,7 @@
             <!-- Number of files -->
             <TextBlock Grid.Row="0" 
                        Foreground="{StaticResource DarkGrayBrush}"
+                       FontFamily="{StaticResource RobotoRegularFont}"
                        Visibility="{Binding IsLoading,Converter={conv:InverseBoolToVisibilityConverter}}"
                        Padding="20 0 0 10">
                 <Run Text="{Binding ItemsCount}"/>

@@ -65,8 +65,7 @@
                                VerticalAlignment="Center"
                                Foreground="{StaticResource LightBrush}"
                                FontSize="{StaticResource LargeFontSize}"
-                               FontFamily="{StaticResource RobotoBoldFont}"
-                               />
+                               FontFamily="{StaticResource RobotoBoldFont}"/>
                 </Border>
 
                 <!-- Profile picture-->
@@ -90,12 +89,13 @@
 
                     <!--User name-->
                     <RichTextBox depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"
-                               IsReadOnly="True"
+                                 IsReadOnly="True"
                                  BorderThickness="0"
-                                             IsReadOnlyCaretVisible="True"/>
+                                 IsReadOnlyCaretVisible="True"/>
 
                     <!--Message type description-->
                     <TextBlock Text="{Binding MessageType,Converter={conv:MessageTypeToFriendlyName}}"
+                               Style="{StaticResource TextblockItemStyle}"
                                Margin="0 10 0 0"/>
                 </StackPanel>
             </Grid>

@@ -20,7 +20,8 @@
         <TextBlock Grid.Row="0"
                    Text="{Binding TextProgress}"
                    VerticalAlignment="Center"
-                   Margin="20 20 0 15"/>
+                   Margin="20 20 0 15"
+                   Style="{StaticResource TextblockItemStyle}"/>
 
         <!-- Progress ring to show load progress -->
         <Controls:ProgressRing Grid.Row="1"
@@ -31,11 +32,12 @@
                                VerticalAlignment="Center"
                                        />
         <!--Accept button-->
-        <Button Content="Accept"
+        <Button Content="OK"
                 Visibility="{Binding IsCleaning,Converter={conv:InverseBoolToVisibilityConverter}}"
-                    Click="Button_Click_1"
-                    HorizontalAlignment="Center"
-                    Margin="0 0 0 10"
-                    Width="100"/>
+                Click="Button_Click_1"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 10"
+                Width="100"
+                Style="{StaticResource HexagonalButtonStyle}"/>
     </StackPanel>
 </local:BasePopUpControl>

@@ -92,6 +92,7 @@
                     <!-- File name-->
                     <TextBlock Text="{Binding FileName}"
                                FontFamily="{StaticResource RobotoBoldFont}"
+                               Style="{StaticResource TextblockItemStyle}"
                                Grid.Row="0"
                                Margin="0"/>
 
@@ -105,7 +106,7 @@
                         </TextBlock>
 
                         <!--File size-->
-                        <TextBlock>
+                        <TextBlock Style="{StaticResource TextblockItemStyle}">
                         <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
                         <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
                         </TextBlock>

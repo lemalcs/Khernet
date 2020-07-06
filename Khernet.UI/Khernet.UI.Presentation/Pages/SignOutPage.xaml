@@ -18,6 +18,7 @@
         
         <!-- Progress description -->
         <TextBlock Text="Signing out..."
-                   HorizontalAlignment="Center"/>
+                   HorizontalAlignment="Center"
+                   Style="{StaticResource TextblockItemStyle}"/>
     </StackPanel>
 </local:BasePage>

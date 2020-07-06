@@ -61,7 +61,8 @@
             <TextBlock Text="Loading..."
                        Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"
+                       Style="{StaticResource TextblockItemStyle}"/>
         </Grid>
 
     </Border>

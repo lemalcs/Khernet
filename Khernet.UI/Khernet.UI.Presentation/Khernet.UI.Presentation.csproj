@@ -228,6 +228,8 @@
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BaseValueMultiConverter.cs" />
+    <Compile Include="Converters\ButtonShapeMultiConverter.cs" />
+    <Compile Include="Converters\ButtonShineMultiConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\VolumeToStringConverter.cs" />

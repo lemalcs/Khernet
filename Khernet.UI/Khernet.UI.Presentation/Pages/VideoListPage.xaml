@@ -132,11 +132,13 @@
                                 <TextBlock Text="{Binding FileName}" 
                                            HorizontalAlignment="Left"
                                            FontFamily="{StaticResource RobotoBoldFont}"
+                                           Style="{StaticResource TextblockItemStyle}"
                                            TextWrapping="WrapWithOverflow"
                                            Width="230"/>
 
                                 <!--File size-->
-                                <TextBlock Foreground="{StaticResource DarkGrayBrush}">
+                                <TextBlock Foreground="{StaticResource DarkGrayBrush}"
+                                           Style="{StaticResource TextblockItemStyle}">
                                      <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
                                      <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
                                 </TextBlock>
@@ -144,7 +146,8 @@
                                 <!-- Send/receive date -->
                                 <TextBlock Grid.Row="2"
                                            Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
-                                           Foreground="{StaticResource DarkGrayBrush}"/>
+                                           Foreground="{StaticResource DarkGrayBrush}"
+                                           Style="{StaticResource TextblockItemStyle}"/>
                             </StackPanel>
                         </Grid>
                     </Border>

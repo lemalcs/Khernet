@@ -7,142 +7,7 @@
                     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
 
-    <SolidColorBrush x:Key="OverBlueButton" Color="#0072f2"/>
-    <SolidColorBrush x:Key="BlueMainButton" Color="#0366d6"/>
-    <SolidColorBrush x:Key="ProgressRingbackgroud" Color="#ffffff"/>
-
-
-    <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroButton}">
-        <Setter Property="Background" Value="{DynamicResource BlueMainButton}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Controls:ControlsHelper.CornerRadius" Value="3" />
-        <Setter Property="Margin" Value="7"/>
-
-        <Setter Property="depend:IsBusyProperty.Value" Value="False"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Border 
-                                x:Name="Border" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" 
-                                CornerRadius="{Binding (Controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <Border 
-                                x:Name="DisabledVisualElement" 
-                                Background="{DynamicResource ControlsDisabledBrush}" 
-                                CornerRadius="{Binding (Controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                IsHitTestVisible="False" 
-                                Opacity="0" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <Controls:ProgressRing 
-                            Width="20" 
-                            Height="20" 
-                            IsActive="True" 
-                            HorizontalAlignment="Left" 
-                            Margin="3 0 0 0" 
-                            Visibility="{Binding (depend:IsBusyProperty.Value),RelativeSource={RelativeSource TemplatedParent},Converter={conv:BoolToVisibilityConverter}}"
-                            Foreground="{StaticResource ProgressRingbackgroud}"></Controls:ProgressRing>
-                        <Controls:ContentControlEx 
-                                x:Name="PART_ContentPresenter"
-                                ContentCharacterCasing="{Binding (Controls:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" 
-                                ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                Content="{TemplateBinding Content}" 
-                                ContentStringFormat="{TemplateBinding ContentStringFormat}" 
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                Margin="{TemplateBinding BorderThickness}" 
-                                Padding="{TemplateBinding Padding}" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource OverBlueButton}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource BlueMainButton}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" TargetName="DisabledVisualElement" Value="0.7"/>
-                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.3"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ButtonStyleTurquoise" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Metro.Styles.MetroButton}">
-        <Setter Property="Background" Value="{DynamicResource TurquoiseBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource TurquoiseBrush}"/>
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Controls:ControlsHelper.CornerRadius" Value="3" />
-        <Setter Property="Margin" Value="7"/>
-
-        <Setter Property="depend:IsBusyProperty.Value" Value="False"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Border 
-                                x:Name="Border" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" 
-                                CornerRadius="{Binding (Controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <Border 
-                                x:Name="DisabledVisualElement" 
-                                Background="{DynamicResource ControlsDisabledBrush}" 
-                                CornerRadius="{Binding (Controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                IsHitTestVisible="False" 
-                                Opacity="0" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <Controls:ProgressRing 
-                            Width="20" 
-                            Height="20" 
-                            IsActive="True" 
-                            HorizontalAlignment="Left" 
-                            Margin="3 0 0 0" 
-                            Visibility="{Binding (depend:IsBusyProperty.Value),RelativeSource={RelativeSource TemplatedParent},Converter={conv:BoolToVisibilityConverter}}"
-                            Foreground="{StaticResource ProgressRingbackgroud}"></Controls:ProgressRing>
-                        <Controls:ContentControlEx 
-                                x:Name="PART_ContentPresenter"
-                                ContentCharacterCasing="{Binding (Controls:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" 
-                                ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                Content="{TemplateBinding Content}" 
-                                ContentStringFormat="{TemplateBinding ContentStringFormat}" 
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                Margin="{TemplateBinding BorderThickness}" 
-                                Padding="{TemplateBinding Padding}" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource LightTurquoiseBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{DynamicResource DarkTurquoiseBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" TargetName="DisabledVisualElement" Value="0.7"/>
-                            <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.3"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
+    <Style x:Key="GlowButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush3}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -493,4 +358,233 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="HexagonalButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Margin="2" SnapsToDevicePixels="True"
+                                           StrokeThickness="1" 
+                                           StrokeDashArray="1 2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="#4A86E8"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Upper" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" 
+                                SnapsToDevicePixels="True">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Main button shape -->
+                            <Polygon Grid.Row="0"
+                                     Grid.RowSpan="2"
+                                     Name="polygonBorder"
+                                     StrokeThickness="0"
+                                     StrokeLineJoin="Round"
+                                     Stretch="Uniform" 
+                                     Margin="0,0,0,0" 
+                                     Fill="{TemplateBinding Background}"
+                                     VerticalAlignment="Center">
+
+                                <Polygon.Effect>
+                                    <DropShadowEffect BlurRadius="2" 
+                                                      Color="#4A86E8"
+                                                      ShadowDepth="0"
+                                                      Opacity="1"/>
+                                </Polygon.Effect>
+
+                                <Polygon.Points>
+                                    <MultiBinding Converter="{conv:ButtonShapeMultiConverter}">
+                                        <Binding Path="ActualWidth" ElementName="border"/>
+                                        <Binding Path="ActualHeight" ElementName="border"/>
+                                    </MultiBinding>
+                                </Polygon.Points>
+                            </Polygon>
+
+                            <!-- Shine shape -->
+                            <Polygon Grid.Row="0"
+                                     Name="polygonShineBorder"
+                                     StrokeThickness="0"
+                                     StrokeLineJoin="Round"
+                                     Stretch="Uniform" 
+                                     Margin="0,0,0,0" 
+                                     Fill="White"
+                                     Opacity="0.03"
+                                     VerticalAlignment="Top">
+                                <Polygon.Points>
+                                    <MultiBinding Converter="{conv:ButtonShineMultiConverter}">
+                                        <Binding Path="ActualWidth" ElementName="border"/>
+                                        <Binding Path="ActualHeight" ElementName="border"/>
+                                    </MultiBinding>
+                                </Polygon.Points>
+                            </Polygon>
+
+                            <Controls:ProgressRing Grid.RowSpan="2"
+                                                   Width="20" 
+                                                   Height="20" 
+                                                   IsActive="True" 
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center"
+                                                   Margin="7 0 0 0" 
+                                                   Visibility="{Binding (depend:IsBusyProperty.Value),
+                                                                RelativeSource={RelativeSource TemplatedParent},
+                                                                Converter={conv:BoolToVisibilityConverter},
+                                                                TargetNullValue=Collapsed,
+                                                                FallbackValue=Collapsed}"
+                                                   Foreground="{StaticResource ProgressRingbackgroud}"></Controls:ProgressRing>
+
+                            <!-- Button content -->
+                            <ContentPresenter Grid.Row="0"
+                                              Grid.RowSpan="2"
+                                              x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                              Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="#4189ff"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="#2d75eb"/>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="#8bafea"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LightHexagonalButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#4A86E8"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Upper" />
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" 
+                            SnapsToDevicePixels="True">
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Main button shape -->
+                            <Polygon Grid.Row="0"
+                                     Grid.RowSpan="2"
+                                     Name="polygonBorder"
+                                     StrokeThickness="1"
+                                     Stroke="#cccccc"
+                                     StrokeLineJoin="Round"
+                                     Stretch="Uniform" 
+                                     Margin="0" 
+                                     Fill="{TemplateBinding Background}"
+                                     VerticalAlignment="Center">
+
+                                <Polygon.Points>
+                                    <MultiBinding Converter="{conv:ButtonShapeMultiConverter}">
+                                        <Binding Path="ActualWidth" ElementName="border"/>
+                                        <Binding Path="ActualHeight" ElementName="border"/>
+                                    </MultiBinding>
+                                </Polygon.Points>
+                            </Polygon>
+
+                            <!-- Button content -->
+                            <ContentPresenter Grid.Row="0"
+                                              Grid.RowSpan="2"
+                                              x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                              Focusable="False" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="#fbfdff"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="#eef3fd"/>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Stroke" TargetName="polygonBorder" Value="{StaticResource LightGrayAnchorBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

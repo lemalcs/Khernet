@@ -33,9 +33,8 @@
         <TextBox Height="28" 
                  Width="220" 
                  Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
-                 Style="{StaticResource TextStyle2}"
+                 Style="{StaticResource EditTextBox}"
                  depend:IsFocusedProperty.Value="True"
-                 Template="{DynamicResource TextBoxControlTemplate1}"
                  VerticalContentAlignment="Center"/>
 
         <TextBlock Text="Password" 
@@ -46,8 +45,7 @@
         <PasswordBox Name="pass1"
                      Height="28" 
                      Width="220" 
-                     Style="{StaticResource PasswordStyle}"
-                     Template="{DynamicResource PasswordBoxControlTemplate1}"/>
+                     Style="{StaticResource EditPasswordBox}"/>
 
         <TextBlock Text="Confirm password" 
                    Width="220"
@@ -57,19 +55,18 @@
         <PasswordBox Name="pass2"
                      Height="28" 
                      Width="220" 
-                     Style="{StaticResource PasswordStyle}"
-                     Template="{DynamicResource PasswordBoxControlTemplate1}"/>
+                     Style="{StaticResource EditPasswordBox}"/>
 
         <!--Creation account/Login button-->
         <Button x:Name="button" 
-                Content="Create" 
+                Content="CREATE" 
                 Width="139"
                 IsDefault="True"
                 IsEnabled="{Binding CanLogin}"
                 depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
                 Command="{Binding SignUpCommand}"
                 CommandParameter="{Binding ElementName=Login}"
-                Style="{StaticResource ButtonStyle1}"/>
+                Style="{StaticResource HexagonalButtonStyle}"/>
         
     </StackPanel>
 </local:BasePage>

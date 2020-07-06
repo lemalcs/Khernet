@@ -101,6 +101,7 @@
                                 <!-- File name-->
                                 <TextBlock Text="{Binding FileName}"
                                            FontFamily="{StaticResource RobotoBoldFont}"
+                                           Style="{StaticResource TextblockItemStyle}"
                                            Grid.Row="0"
                                            Margin="0"
                                            TextWrapping="WrapWithOverflow"
@@ -110,13 +111,14 @@
                                             Orientation="Horizontal">
 
                                     <!-- Current read bytes -->
-                                    <TextBlock Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}">
+                                    <TextBlock Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
+                                               Style="{StaticResource TextblockItemStyle}">
                                         <Run Text="{Binding CurrentReadBytes,Converter={conv:SizeUnitConverter}}"/>
                                         <Run Text="/" />
                                     </TextBlock>
 
                                     <!--File size-->
-                                    <TextBlock>
+                                    <TextBlock Style="{StaticResource TextblockItemStyle}">
                                         <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
                                         <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
                                     </TextBlock>
@@ -126,7 +128,8 @@
                                 <!-- Send/receive date -->
                                 <TextBlock Grid.Row="2"
                                            Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"
-                                           Foreground="{StaticResource DarkGrayBrush}"/>
+                                           Foreground="{StaticResource DarkGrayBrush}"
+                                           Style="{StaticResource TextblockItemStyle}"/>
                             </Grid>
                         </Grid>
                     </Border>

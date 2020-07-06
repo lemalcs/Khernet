@@ -61,15 +61,14 @@
 
             <!--Background color profile-->
             <Border Width="32"
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Background="{Binding User.ColorHex, Converter={conv:StringRGBToColorConverter}}"
-                        Margin="0 0 10 0"
-                        
-                        Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
-                        CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{Binding User.ColorHex, Converter={conv:StringRGBToColorConverter}}"
+                    Margin="0 0 10 0"
+                    Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
+                    CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
                 <Border.Visibility>
                     <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
                         <Binding Path="IsSentByMe"/>
@@ -79,11 +78,9 @@
 
                 <!--Initials-->
                 <TextBlock Text="{Binding User.Initials}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource LightBrush}"
-                           >
-                </TextBlock>
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource LightBrush}"/>
             </Border>
 
             <!--Avatar image-->
@@ -105,10 +102,10 @@
 
             <!-- Upper anchor -->
             <Path Grid.Column="1" 
-                      Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
-                      Margin="0" 
-                      StrokeThickness="1"
-                      Grid.Row="0"
+                  Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
+                  Margin="0" 
+                  StrokeThickness="1"
+                  Grid.Row="0"
                   VerticalAlignment="Bottom">
                 <Path.Stroke>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
@@ -120,13 +117,13 @@
 
             <!-- Vertical line -->
             <Path Grid.Column="1" 
-                      Data="M0,0 L0,1" 
-                      Fill="#FFF4F4F5" 
-                      Margin="0 -1 0 -1" 
-                      StrokeThickness="1"
-                      Grid.Row="1" 
-                      Stretch="Fill"
-                      HorizontalAlignment="{Binding IsSentByMe,Converter={conv:SentByMeToAligment}}">
+                  Data="M0,0 L0,1" 
+                  Fill="#FFF4F4F5" 
+                  Margin="0 -1 0 -1" 
+                  StrokeThickness="1"
+                  Grid.Row="1" 
+                  Stretch="Fill"
+                  HorizontalAlignment="{Binding IsSentByMe,Converter={conv:SentByMeToAligment}}">
                 <Path.Stroke>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id2">
                         <Binding Path="IsSentByMe"/>
@@ -170,10 +167,10 @@
 
             <!-- Bottom anchor -->
             <Path Grid.Column="1" 
-                      Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=bottomAnchor}" 
-                      Margin="0" 
-                      StrokeThickness="1"
-                      Grid.Row="2" >
+                  Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=bottomAnchor}" 
+                  Margin="0" 
+                  StrokeThickness="1"
+                  Grid.Row="2" >
                 <Path.Stroke>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id3">
                         <Binding Path="IsSentByMe"/>

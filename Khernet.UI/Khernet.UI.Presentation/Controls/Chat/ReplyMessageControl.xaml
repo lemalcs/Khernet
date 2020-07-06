@@ -145,7 +145,8 @@
                     <TextBlock Grid.Column="2"
                                Grid.Row="1"
                                depend:InlineSourceProperty.Value="{Binding TextContent}"
-                               Margin="8 5 0 5"/>
+                               Margin="8 5 0 5"
+                               Style="{StaticResource TextblockItemStyle}"/>
 
                     <!--File name-->
                     <TextBlock Grid.Column="2"
@@ -153,7 +154,8 @@
                                Text="{Binding FileName}"
                                Visibility="{Binding FileName,Converter={conv:StringToVisibilityConverter}}"
                                VerticalAlignment="Center"
-                               Margin="0"/>
+                               Margin="0"
+                               Style="{StaticResource TextblockItemStyle}"/>
                 </Grid>
             </Grid>
         </Border>

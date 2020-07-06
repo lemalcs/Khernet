@@ -118,6 +118,7 @@
             <TextBlock Text="{Binding FileName}"
                        Grid.Row="0"
                        FontFamily="{StaticResource RobotoBoldFont}"
+                       Style="{StaticResource TextblockItemStyle}"
                        TextWrapping="WrapWithOverflow"
                        Width="250"
                        HorizontalAlignment="Left"/>
@@ -127,7 +128,7 @@
                         Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}">
 
                 <!--File size-->
-                <TextBlock>
+                <TextBlock Style="{StaticResource TextblockItemStyle}">
                     <Run Text="{Binding CurrentReadBytes,Converter={conv:SizeUnitConverter}}"/>
                     <Run Text=" / "/>
                     <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>

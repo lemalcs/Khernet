@@ -37,26 +37,17 @@
                             <Button ToolTip="Settings" 
                                     Grid.Column="0"
                                     Command="{Binding ApplicationViewModel.ViewSettingsCommand,Source={x:Static app:ViewModelLocator.Instance}}"
-                                    Style="{DynamicResource ButtonStyle2}">
+                                    Style="{DynamicResource GlowButtonStyle}">
                                 <iconPacks:PackIconMaterial Width="15" Kind="Settings" />
                             </Button>
 
                             <!-- Update button -->
                             <Button 
                                 Grid.Column="1" 
-                                Style="{DynamicResource ButtonStyle2}"
+                                Style="{DynamicResource GlowButtonStyle}"
                                 Visibility="Hidden">
                                 <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
                             </Button>
-
-                            <!--Search user textbox-->
-                            <TextBox 
-                                Grid.Column="2"
-                                Visibility="Hidden"
-                                Height="10"
-                                Margin="5 0 5 0"
-                                Controls:TextBoxHelper.Watermark="Search user..."
-                                Style="{StaticResource TextBoxStyle11}"/>
                         </Grid>
                     </Border>
 

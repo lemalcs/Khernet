@@ -26,11 +26,11 @@
 
         <!-- Cancel button -->
         <Grid Grid.Row="2">
-            <Button Content="Cancel"
+            <Button Content="CANCEL"
                     Width="100"
                     Margin="0 10 0 10"
                     HorizontalAlignment="Center"
-                    Style="{StaticResource FlatButtonStyle}"
+                    Style="{StaticResource HexagonalButtonStyle}"
                     Click="Button_Click"/>
         </Grid>
     </Grid>

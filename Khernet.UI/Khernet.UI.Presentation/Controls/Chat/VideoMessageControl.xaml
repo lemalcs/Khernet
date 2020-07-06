@@ -93,7 +93,8 @@
                            HorizontalAlignment="Left"
                            Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"
                            Foreground="White"
-                           Padding="8 0 0 8"/>
+                           Padding="8 0 0 8"
+                           Style="{StaticResource TextblockItemStyle}"/>
             </Grid>
 
             <!--Video Name-->
@@ -103,7 +104,8 @@
                        VerticalAlignment="Top"
                        HorizontalAlignment="Stretch"
                        Padding="8 8 8 0"
-                       MaxWidth="{Binding Path=ActualWidth,ElementName=img}"/>
+                       MaxWidth="{Binding Path=ActualWidth,ElementName=img}"
+                       Style="{StaticResource TextblockItemStyle}"/>
 
         </Grid>
     </Grid>

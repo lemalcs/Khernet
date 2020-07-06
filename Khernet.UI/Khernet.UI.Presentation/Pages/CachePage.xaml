@@ -17,14 +17,9 @@
 
     <Grid Margin="24">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        
         <Grid.RowDefinitions>
 
-            <!-- Description of page -->
+            <!-- Header page -->
             <RowDefinition Height="Auto"/>
 
             <!-- Size in bytes -->
@@ -38,33 +33,37 @@
 
         </Grid.RowDefinitions>
 
-        <!-- Description of page -->
-        <TextBlock Text="Space used by files in cache folder"
-                   Style="{StaticResource TextblockHeader}"
-                   Grid.Row="0"/>
+        <!-- Header page -->
+        <Grid Grid.Row="0">
 
-        <StackPanel Grid.Row="0"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
+            <!-- Description of page -->
+            <TextBlock Text="Space used by files in cache folder"
+                       Style="{StaticResource TextblockHeader}"
+                       Grid.Row="0"
+                       HorizontalAlignment="Left"/>
 
             <Button Style="{StaticResource IconButton}"
                     Command="{Binding OpenCacheFolderCommand}"
-                    Margin="0 0 10 0"
-                    ToolTip="Open cache folder">
+                    Margin="0 0 40 0"
+                    ToolTip="Open cache folder"
+                    HorizontalAlignment="Right">
                 <iconPacks:PackIconMaterial Kind="FolderOpen" Width="15" Height="15"/>
             </Button>
 
             <!-- Refresh size button -->
-        <Button Style="{StaticResource IconButton}"
-                ToolTip="Update space used value"
-                Command="{Binding GetCacheSizeCommand}">
-            <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
-        </Button>
-        </StackPanel>
+            <Button Style="{StaticResource IconButton}"
+                    ToolTip="Update space used value"
+                    Command="{Binding GetCacheSizeCommand}"
+                    Margin="0 0 10 0"
+                    HorizontalAlignment="Right">
+                <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
+            </Button>
+        </Grid>
 
         <!-- Size in bytes -->
         <TextBlock Text="{Binding Size,Converter={conv:SizeUnitConverter}}"
                    FontSize="50"
+                   FontFamily="{StaticResource RobotoRegularFont}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.Row="1"/>
@@ -79,11 +78,11 @@
                    />
 
         <!-- Clear button -->
-        <Button Content="Clear"
+        <Button Content="CLEAR"
                 Grid.Row="3"
                 Width="100"
                 Margin="0 0 0 20"
-                Style="{StaticResource FlatButtonStyle}"
+                Style="{StaticResource HexagonalButtonStyle}"
                 Command="{Binding ClearCacheCommand}"/>
 
     </Grid>

@@ -84,18 +84,20 @@
                     Margin="15">
             
             <!--Accept button-->
-            <Button Content="Accept"
+            <Button Content="OK"
                     Command="{Binding UpdateFieldCommand}"
                     CommandParameter="{Binding ElementName=nameEditor}"
+                    Style="{StaticResource HexagonalButtonStyle}"
                     Click="Button_Click_1"
                     HorizontalAlignment="Left"
                     Margin="10 0 0 0"
                     Width="100"/>
 
             <!--Cancel button-->
-            <Button Content="Cancel"
+            <Button Content="CANCEL"
                     Click="Button_Click_1"
                     HorizontalAlignment="Right"
+                    Style="{StaticResource LightHexagonalButtonStyle}"
                     Margin="10 0 0 0"
                     Width="100"/>
 
