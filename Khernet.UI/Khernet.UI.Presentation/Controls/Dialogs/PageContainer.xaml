@@ -10,8 +10,10 @@
              Background="Transparent">
     <Grid>
         <Frame Name="OldFrame"
-               depend:DisableFrameHistoryProperty.Value="True"/>
+               depend:DisableFrameHistoryProperty.Value="True"
+               Focusable="False"/>
         <Frame Name="NewFrame"
-               depend:DisableFrameHistoryProperty.Value="True"/>
+               depend:DisableFrameHistoryProperty.Value="True"
+               Focusable="False"/>
     </Grid>
 </UserControl>

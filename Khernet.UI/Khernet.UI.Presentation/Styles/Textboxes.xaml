@@ -4,13 +4,14 @@
                     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
                     xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
 
-    <Style x:Key="EditTextBox" TargetType="TextBox">
+    <Style x:Key="EditTextBox" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
-        <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource OverTextboxBorderBrush}"/>
+        <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource BlueBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource OverTextboxBorderBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
         <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="BorderThickness" Value="0 0 0 2"/>
@@ -21,12 +22,10 @@
 
     <Style x:Key="EditPasswordBox" TargetType="PasswordBox">
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
-        <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource OverTextboxBorderBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource OverTextboxBorderBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
         <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}"/>
-
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="BorderThickness" Value="0 0 0 2"/>

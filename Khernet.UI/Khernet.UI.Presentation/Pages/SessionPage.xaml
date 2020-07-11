@@ -6,8 +6,8 @@
                 x:Class="Khernet.UI.Pages.SessionPage"
                 mc:Ignorable="d" 
                 d:DesignHeight="300" d:DesignWidth="300"
-                x:Name="Login"
-                Focusable="False"
+                x:Name="Session"
+                Focusable="True"
                 Title="SessionPage">
     
     <Grid>
@@ -17,7 +17,6 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    TextAlignment="Center"
-                   FocusVisualStyle="{x:Null}"
                    Style="{StaticResource TextblockStyle}"/>
     </Grid>
 </local:BasePage>

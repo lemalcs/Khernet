@@ -14,54 +14,55 @@
                 Style="{DynamicResource MetroPage}"
                 x:Name="Login"
                 Title="SignUpPage">
-    <StackPanel Orientation="Vertical" 
-                Grid.Row="1" 
-                Grid.Column="1"
-                Width="300"
-                Height="256"
+    
+    <StackPanel Orientation="Vertical"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
+                Width="280"
                 IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
 
-        <TextBlock Text="Create an account" Style="{StaticResource TitleText}"/>
+        <!-- Title -->
+        <TextBlock Text="Create an account" 
+                   Style="{StaticResource TitleText}"
+                   Margin="0 0 0 15"/>
 
         <TextBlock Text="Username" 
-                   Width="220"
-                   Style="{StaticResource TextblockStyle}"/>
+                   Style="{StaticResource TextblockHeader}"
+                   Margin="0 15 0 5"/>
 
         <!--Username textbox-->
-        <TextBox Height="28" 
-                 Width="220" 
+        <TextBox Height="28"
                  Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
                  Style="{StaticResource EditTextBox}"
                  depend:IsFocusedProperty.Value="True"
                  VerticalContentAlignment="Center"/>
 
         <TextBlock Text="Password" 
-                   Width="220"
-                   Style="{StaticResource TextblockStyle}"/>
+                   Style="{StaticResource TextblockHeader}"
+                   Margin="0 15 0 5"/>
 
         <!--Password 1 textbox-->
         <PasswordBox Name="pass1"
-                     Height="28" 
-                     Width="220" 
+                     Height="28"
+                     VerticalContentAlignment="Center"
                      Style="{StaticResource EditPasswordBox}"/>
 
         <TextBlock Text="Confirm password" 
-                   Width="220"
-                   Style="{StaticResource TextblockStyle}"/>
+                   Style="{StaticResource TextblockHeader}"
+                   Margin="0 15 0 5"/>
 
         <!--Password 2 textbox-->
         <PasswordBox Name="pass2"
                      Height="28" 
-                     Width="220" 
+                     VerticalContentAlignment="Center"
                      Style="{StaticResource EditPasswordBox}"/>
 
         <!--Creation account/Login button-->
         <Button x:Name="button" 
-                Content="CREATE" 
-                Width="139"
                 IsDefault="True"
+                Content="CREATE" 
+                Width="120"
+                Margin="15"
                 IsEnabled="{Binding CanLogin}"
                 depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
                 Command="{Binding SignUpCommand}"

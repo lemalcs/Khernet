@@ -9,7 +9,7 @@ namespace Khernet.UI.Controls
     public partial class ModalDialogControl : UserControl
     {
         /// <summary>
-        /// Default Up and down maergin for ContentControl
+        /// Default Up and down margin for ContentControl
         /// </summary>
         double defaultMargin = 20;
 
@@ -110,7 +110,6 @@ namespace Khernet.UI.Controls
             //Set margin to zero for full screen mode
             if (modalModel != null && modalModel.IsFullScreen)
             {
-                currentMargin = 0;
                 Width = double.NaN;
             }
             else

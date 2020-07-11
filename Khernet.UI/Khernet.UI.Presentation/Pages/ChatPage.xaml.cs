@@ -191,7 +191,7 @@ namespace Khernet.UI.Pages
 
                 var flow = converter.ConvertToFlowDocument(markText);
                 flow.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#roboto");
-                flow.FontSize = 12.5;
+                flow.FontSize = (double)App.Current.Resources["RegularFontSize"];
                 rtxt_Tmp.Document = flow;
             }
         }

@@ -80,6 +80,7 @@
         <ucontrols:ModalDialogControl  Grid.ColumnSpan="2"
                                        Grid.RowSpan="2"
                                        HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
                                        Panel.ZIndex="2"
                                        OwnerHeight="{Binding Path=Height,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
                                        Visibility="{Binding ApplicationViewModel.IsModalDialogVisible,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"

@@ -148,23 +148,28 @@
                            Visibility="{Binding CurrentPlayer.State,Converter={conv:MediaStatesToVisibilityConverter},
                                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}},
                                                 TargetNullValue=Collapsed,
-                                                FallbackValue=Collapsed}"/>
+                                                FallbackValue=Collapsed}"
+                           Style="{StaticResource TextblockItemStyle}"/>
 
                 <TextBlock Text=" / "
                            Visibility="{Binding CurrentPlayer.State,Converter={conv:MediaStatesToVisibilityConverter},
                                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}},
                                                 TargetNullValue=Collapsed,
-                                                FallbackValue=Collapsed}"/>
+                                                FallbackValue=Collapsed}"
+                           Style="{StaticResource TextblockItemStyle}"/>
 
                 <!-- Duration of audio -->
-                <TextBlock Text="{Binding Duration, Converter={conv:TimeSpanToStringConverter}}"/>
+                <TextBlock Text="{Binding Duration, Converter={conv:TimeSpanToStringConverter}}"
+                           Style="{StaticResource TextblockItemStyle}"/>
 
                 <!-- Separator -->
                 <TextBlock Text=" | "
-                           Foreground="{StaticResource DarkGrayBrush}"/>
+                           Foreground="{StaticResource DarkGrayBrush}"
+                           Style="{StaticResource TextblockItemStyle}"/>
 
                 <!-- The size of audio file -->
-                <TextBlock Foreground="{StaticResource DarkGrayBrush}">
+                <TextBlock Foreground="{StaticResource DarkGrayBrush}"
+                           Style="{StaticResource TextblockItemStyle}">
                     <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
                     <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
                 </TextBlock>

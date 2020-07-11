@@ -91,6 +91,7 @@
                         Grid.Column="1"
                         Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
                         HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
                         IsMoveToPointEnabled="True"
                         Value="{Binding ElementName=vlcControl,Path=Time,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource SliderStyle1}"
@@ -106,7 +107,7 @@
             </Grid>
 
             <!--Video controls-->
-            <Grid>
+            <Grid Margin="0 0 0 8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -117,9 +118,11 @@
                 <Button Grid.Column="1"
                         Width="35"
                         Height="35"
-                        Style="{DynamicResource ButtonStyle2}"
+                        Style="{StaticResource IconButton}"
                         HorizontalAlignment="Left"
-                        Click="Button_Click">
+                        Background="AliceBlue"
+                        Click="Button_Click"
+                        Cursor="Hand">
                     <iconPacks:PackIconMaterial Kind="{Binding ElementName=vlcControl,Path=State,Converter={conv:MediaStatesToStringConverter}}"
                                                 Width="15"
                                                 Foreground="White"

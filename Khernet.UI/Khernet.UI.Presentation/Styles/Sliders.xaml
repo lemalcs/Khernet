@@ -91,7 +91,7 @@
     <Style x:Key="SliderStyle1" TargetType="{x:Type Slider}">
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="mah:SliderHelper.ThumbFillBrush" Value="{DynamicResource AccentBaseColorBrush}"/>
+        <Setter Property="mah:SliderHelper.ThumbFillBrush" Value="{DynamicResource BlueBrush}"/>
         <Setter Property="mah:SliderHelper.ThumbFillDisabledBrush" Value="{DynamicResource GrayBrush6}"/>
         <Setter Property="mah:SliderHelper.ThumbFillHoverBrush" Value="{DynamicResource GrayBrush1}"/>
         <Setter Property="mah:SliderHelper.ThumbFillPressedBrush" Value="{DynamicResource GrayBrush6}"/>
@@ -99,10 +99,10 @@
         <Setter Property="mah:SliderHelper.TrackFillDisabledBrush" Value="{DynamicResource GrayBrush6}"/>
         <Setter Property="mah:SliderHelper.TrackFillHoverBrush" Value="{DynamicResource GrayBrush2}"/>
         <Setter Property="mah:SliderHelper.TrackFillPressedBrush" Value="{DynamicResource GrayBrush3}"/>
-        <Setter Property="mah:SliderHelper.TrackValueFillBrush" Value="{DynamicResource AccentBaseColorBrush}"/>
+        <Setter Property="mah:SliderHelper.TrackValueFillBrush" Value="{DynamicResource BlueBrush}"/>
         <Setter Property="mah:SliderHelper.TrackValueFillDisabledBrush" Value="{DynamicResource GrayBrush6}"/>
-        <Setter Property="mah:SliderHelper.TrackValueFillHoverBrush" Value="{DynamicResource AccentBaseColorBrush}"/>
-        <Setter Property="mah:SliderHelper.TrackValueFillPressedBrush" Value="{DynamicResource AccentBaseColorBrush}"/>
+        <Setter Property="mah:SliderHelper.TrackValueFillHoverBrush" Value="{DynamicResource BlueBrush}"/>
+        <Setter Property="mah:SliderHelper.TrackValueFillPressedBrush" Value="{DynamicResource BlueBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource GrayBrush2}"/>
         <Setter Property="IsMoveToPointEnabled" Value="True"/>
         <Setter Property="Maximum" Value="100"/>

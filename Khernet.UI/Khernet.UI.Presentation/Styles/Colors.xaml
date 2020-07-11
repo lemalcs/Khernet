@@ -16,7 +16,8 @@
 
     <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGrayColor}"/>
 
-    <Color x:Key="BlueColor">#386cbb</Color>
+    <!--<Color x:Key="BlueColor">#386cbb</Color>-->
+    <Color x:Key="BlueColor">#4A86E8</Color>
     <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
 
     <Color x:Key="LighterBlueColor">#407CD6</Color>

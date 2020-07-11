@@ -32,8 +32,7 @@
                 </Grid.RowDefinitions>
 
                 <!--User name-->
-                <Border 
-                        Grid.Row="0"
+                <Border Grid.Row="0"
                         Background="{StaticResource LightBrush}"
                         BorderThickness="0 0 0 1"
                         BorderBrush="{StaticResource TextBoxBackgroundBrush}">
@@ -53,10 +52,10 @@
                                 >
                             <Border.Background>
                                 <ImageBrush Stretch="{Binding User.Avatar,Converter={conv:NullToStretchImageConverter}}"
-                                                ImageSource="{Binding User.Avatar, 
-                                                                Converter={conv:BytesToImageConverter}, 
-                                                                FallbackValue={StaticResource DefaultAvatar},
-                                                                TargetNullValue={StaticResource DefaultAvatar}}"/>
+                                            ImageSource="{Binding User.Avatar, 
+                                                            Converter={conv:BytesToImageConverter}, 
+                                                            FallbackValue={StaticResource DefaultAvatar},
+                                                            TargetNullValue={StaticResource DefaultAvatar}}"/>
                             </Border.Background>
 
                             <Border.InputBindings>
@@ -64,16 +63,15 @@
                             </Border.InputBindings>
                         </Border>
                         <StackPanel Grid.Column="1" 
-                                        Orientation="Vertical"
-                                        VerticalAlignment="Center">
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center">
+                            
                             <!-- User name-->
-
                             <RichTextBox Grid.Column="0"
                                          x:Name="rtxt"
-                                         Height="22"
-                                             BorderThickness="0"
-                                             IsReadOnly="True"
-                                             IsReadOnlyCaretVisible="True"
+                                         BorderThickness="0"
+                                         IsReadOnly="True"
+                                         IsReadOnlyCaretVisible="True"
                                          depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"/>
 
                             <!--State-->
@@ -104,13 +102,15 @@
 
                         <StackPanel Orientation="Vertical">
 
+                            <!-- Full name -->
                             <TextBlock Text="Name"
-                                           Style="{StaticResource TextblockHeader}"/>
+                                       Style="{StaticResource TextblockHeader}"/>
+                            
                             <RichTextBox Grid.Column="0"
-                                         Height="22"
-                                             BorderThickness="0"
-                                             IsReadOnly="True"
-                                             IsReadOnlyCaretVisible="True"
+                                         Height="25"
+                                         BorderThickness="0"
+                                         IsReadOnly="True"
+                                         IsReadOnlyCaretVisible="True"
                                          depend:DocumentSourceProperty.Value="{Binding User.FullName}"/>
 
                             <!-- Group-->
@@ -123,7 +123,8 @@
 
                             <!-- Slogan-->
                             <TextBlock Text="Slogan"
-                                           Style="{StaticResource TextblockHeader}"/>
+                                       Style="{StaticResource TextblockHeader}"/>
+                            
                             <ucontrols:SelectableTextBlock Text="{Binding User.Slogan}"
                                                            TextWrapping="Wrap"
                                                            Margin="0 0 0 10"
@@ -131,11 +132,12 @@
 
                             <!-- User name-->
                             <TextBlock Text="Username"
-                                           Style="{StaticResource TextblockHeader}"/>
+                                       Style="{StaticResource TextblockHeader}"/>
 
                             <ucontrols:SelectableTextBlock Text="{Binding User.Username}"
                                                            VerticalAlignment="Center"
-                                                           Style="{StaticResource TextblockItemStyle}"/>
+                                                           Style="{StaticResource TextblockItemStyle}"
+                                                           Margin="0 0 0 10"/>
 
                             <!-- Token-->
                             <TextBlock Text="Token"

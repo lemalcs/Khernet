@@ -108,7 +108,7 @@ namespace Khernet.UI.Pages
 
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = "Some configurations could not be made. Please restart de application as administrator.",
+                    Message = "Some configurations could not be made. Please restart the application as administrator.",
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",

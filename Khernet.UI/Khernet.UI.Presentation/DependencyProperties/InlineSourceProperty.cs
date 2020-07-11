@@ -110,6 +110,7 @@ namespace Khernet.UI.DependencyProperties
                         t.Height = 20;
 
                         InlineUIContainer newElement = new InlineUIContainer(t);
+                        newElement.BaselineAlignment = BaselineAlignment.Center;
                         textBlock.Inlines.Add(newElement);
                         symbolsCount++;
                     }

@@ -105,7 +105,7 @@
                                                          Style="{StaticResource EditRichTextBox}"
                                                          depend:FormatedDocumentSourceProperty.Value="{Binding User.SourceFullName,Converter={conv:HtmlByteToDocumentConverter}}"
                                                          depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"
-                                                         Height="28"/>
+                                                         Height="25"/>
 
                             <!--Emoji button-->
 
@@ -136,23 +136,25 @@
                         <!-- Group-->
                         <TextBlock Text="Group"
                                    Style="{StaticResource TextblockHeader}"
-                                   Margin="0 10 0 0"/>
+                                   Margin="0 5 0 5"/>
                         
                         <TextBox Text="{Binding User.Group,UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"
-                                 Margin="0 10 0 10"
-                                 MaxLength="50"/>
+                                 MaxLength="50"
+                                 Height="28"
+                                 VerticalContentAlignment="Center"/>
 
                         <!-- Slogan-->
                         <TextBlock Text="Slogan"
                                    Style="{StaticResource TextblockHeader}"
-                                   Margin="0 10 0 0"/>
+                                   Margin="0 15 0 5"/>
 
                         <TextBox Text="{Binding User.Slogan,UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"
                                  TextWrapping="Wrap"
                                  MaxLength="106"
-                                 Margin="0 10 0 10"/>
+                                 MinHeight="28"
+                                 VerticalContentAlignment="Center"/>
 
                         <!--Accoutn section-->
                         <TextBlock Text="Account"
@@ -166,7 +168,8 @@
 
                         <TextBox Text="{Binding User.Username,UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource EditTextBox}"
-                                 Margin="0 10 0 10"/>
+                                 Margin="0 10 0 10"
+                                 Height="28"/>
                         
                         <!-- Token-->
                         <TextBlock Text="Token"

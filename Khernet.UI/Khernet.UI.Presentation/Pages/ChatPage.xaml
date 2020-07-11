@@ -19,10 +19,6 @@
                 FocusManager.FocusedElement="{Binding ElementName=rtxt}"
                 FocusManager.IsFocusScope="True">
 
-    <local:BasePage.Resources>
-      
-    </local:BasePage.Resources>
-
     <Border Background="{StaticResource LightBrush}">
         <Grid Name="mainChatContainer"
               Margin="0 0 0 10">
@@ -94,8 +90,7 @@
                             Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                             Background="Transparent" 
                             Style="{DynamicResource IconButton}"
-                            Command="{Binding ViewProfileCommand}"
-                            >
+                            Command="{Binding ViewProfileCommand}">
                         <iconPacks:PackIconMaterial Kind="DotsVertical"/>
                     </Button>
 
@@ -167,7 +162,7 @@
                 <!-- Typing message indicator -->
                 <TextBlock Grid.Row="1" 
                            Background="Transparent"
-                           Padding="10 0 0 0"
+                           Margin="10 0 0 0"
                            Style="{StaticResource TextblockItemStyle}">
                     <TextBlock.Text>
                         <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
@@ -236,8 +231,7 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
                           ResizeBehavior="PreviousAndNext"
-                          Background="{StaticResource OpaqueGrayColorBrush}"
-                          />
+                          Background="{StaticResource OpaqueGrayColorBrush}"/>
 
             <!-- Message container-->
             <Border Grid.Row="3"
@@ -245,8 +239,7 @@
                     Padding="4"
                     MinHeight="50"
                     BorderBrush="{StaticResource TextBoxBackgroundBrush}"
-                    Background="{StaticResource LightBrush}"
-                    >
+                    Background="{StaticResource LightBrush}">
                 <Grid>
 
                     <Grid.ColumnDefinitions>
@@ -333,7 +326,7 @@
                             <ucontrols:MarkedRichTextBox Grid.Row="2"
                                                          x:Name="rtxt_Tmp"
                                                          Visibility="{Binding Path=IsChecked,ElementName=tgBtn_Markdown,Converter={conv:BoolToVisibilityGoneConverter}}"
-                                                         Style="{DynamicResource RichTextBoxStyle1}"
+                                                         Style="{DynamicResource MarkedRichTextBoxStyle}"
                                                          BorderThickness="0"
                                                          IsReadOnly="True"
                                                          VerticalScrollBarVisibility="Auto"/>

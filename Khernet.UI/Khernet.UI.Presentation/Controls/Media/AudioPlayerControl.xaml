@@ -61,8 +61,9 @@
 
                 <!--Audio track name-->
                 <TextBlock Text="{Binding FileName}"
-                       Grid.Row="0"
-                       Grid.Column="0"/>
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Style="{StaticResource TextblockItemStyle}"/>
 
                 <!-- Timeline slider-->
                 <Slider Name="timelineSlider" 
@@ -71,6 +72,7 @@
                         Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
                         HorizontalAlignment="Stretch"
                         IsMoveToPointEnabled="True"
+                        VerticalAlignment="Center"
                         Value="{Binding Path=PlayerViewModel.Player.Time,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
                                         Mode=TwoWay,
@@ -83,7 +85,8 @@
                 <!-- Current time/Length of video-->
                 <TextBlock Grid.Column="2"
                            TextWrapping="Wrap"
-                           Margin="4 0 4 0">
+                           Margin="4 0 4 0"
+                           Style="{StaticResource TextblockItemStyle}">
                     <Run Text="{Binding Path=PlayerViewModel.Player.Time,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
                                         Converter={conv:NumberToTimeStringConverter}}"/>
