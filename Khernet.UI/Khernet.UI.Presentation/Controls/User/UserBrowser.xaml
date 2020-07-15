@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:Khernet.UI.Controls"
              xmlns:app="clr-namespace:Khernet.UI"
              mc:Ignorable="d" 
+             UseLayoutRounding="True"
              d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Template>
@@ -37,7 +38,8 @@
                             <Button ToolTip="Settings" 
                                     Grid.Column="0"
                                     Command="{Binding ApplicationViewModel.ViewSettingsCommand,Source={x:Static app:ViewModelLocator.Instance}}"
-                                    Style="{DynamicResource GlowButtonStyle}">
+                                    Style="{DynamicResource GlowButtonStyle}"
+                                    Foreground="{StaticResource OverTextboxBorderBrush}">
                                 <iconPacks:PackIconMaterial Width="15" Kind="Settings" />
                             </Button>
 

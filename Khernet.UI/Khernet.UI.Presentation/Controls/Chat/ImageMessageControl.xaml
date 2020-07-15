@@ -69,9 +69,9 @@
 
             <!-- Image message -->
             <Image Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
-                   MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                   MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                   depend:ClipFromBorderProperty.Value="True"
+                   MaxHeight="{Binding ActualWidth,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+                                Converter={conv:ImageHeightConverter}}"
                    Stretch="Uniform"
                    StretchDirection="DownOnly"
                    ContextMenu="{StaticResource fileMessageContextMenu}"/>

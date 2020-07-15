@@ -107,7 +107,7 @@ namespace Khernet.UI.DependencyProperties
                         ImageSource img = ((Image)ui.Child).Source.Clone();
                         Image t = new Image();
                         t.Source = img;
-                        t.Height = 20;
+                        t.Height = 24;
 
                         InlineUIContainer newElement = new InlineUIContainer(t);
                         newElement.BaselineAlignment = BaselineAlignment.Center;

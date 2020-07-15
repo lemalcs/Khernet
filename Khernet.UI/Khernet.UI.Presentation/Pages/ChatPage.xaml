@@ -15,6 +15,7 @@
                 d:DesignHeight="320" d:DesignWidth="300"
                 Title="ChatPage"
                 Drop="ChatMessageListControl_Drop"
+                UseLayoutRounding="True"
                 d:DataContext="{d:DesignInstance vm:ChatMessageListDesignModel,IsDesignTimeCreatable=True}"
                 FocusManager.FocusedElement="{Binding ElementName=rtxt}"
                 FocusManager.IsFocusScope="True">

@@ -4,6 +4,10 @@
                     xmlns:converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro"
                     xmlns:ucontrols="clr-namespace:Khernet.UI.Controls">
 
+    <Style  x:Key="{x:Type RichTextBox}" TargetType="RichTextBox">
+        <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}" />
+    </Style>
+    
     <Style x:Key="EditTextBox" TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource BlueBrush}"/>
@@ -82,7 +86,6 @@
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}"/>
-        <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}"/>
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{DynamicResource TextBoxFocusBorderBrush}"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}"/>
         <Setter Property="Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding (SpellCheck.IsEnabled), RelativeSource={RelativeSource Self}}"/>

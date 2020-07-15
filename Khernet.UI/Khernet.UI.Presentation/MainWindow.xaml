@@ -23,6 +23,7 @@
                       Closing="MainWin_Closing"
                       MinHeight="460"
                       MinWidth="700"
+                      UseLayoutRounding="True"
                       TitleAlignment="Left"
                       PreviewKeyDown="MainWin_PreviewKeyDown">
 

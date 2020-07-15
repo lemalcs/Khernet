@@ -19,7 +19,6 @@
     <!--Chat bubble container-->
     <Grid HorizontalAlignment="Left">
 
-
         <!--Animation message container-->
         <Border CornerRadius="5"
                 Cursor="{Binding IsFileLoaded,Converter={conv:BoolToCursorConverter}}">
@@ -29,13 +28,21 @@
             </Border.InputBindings>
 
             <Grid>
+                <Grid.Resources>
+                    <system:Double x:Key="thumbNailHeight" >7</system:Double>
+                </Grid.Resources>
 
                 <!--Animation preview image-->
                 <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
-                       MaxHeight="{Binding Height}"
-                       MaxWidth="{Binding Width}"
                        Stretch="Uniform"
-                       StretchDirection="DownOnly"/>
+                       StretchDirection="DownOnly">
+                    <Image.MaxHeight>
+                        <MultiBinding Converter="{conv:ImageHeightMultiConverter}">
+                            <Binding Path="ActualHeight" ElementName="mediaElement"/>
+                            <Binding Path="Height"/>
+                        </MultiBinding>
+                    </Image.MaxHeight>
+                </Image>
 
                 <!--Background circle for progress indicators-->
                 <Border Width="50"
@@ -83,14 +90,15 @@
 
                 <!--Animation-->
                 <MediaElement Name="mediaElement"
-                                  Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter},FallbackValue=Hidden}"
-                                  Source="{Binding FilePath}"
-                                  MaxHeight="{Binding Height}"
-                                  MaxWidth="{Binding Width}"
-                                  Stretch="Uniform"
-                                  StretchDirection="DownOnly"
-                                  depend:EnableVideoLoopProperty.Value="True"
-                                  MediaOpened="MediaElement_MediaOpened"/>
+                              Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter},FallbackValue=Hidden}"
+                              Source="{Binding FilePath}"
+                              MaxHeight="{Binding ActualWidth,
+                                          RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+                                          Converter={conv:ImageHeightConverter}}"
+                              Stretch="Uniform"
+                              StretchDirection="DownOnly"
+                              depend:EnableVideoLoopProperty.Value="True"
+                              MediaOpened="MediaElement_MediaOpened"/>
             </Grid>
         </Border>
     </Grid>

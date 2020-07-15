@@ -64,11 +64,11 @@
 
                 <!--User name initials-->
                 <TextBlock Text="{Binding Initials}"
-                           Margin="0,0,0,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="{StaticResource LightBrush}"
-                           FontSize="{StaticResource LargeFontSize}" />
+                           FontSize="{StaticResource LargeFontSize}"
+                           FontFamily="{StaticResource RobotoRegularFont}"/>
 
             </Border>
 
