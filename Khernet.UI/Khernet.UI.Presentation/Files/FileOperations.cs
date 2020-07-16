@@ -116,6 +116,8 @@ namespace Khernet.UI.Files
             }
             catch (Exception error)
             {
+                LogDumper.WriteLog(error);
+
                 state = ChatMessageState.Error;
 
                 //Notify about an error to the UI thread
@@ -226,6 +228,8 @@ namespace Khernet.UI.Files
             }
             catch (Exception error)
             {
+                LogDumper.WriteLog(error);
+
                 state = ChatMessageState.Error;
 
                 //Notify about an error to the UI thread
@@ -347,6 +351,8 @@ namespace Khernet.UI.Files
             }
             catch (Exception error)
             {
+                LogDumper.WriteLog(error);
+
                 state = ChatMessageState.Error;
 
                 //Notify about an error to the UI thread
@@ -436,6 +442,8 @@ namespace Khernet.UI.Files
             }
             catch (Exception error)
             {
+                LogDumper.WriteLog(error);
+
                 state = ChatMessageState.Error;
 
                 //Notify about an error to the UI thread
@@ -517,6 +525,8 @@ namespace Khernet.UI.Files
             }
             catch (Exception error)
             {
+                LogDumper.WriteLog(error);
+
                 state = ChatMessageState.Error;
 
                 //Notify about an error to the UI thread

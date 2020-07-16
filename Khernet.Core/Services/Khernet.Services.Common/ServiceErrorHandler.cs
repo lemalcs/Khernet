@@ -1,6 +1,5 @@
 ﻿using Khernet.Core.Utility;
 using System;
-//using System.Web.Hosting;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
@@ -15,12 +14,6 @@ namespace Khernet.Services.Common
         {
             LogDumper.WriteLog(error);
             GatFaultExceptionDetail(error);
-
-            if (error.InnerException != null)
-            {
-                LogDumper.WriteLog(error.InnerException);
-                GatFaultExceptionDetail(error.InnerException);
-            }
 
             return true;
         }

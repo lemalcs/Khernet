@@ -76,10 +76,11 @@ namespace Khernet.Core.Host
                 //Using of TCP binding
                 NetTcpBinding binding = new NetTcpBinding();
                 binding.TransferMode = TransferMode.Buffered;
-                binding.MaxReceivedMessageSize = int.MaxValue;
                 binding.CloseTimeout = TimeSpan.MaxValue;
                 binding.ReceiveTimeout = TimeSpan.MaxValue;
                 binding.SendTimeout = TimeSpan.MaxValue;
+                binding.MaxReceivedMessageSize = int.MaxValue;
+                binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
                 binding.Security.Mode = SecurityMode.Message;
                 binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
 
@@ -99,6 +100,10 @@ namespace Khernet.Core.Host
                 ServiceDiscoveryBehavior announceBehavior = new ServiceDiscoveryBehavior();
                 announceBehavior.AnnouncementEndpoints.Add(new UdpAnnouncementEndpoint());
                 commHost.Description.Behaviors.Add(announceBehavior);
+
+#if DEBUG
+                SetupFaultExceptions(commHost.Description.Behaviors, true);
+#endif
 
                 //Add discovery support over UDP protocol to find other services similar to CommunicatorService
                 commHost.AddServiceEndpoint(new UdpDiscoveryEndpoint());
@@ -188,15 +193,9 @@ namespace Khernet.Core.Host
                 //Add discovery support over UDP protocol to find other services similar to CommunicatorService
                 notifierHost.AddServiceEndpoint(new UdpDiscoveryEndpoint());
 
-                KeyedByTypeCollection<IServiceBehavior> servB = notifierHost.Description.Behaviors;
-                foreach (IServiceBehavior beh in servB)
-                {
-                    if (beh is ServiceDebugBehavior)
-                    {
-                        ((ServiceDebugBehavior)beh).IncludeExceptionDetailInFaults = true;
-                    }
-
-                }
+#if DEBUG
+                SetupFaultExceptions(notifierHost.Description.Behaviors,true);
+#endif
 
                 //Set token for this service
                 EndpointDiscoveryBehavior endpointDiscoveryBehavior = new EndpointDiscoveryBehavior();
@@ -220,6 +219,22 @@ namespace Khernet.Core.Host
             }
         }
 
+        /// <summary>
+        /// Enable or disable the inclusion of exceptions in service description.
+        /// </summary>
+        /// <param name="serviceBehaviors">The service descriptions list.</param>
+        /// <param name="enableIncludeExceptions">Indicates whether exceptions must be included.</param>
+        private void SetupFaultExceptions(KeyedByTypeCollection<IServiceBehavior> serviceBehaviors,bool enableIncludeExceptions)
+        {
+            foreach (IServiceBehavior behavior in serviceBehaviors)
+            {
+                if (behavior is ServiceDebugBehavior)
+                {
+                    ((ServiceDebugBehavior)behavior).IncludeExceptionDetailInFaults = enableIncludeExceptions;
+                }
+            }
+        }
+
         private void StartEventListener()
         {
             try
@@ -240,6 +255,10 @@ namespace Khernet.Core.Host
                 //Endpoint to send notifications to suscribers
                 Uri publisherAddress = new Uri(DiscoveryHelper.AvailableIPCBaseAddress.ToString());
                 eventHost.AddServiceEndpoint(typeof(IEventListenerCallBack), binding, publisherAddress);
+
+#if DEBUG
+                SetupFaultExceptions(eventHost.Description.Behaviors, true);
+#endif
 
                 eventHost.BeginOpen(
                     (result) =>

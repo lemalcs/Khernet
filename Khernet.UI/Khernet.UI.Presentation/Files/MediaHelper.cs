@@ -143,19 +143,47 @@ namespace Khernet.UI.Media
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            processInfo.RedirectStandardOutput = true;
+            processInfo.RedirectStandardError = true;
 
-            using (var process = Process.Start(processInfo))
+            Process process = null;
+            DataReceivedEventHandler receivedEventHandler = null;
+            DataReceivedEventHandler errorReceivedEventHandler = null;
+
+            try
             {
-                if (process == null)
+                using (process = new Process())
                 {
-                    throw new InvalidOperationException("Ffmpeg.exe not found");
+                    process.StartInfo = processInfo;
+                   
+                    string errorDetail = string.Empty;
+                    receivedEventHandler = new DataReceivedEventHandler((s, e) => { errorDetail = string.Concat(e.Data); });
+                    errorReceivedEventHandler = new DataReceivedEventHandler((s, e) => { errorDetail = string.Concat(e.Data); });
+
+                    process.OutputDataReceived += receivedEventHandler;
+                    process.ErrorDataReceived += errorReceivedEventHandler;
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+
+                    if (process.ExitCode != 0)
+                    {
+                        throw new Exception($"Error while processing file: {errorDetail}");
+                    }
                 }
+            }
+            catch (Exception)
+            {
 
-                process.WaitForExit();
-
-                if (process.ExitCode != 0)
-                {
-                    throw new Exception("Error while processing file");
+                throw;
+            }
+            finally
+            {
+                if (process != null) 
+                { 
+                    process.OutputDataReceived -= receivedEventHandler;
+                    process.ErrorDataReceived -= errorReceivedEventHandler;
                 }
             }
         }

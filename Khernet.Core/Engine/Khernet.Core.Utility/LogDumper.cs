@@ -36,6 +36,8 @@ namespace Khernet.Core.Utility
         {
 #if DEBUG
             logger.Error(exception, sourceMethod);
+            if (exception != null && exception.InnerException != null)
+                logger.Error(exception.InnerException, sourceMethod);
 #endif
         }
 
@@ -43,6 +45,8 @@ namespace Khernet.Core.Utility
         {
 #if DEBUG
             logger.Error(exception);
+            if (exception != null && exception.InnerException != null)
+                logger.Error(exception.InnerException);
 #endif
         }
         public static void WriteInformation(string text)

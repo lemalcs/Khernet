@@ -46,6 +46,8 @@ namespace Khernet.Services.Client
 
                     NetTcpBinding tcpBind = new NetTcpBinding();
                     tcpBind.TransferMode = TransferMode.Buffered;
+                    tcpBind.CloseTimeout = TimeSpan.MaxValue;
+                    tcpBind.ReceiveTimeout = TimeSpan.MaxValue;
                     tcpBind.SendTimeout = TimeSpan.MaxValue;
                     tcpBind.MaxReceivedMessageSize = int.MaxValue;
                     tcpBind.ReaderQuotas.MaxStringContentLength = int.MaxValue;
@@ -60,6 +62,8 @@ namespace Khernet.Services.Client
                     binding.TransferMode = TransferMode.Buffered;
                     binding.MaxReceivedMessageSize = int.MaxValue;
                     binding.CloseTimeout = TimeSpan.MaxValue;
+                    binding.ReceiveTimeout = TimeSpan.MaxValue;
+                    binding.SendTimeout = TimeSpan.MaxValue;
                     binding.Security.Mode = SecurityMode.Message;
                     binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
 

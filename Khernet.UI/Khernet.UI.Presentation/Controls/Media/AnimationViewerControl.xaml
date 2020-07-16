@@ -46,10 +46,10 @@
                             <BeginStoryboard>
                                 <Storyboard SlipBehavior="Grow">
                                     <MediaTimeline Source="{Binding FilePath}"
-                                                           Storyboard.TargetName="mediaElement"
-                                                           BeginTime="0:0:0"
-                                                           FillBehavior="HoldEnd"
-                                                           RepeatBehavior="Forever"/>
+                                                   Storyboard.TargetName="mediaElement"
+                                                   BeginTime="0:0:0"
+                                                   FillBehavior="HoldEnd"
+                                                   RepeatBehavior="Forever"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
@@ -85,10 +85,21 @@
                                                  Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
                 <!--Animation-->
-                <MediaElement Name="mediaElement"
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                              VerticalScrollBarVisibility="Auto">
+
+                    <!--Input binding to close this viewer-->
+                    <ScrollViewer.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding CloseCommand, 
+                                                                                RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}"/>
+                    </ScrollViewer.InputBindings>
+
+                    <MediaElement Name="mediaElement"
                               Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter},FallbackValue=Hidden}"
                               Width="{Binding Width}"
                               Height="{Binding Height}"/>
+                    
+                </ScrollViewer>
             </Grid>
         </Border>
     </Grid>
