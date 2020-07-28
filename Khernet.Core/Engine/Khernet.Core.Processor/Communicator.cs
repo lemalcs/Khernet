@@ -26,7 +26,7 @@ namespace Khernet.Core.Processor
             commData.ClearPartialMessages();
         }
 
-        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, string uid = null)
+        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, long timeId, string uid = null)
         {
             CommunicatorData commData = new CommunicatorData();
 
@@ -39,6 +39,7 @@ namespace Khernet.Core.Processor
                 DateTime.Now, message,
                 (int)format,
                 uid,
+                timeId,
                 idReplyMessage != 0 ? (int?)idReplyMessage : null);
 
             try
@@ -79,6 +80,7 @@ namespace Khernet.Core.Processor
                     ConversationMessage conversation = new ConversationMessage();
 
                     conversation.UID = internalConversation.UID;
+                    conversation.TimeId = internalConversation.TimeId;
                     conversation.SenderToken = internalConversation.SenderToken;
                     conversation.ReceiptToken = internalConversation.ReceiptToken;
                     conversation.Sequential = idChunk;
@@ -192,6 +194,7 @@ namespace Khernet.Core.Processor
                     buffer,
                     (int)message.Type,
                     message.UID,
+                    message.TimeId,
                     idReplyMessage);
 
                 commData.DeletePartialTextMessage(message.UID);
@@ -237,6 +240,17 @@ namespace Khernet.Core.Processor
                 return commData.GetIdMessage(uid);
             }
             return null;
+        }
+
+        public long GetTimeIdMessage(int idMessage)
+        {
+            CommunicatorData commData = new CommunicatorData();
+
+            if (idMessage>0)
+            {
+                return commData.GettimeIdMessage(idMessage);
+            }
+            return 0;
         }
 
         public List<int> GetPendingMessageOfUser(string receiptToken, int quantity)
@@ -605,6 +619,8 @@ namespace Khernet.Core.Processor
                         Format = (ContentType)Convert.ToInt32(messagedata.Rows[i][1]),
                         RegisterDate = Convert.ToDateTime(messagedata.Rows[i][2]),
                         State = Convert.ToInt32(messagedata.Rows[i][3]) == 1 ? MessageState.Processed : MessageState.Pending,
+                        UID = messagedata.Rows[i][4].ToString(),
+                        TimeId=Convert.ToInt64(messagedata.Rows[i][5]),
                     };
 
                     messageList.Add(message);
@@ -614,11 +630,35 @@ namespace Khernet.Core.Processor
             return null;
         }
 
-        public List<MessageItem> GetLastMessages(string senderToken, bool forward, int lastIdMessage, int quantity)
+        public MessageItem GetMessageHeader(int idMessage)
         {
             CommunicatorData commData = new CommunicatorData();
 
-            DataTable messagedata = commData.GetLastMessages(senderToken, forward, lastIdMessage, quantity);
+            DataTable messagedata = commData.GetMessageHeader(idMessage);
+
+            if (messagedata.Rows.Count > 0)
+            {
+                MessageItem message = new MessageItem
+                {
+                    Id = Convert.ToInt32(messagedata.Rows[0][0]),
+                    IdSenderPeer=Convert.ToInt32(messagedata.Rows[0][1]),
+                    Format = (ContentType)Convert.ToInt32(messagedata.Rows[0][2]),
+                    RegisterDate = Convert.ToDateTime(messagedata.Rows[0][3]),
+                    State = Convert.ToInt32(messagedata.Rows[0][4]) == 1 ? MessageState.Processed : MessageState.Pending,
+                    UID = messagedata.Rows[0][5].ToString(),
+                    TimeId = Convert.ToInt64(messagedata.Rows[0][6]),
+                };
+
+                return message;
+            }
+            return null;
+        }
+
+        public List<MessageItem> GetLastMessages(string senderToken, bool forward, long lastTimeIdMessage, int quantity)
+        {
+            CommunicatorData commData = new CommunicatorData();
+
+            DataTable messagedata = commData.GetLastMessages(senderToken, forward, lastTimeIdMessage, quantity);
 
             if (messagedata.Rows.Count > 0)
             {
@@ -635,6 +675,7 @@ namespace Khernet.Core.Processor
                         State = Convert.ToInt32(messagedata.Rows[i][4]) == 1 ? MessageState.Processed : MessageState.Pending,
                         IsRead = Convert.ToBoolean(messagedata.Rows[i][5]),
                         UID = messagedata.Rows[i][6] != DBNull.Value ? messagedata.Rows[i][6].ToString() : string.Empty,
+                        TimeId = Convert.ToInt64(messagedata.Rows[i][7])
                     };
 
                     messageList.Add(message);
@@ -668,19 +709,19 @@ namespace Khernet.Core.Processor
             message.SenderToken = messageData.Rows[0][0].ToString();
             message.ReceiptToken = messageData.Rows[0][1].ToString();
             message.RawContent = messageData.Rows[0][2] as byte[];
-            message.SendDate = Convert.ToDateTime(messageData.Rows[0][5]);
+            message.TimeId = Convert.ToInt64(messageData.Rows[0][5]);
+            message.SendDate = Convert.ToDateTime(messageData.Rows[0][6]);
             message.Id = idMessage;
             message.UID = messageData.Rows[0][4].ToString();
 
-            if (messageData.Rows[0][6] != null && messageData.Rows[0][6] != DBNull.Value)
+            if (messageData.Rows[0][7] != null && messageData.Rows[0][7] != DBNull.Value)
             {
-                message.IdReply = Convert.ToInt32(messageData.Rows[0][6]);
+                message.IdReply = Convert.ToInt32(messageData.Rows[0][7]);
                 message.UIDReply = commData.GetUIDMessage(message.IdReply);
             }
-
             message.RawContent = messageData.Rows[0][2] as byte[];
             message.Type = (ContentType)Convert.ToInt32(messageData.Rows[0][3]);
-            message.State = (MessageState)Convert.ToInt32(messageData.Rows[0][7]);
+            message.State = (MessageState)Convert.ToInt32(messageData.Rows[0][8]);
 
             return message;
         }

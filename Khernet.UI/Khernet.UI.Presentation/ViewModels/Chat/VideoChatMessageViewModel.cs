@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
@@ -102,9 +103,10 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
         }
 
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -131,7 +133,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -147,12 +149,12 @@ namespace Khernet.UI
         /// <summary>
         /// Replies a received or sent message
         /// </summary>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
 
-        private bool VerifyLoadedVideo(object obj)
+        private bool VerifyLoadedVideo()
         {
             return IsFileLoaded;
         }
@@ -161,36 +163,33 @@ namespace Khernet.UI
         /// Process video from file
         /// </summary>
         /// <param name="fileName">The path of video file</param>
-        public void ProcessVideo(string fileName)
+        public override void Send(string filePath)
         {
             //Get file name with extension
-            FileName = Path.GetFileName(fileName);
+            FileName = Path.GetFileName(filePath);
 
             Media = new MediaRequest
             {
-                FileName = fileName,
+                FileName = filePath,
                 FileType = MessageType.Video,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
             IsLoading = true;
         }
 
-        public void ProcessVideo(int idMessage)
+        public override void Load(MessageItem messageItem)
         {
-            Id = idMessage;
+            base.Load(messageItem);
 
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Video,
-                OperationRequest = MessageOperation.GetMetadata
+                OperationRequest = MessageOperation.GetMetadata,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -201,7 +200,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public async void OpenVideo(object parameter)
+        public async void OpenVideo()
         {
             FileOperations operations = new FileOperations();
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
@@ -219,18 +218,18 @@ namespace Khernet.UI
             {
                 //Download the actual file to cache
                 IsFileLoaded = false;
-                DownloadFile(Id);
+                DownloadFile();
             }
         }
 
-        private void DownloadFile(int idMessage)
+        private void DownloadFile()
         {
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Video,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.Download,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -250,7 +249,7 @@ namespace Khernet.UI
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
-            chatMessage.ResendId = Id;
+            chatMessage.ResendFileId = Id;
             chatMessage.Thumbnail = Thumbnail;
             chatMessage.VideoHeight = VideoHeight;
             chatMessage.VideoWidth = VideoWidth;
@@ -266,14 +265,10 @@ namespace Khernet.UI
         {
             Media = new MediaRequest
             {
-                Id = ResendId,
                 FileName = FilePath,
                 FileType = MessageType.Video,
                 OperationRequest = MessageOperation.Resend,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -338,6 +333,7 @@ namespace Khernet.UI
                 FileName = Path.GetFileName(info.OriginalFileName);
 
                 UID = info.UID;
+                TimeId = info.TimeId;
 
                 //get video size in bytes
                 FileSize = info.Size;

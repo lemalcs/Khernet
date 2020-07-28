@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
@@ -64,14 +65,15 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
         }
 
-        private bool VerifyLoadedAudio(object obj)
+        private bool VerifyLoadedAudio()
         {
             return IsMessageLoaded && (State == ChatMessageState.Pending || State == ChatMessageState.Processed);
         }
 
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -98,7 +100,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -114,34 +116,31 @@ namespace Khernet.UI
         /// <summary>
         /// Replies a message that was sent
         /// </summary>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
 
-        private void CloseMedia(object obj)
+        private void CloseMedia()
         {
             IoCContainer.Get<ApplicationViewModel>().IsPlayerVisible = false;
         }
 
-        public void ProcessAudio(string fileName)
+        public override void Send(string filePath)
         {
             //Get audio file name
-            FileName = Path.GetFileName(fileName);
+            FileName = Path.GetFileName(filePath);
 
             //Get full path of audio file
-            FilePath = fileName;
+            FilePath = filePath;
 
             //Request upload an audio file
             Media = new MediaRequest
             {
-                FileName = fileName,
+                FileName = filePath,
                 OperationRequest = MessageOperation.Upload,
                 FileType = MessageType.Audio,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage=this,
             };
 
             //Process request
@@ -150,25 +149,10 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public void ProcessAudio(int idMessage)
-        {
-            //Request to upload and image retrieved from database
-            Media = new MediaRequest
-            {
-                Id = idMessage,
-                FileType = MessageType.Audio,
-                OperationRequest = MessageOperation.GetMetadata
-            };
-
-            IoCContainer.Media.ProcessFile(this);
-
-            IsLoading = true;
-        }
-
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public void OpenAudio(object par)
+        public void OpenAudio()
         {
             FileOperations operations = new FileOperations();
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
@@ -186,7 +170,7 @@ namespace Khernet.UI
             {
                 //Download the actual file to cache
                 IsFileLoaded = false;
-                DownloadFile(Id);
+                DownloadFile();
             }
         }
 
@@ -202,7 +186,7 @@ namespace Khernet.UI
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
-            chatMessage.ResendId = Id;
+            chatMessage.ResendFileId = Id;
             chatMessage.FileSize = FileSize;
 
             return chatMessage;
@@ -213,14 +197,10 @@ namespace Khernet.UI
             //Request upload an audio file
             Media = new MediaRequest
             {
-                Id = ResendId,
                 FileName = FileName,
                 OperationRequest = MessageOperation.Resend,
                 FileType = MessageType.Audio,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage=this,
             };
 
             //Process request
@@ -229,14 +209,14 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        private void DownloadFile(int idMessage)
+        private void DownloadFile()
         {
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Audio,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.Download,
+                ChatMessage=this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -253,6 +233,7 @@ namespace Khernet.UI
                 FileName = info.OriginalFileName;
                 FilePath = info.FilePath;
                 UID = info.UID;
+                TimeId = info.TimeId;
 
                 //Get duration of audio file
                 Duration = info.Duration;
@@ -296,6 +277,23 @@ namespace Khernet.UI
         {
             IsReadingFile = false;
             IsLoading = false;
+        }
+
+        public override void Load(MessageItem messageItem)
+        {
+            base.Load(messageItem);
+
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                FileType = MessageType.Audio,
+                OperationRequest = MessageOperation.GetMetadata,
+                ChatMessage = this,
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
         }
 
         #endregion

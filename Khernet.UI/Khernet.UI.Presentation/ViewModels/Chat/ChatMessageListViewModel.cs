@@ -414,87 +414,43 @@ namespace Khernet.UI
                     continue;
                 }
 
+                FileMessageItemViewModel fileMessage = null;
+
                 switch (FileHelper.GetContentType(f))
                 {
                     case MessageType.Image:
-
-                        var imageMessage = new ImageChatMessageViewModel(this, applicationDialog)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                        };
-
-                        UserContext.AddSentMessage(imageMessage);
-
-                        //Process image from file system
-                        imageMessage.ProcessImage(f);
-
-                        Items.Add(imageMessage);
-
+                        fileMessage = new ImageChatMessageViewModel(this, applicationDialog);
                         break;
+
                     case MessageType.GIF:
-
-                        var animationMessage = new AnimationChatMessageViewModel(this, applicationDialog)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                        };
-
-                        UserContext.AddSentMessage(animationMessage);
-
-                        animationMessage.ProcessAnimation(f);
-
-                        Items.Add(animationMessage);
-
+                        fileMessage = new AnimationChatMessageViewModel(this, applicationDialog);
                         break;
+
                     case MessageType.Video:
-
-                        var videoMessage = new VideoChatMessageViewModel(this, applicationDialog)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                        };
-
-                        UserContext.AddSentMessage(videoMessage);
-
-                        videoMessage.ProcessVideo(f);
-
-                        Items.Add(videoMessage);
+                        fileMessage = new VideoChatMessageViewModel(this, applicationDialog);
                         break;
+
                     case MessageType.Audio:
-
-                        var audioMessage = new AudioChatMessageViewModel(this, applicationDialog)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                        };
-
-                        UserContext.AddSentMessage(audioMessage);
-
-                        audioMessage.ProcessAudio(f);
-
-                        Items.Add(audioMessage);
+                        fileMessage = new AudioChatMessageViewModel(this, applicationDialog);
                         break;
+
                     default:
-
-                        var fileMessage = new FileChatMessageViewModel(this, applicationDialog)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                        };
-
-                        UserContext.AddSentMessage(fileMessage);
-
-                        fileMessage.ProcessFile(f);
-
-                        Items.Add(fileMessage);
+                        fileMessage = new FileChatMessageViewModel(this, applicationDialog);
                         break;
                 }
+
+                fileMessage.DisplayUser = UserContext.User;
+                fileMessage.IsSentByMe = true;
+                fileMessage.SendDate = DateTimeOffset.Now;
+                fileMessage.IsRead = true;
+                fileMessage.SenderUserId = IoCContainer.Get<IIdentity>();
+                fileMessage.ReceiverUserId = UserContext.User;
+
+                fileMessage.Send(f);
+
+                UserContext.AddSentMessage(fileMessage);
+
+                Items.Add(fileMessage);
             }
         }
 
@@ -512,13 +468,16 @@ namespace Khernet.UI
                 Items = new ObservableCollection<ChatMessageItemViewModel>();
 
             var imageMessage = new ImageChatMessageViewModel(this, applicationDialog);
-            imageMessage.User = UserContext.User;
+            imageMessage.DisplayUser = UserContext.User;
             imageMessage.IsSentByMe = true;
             imageMessage.SendDate = DateTimeOffset.Now;
+            imageMessage.IsRead = true;
+            imageMessage.SenderUserId = IoCContainer.Get<IIdentity>();
+            imageMessage.ReceiverUserId = UserContext.User;
 
             UserContext.AddSentMessage(imageMessage);
 
-            imageMessage.ProcessImage(media);
+            imageMessage.Send(media);
 
             Items.Add(imageMessage);
         }
@@ -539,7 +498,7 @@ namespace Khernet.UI
         /// <summary>
         /// Sends text message
         /// </summary>
-        /// <param name="parameter">A <see cref="IDocumentContainer"/> object</param>
+        /// <param name="parameter">An <see cref="IDocumentContainer"/> object</param>
         public void Send(object parameter)
         {
             if (parameter == null)
@@ -596,52 +555,13 @@ namespace Khernet.UI
                     MarkAsReadMessages();
                 }
 
-                //Check if there is a message to sent
-                if (message != null)
-                {
-                    ChatMessageItemViewModel newMessage = null;
-
-                    if (MessageFormat == MessageType.Html)
-                    {
-                        newMessage = new HtmlChatMessageViewModel(this)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                            ReplyMessage = reply,
-                            IsRead = true,
-                        };
-
-                        UserContext.AddSentMessage(newMessage);
-
-                        ((HtmlChatMessageViewModel)newMessage).ProcessMessage(message);
-                        Items.Add(newMessage);
-                    }
-                    else if (MessageFormat == MessageType.Markdown)
-                    {
-                        newMessage = new MarkdownChatMessageViewModel(this)
-                        {
-                            User = UserContext.User,
-                            IsSentByMe = true,
-                            SendDate = DateTimeOffset.Now,
-                            ReplyMessage = reply,
-                            IsRead = true,
-                        };
-
-                        UserContext.AddSentMessage(newMessage);
-
-                        ((MarkdownChatMessageViewModel)newMessage).ProcessMessage(message);
-                        Items.Add(newMessage);
-                    }
-
-                    SetCurrentChatModel(newMessage);
-                }
-
                 //Resend the message
                 if (UserContext.ResendMessage != null)
                 {
                     var chat = UserContext.ResendMessage;
-                    chat.User = UserContext.User;
+                    chat.DisplayUser = UserContext.User;
+                    chat.SenderUserId = IoCContainer.Get<IIdentity>();
+                    chat.ReceiverUserId = UserContext.User;
                     chat.SendDate = DateTimeOffset.Now;
 
                     UserContext.AddSentMessage(chat);
@@ -653,6 +573,37 @@ namespace Khernet.UI
                     UserContext.ResendMessage = null;
 
                     SetCurrentChatModel(chat);
+                }
+
+                //Check if there is a message to sent
+                if (message != null)
+                {
+                    TextMessageItemViewModel newMessage = null;
+
+                    if (MessageFormat == MessageType.Html)
+                    {
+                        newMessage = new HtmlChatMessageViewModel(this);
+                    }
+                    else if (MessageFormat == MessageType.Markdown)
+                    {
+                        newMessage = new MarkdownChatMessageViewModel(this);
+                    }
+                    
+                    UserContext.AddSentMessage(newMessage);
+
+                    newMessage.DisplayUser = UserContext.User;
+                    newMessage.IsSentByMe = true;
+                    newMessage.SendDate = DateTimeOffset.Now;
+                    newMessage.ReplyMessage = reply;
+                    newMessage.IsRead = true;
+                    newMessage.SenderUserId = IoCContainer.Get<IIdentity>();
+                    newMessage.ReceiverUserId = UserContext.User;
+
+                    newMessage.Send(message);
+
+                    Items.Add(newMessage);
+
+                    SetCurrentChatModel(newMessage);
                 }
 
                 //Clear reply message
@@ -686,15 +637,18 @@ namespace Khernet.UI
             {
                 AnimationChatMessageViewModel animationChat = new AnimationChatMessageViewModel(this, applicationDialog);
 
-                animationChat.ResendId = animation.Id;
+                animationChat.ResendFileId = animation.Id;
                 animationChat.FileName = animation.FileName;
                 animationChat.FilePath = animation.FilePath;
                 animationChat.Width = animation.Width;
                 animationChat.Height = animation.Height;
                 animationChat.SetThumbnail(animation.Thumbnail.ToArray());
                 animationChat.SendDate = DateTimeOffset.Now;
-                animationChat.User = UserContext.User;
+                animationChat.DisplayUser = UserContext.User;
                 animationChat.IsSentByMe = true;
+                animationChat.IsRead = true;
+                animationChat.SenderUserId = IoCContainer.Get<IIdentity>();
+                animationChat.ReceiverUserId = UserContext.User;
 
                 animationChat.ProcessResend();
 
@@ -761,91 +715,74 @@ namespace Khernet.UI
                 if (UserContext == null)
                     return;
 
-                int firstId = 0;
-                int lastId = 0;
+                long firstTimeId = 0;
+                long lastTimeId = 0;
 
                 //Get first and last message ids
-                if (Items.Count > 1)
+                if (Items.Count > 0)
                 {
-                    firstId = Items[0].Id;
-                    if (firstId == 0)
-                        firstId = IoCContainer.Get<Messenger>().GetIdMessage(Items[0].UID).Value;
-
-                    lastId = Items[Items.Count - 1].Id;
-                    if (lastId == 0)
-                        lastId = IoCContainer.Get<Messenger>().GetIdMessage(Items[Items.Count - 1].UID).Value;
+                    firstTimeId = Items[0].TimeId;
+                    lastTimeId = Items[Items.Count - 1].TimeId;
                 }
 
-                //If first and last id are not valid
-                if (Items.Count > 1 && ((firstId > lastId) ||
-                    (firstId == 0 || lastId == 0)))
-                    return;
-
-                int lastIdMessage = 0;
-
-                bool middleLocation = idMessage > firstId && idMessage < lastId;
+                long lastTimeIdMessage = 0;
+                long newMessageTimeId = IoCContainer.Get<Messenger>().GetTimeIdMessage(idMessage);
+                bool middleLocation = newMessageTimeId > firstTimeId && newMessageTimeId < lastTimeId;
 
                 if (middleLocation)
                 {
-                    lastIdMessage = idMessage - 1;
+                    lastTimeIdMessage = newMessageTimeId - 1;
                 }
                 else if (loadForward)
                 {
-                    lastIdMessage = lastId;
+                    lastTimeIdMessage = lastTimeId;
                 }
                 else
-                    lastIdMessage = firstId;
+                    lastTimeIdMessage = firstTimeId;
 
+                List<MessageItem> unreadMessages = null;
+                int unreadMessageNumber = 0;
                 int messageQuantity = 30;
 
-                if (idMessage > 0)
+                if (newMessageTimeId > 0)
                 {
                     messageQuantity = 1;
-                    if (UserContext.SentMessages != null && UserContext.SentMessages.Count > 0)
-                        messageQuantity += UserContext.SentMessages.Count;
                 }
 
-                //Load messages ten by ten at time
-                List<MessageItem> unreadMessages = IoCContainer.Get<Messenger>().GetLastMessages(UserContext.User.Token, loadForward, lastIdMessage, messageQuantity);
-
-                if (unreadMessages == null)
-                    return;
-
-                //Get total number of unread messages
-                List<MessageItem> newMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(UserContext.User.Token);
-
-                //If chat of current is opened increase the number of unread messages on chat list indicator
-                if (newMessages != null)
+                if(idMessage == 0)
                 {
-                    UserContext.SetUnreadMessage(newMessages.Count);
-                    CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
+                    unreadMessages = IoCContainer.Get<Messenger>().GetLastMessages(UserContext.User.Token, loadForward, lastTimeIdMessage, messageQuantity);
+
+                    if (unreadMessages == null)
+                        return;
+
+                    List<MessageItem> newMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(UserContext.User.Token);
+                    unreadMessageNumber = newMessages == null ? 0 : newMessages.Count;
+                }
+                else
+                { 
+                    unreadMessages = new List<MessageItem>();
+                    unreadMessages.Add(IoCContainer.Get<Messenger>().GetMessageHeader(idMessage));
+                    unreadMessageNumber = unreadMessages[0].IsRead ? 0 : 1;
                 }
 
                 UserContext.User.HideUserWriting();
 
                 bool savedUnreadMessageLocation = false;
-
                 ChatMessageItemViewModel firstUnreadMessageModel = null;
-
                 int lastIndexChat = Items.IndexOf(UserContext.CurrentChatModel);
-
                 bool scrollToFirstUnreadmessage = lastIndexChat == Items.Count - 1;
-
                 bool isFirstLoad = Items.Count == 0;
 
                 for (int i = 0; i < unreadMessages.Count; i++)
                 {
-                    if (UserContext.SentMessages != null)
-                    {
-                        var sentMessage = UserContext.SentMessages.FirstOrDefault((c) => c.UID == unreadMessages[i].UID);
-                        if (sentMessage != null)
-                        {
-                            UserContext.SentMessages.Remove(sentMessage);
-                            continue;
-                        }
-                    }
-
                     AddMessageToList(unreadMessages[i], !loadForward);
+
+                    if(!unreadMessages[i].IsRead)
+                    {
+                        UserContext.SetUnreadMessage(UserContext.UnreadMessagesNumber+1);
+                        CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
+                    }
 
                     //Save the first id to perform a whole read update to unread messages
                     if (!unreadMessages[i].IsRead && (loadForward && !savedUnreadMessageLocation))
@@ -889,133 +826,66 @@ namespace Khernet.UI
 
         private void AddMessageToList(MessageItem messageItem, bool addAtStart)
         {
-            UserItemViewModel user = messageItem.IdSenderPeer == 0 ? null : UserContext.User;
-            bool isSentByMe = user == null;
-
             MessageType type = (MessageType)(int)messageItem.Format;
 
             ChatMessageItemViewModel chatMessage;
+
             switch (type)
             {
                 case MessageType.Text:
-                    chatMessage = new TextChatMessageViewModel(this)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((TextChatMessageViewModel)chatMessage).ProcessMessage(messageItem.Id);
-
+                    chatMessage = new TextChatMessageViewModel(this);
                     break;
 
                 case MessageType.Html:
-                    chatMessage = new HtmlChatMessageViewModel(this)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((HtmlChatMessageViewModel)chatMessage).ProcessMessage(messageItem.Id);
-
+                    chatMessage = new HtmlChatMessageViewModel(this);
                     break;
 
                 case MessageType.Markdown:
-                    chatMessage = new MarkdownChatMessageViewModel(this)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((MarkdownChatMessageViewModel)chatMessage).ProcessMessage(messageItem.Id);
-
+                    chatMessage = new MarkdownChatMessageViewModel(this);
                     break;
 
                 case MessageType.Image:
-
-                    chatMessage = new ImageChatMessageViewModel(this, applicationDialog)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    //Process image from file system
-                    ((ImageChatMessageViewModel)chatMessage).ProcessImage(messageItem.Id);
-
+                    chatMessage = new ImageChatMessageViewModel(this, applicationDialog);
                     break;
+
                 case MessageType.GIF:
-
-                    chatMessage = new AnimationChatMessageViewModel(this, applicationDialog)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((AnimationChatMessageViewModel)chatMessage).ProcessAnimation(messageItem.Id);
-
+                    chatMessage = new AnimationChatMessageViewModel(this, applicationDialog);
                     break;
+
                 case MessageType.Video:
-
-                    chatMessage = new VideoChatMessageViewModel(this, applicationDialog)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((VideoChatMessageViewModel)chatMessage).ProcessVideo(messageItem.Id);
-
+                    chatMessage = new VideoChatMessageViewModel(this, applicationDialog);
                     break;
+
                 case MessageType.Audio:
-
-                    chatMessage = new AudioChatMessageViewModel(this, applicationDialog)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((AudioChatMessageViewModel)chatMessage).ProcessAudio(messageItem.Id);
-
+                    chatMessage = new AudioChatMessageViewModel(this, applicationDialog);
                     break;
+
                 default:
-
-                    chatMessage = new FileChatMessageViewModel(this, applicationDialog)
-                    {
-                        Id = messageItem.Id,
-                        User = UserContext.User,
-                        IsSentByMe = isSentByMe,
-                        SendDate = messageItem.RegisterDate,
-                        IsRead = messageItem.IsRead,
-                    };
-
-                    ((FileChatMessageViewModel)chatMessage).ProcessFile(messageItem.Id);
-
+                    chatMessage = new FileChatMessageViewModel(this, applicationDialog);
                     break;
             }
+
+            chatMessage.DisplayUser = UserContext.User;
+            chatMessage.SenderUserId = messageItem.IdSenderPeer == 0 ? IoCContainer.Get<IIdentity>(): UserContext.User;
+            chatMessage.ReceiverUserId = messageItem.IdSenderPeer == 0 ? UserContext.User : IoCContainer.Get<IIdentity>();
+
+            chatMessage.Load(messageItem);
 
             if (addAtStart)
                 Items.Insert(0, chatMessage);
             else
-                Items.Add(chatMessage);
+            {
+                int i = Items.Count - 1;
+                for (; i > 0; i--)
+                {
+                    if (Items[i].TimeId <= chatMessage.TimeId)
+                        break;
+                }
+                if (i == items.Count - 1)
+                    items.Add(chatMessage);
+                else
+                    Items.Insert(i+1, chatMessage);
+            }
         }
 
         public void AddAnimationToGallery(int idAnimation)

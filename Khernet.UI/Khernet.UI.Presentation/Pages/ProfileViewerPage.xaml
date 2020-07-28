@@ -107,7 +107,7 @@
                                        Style="{StaticResource TextblockHeader}"/>
                             
                             <RichTextBox Grid.Column="0"
-                                         Height="25"
+                                         Height="28"
                                          BorderThickness="0"
                                          IsReadOnly="True"
                                          IsReadOnlyCaretVisible="True"

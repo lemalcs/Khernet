@@ -141,7 +141,7 @@ namespace Khernet.UI
 
                     int quantity = 20;
 
-                    Dictionary<int, int> fileList = IoCContainer.Get<Messenger>().GetFileList(
+                    List<MessageItem> fileList = IoCContainer.Get<Messenger>().GetFileList(
                         User.Token,
                         (ContentType)((int)messageType),
                         lastIdMessage,
@@ -158,9 +158,9 @@ namespace Khernet.UI
                     if (Items == null)
                         Items = new ObservableCollection<FileMessageItemViewModel>();
 
-                    foreach (var idMessage in fileList.Keys)
+                    foreach (MessageItem message in fileList)
                     {
-                        LoadMessage(idMessage, fileList[idMessage], messageType);
+                        LoadMessage(message);
                     }
 
                     IsEmpty = Items.Count == 0;
@@ -213,65 +213,41 @@ namespace Khernet.UI
             Done();
         }
 
-        private void LoadMessage(int idMessage, int idUser, MessageType messageType)
+        private void LoadMessage(MessageItem messageItem)
         {
             try
             {
-                UserItemViewModel user = idUser == 0 ? null : User;
+                FileMessageItemViewModel fileMessage = null;
 
-                switch (messageType)
+                switch (messageItem.Format)
                 {
-                    case MessageType.Image:
-
-                        ImageChatMessageViewModel imageModel = new ImageChatMessageViewModel(this, modalDialog);
-                        imageModel.Id = idMessage;
-                        imageModel.User = user;
-                        imageModel.IsSentByMe = user == null;
-
-                        imageModel.ProcessImage(idMessage);
-
-                        Items.Add(imageModel);
-
-                        break;
-                    case MessageType.Video:
-
-                        VideoChatMessageViewModel videoModel = new VideoChatMessageViewModel(this, modalDialog);
-                        videoModel.Id = idMessage;
-                        videoModel.User = user;
-                        videoModel.IsSentByMe = user == null;
-
-                        videoModel.ProcessVideo(idMessage);
-
-                        Items.Add(videoModel);
-
+                    case ContentType.Image:
+                        fileMessage = new ImageChatMessageViewModel(this, modalDialog);
                         break;
 
-                    case MessageType.Binary:
-
-                        FileChatMessageViewModel fileModel = new FileChatMessageViewModel(this, modalDialog);
-                        fileModel.Id = idMessage;
-                        fileModel.User = user;
-                        fileModel.IsSentByMe = user == null;
-
-                        fileModel.ProcessFile(idMessage);
-
-                        Items.Add(fileModel);
-
+                    case ContentType.Video:
+                        fileMessage = new VideoChatMessageViewModel(this, modalDialog);
                         break;
 
-                    case MessageType.Audio:
+                    case ContentType.Binary:
+                        fileMessage = new FileChatMessageViewModel(this, modalDialog);
+                        break;
 
-                        AudioChatMessageViewModel audioModel = new AudioChatMessageViewModel(this, modalDialog);
-                        audioModel.Id = idMessage;
-                        audioModel.User = user;
-                        audioModel.IsSentByMe = user == null;
-
-                        audioModel.ProcessAudio(idMessage);
-
-                        Items.Add(audioModel);
-
+                    case ContentType.Audio:
+                        fileMessage = new AudioChatMessageViewModel(this, modalDialog);
                         break;
                 }
+
+                fileMessage.DisplayUser = User;
+                fileMessage.SenderUserId = messageItem.IdSenderPeer == 0 ? IoCContainer.Get<IIdentity>() : User;
+                fileMessage.ReceiverUserId = messageItem.IdSenderPeer == 0 ? User : IoCContainer.Get<IIdentity>();
+
+                if (fileMessage is ImageChatMessageViewModel)
+                    ((ImageChatMessageViewModel)fileMessage).LoadMetadata(messageItem);
+                else
+                    fileMessage.Load(messageItem);
+
+                Items.Add(fileMessage);
             }
             catch (Exception error)
             {

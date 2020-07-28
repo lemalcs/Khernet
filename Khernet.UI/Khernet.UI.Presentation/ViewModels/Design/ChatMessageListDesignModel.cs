@@ -11,37 +11,37 @@ namespace Khernet.UI
             {
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = false
                 },
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = true
                 },
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = true
                 },
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = false
                 },
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = true
                 },
                 new TextChatMessageViewModel(this)
                 {
-                    User=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
+                    DisplayUser=new UserItemViewModel{ Initials = "L",ColorHex = "009bdb", },
                     SendDate = DateTimeOffset.Now,
                     IsSentByMe = false
                 }

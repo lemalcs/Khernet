@@ -1,5 +1,6 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
+using Khernet.Services.Messages;
 using Khernet.UI.IoC;
 using System;
 using System.IO;
@@ -65,7 +66,7 @@ namespace Khernet.UI
         /// <summary>
         /// The id of message that contains the file when resending that message
         /// </summary>
-        public int ResendId { get; set; }
+        public int ResendFileId { get; set; }
 
         /// <summary>
         /// The path of file on local system
@@ -265,5 +266,21 @@ namespace Khernet.UI
         {
             return IsMessageLoaded;
         }
+
+        public override void Load(MessageItem messageItem)
+        {
+            if (messageItem == null)
+                throw new NullReferenceException($"Parameter {nameof(messageItem)} cannot be null.");
+
+            Id = messageItem.Id;
+            UID = messageItem.UID;
+            TimeId = messageItem.TimeId;
+            SendDate = messageItem.RegisterDate;
+            IsSentByMe = messageItem.IdSenderPeer == 0;
+            IsRead = messageItem.IsRead;
+            State = (ChatMessageState)(int)messageItem.State;
+        }
+
+        public abstract void Send(string filePath);
     }
 }

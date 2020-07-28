@@ -8,7 +8,7 @@
         public TextChatMessageDesignModel() : base(new ChatMessageListDesignModel())
         {
             IsSentByMe = true;
-            User = new UserItemViewModel
+            DisplayUser = new UserItemViewModel
             {
                 Initials = "L",
             };

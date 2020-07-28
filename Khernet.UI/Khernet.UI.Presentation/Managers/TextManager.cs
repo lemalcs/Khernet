@@ -237,12 +237,14 @@ namespace Khernet.UI.Managers
             try
             {
                 MessageProcessResult result = IoCContainer.Get<Messenger>().SendTextMessage(
-                           observer.Text.SenderToken,
-                           observer.Text.ReceiptToken,
+                           observer.Text.ChatMessage.SenderUserId.Token,// SenderToken,
+                           observer.Text.ChatMessage.ReceiverUserId.Token,// ReceiptToken,
                            observer.Text.Content,
                            observer.Text.IdReplyMessage,
                            (ContentType)((int)observer.Text.FileType),
-                           observer.Text.UID);
+                           observer.Text.ChatMessage.UID,// UID,
+                           observer.Text.ChatMessage.TimeId// TimeId
+                           );
 
                 idMessage = result.Id;
                 state = (ChatMessageState)((int)result.Result);
@@ -269,8 +271,8 @@ namespace Khernet.UI.Managers
             ChatMessageState state = ChatMessageState.Pending;
             try
             {
-                byte[] content = IoCContainer.Get<Messenger>().GetMessageContent(observer.Text.Id);
-                InternalConversationMessage detail = (InternalConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Text.Id);
+                byte[] content = IoCContainer.Get<Messenger>().GetMessageContent(observer.Text.ChatMessage.Id);
+                InternalConversationMessage detail = (InternalConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Text.ChatMessage.Id);
 
                 TextResponse response = new TextResponse
                 {
@@ -278,6 +280,7 @@ namespace Khernet.UI.Managers
                     IdReplyMessage = detail.IdReply,
                     Operation = MessageOperation.Download,
                     UID = detail.UID,
+                    TimeId=detail.TimeId,
                 };
                 state = ((ChatMessageState)(int)detail.State);
 
@@ -294,7 +297,7 @@ namespace Khernet.UI.Managers
             }
             finally
             {
-                ChatMessageProcessResult result = new ChatMessageProcessResult(observer.Text.Id, state);
+                ChatMessageProcessResult result = new ChatMessageProcessResult(observer.Text.ChatMessage.Id, state);
                 observer.OnCompleted(result);
             }
         }

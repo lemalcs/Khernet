@@ -13,7 +13,7 @@ namespace Khernet.UI
 
         public event EventHandler CanExecuteChanged
         {
-            //Weird: In Visual Studio this event is not marked as "not used"
+            //Weird: In Visual Studio 2015 this event is not marked as "not used"
 
             //CommandManager.RequerySuggested  is resposible for execute method CanExcecute when conditions could change its result
             add
@@ -42,13 +42,16 @@ namespace Khernet.UI
         /// </summary>
         private Predicate<object> canExecute;
 
+        /// <summary>
+        /// Parameterless method to verify if this command can be executed, only return true or false
+        /// </summary>
+        private Func<bool> parameterlessCanExecute;
+
         public RelayCommand()
         { }
-
-        public RelayCommand(Action<object> executeMethod, Predicate<object> canExecuteMethod)
+        public RelayCommand(Action executeMethod)
         {
-            parameterizedExecute = executeMethod;
-            canExecute = canExecuteMethod;
+            execute = executeMethod;
         }
 
         public RelayCommand(Action<object> executeMethod)
@@ -56,14 +59,30 @@ namespace Khernet.UI
             parameterizedExecute = executeMethod;
         }
 
-        public RelayCommand(Action executeMethod)
+        public RelayCommand(Action<object> executeMethod, Func<bool> canExecuteMethod)
+        {
+            parameterizedExecute = executeMethod;
+            parameterlessCanExecute = canExecuteMethod;
+        }
+        public RelayCommand(Action executeMethod, Func<bool> canExecuteMethod)
         {
             execute = executeMethod;
+            parameterlessCanExecute = canExecuteMethod;
+        }
+        public RelayCommand(Action<object> executeMethod, Predicate<object> canExecuteMethod)
+        {
+            parameterizedExecute = executeMethod;
+            canExecute = canExecuteMethod;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute != null ? canExecute(parameter) : true;
+            if (canExecute != null)
+                return canExecute(parameter);
+            else if (parameterlessCanExecute != null)
+                return parameterlessCanExecute();
+
+            return true;
         }
 
         public void Execute(object parameter)

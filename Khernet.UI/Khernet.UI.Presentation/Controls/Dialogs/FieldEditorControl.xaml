@@ -46,7 +46,7 @@
                 <!--Text Field-->
                 <ucontrols:MarkedRichTextBox Grid.Column="0"
                                              x:Name="rtxt"
-                                             Height="26"
+                                             Height="28"
                                              Style="{StaticResource EditRichTextBox}"
                                              depend:FormatedDocumentSourceProperty.Value="{Binding SourceDataField,Converter={conv:HtmlByteToDocumentConverter}}"
                                              depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"/>

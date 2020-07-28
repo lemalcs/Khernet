@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
@@ -83,9 +84,10 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
         }
 
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -111,7 +113,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -127,12 +129,12 @@ namespace Khernet.UI
         /// <summary>
         /// Replies a message that was sent
         /// </summary>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
 
-        private bool VerifyLoadedImage(object obj)
+        private bool VerifyLoadedImage()
         {
             return IsFileLoaded;
         }
@@ -141,9 +143,9 @@ namespace Khernet.UI
         /// Retrieve an image from file system.
         /// </summary>
         /// <param name="fileName">The path of image</param>
-        public void ProcessImage(string fileName)
+        public override void Send(string filePath)
         {
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (MemoryStream mem = new MemoryStream())
             {
                 List<byte> imageBytes = new List<byte>();
@@ -165,13 +167,10 @@ namespace Khernet.UI
             //Request to updaload a image from file system
             Media = new MediaRequest
             {
-                FileName = fileName,
+                FileName = filePath,
                 FileType = MessageType.Image,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             //Process the image file
@@ -190,7 +189,7 @@ namespace Khernet.UI
         /// Retrieve and image from a <see cref="Stream"/>.
         /// </summary>
         /// <param name="rawImage">The stream of image</param>
-        public void ProcessImage(Stream rawImage)
+        public void Send(Stream rawImage)
         {
             using (MemoryStream mem = (MemoryStream)ImageHelper.GetStreamFromClipboardImage(rawImage))
             {
@@ -204,10 +203,7 @@ namespace Khernet.UI
                 FileData = rawImage,
                 FileType = MessageType.Image,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             //Process the request
@@ -216,17 +212,42 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public void ProcessImage(int idMessage)
+        /// <summary>
+        /// Load metadata of message and the image itself.
+        /// </summary>
+        /// <param name="messageItem">The header of message.</param>
+        public override void Load(MessageItem messageItem)
         {
+            base.Load(messageItem);
+
             //Request to download the image from local database to file system
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Image,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.Download,
+                ChatMessage = this,
             };
 
-            Id = idMessage;
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
+        }
+
+        /// <summary>
+        /// Load only metadata of image.
+        /// </summary>
+        /// <param name="messageItem">The header of message.</param>
+        public void LoadMetadata(MessageItem messageItem)
+        {
+            base.Load(messageItem);
+
+            //Request to download the image from local database to file system
+            Media = new MediaRequest
+            {
+                FileType = MessageType.Image,
+                OperationRequest = MessageOperation.GetMetadata,
+                ChatMessage = this,
+            };
 
             IoCContainer.Media.ProcessFile(this);
 
@@ -236,7 +257,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public async void OpenImage(object parameter)
+        public async void OpenImage()
         {
             FileOperations operations = new FileOperations();
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
@@ -254,18 +275,18 @@ namespace Khernet.UI
             {
                 //Download the actual file to cache
                 IsFileLoaded = false;
-                DownloadFile(Id);
+                DownloadFile();
             }
         }
 
-        private void DownloadFile(int idMessage)
+        private void DownloadFile()
         {
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Image,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.Download,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -277,13 +298,14 @@ namespace Khernet.UI
 
         public void OnGetMetadata(FileResponse info)
         {
-            if (info.Operation == MessageOperation.Download)
+            if (info.Operation == MessageOperation.Download || info.Operation == MessageOperation.GetMetadata)
             {
                 if (info.ThumbnailBytes != null)
                 {
                     SetImageThumbnail(info.ThumbnailBytes);
                 }
                 UID = info.UID;
+                TimeId = info.TimeId;
                 SendDate = info.SendDate;
             }
 
@@ -345,7 +367,7 @@ namespace Khernet.UI
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
-            chatMessage.ResendId = Id;
+            chatMessage.ResendFileId = Id;
             chatMessage.Thumbnail = Thumbnail;
             chatMessage.SetImageThumbnail(Thumbnail.ToArray());
 
@@ -378,16 +400,12 @@ namespace Khernet.UI
             //Request to updaload a image from file system
             Media = new MediaRequest
             {
-                Id = ResendId,
                 FileName = FileName,
                 FileType = MessageType.Image,
                 OperationRequest = MessageOperation.Resend,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
-
+            
             //Process the image file
             IoCContainer.Media.ProcessFile(this);
 

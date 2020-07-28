@@ -1,5 +1,6 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
+using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
@@ -117,14 +118,15 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
         }
 
-        private bool VerifyLoadedAnimation(object obj)
+        private bool VerifyLoadedAnimation()
         {
             return IsMessageLoaded && (State == ChatMessageState.Pending || State == ChatMessageState.Processed);
         }
 
-        private async void SaveAnimation(object obj)
+        private async void SaveAnimation()
         {
             string newFile = FilePath;
             try
@@ -218,7 +220,7 @@ namespace Khernet.UI
         /// Requests to send a new message
         /// </summary>
         /// <param name="obj"></param>
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -226,7 +228,7 @@ namespace Khernet.UI
         /// <summary>
         /// Replies a message that was sent
         /// </summary>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
@@ -253,7 +255,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -270,9 +272,9 @@ namespace Khernet.UI
         /// Process an animation
         /// </summary>
         /// <param name="fileName">The path of file</param>
-        public void ProcessAnimation(string fileName)
+        public override void Send(string filePath)
         {
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (MemoryStream mem = new MemoryStream())
             {
                 int chuckSize = 1024;
@@ -292,13 +294,10 @@ namespace Khernet.UI
             //Requesta upload an animation
             Media = new MediaRequest
             {
-                FileName = fileName,
+                FileName = filePath,
                 FileType = MessageType.GIF,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage=this,
             };
 
             //Process request
@@ -307,25 +306,10 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public void ProcessAnimation(int idMessage)
-        {
-            //Request to upload and image retrieved from database
-            Media = new MediaRequest
-            {
-                Id = idMessage,
-                FileType = MessageType.GIF,
-                OperationRequest = MessageOperation.Download,
-            };
-
-            IoCContainer.Media.ProcessFile(this);
-
-            IsLoading = true;
-        }
-
         /// <summary>
         /// Opens an image in its original size within a model dialog
         /// </summary>
-        public async void OpenAnimation(object par)
+        public async void OpenAnimation()
         {
             FileOperations operations = new FileOperations();
             if (File.Exists(FilePath) && operations.VerifyFileIntegrity(FilePath, FileSize, Id))
@@ -343,16 +327,16 @@ namespace Khernet.UI
             {
                 //Download the actual file to cache
                 IsFileLoaded = false;
-                DownloadFile(Id);
+                DownloadFile();
             }
         }
 
-        private void DownloadFile(int idMessage)
+        private void DownloadFile()
         {
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
+                ChatMessage = this,
                 FileType = MessageType.GIF,
                 OperationRequest = MessageOperation.Download
             };
@@ -376,7 +360,7 @@ namespace Khernet.UI
             chatMessage.FileName = FileName;
             chatMessage.IsReadingFile = IsReadingFile;
             chatMessage.IsFileLoaded = IsFileLoaded;
-            chatMessage.ResendId = Id;
+            chatMessage.ResendFileId = Id;
             chatMessage.Width = Width;
             chatMessage.Height = Height;
             chatMessage.Thumbnail = Thumbnail;
@@ -399,7 +383,7 @@ namespace Khernet.UI
                 }
 
                 UID = info.UID;
-
+                TimeId = info.TimeId;
                 SendDate = info.SendDate;
             }
 
@@ -452,14 +436,10 @@ namespace Khernet.UI
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = ResendId,
                 FileName = FileName,
                 FileType = MessageType.GIF,
                 OperationRequest = MessageOperation.Resend,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -473,6 +453,23 @@ namespace Khernet.UI
                 return;
 
             Thumbnail = new ReadOnlyCollection<byte>(thumbnailBytes);
+        }
+
+        public override void Load(MessageItem messageItem)
+        {
+            base.Load(messageItem);
+
+            //Request to upload and image retrieved from database
+            Media = new MediaRequest
+            {
+                FileType = MessageType.GIF,
+                OperationRequest = MessageOperation.Download,
+                ChatMessage=this,
+            };
+
+            IoCContainer.Media.ProcessFile(this);
+
+            IsLoading = true;
         }
     }
 }

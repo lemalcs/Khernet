@@ -10,7 +10,7 @@ namespace Khernet.UI
         public ImageChatMessageDesignModel() : base(new ChatMessageListDesignModel(), new PresentationApplicationDialog())
         {
             IsSentByMe = false;
-            User = new UserItemViewModel
+            DisplayUser = new UserItemViewModel
             {
                 Initials = "L",
             };

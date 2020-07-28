@@ -65,22 +65,23 @@
                     Grid.Row="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Background="{Binding User.ColorHex, Converter={conv:StringRGBToColorConverter}}"
+                    Background="{Binding DisplayUser.ColorHex, Converter={conv:StringRGBToColorConverter}}"
                     Margin="0 0 10 0"
                     Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
                     CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
                 <Border.Visibility>
                     <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
                         <Binding Path="IsSentByMe"/>
-                        <Binding Path="User.Avatar"/>
+                        <Binding Path="DisplayUser.Avatar"/>
                     </MultiBinding>
                 </Border.Visibility>
 
                 <!--Initials-->
-                <TextBlock Text="{Binding User.Initials}"
+                <TextBlock Text="{Binding DisplayUser.Initials}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Foreground="{StaticResource LightBrush}"/>
+                           Foreground="{StaticResource LightBrush}"
+                           FontFamily="{StaticResource RobotoRegularFont}"/>
             </Border>
 
             <!--Avatar image-->
@@ -96,7 +97,7 @@
 
                 <Border.Background>
                     <ImageBrush Stretch="UniformToFill" 
-                                ImageSource="{Binding User.Avatar,Converter={conv:BytesToImageConverter}}"/>
+                                ImageSource="{Binding DisplayUser.Avatar,Converter={conv:BytesToImageConverter}}"/>
                 </Border.Background>
             </Border>
 
@@ -190,7 +191,7 @@
                        HorizontalAlignment="Left">
 
                 <TextBlock Text="{Binding Id}"/>
-                <TextBlock Text="{Binding IsRead}"/>
+                <TextBlock Text="{Binding TimeId}"/>
                 
             </StackPanel>
             -->

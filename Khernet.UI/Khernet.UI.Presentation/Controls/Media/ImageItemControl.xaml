@@ -84,7 +84,7 @@
 
             <!-- Image thumbnail -->
             <Image Grid.Row="0" 
-                   Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
+                   Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}, TargetNullValue={StaticResource DefaultImage}}"
                    MaxHeight="420"
                    MaxWidth="420"
                    depend:ClipFromBorderProperty.Value="True"

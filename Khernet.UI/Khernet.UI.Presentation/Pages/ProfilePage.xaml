@@ -105,7 +105,7 @@
                                                          Style="{StaticResource EditRichTextBox}"
                                                          depend:FormatedDocumentSourceProperty.Value="{Binding User.SourceFullName,Converter={conv:HtmlByteToDocumentConverter}}"
                                                          depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"
-                                                         Height="26"/>
+                                                         Height="28"/>
 
                             <!--Emoji button-->
 

@@ -131,8 +131,6 @@ namespace Khernet.UI.Controls
             //Scroll to up
             if (e.Delta > 0)
             {
-                //var scroll = FindVisualChild<ScrollViewer>(container);
-
                 if (scrollViewer.VerticalOffset == 0)
                 {
                     LoadMessages(false);
@@ -215,8 +213,8 @@ namespace Khernet.UI.Controls
                 if (IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(firstChatModel) != 0)
                 {
 
-                    int lastIndex = IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(lastChatModel);
-                    ScrollToItem(lastChatModel, lastIndex);
+                    int lastIndex = IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(firstChatModel);
+                    ScrollToItem(firstChatModel, lastIndex);
                 }
             });
         }

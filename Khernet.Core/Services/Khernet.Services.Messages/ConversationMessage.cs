@@ -54,6 +54,12 @@ namespace Khernet.Services.Messages
         public DateTimeOffset SendDate { get; set; }
 
         /// <summary>
+        /// The number of ticks (100 nanoseconds) since January 1, 0001 in the Gregorian calendar
+        /// </summary>
+        [DataMember]
+        public long TimeId { get; set; }
+
+        /// <summary>
         /// Unique identifier for message, this value will be known by sender and receipt
         /// </summary>
         [DataMember]
@@ -142,7 +148,7 @@ namespace Khernet.Services.Messages
         /// The date when message was sent or received
         /// </summary>
         [DataMember]
-        public DateTime RegisterDate { get; set; }
+        public DateTimeOffset RegisterDate { get; set; }
 
         /// <summary>
         /// The state of chat message
@@ -161,5 +167,11 @@ namespace Khernet.Services.Messages
         /// </summary>
         [DataMember]
         public string UID { get; set; }
+
+        /// <summary>
+        /// The number of ticks that indicates when message was sent.
+        /// </summary>
+        [DataMember]
+        public long TimeId { get; set; }
     }
 }

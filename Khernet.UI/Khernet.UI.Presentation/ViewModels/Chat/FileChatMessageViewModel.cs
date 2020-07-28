@@ -1,5 +1,6 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
+using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
@@ -39,16 +40,17 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
 
             FileState = FileChatState.NotDownloaded;
         }
 
-        private bool VerifyLoadedFile(object obj)
+        private bool VerifyLoadedFile()
         {
             return IsMessageLoaded && (State == ChatMessageState.Pending || State == ChatMessageState.Processed);
         }
 
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -75,7 +77,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -91,7 +93,7 @@ namespace Khernet.UI
         /// <summary>
         /// Replies a message that was sent
         /// </summary>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
@@ -100,24 +102,21 @@ namespace Khernet.UI
         /// Process binary from file
         /// </summary>
         /// <param name="fileName">the path of file</param>
-        public void ProcessFile(string fileName)
+        public override void Send(string filePath)
         {
             //Get file name
-            FileName = Path.GetFileName(fileName);
+            FileName = Path.GetFileName(filePath);
 
             //Get full path of file
-            FilePath = fileName;
+            FilePath = filePath;
 
             //Request upload a file
             Media = new MediaRequest
             {
-                FileName = fileName,
+                FileName = filePath,
                 FileType = MessageType.Binary,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             //Process file
@@ -126,14 +125,16 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        public void ProcessFile(int idMessage)
+        public override void Load(MessageItem messageItem)
         {
+            base.Load(messageItem);
+
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Binary,
-                OperationRequest = MessageOperation.GetMetadata
+                OperationRequest = MessageOperation.GetMetadata,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -141,14 +142,14 @@ namespace Khernet.UI
             IsLoading = true;
         }
 
-        private void DownloadFile(int idMessage)
+        private void DownloadFile()
         {
             //Request to upload and image retrieved from database
             Media = new MediaRequest
             {
-                Id = idMessage,
                 FileType = MessageType.Binary,
-                OperationRequest = MessageOperation.Download
+                OperationRequest = MessageOperation.Download,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);
@@ -159,7 +160,7 @@ namespace Khernet.UI
         /// <summary>
         /// Open requested binary file
         /// </summary>
-        private void OpenFile(object par)
+        private void OpenFile()
         {
             try
             {
@@ -181,7 +182,7 @@ namespace Khernet.UI
                 {
                     //Download the actual file to cache
                     IsFileLoaded = false;
-                    DownloadFile(Id);
+                    DownloadFile();
                 }
             }
             catch (Exception error)
@@ -210,7 +211,7 @@ namespace Khernet.UI
             chatMessage.IsSentByMe = true;
             chatMessage.FilePath = FilePath;
             chatMessage.FileName = FileName;
-            chatMessage.ResendId = Id;
+            chatMessage.ResendFileId = Id;
             chatMessage.FileSize = FileSize;
 
             return chatMessage;
@@ -224,9 +225,8 @@ namespace Khernet.UI
             if (info.Operation == MessageOperation.GetMetadata)
             {
                 FileName = info.OriginalFileName;
-
-                //Set file path
                 UID = info.UID;
+                TimeId = info.TimeId;
 
                 //Get file size in bytes
                 FileSize = info.Size;
@@ -280,14 +280,10 @@ namespace Khernet.UI
             //Request upload a file
             Media = new MediaRequest
             {
-                Id = ResendId,
                 FileName = FileName,
                 FileType = MessageType.Binary,
                 OperationRequest = MessageOperation.Resend,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
-                UID = UID,
-                SendDate = SendDate,
+                ChatMessage = this,
             };
 
             //Process file

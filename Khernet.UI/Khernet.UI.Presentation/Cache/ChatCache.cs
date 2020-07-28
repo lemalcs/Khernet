@@ -27,7 +27,6 @@ namespace Khernet.UI.Cache
                 messageList = new ConcurrentDictionary<UserChatContext, ObservableCollection<ChatMessageItemViewModel>>();
 
             UserChatContext chatContext = new UserChatContext(user);
-            chatContext.SetUnreadMessage(user.UnreadMessages);
 
             ObservableCollection<ChatMessageItemViewModel> chatList = new ObservableCollection<ChatMessageItemViewModel>();
 

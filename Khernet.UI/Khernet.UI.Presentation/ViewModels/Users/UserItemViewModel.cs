@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class UserItemViewModel : BaseModel
+    public class UserItemViewModel : BaseModel,IIdentity
     {
         #region Properties
         /// <summary>

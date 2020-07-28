@@ -44,12 +44,12 @@ namespace Khernet.Core.Host
             }
         }
 
-        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, string uid)
+        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, string uid,long timeId)
         {
             try
             {
                 Communicator communicator = new Communicator();
-                return communicator.SendTextMessage(senderToken, receiptToken, message, idReplyMessage, format, uid);
+                return communicator.SendTextMessage(senderToken, receiptToken, message, idReplyMessage, format,timeId, uid);
             }
             catch (Exception exception)
             {
@@ -229,6 +229,12 @@ namespace Khernet.Core.Host
             return comm.GetUnreadMessages(senderToken);
         }
 
+        public MessageItem GetMessageHeader(int idMessage)
+        {
+            Communicator comm = new Communicator();
+            return comm.GetMessageHeader(idMessage);
+        }
+
         public byte[] GetMessageContent(int idMessage)
         {
             Communicator comm = new Communicator();
@@ -253,10 +259,10 @@ namespace Khernet.Core.Host
             comm.SaveThumbnail(idMessage, thumbnail);
         }
 
-        public List<MessageItem> GetLastMessages(string senderToken, bool forward, int lastIdMessage, int quantity)
+        public List<MessageItem> GetLastMessages(string senderToken, bool forward, long lastTimeIdMessage, int quantity)
         {
             Communicator comm = new Communicator();
-            return comm.GetLastMessages(senderToken, forward, lastIdMessage, quantity);
+            return comm.GetLastMessages(senderToken, forward, lastTimeIdMessage, quantity);
         }
 
         public int SaveAnimation(int idMessage, string idFile, int width, int height, byte[] animation)
@@ -288,6 +294,12 @@ namespace Khernet.Core.Host
             return null;
         }
 
+        public long GetTimeIdMessage(int idMessage)
+        {
+            Communicator communicator = new Communicator();
+            return communicator.GetTimeIdMessage(idMessage);
+        }
+
         public List<int> GetAnimationList()
         {
             FileCommunicator fileData = new FileCommunicator();
@@ -312,7 +324,7 @@ namespace Khernet.Core.Host
             fileData.UpdateCacheFilePath(idMessage, filePath);
         }
 
-        public Dictionary<int, int> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
+        public List<MessageItem> GetFileList(string userToken, ContentType fileType, int lastIdMessage, int quantity)
         {
             FileCommunicator fileData = new FileCommunicator();
             return fileData.GetFileList(userToken, fileType, lastIdMessage, quantity);

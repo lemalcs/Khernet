@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
+using Khernet.UI.IoC;
+using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -36,9 +39,19 @@ namespace Khernet.UI
         private readonly object syncLock = new object();
 
         /// <summary>
-        /// The view model of user for who sent message or received message;
+        /// The view model of user to display in user interface.
         /// </summary>
-        private UserItemViewModel user;
+        private UserItemViewModel displayUser;
+
+        /// <summary>
+        /// The user that send the message.
+        /// </summary>
+        public IIdentity SenderUserId { get; set; }
+
+        /// <summary>
+        /// The user that receive the message.
+        /// </summary>
+        public IIdentity ReceiverUserId { get; set; }
 
         /// <summary>
         /// The date that messages was sent
@@ -79,6 +92,11 @@ namespace Khernet.UI
         /// The universal identifier of chat message
         /// </summary>
         public string UID { get; protected set; }
+
+        /// <summary>
+        /// The number of ticks that indicates when message was sent.
+        /// </summary>
+        public long TimeId { get; protected set; }
 
         public DateTimeOffset SendDate
         {
@@ -140,15 +158,15 @@ namespace Khernet.UI
             }
         }
 
-        public UserItemViewModel User
+        public UserItemViewModel DisplayUser
         {
-            get => user;
+            get => displayUser;
             set
             {
-                if (user != value)
+                if (displayUser != value)
                 {
-                    user = value;
-                    OnPropertyChanged(nameof(User));
+                    displayUser = value;
+                    OnPropertyChanged(nameof(DisplayUser));
                 }
             }
         }
@@ -238,9 +256,15 @@ namespace Khernet.UI
         /// <param name="obj"></param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        protected bool IsReadyMessage(object obj)
+        protected bool IsReadyMessage()
         {
             return IsMessageLoaded;
         }
+
+        /// <summary>
+        /// Load the chat message.
+        /// </summary>
+        /// <param name="messageItem">The header of chat message</param>
+        public abstract void Load(MessageItem messageItem);
     }
 }

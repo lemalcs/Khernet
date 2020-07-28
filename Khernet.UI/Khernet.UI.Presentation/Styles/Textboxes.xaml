@@ -24,12 +24,13 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="EditPasswordBox" TargetType="PasswordBox">
+    <Style x:Key="EditPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource MetroPasswordBox}">
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
         <Setter Property="BorderBrush" Value="{StaticResource OverTextboxBorderBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
         <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="BorderThickness" Value="0 0 0 2"/>
@@ -38,7 +39,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="EditRichTextBox" TargetType="RichTextBox">
+    <Style x:Key="EditRichTextBox" TargetType="RichTextBox" BasedOn="{StaticResource MetroRichTextBox}">
         <Setter Property="BorderThickness" Value="0 0 0 1"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource OverTextboxBorderBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource OverTextboxBorderBrush}"/>
@@ -86,7 +87,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}"/>
-        <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{DynamicResource TextBoxFocusBorderBrush}"/>
+        <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="Red"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}"/>
         <Setter Property="Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding (SpellCheck.IsEnabled), RelativeSource={RelativeSource Self}}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -152,5 +153,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

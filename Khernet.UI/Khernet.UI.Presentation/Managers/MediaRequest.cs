@@ -6,20 +6,7 @@ namespace Khernet.UI.Managers
 {
     public abstract class MessageRequest
     {
-        /// <summary>
-        /// The id of text message
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// The token of sender
-        /// </summary>
-        public string SenderToken { get; set; }
-
-        /// <summary>
-        /// The token of receiver
-        /// </summary>
-        public string ReceiptToken { get; set; }
+        public ChatMessageItemViewModel ChatMessage { get; set; }
 
         /// <summary>
         /// The operation to perfomr over file according to <see cref="MessageOperation"/>
@@ -35,16 +22,6 @@ namespace Khernet.UI.Managers
         /// The id of message being reply
         /// </summary>
         public int IdReplyMessage { get; set; }
-
-        /// <summary>
-        /// The universal identifier of message
-        /// </summary>
-        public string UID { get; set; }
-
-        /// <summary>
-        /// The date message was sent
-        /// </summary>
-        public DateTimeOffset SendDate { get; set; }
     }
 
     public abstract class MessageResponse
@@ -73,6 +50,11 @@ namespace Khernet.UI.Managers
         /// The universal identifier of message
         /// </summary>
         public string UID { get; set; }
+
+        /// <summary>
+        /// The number of ticks that indicates when message was sent.
+        /// </summary>
+        public long TimeId { get; set; }
     }
 
 
@@ -95,6 +77,8 @@ namespace Khernet.UI.Managers
         /// Indicates whether the file is a GIF (Graphics Interchange Format)
         /// </summary>
         public bool IsGIF { get; set; }
+
+        //public int ResendId { get; set; }
     }
 
     /// <summary>

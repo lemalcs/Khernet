@@ -433,6 +433,21 @@ namespace Khernet.Core.Data
                     fda.Fill(table);
                 }
 
+                if (table.Rows.Count > 0)
+                {
+                    keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        //State
+                        if (table.Rows[i][3] == DBNull.Value)
+                            table.Rows[i][3] = 0;
+
+                        //UID
+                        if (table.Rows[i][5] != DBNull.Value)
+                            table.Rows[i][5] = EncryptionHelper.DecryptString(table.Rows[i][5].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+                    }
+                }
+
                 return table;
             }
             catch (Exception)

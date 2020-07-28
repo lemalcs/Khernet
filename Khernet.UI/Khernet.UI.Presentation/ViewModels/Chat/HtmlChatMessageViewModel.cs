@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
 using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using Khernet.UI.Media;
@@ -39,13 +40,14 @@ namespace Khernet.UI
             State = ChatMessageState.Pending;
 
             UID = Guid.NewGuid().ToString().Replace("-", "");
+            TimeId = DateTimeOffset.Now.Ticks;
         }
 
         /// <summary>
         /// Prepares this message to be resend to other user
         /// </summary>
         /// <param name="obj"></param>
-        private void Resend(object obj)
+        private void Resend()
         {
             messageManager.ResendMessage(this);
         }
@@ -54,7 +56,7 @@ namespace Khernet.UI
         /// Replies a received or sent message
         /// </summary>
         /// <param name="obj"></param>
-        private void Reply(object obj)
+        private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
@@ -81,7 +83,7 @@ namespace Khernet.UI
                 reply.User.BuildDisplayName();
             }
             else
-                reply.User = User;
+                reply.User = DisplayUser;
 
             reply.IsSentByMe = IsSentByMe;
             reply.State = State;
@@ -93,27 +95,27 @@ namespace Khernet.UI
             return reply;
         }
 
-        public void ProcessMessage(int idMessage)
+        public override void Load(MessageItem messageItem)
         {
+            base.Load(messageItem);
+
             Text = new TextRequest
             {
-                Id = idMessage,
                 OperationRequest = MessageOperation.Download,
+                ChatMessage = this,
             };
 
             IoCContainer.Text.ProcessText(this);
         }
 
-        public void ProcessMessage(byte[] message)
+        public override void Send(byte[] message)
         {
             Text = new TextRequest
             {
                 Content = message,
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
                 FileType = MessageType.Html,
-                UID = UID,
+                ChatMessage = this,
             };
 
             if (ReplyMessage != null)
@@ -131,11 +133,9 @@ namespace Khernet.UI
             Text = new TextRequest
             {
                 OperationRequest = MessageOperation.Upload,
-                SenderToken = IoCContainer.Get<IIdentity>().Token,
-                ReceiptToken = User.Token,
                 Content = TextContent.ToArray(),
                 FileType = MessageType.Html,
-                UID = UID,
+                ChatMessage = this,
             };
 
             //Convert html source code to a message so it can be displayed on user interface
@@ -183,6 +183,7 @@ namespace Khernet.UI
 
                 SetTextContent(messageContent);
                 UID = info.UID;
+                TimeId = info.TimeId;
             }
 
             if (info.Operation == MessageOperation.Download && info.IdReplyMessage != 0)

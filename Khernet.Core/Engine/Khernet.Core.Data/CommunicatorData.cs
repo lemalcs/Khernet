@@ -601,7 +601,7 @@ namespace Khernet.Core.Data
         }
 
         public int SaveTextMessage(string senderToken, string receiptToken, DateTimeOffset regDate, byte[] content,
-            int contentType, string uid, int? idReplyMessage, byte[] thumbnail = null,
+            int contentType, string uid,long timeId, int? idReplyMessage, byte[] thumbnail = null,
             string filePath = null)
         {
             try
@@ -616,6 +616,7 @@ namespace Khernet.Core.Data
                 cmd.Parameters.Add("@CONTENT", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(content, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@CONTENT_TYPE", FbDbType.Integer).Value = contentType;
                 cmd.Parameters.Add("@UID", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(uid, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@TIMEID", FbDbType.BigInt).Value = timeId;
 
                 if (idReplyMessage.HasValue)
                     cmd.Parameters.Add("@ID_REPLY", FbDbType.Integer).Value = idReplyMessage.Value;
@@ -668,6 +669,40 @@ namespace Khernet.Core.Data
                 if (table.Rows.Count > 0)
                 {
                     return Convert.ToInt32(table.Rows[0][0]);
+                }
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long GettimeIdMessage(int id)
+        {
+            try
+            {
+                FbCommand cmd = new FbCommand("GET_TIMEID_MESSAGE");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = id;
+                keys = null;
+
+                DataTable table = new DataTable();
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+
+                    FbDataAdapter fda = new FbDataAdapter(cmd);
+                    fda.Fill(table);
+                }
+
+                if (table.Rows.Count > 0)
+                {
+                    return Convert.ToInt64(table.Rows[0][0]);
                 }
                 else
                     return 0;
@@ -1019,8 +1054,8 @@ namespace Khernet.Core.Data
                         table.Rows[i][4] = EncryptionHelper.DecryptString(table.Rows[i][4].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
                     //State
-                    if (table.Rows[i][7] == DBNull.Value)
-                        table.Rows[i][7] = 0;
+                    if (table.Rows[i][8] == DBNull.Value)
+                        table.Rows[i][8] = 0;
                 }
 
                 return table;
@@ -1228,10 +1263,21 @@ namespace Khernet.Core.Data
                     fda.Fill(table);
                 }
 
-                for (int i = 0; i < table.Rows.Count; i++)
+                if (table.Rows.Count > 0)
                 {
-                    if (table.Rows[i][3] == DBNull.Value)
-                        table.Rows[i][3] = 0;
+                    keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        //State
+                        if (table.Rows[i][3] == DBNull.Value)
+                            table.Rows[i][3] = 0;
+
+                        //UID
+                        if (table.Rows[i][4] != DBNull.Value)
+                            table.Rows[i][4] = EncryptionHelper.DecryptString(table.Rows[i][4].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+                    }
+                    keys = null;
                 }
 
                 return table;
@@ -1243,7 +1289,54 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetLastMessages(string senderToken, bool forward, int lastIdMessage, int quantity)
+        public DataTable GetMessageHeader(int idMessage)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                FbCommand cmd = new FbCommand("GET_MESSAGES_HEADER");
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
+                keys = null;
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+
+                    FbDataAdapter fda = new FbDataAdapter(cmd);
+                    fda.Fill(table);
+                }
+
+                if (table.Rows.Count > 0)
+                {
+                    keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        //State
+                        if (table.Rows[i][4] == DBNull.Value)
+                            table.Rows[i][4] = 0;
+
+                        //UID
+                        if (table.Rows[i][5] != DBNull.Value)
+                            table.Rows[i][5] = EncryptionHelper.DecryptString(table.Rows[i][5].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
+                    }
+                    keys = null;
+                }
+
+                return table;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public DataTable GetLastMessages(string senderToken, bool forward, long lastTimeIdMessage, int quantity)
         {
             try
             {
@@ -1254,8 +1347,8 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@SENDER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(senderToken, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@LAST_ID_MESSAGE", FbDbType.Integer).Value = lastIdMessage;
-                cmd.Parameters.Add("@forward", FbDbType.Boolean).Value = forward;
+                cmd.Parameters.Add("@LAST_TIMEID_MESSAGE", FbDbType.BigInt).Value = lastTimeIdMessage;
+                cmd.Parameters.Add("@FORWARD", FbDbType.Boolean).Value = forward;
                 cmd.Parameters.Add("@QUANTITY", FbDbType.Integer).Value = quantity;
                 keys = null;
 
@@ -1278,7 +1371,7 @@ namespace Khernet.Core.Data
 
                         //UID
                         if (table.Rows[i][6] != DBNull.Value)
-                            table.Rows[i][6] = EncryptionHelper.DecryptString(table.Rows[i][6].ToString(), Encoding.UTF8, keys.Item1, keys.Item2); ;
+                            table.Rows[i][6] = EncryptionHelper.DecryptString(table.Rows[i][6].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
                     }
                 }
 
