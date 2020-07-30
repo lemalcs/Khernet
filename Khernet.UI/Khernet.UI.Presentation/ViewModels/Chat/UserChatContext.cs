@@ -7,11 +7,6 @@ namespace Khernet.UI
     {
         #region Properties
 
-        /// <summary>
-        /// Total unread message for current chat list
-        /// </summary>
-        private int unreadMessagesNumber;
-
         public UserItemViewModel User { get; private set; }
 
         /// <summary>
@@ -25,19 +20,6 @@ namespace Khernet.UI
         public ChatMessageItemViewModel FirstViewChatModel { get; set; }
 
         private ReplyMessageViewModel replyMessage;
-
-        public int UnreadMessagesNumber
-        {
-            get => unreadMessagesNumber;
-            private set
-            {
-                if (unreadMessagesNumber != value)
-                {
-                    unreadMessagesNumber = value;
-                    OnPropertyChanged(nameof(UnreadMessagesNumber));
-                }
-            }
-        }
 
         /// <summary>
         /// Stores the first index if unread message list
@@ -73,8 +55,6 @@ namespace Khernet.UI
             set;
         }
 
-        public List<ChatMessageItemViewModel> SentMessages { get; private set; }
-
         public UserChatContext(UserItemViewModel user)
         {
             User = user;
@@ -82,38 +62,5 @@ namespace Khernet.UI
         }
 
         #endregion
-
-        public void SetUnreadMessage(int quantity)
-        {
-            if (quantity >= 0)
-            {
-                UnreadMessagesNumber = quantity;
-            }
-
-            if (UnreadMessagesNumber == 0)
-                User.ClearUnReadMessages();
-        }
-
-        public void DecreaseUnreadMessage()
-        {
-            if (UnreadMessagesNumber > 0)
-                UnreadMessagesNumber--;
-
-            if (UnreadMessagesNumber == 0)
-                User.ClearUnReadMessages();
-        }
-
-        /// <summary>
-        /// Store message that current user sent.
-        /// </summary>
-        /// <param name="chatMessage">The model of chat message</param>
-        public void AddSentMessage(ChatMessageItemViewModel chatMessage)
-        {
-            if (SentMessages == null)
-                SentMessages = new List<ChatMessageItemViewModel>();
-
-            if (!SentMessages.Contains(chatMessage))
-                SentMessages.Add(chatMessage);
-        }
     }
 }

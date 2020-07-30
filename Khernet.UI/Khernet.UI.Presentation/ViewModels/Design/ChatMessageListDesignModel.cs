@@ -57,7 +57,7 @@ namespace Khernet.UI
             UserContext = new UserChatContext(new UserItemViewModel());
 
             CanShowUnreadPopup = true;
-            UserContext.SetUnreadMessage(7);
+            UserContext.User.SetUnreadMessages(7);
         }
     }
 }

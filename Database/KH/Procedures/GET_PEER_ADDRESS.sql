@@ -18,7 +18,7 @@
 -- The address of service.
 ------------------------------------------------------------------------------
 
-CREATE PROCEDURE GET_PEER_ADDRESS
+CREATE OR ALTER PROCEDURE GET_PEER_ADDRESS
 (
   TOKEN TYPE OF COLUMN PEER.TOKEN,
   SRVTYPE TYPE OF COLUMN PEER_ADDRESS.SERV_TYPE

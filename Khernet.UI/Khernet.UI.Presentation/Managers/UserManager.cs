@@ -217,9 +217,9 @@ namespace Khernet.UI.Managers
                 var unreadMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(userToken);
 
                 if (unreadMessages == null)
-                    user.SetUnReadMessages(0);
+                    user.SetUnreadMessages(0);
                 else
-                    user.SetUnReadMessages(unreadMessages.Count);
+                    user.SetUnreadMessages(unreadMessages.Count);
 
                 if (unreadMessages != null && unreadMessages.Count > 0)
                     IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);

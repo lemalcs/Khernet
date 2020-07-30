@@ -170,44 +170,6 @@ namespace Khernet.UI
                 notificationIcon.HideBalloonTip();
                 notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/newMessageIcon.ico"));
 
-                ////Show overlay icon in taskbar with unread message count
-                //if(App.Current.MainWindow.TaskbarItemInfo==null)
-                //{
-                //    System.Windows.Shell.TaskbarItemInfo taskBarInfo = new System.Windows.Shell.TaskbarItemInfo();
-                //    App.Current.MainWindow.TaskbarItemInfo = taskBarInfo;
-                //}
-
-                //int unreadMessagesCount = IoCContainer.Get<UserListViewModel>().TotalUnreadMessages;
-
-                //double textLeftMargin = 12;
-
-                //if (unreadMessagesCount >= 10)
-                //    textLeftMargin = 2;
-
-                //FormattedText text = new FormattedText
-                //(
-                //    unreadMessagesCount.ToString(),//Text to render
-                //    new CultureInfo("en-us"),
-                //    FlowDirection.LeftToRight,
-                //    new Typeface((FontFamily)App.Current.FindResource("RobotoRegularFont"), FontStyles.Normal, FontWeights.Normal, new FontStretch()),
-                //    43, //Font size
-                //    (Brush)(Brush)App.Current.FindResource("LightBrush")//Foreground
-                //);
-
-                //DrawingVisual drawingVisual = new DrawingVisual();
-                //DrawingContext drawingContext = drawingVisual.RenderOpen();
-                //drawingContext.DrawEllipse((Brush)App.Current.FindResource("LightRedBrush"), 
-                //                            new Pen((Brush)App.Current.FindResource("LightRedBrush"), 0), 
-                //                            new Point(26, 33), 28, 28);
-                //drawingContext.DrawText(text, new Point(textLeftMargin, 6));
-                //drawingContext.Close();
-
-                //RenderTargetBitmap newMessageImage = new RenderTargetBitmap(68, 68, 120, 96, PixelFormats.Pbgra32);
-                //newMessageImage.Render(drawingVisual);
-
-                ////Show unread messages count over taskbar icon
-                //App.Current.MainWindow.TaskbarItemInfo.Overlay = newMessageImage;
-
                 ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
 
                 //Show application on taskbar if it is hidden

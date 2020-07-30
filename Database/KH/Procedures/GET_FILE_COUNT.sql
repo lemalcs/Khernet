@@ -15,7 +15,7 @@
 -- The number of files of given type.
 ------------------------------------------------------------------------------
 
-CREATE PROCEDURE GET_FILE_COUNT
+CREATE OR ALTER PROCEDURE GET_FILE_COUNT
 (
   USER_TOKEN TYPE OF COLUMN PEER.TOKEN,
   FILE_TYPE TYPE OF COLUMN MESSAGE.CONTENT_TYPE

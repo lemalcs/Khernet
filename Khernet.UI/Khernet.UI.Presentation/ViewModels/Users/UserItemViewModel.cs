@@ -327,7 +327,7 @@ namespace Khernet.UI
         /// <summary>
         /// Increase in one the number of unread messages
         /// </summary>
-        public void IncreaseUnReadMessages()
+        public void IncreaseUnreadMessages()
         {
             UnreadMessages++;
             IoCContainer.Get<UserListViewModel>().AddUnreadMessages(1);
@@ -336,7 +336,7 @@ namespace Khernet.UI
         /// <summary>
         /// Decrease in one the number of unread messages
         /// </summary>
-        public void DecreaseUnReadMessages()
+        public void DecreaseUnreadMessages()
         {
             if (UnreadMessages > 0)
             {
@@ -349,7 +349,7 @@ namespace Khernet.UI
         /// <summary>
         /// Sets unread message number to zero
         /// </summary>
-        public void ClearUnReadMessages()
+        public void ClearUnreadMessages()
         {
             UnreadMessages = 0;
             IoCContainer.Get<UserListViewModel>().ClearUnreadMessages();
@@ -358,7 +358,7 @@ namespace Khernet.UI
         /// <summary>
         /// Sets unread message number to zero
         /// </summary>
-        public void SetUnReadMessages(int messageQuantity)
+        public void SetUnreadMessages(int messageQuantity)
         {
             if (messageQuantity < 0)
                 throw new ArgumentException("Message quatity must be equals or greater than zero");

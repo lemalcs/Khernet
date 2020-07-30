@@ -140,7 +140,6 @@ namespace Khernet.UI
 
             try
             {
-
                 var userState = new UserState
                 {
                     Token = e.EventInformation.Token,
@@ -181,7 +180,7 @@ namespace Khernet.UI
                 if (user == null)
                     return;
 
-                user.IncreaseUnReadMessages();
+                user.IncreaseUnreadMessages();
                 IoCContainer.UI.ShowNotification(new NotificationViewModel
                 {
                     User = user,
@@ -199,8 +198,6 @@ namespace Khernet.UI
 
                 if (user == null)
                     return;
-
-                user.IncreaseUnReadMessages();
 
                 IoCContainer.UI.ShowNotification(new NotificationViewModel
                 {

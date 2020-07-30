@@ -309,7 +309,7 @@ namespace Khernet.UI
             MarkAsReadMessages();
 
             CanShowUnreadPopup = false;
-            UserContext.SetUnreadMessage(0);
+            UserContext.User.SetUnreadMessages(0);
 
             IDocumentContainer container = parameter as IDocumentContainer;
 
@@ -330,7 +330,6 @@ namespace Khernet.UI
                     IoCContainer.Get<Messenger>().MarkAsReadMessage(Items[i].Id);
                 }
                 UserContext.FirstUnreadMessageIndex = 0;
-
             }
             if (Items.Count > 0)
                 IoCContainer.Get<Messenger>().BulkMarkAsReadMessage(Items[Items.Count - 1].Id);
@@ -448,8 +447,6 @@ namespace Khernet.UI
 
                 fileMessage.Send(f);
 
-                UserContext.AddSentMessage(fileMessage);
-
                 Items.Add(fileMessage);
             }
         }
@@ -474,8 +471,6 @@ namespace Khernet.UI
             imageMessage.IsRead = true;
             imageMessage.SenderUserId = IoCContainer.Get<IIdentity>();
             imageMessage.ReceiverUserId = UserContext.User;
-
-            UserContext.AddSentMessage(imageMessage);
 
             imageMessage.Send(media);
 
@@ -548,7 +543,7 @@ namespace Khernet.UI
                     reply = UserContext.ReplyMessage.GetSendCopy();
                 }
 
-                if (UserContext.UnreadMessagesNumber > Items.Count)
+                if (UserContext.User.UnreadMessages > Items.Count)
                 {
                     Items.Clear();
                     LoadMessages(false);
@@ -563,8 +558,6 @@ namespace Khernet.UI
                     chat.SenderUserId = IoCContainer.Get<IIdentity>();
                     chat.ReceiverUserId = UserContext.User;
                     chat.SendDate = DateTimeOffset.Now;
-
-                    UserContext.AddSentMessage(chat);
 
                     chat.ProcessResend();
 
@@ -588,8 +581,6 @@ namespace Khernet.UI
                     {
                         newMessage = new MarkdownChatMessageViewModel(this);
                     }
-                    
-                    UserContext.AddSentMessage(newMessage);
 
                     newMessage.DisplayUser = UserContext.User;
                     newMessage.IsSentByMe = true;
@@ -613,7 +604,7 @@ namespace Khernet.UI
                 OnPropertyChanged(nameof(CanSendMessage));
 
                 CanShowUnreadPopup = false;
-                UserContext.SetUnreadMessage(0);
+                UserContext.User.SetUnreadMessages(0);
             }
             catch (Exception error)
             {
@@ -651,8 +642,6 @@ namespace Khernet.UI
                 animationChat.ReceiverUserId = UserContext.User;
 
                 animationChat.ProcessResend();
-
-                UserContext.AddSentMessage(animationChat);
 
                 Items.Add(animationChat);
 
@@ -778,10 +767,10 @@ namespace Khernet.UI
                 {
                     AddMessageToList(unreadMessages[i], !loadForward);
 
-                    if(!unreadMessages[i].IsRead)
+                    if (!isFirstLoad && !unreadMessages[i].IsRead)
                     {
-                        UserContext.SetUnreadMessage(UserContext.UnreadMessagesNumber+1);
-                        CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
+                        UserContext.User.SetUnreadMessages(UserContext.User.UnreadMessages + 1);
+                        CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
                     }
 
                     //Save the first id to perform a whole read update to unread messages
@@ -990,18 +979,16 @@ namespace Khernet.UI
             {
                 IoCContainer.Get<Messenger>().MarkAsReadMessage(messageModel.Id);
                 messageModel.IsRead = true;
-                UserContext.DecreaseUnreadMessage();
-                CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
-
-                UserContext.User.DecreaseUnReadMessages();
+                UserContext.User.DecreaseUnreadMessages();
+                CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
             }
 
             if (Items.Count > 0 && Items[Items.Count - 1] == UserContext.CurrentChatModel)
             {
                 MarkAsReadMessages();
 
-                UserContext.SetUnreadMessage(0);
-                CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
+                UserContext.User.SetUnreadMessages(0);
+                CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
             }
         }
 
@@ -1065,7 +1052,7 @@ namespace Khernet.UI
             else if (Items != null && Items.Count == 0)
                 LoadMessages(false);
 
-            CanShowUnreadPopup = UserContext.UnreadMessagesNumber > 0;
+            CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
 
             FocusTextBox();
 

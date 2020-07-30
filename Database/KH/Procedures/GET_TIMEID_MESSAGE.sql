@@ -14,7 +14,7 @@
 -- The number of ticks based on UTCS.
 ------------------------------------------------------------------------------
 
-CREATE PROCEDURE GET_TIMEID_MESSAGE
+CREATE OR ALTER PROCEDURE GET_TIMEID_MESSAGE
 (
   ID_MESSAGE TYPE OF COLUMN MESSAGE.ID  
 )

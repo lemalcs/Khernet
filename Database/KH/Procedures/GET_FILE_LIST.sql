@@ -17,7 +17,7 @@
 -- The list of messages headers.
 ------------------------------------------------------------------------------
 
-CREATE PROCEDURE GET_FILE_LIST
+CREATE OR ALTER PROCEDURE GET_FILE_LIST
 (
   USER_TOKEN TYPE OF COLUMN PEER.TOKEN,
   FILE_TYPE TYPE OF COLUMN MESSAGE.CONTENT_TYPE,

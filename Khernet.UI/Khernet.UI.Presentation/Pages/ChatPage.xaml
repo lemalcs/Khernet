@@ -128,7 +128,7 @@
                             Width="{Binding Path=ActualWidth,ElementName=txtUnReadCount,Converter={conv:UnreadCountWidthConverter}}"
                             HorizontalAlignment="Center">
 
-                        <TextBlock Text="{Binding UserContext.UnreadMessagesNumber}"
+                        <TextBlock Text="{Binding UserContext.User.UnreadMessages}"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource LightBrush}"
                                    FontFamily="{StaticResource RobotoBoldFont}"

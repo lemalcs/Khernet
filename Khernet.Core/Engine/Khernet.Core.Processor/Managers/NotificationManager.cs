@@ -178,18 +178,16 @@ namespace Khernet.Core.Processor.Managers
             try
             {
                 //Calls to this method can fail even if client can connet to this service
-                suscriber.ProcessNewMessage(/*message*/notification);
+                if (suscriber != null)
+                    suscriber.ProcessNewMessage(notification);
+                else
+                    SavePendingNotification(notification);
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
 
-                //Save notification on database if this could not be sent to client
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(
-                    Guid.NewGuid().ToString().Replace("-", ""),
-                    NotificationType.NewMessage,
-                    JSONSerializer<MessageNotification>.Serialize(notification));
+                SavePendingNotification(notification);
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
@@ -200,17 +198,16 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                suscriber.ProcessContactChange(notification);
+                if (suscriber != null)
+                    suscriber.ProcessContactChange(notification);
+                else
+                    SavePendingNotification(notification);
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
 
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(
-                    Guid.NewGuid().ToString().Replace("-", ""),
-                    NotificationType.PeerChange,
-                    JSONSerializer<PeerNotification>.Serialize(notification));
+                SavePendingNotification(notification);
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
@@ -221,15 +218,14 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                suscriber.ProcessMessageProcessing(notification);
+                if (suscriber != null)
+                    suscriber.ProcessMessageProcessing(notification);
+                else
+                    SavePendingNotification(notification);
             }
             catch (Exception)
             {
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(
-                    Guid.NewGuid().ToString().Replace("-", ""),
-                    NotificationType.MessageProcessingChange,
-                    JSONSerializer<MessageProcessingNotification>.Serialize(notification));
+                SavePendingNotification(notification);
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
@@ -240,21 +236,57 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                suscriber.ProcessMessageStateChanged(notification);
+                if (suscriber != null)
+                    suscriber.ProcessMessageStateChanged(notification);
+                else
+                    SavePendingNotification(notification);
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
 
-                EventListener eventListener = new EventListener();
-                eventListener.SaveNotification(
-                    Guid.NewGuid().ToString().Replace("-", ""),
-                    NotificationType.MessageChange,
-                    JSONSerializer<MessageStateNotification>.Serialize(notification));
+                SavePendingNotification(notification);
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
                     autoReset.Set();
             }
+        }
+
+        /// <summary>
+        /// Save notification on database if this could not be sent to client.
+        /// </summary>
+        /// <param name="notification">The content of notification.</param>
+        private void SavePendingNotification(BaseNotification notification)
+        {
+            NotificationType notificationType = NotificationType.NewMessage;
+            byte[] notificationContent = null;
+
+            if (notification is MessageNotification)
+            {
+                notificationType = NotificationType.NewMessage;
+                notificationContent = JSONSerializer<MessageNotification>.Serialize((MessageNotification)notification);
+            }
+            else if(notification is PeerNotification)
+            {
+                notificationType = NotificationType.PeerChange;
+                notificationContent = JSONSerializer<PeerNotification>.Serialize((PeerNotification)notification);
+            }
+            else if (notification is MessageProcessingNotification)
+            {
+                notificationType = NotificationType.MessageProcessingChange;
+                notificationContent = JSONSerializer<MessageProcessingNotification>.Serialize((MessageProcessingNotification)notification);
+            }
+            else if (notification is MessageStateNotification)
+            {
+                notificationType = NotificationType.MessageChange;
+                notificationContent = JSONSerializer<MessageStateNotification>.Serialize((MessageStateNotification)notification);
+            }
+
+            EventListener eventListener = new EventListener();
+            eventListener.SaveNotification(
+                Guid.NewGuid().ToString().Replace("-", ""),
+                notificationType,
+                notificationContent);
         }
 
 

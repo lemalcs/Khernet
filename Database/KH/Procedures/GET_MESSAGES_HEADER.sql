@@ -14,7 +14,7 @@
 -- The header of the message
 ------------------------------------------------------------------------------
 
-CREATE PROCEDURE GET_MESSAGES_HEADER
+CREATE OR ALTER PROCEDURE GET_MESSAGES_HEADER
 (
   ID_MESSAGE TYPE OF COLUMN MESSAGE.ID
 )
