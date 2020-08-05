@@ -266,7 +266,7 @@ namespace Khernet.Core.Processor.Managers
                 notificationType = NotificationType.NewMessage;
                 notificationContent = JSONSerializer<MessageNotification>.Serialize((MessageNotification)notification);
             }
-            else if(notification is PeerNotification)
+            else if (notification is PeerNotification)
             {
                 notificationType = NotificationType.PeerChange;
                 notificationContent = JSONSerializer<PeerNotification>.Serialize((PeerNotification)notification);

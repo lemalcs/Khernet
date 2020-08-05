@@ -82,7 +82,7 @@ namespace Khernet.Core.Processor.Managers
                                 Type = message.Type,
                                 UID = message.UID,
                                 UIDReply = message.UIDReply,
-                                TimeId=message.TimeId,
+                                TimeId = message.TimeId,
                             };
 
                             fileObserver = new FileObserver(fileMessage);

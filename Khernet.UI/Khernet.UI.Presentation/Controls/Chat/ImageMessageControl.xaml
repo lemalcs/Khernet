@@ -69,9 +69,7 @@
 
             <!-- Image message -->
             <Image Source="{Binding FilePath,TargetNullValue={StaticResource DefaultImage}}"
-                   MaxHeight="{Binding ActualWidth,
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-                                Converter={conv:ImageHeightConverter}}"
+                   MaxHeight="256"
                    Stretch="Uniform"
                    StretchDirection="DownOnly"
                    ContextMenu="{StaticResource fileMessageContextMenu}"/>

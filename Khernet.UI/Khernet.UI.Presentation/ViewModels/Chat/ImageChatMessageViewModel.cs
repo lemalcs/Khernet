@@ -405,7 +405,7 @@ namespace Khernet.UI
                 OperationRequest = MessageOperation.Resend,
                 ChatMessage = this,
             };
-            
+
             //Process the image file
             IoCContainer.Media.ProcessFile(this);
 

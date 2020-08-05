@@ -155,7 +155,7 @@ namespace Khernet.UI.Media
                 using (process = new Process())
                 {
                     process.StartInfo = processInfo;
-                   
+
                     string errorDetail = string.Empty;
                     receivedEventHandler = new DataReceivedEventHandler((s, e) => { errorDetail = string.Concat(e.Data); });
                     errorReceivedEventHandler = new DataReceivedEventHandler((s, e) => { errorDetail = string.Concat(e.Data); });
@@ -180,8 +180,8 @@ namespace Khernet.UI.Media
             }
             finally
             {
-                if (process != null) 
-                { 
+                if (process != null)
+                {
                     process.OutputDataReceived -= receivedEventHandler;
                     process.ErrorDataReceived -= errorReceivedEventHandler;
                 }

@@ -44,12 +44,12 @@ namespace Khernet.Core.Host
             }
         }
 
-        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, string uid,long timeId)
+        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, string uid, long timeId)
         {
             try
             {
                 Communicator communicator = new Communicator();
-                return communicator.SendTextMessage(senderToken, receiptToken, message, idReplyMessage, format,timeId, uid);
+                return communicator.SendTextMessage(senderToken, receiptToken, message, idReplyMessage, format, timeId, uid);
             }
             catch (Exception exception)
             {

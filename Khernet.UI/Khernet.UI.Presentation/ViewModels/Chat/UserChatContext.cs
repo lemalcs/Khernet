@@ -1,5 +1,4 @@
 ﻿using Khernet.UI.Media;
-using System.Collections.Generic;
 
 namespace Khernet.UI
 {

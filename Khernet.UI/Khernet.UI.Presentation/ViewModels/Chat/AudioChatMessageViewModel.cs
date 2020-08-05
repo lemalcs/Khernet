@@ -140,7 +140,7 @@ namespace Khernet.UI
                 FileName = filePath,
                 OperationRequest = MessageOperation.Upload,
                 FileType = MessageType.Audio,
-                ChatMessage=this,
+                ChatMessage = this,
             };
 
             //Process request
@@ -200,7 +200,7 @@ namespace Khernet.UI
                 FileName = FileName,
                 OperationRequest = MessageOperation.Resend,
                 FileType = MessageType.Audio,
-                ChatMessage=this,
+                ChatMessage = this,
             };
 
             //Process request
@@ -216,7 +216,7 @@ namespace Khernet.UI
             {
                 FileType = MessageType.Audio,
                 OperationRequest = MessageOperation.Download,
-                ChatMessage=this,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);

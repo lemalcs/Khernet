@@ -297,7 +297,7 @@ namespace Khernet.UI
                 FileName = filePath,
                 FileType = MessageType.GIF,
                 OperationRequest = MessageOperation.Upload,
-                ChatMessage=this,
+                ChatMessage = this,
             };
 
             //Process request
@@ -464,7 +464,7 @@ namespace Khernet.UI
             {
                 FileType = MessageType.GIF,
                 OperationRequest = MessageOperation.Download,
-                ChatMessage=this,
+                ChatMessage = this,
             };
 
             IoCContainer.Media.ProcessFile(this);

@@ -1,5 +1,4 @@
-﻿using Khernet.Core.Host;
-using Khernet.Services.Messages;
+﻿using Khernet.Services.Messages;
 using Khernet.UI.IoC;
 using System;
 using System.Diagnostics;

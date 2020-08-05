@@ -280,7 +280,7 @@ namespace Khernet.UI.Managers
                     IdReplyMessage = detail.IdReply,
                     Operation = MessageOperation.Download,
                     UID = detail.UID,
-                    TimeId=detail.TimeId,
+                    TimeId = detail.TimeId,
                 };
                 state = ((ChatMessageState)(int)detail.State);
 

@@ -27,14 +27,12 @@
                 <MouseBinding MouseAction="LeftClick" Command="{Binding OpenMediaCommand}"/>
             </Border.InputBindings>
 
-            <Grid>
-                <Grid.Resources>
-                    <system:Double x:Key="thumbNailHeight" >7</system:Double>
-                </Grid.Resources>
+            <Grid Height="{Binding ActualHeight,ElementName=mediaElement}">
 
                 <!--Animation preview image-->
                 <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}}"
                        Stretch="Uniform"
+                       Height="{Binding Height}"
                        StretchDirection="DownOnly">
                     <Image.MaxHeight>
                         <MultiBinding Converter="{conv:ImageHeightMultiConverter}">
@@ -92,13 +90,10 @@
                 <MediaElement Name="mediaElement"
                               Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityConverter},FallbackValue=Hidden}"
                               Source="{Binding FilePath}"
-                              MaxHeight="{Binding ActualWidth,
-                                          RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-                                          Converter={conv:ImageHeightConverter}}"
-                              Stretch="Uniform"
+                              MaxHeight="256"
                               StretchDirection="DownOnly"
-                              depend:EnableVideoLoopProperty.Value="True"
-                              MediaOpened="MediaElement_MediaOpened"/>
+                              Height="{Binding Height}"
+                              depend:EnableVideoLoopProperty.Value="True"/>
             </Grid>
         </Border>
     </Grid>

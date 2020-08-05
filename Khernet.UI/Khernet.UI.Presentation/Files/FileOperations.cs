@@ -554,7 +554,7 @@ namespace Khernet.UI.Files
         /// <returns>The id of file</returns>
         private MessageProcessResult UploadFile(IFileObserver observer, FileResponse response)
         {
-            response.UID = observer.Media.ChatMessage.UID; 
+            response.UID = observer.Media.ChatMessage.UID;
             response.TimeId = observer.Media.ChatMessage.TimeId;
             response.Operation = MessageOperation.GetMetadata;
             response.SendDate = observer.Media.ChatMessage.SendDate;

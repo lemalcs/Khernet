@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
 using System.Text;
 
 namespace Khernet.Core.Processor
@@ -246,9 +245,9 @@ namespace Khernet.Core.Processor
         {
             CommunicatorData commData = new CommunicatorData();
 
-            if (idMessage>0)
+            if (idMessage > 0)
             {
-                return commData.GettimeIdMessage(idMessage);
+                return commData.GetTimeIdMessage(idMessage);
             }
             return 0;
         }
@@ -620,7 +619,7 @@ namespace Khernet.Core.Processor
                         RegisterDate = Convert.ToDateTime(messagedata.Rows[i][2]),
                         State = Convert.ToInt32(messagedata.Rows[i][3]) == 1 ? MessageState.Processed : MessageState.Pending,
                         UID = messagedata.Rows[i][4].ToString(),
-                        TimeId=Convert.ToInt64(messagedata.Rows[i][5]),
+                        TimeId = Convert.ToInt64(messagedata.Rows[i][5]),
                     };
 
                     messageList.Add(message);
@@ -641,7 +640,7 @@ namespace Khernet.Core.Processor
                 MessageItem message = new MessageItem
                 {
                     Id = Convert.ToInt32(messagedata.Rows[0][0]),
-                    IdSenderPeer=Convert.ToInt32(messagedata.Rows[0][1]),
+                    IdSenderPeer = Convert.ToInt32(messagedata.Rows[0][1]),
                     Format = (ContentType)Convert.ToInt32(messagedata.Rows[0][2]),
                     RegisterDate = Convert.ToDateTime(messagedata.Rows[0][3]),
                     State = Convert.ToInt32(messagedata.Rows[0][4]) == 1 ? MessageState.Processed : MessageState.Pending,

@@ -309,7 +309,7 @@ namespace Khernet.UI
             MarkAsReadMessages();
 
             CanShowUnreadPopup = false;
-            UserContext.User.SetUnreadMessages(0);
+            UserContext.User.ClearUnreadMessages();
 
             IDocumentContainer container = parameter as IDocumentContainer;
 
@@ -604,7 +604,7 @@ namespace Khernet.UI
                 OnPropertyChanged(nameof(CanSendMessage));
 
                 CanShowUnreadPopup = false;
-                UserContext.User.SetUnreadMessages(0);
+                UserContext.User.ClearUnreadMessages();
             }
             catch (Exception error)
             {
@@ -738,7 +738,7 @@ namespace Khernet.UI
                     messageQuantity = 1;
                 }
 
-                if(idMessage == 0)
+                if (idMessage == 0)
                 {
                     unreadMessages = IoCContainer.Get<Messenger>().GetLastMessages(UserContext.User.Token, loadForward, lastTimeIdMessage, messageQuantity);
 
@@ -749,7 +749,7 @@ namespace Khernet.UI
                     unreadMessageNumber = newMessages == null ? 0 : newMessages.Count;
                 }
                 else
-                { 
+                {
                     unreadMessages = new List<MessageItem>();
                     unreadMessages.Add(IoCContainer.Get<Messenger>().GetMessageHeader(idMessage));
                     unreadMessageNumber = unreadMessages[0].IsRead ? 0 : 1;
@@ -769,7 +769,6 @@ namespace Khernet.UI
 
                     if (!isFirstLoad && !unreadMessages[i].IsRead)
                     {
-                        UserContext.User.SetUnreadMessages(UserContext.User.UnreadMessages + 1);
                         CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
                     }
 
@@ -855,7 +854,7 @@ namespace Khernet.UI
             }
 
             chatMessage.DisplayUser = UserContext.User;
-            chatMessage.SenderUserId = messageItem.IdSenderPeer == 0 ? IoCContainer.Get<IIdentity>(): UserContext.User;
+            chatMessage.SenderUserId = messageItem.IdSenderPeer == 0 ? IoCContainer.Get<IIdentity>() : UserContext.User;
             chatMessage.ReceiverUserId = messageItem.IdSenderPeer == 0 ? UserContext.User : IoCContainer.Get<IIdentity>();
 
             chatMessage.Load(messageItem);
@@ -867,13 +866,19 @@ namespace Khernet.UI
                 int i = Items.Count - 1;
                 for (; i > 0; i--)
                 {
-                    if (Items[i].TimeId <= chatMessage.TimeId)
+                    //Search the message added just before the new message
+                    if (Items[i].TimeId < chatMessage.TimeId ||
+                        Items[i].TimeId == chatMessage.TimeId && Items[i].Id != chatMessage.Id)
                         break;
+
+                    //Check if there is a duplicate message
+                    if (Items[i].TimeId == chatMessage.TimeId && Items[i].Id == chatMessage.Id)
+                        return;
                 }
                 if (i == items.Count - 1)
                     items.Add(chatMessage);
                 else
-                    Items.Insert(i+1, chatMessage);
+                    Items.Insert(i + 1, chatMessage);
             }
         }
 
@@ -987,7 +992,7 @@ namespace Khernet.UI
             {
                 MarkAsReadMessages();
 
-                UserContext.User.SetUnreadMessages(0);
+                UserContext.User.ClearUnreadMessages();
                 CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
             }
         }

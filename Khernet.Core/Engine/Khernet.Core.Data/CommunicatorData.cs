@@ -601,7 +601,7 @@ namespace Khernet.Core.Data
         }
 
         public int SaveTextMessage(string senderToken, string receiptToken, DateTimeOffset regDate, byte[] content,
-            int contentType, string uid,long timeId, int? idReplyMessage, byte[] thumbnail = null,
+            int contentType, string uid, long timeId, int? idReplyMessage, byte[] thumbnail = null,
             string filePath = null)
         {
             try
@@ -679,7 +679,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public long GettimeIdMessage(int id)
+        public long GetTimeIdMessage(int id)
         {
             try
             {

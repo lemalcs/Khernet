@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class UserItemViewModel : BaseModel,IIdentity
+    public class UserItemViewModel : BaseModel, IIdentity
     {
         #region Properties
         /// <summary>
@@ -341,31 +341,24 @@ namespace Khernet.UI
             if (UnreadMessages > 0)
             {
                 UnreadMessages--;
-                IoCContainer.Get<UserListViewModel>().SubtractUnreadMessages(1);
-                IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
             }
+            IoCContainer.Get<UserListViewModel>().SubtractUnreadMessages(1);
         }
 
-        /// <summary>
-        /// Sets unread message number to zero
-        /// </summary>
-        public void ClearUnreadMessages()
-        {
-            UnreadMessages = 0;
-            IoCContainer.Get<UserListViewModel>().ClearUnreadMessages();
-        }
-
-        /// <summary>
-        /// Sets unread message number to zero
-        /// </summary>
-        public void SetUnreadMessages(int messageQuantity)
+        public void AddUnreadMessages(int messageQuantity)
         {
             if (messageQuantity < 0)
                 throw new ArgumentException("Message quatity must be equals or greater than zero");
 
-            UnreadMessages = messageQuantity;
+            UnreadMessages += messageQuantity;
 
             IoCContainer.Get<UserListViewModel>().AddUnreadMessages(messageQuantity);
+        }
+
+        public void ClearUnreadMessages()
+        {
+            IoCContainer.Get<UserListViewModel>().SubtractUnreadMessages(UnreadMessages);
+            UnreadMessages = 0;
         }
 
         public void SetAvatarThumbnail(byte[] avatarBytes)

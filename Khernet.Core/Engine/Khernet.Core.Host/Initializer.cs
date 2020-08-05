@@ -194,7 +194,7 @@ namespace Khernet.Core.Host
                 notifierHost.AddServiceEndpoint(new UdpDiscoveryEndpoint());
 
 #if DEBUG
-                SetupFaultExceptions(notifierHost.Description.Behaviors,true);
+                SetupFaultExceptions(notifierHost.Description.Behaviors, true);
 #endif
 
                 //Set token for this service
@@ -224,7 +224,7 @@ namespace Khernet.Core.Host
         /// </summary>
         /// <param name="serviceBehaviors">The service descriptions list.</param>
         /// <param name="enableIncludeExceptions">Indicates whether exceptions must be included.</param>
-        private void SetupFaultExceptions(KeyedByTypeCollection<IServiceBehavior> serviceBehaviors,bool enableIncludeExceptions)
+        private void SetupFaultExceptions(KeyedByTypeCollection<IServiceBehavior> serviceBehaviors, bool enableIncludeExceptions)
         {
             foreach (IServiceBehavior behavior in serviceBehaviors)
             {

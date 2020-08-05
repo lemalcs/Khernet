@@ -187,17 +187,19 @@ namespace Khernet.UI
                     MessageType = (MessageType)(int)e.Notification.Format,
                 });
             }
-            else if(IoCContainer.UI.IsMainWindowActive())
+            else if (IoCContainer.UI.IsMainWindowActive())
             {
                 IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
             }
             else
             {
-                IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
                 var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
 
                 if (user == null)
                     return;
+
+                user.IncreaseUnreadMessages();
+                IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
 
                 IoCContainer.UI.ShowNotification(new NotificationViewModel
                 {

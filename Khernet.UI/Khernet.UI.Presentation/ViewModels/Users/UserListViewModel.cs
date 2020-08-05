@@ -100,6 +100,9 @@ namespace Khernet.UI
                 SelectedUser = user;
         }
 
+        /// <summary>
+        /// Unselect the current user.
+        /// </summary>
         public void ClearSelection()
         {
             SelectedUser = null;
@@ -157,31 +160,24 @@ namespace Khernet.UI
 
         public void AddUnreadMessages(int unreadMessageNumber)
         {
-            if (unreadMessageNumber <= 0)
+            if (unreadMessageNumber < 0)
                 return;
 
             TotalUnreadMessages += unreadMessageNumber;
+            IoCContainer.UI.ShowUnreadMessagesNumber(TotalUnreadMessages);
         }
 
         public void SubtractUnreadMessages(int unreadMessageNumber)
         {
-            if (unreadMessageNumber <= 0)
+            if (unreadMessageNumber < 0 || TotalUnreadMessages == 0)
                 return;
 
             TotalUnreadMessages -= unreadMessageNumber;
-            ClearNewMessageNotificationIcon();
-        }
 
-        public void ClearUnreadMessages()
-        {
-            TotalUnreadMessages = 0;
-            ClearNewMessageNotificationIcon();
-        }
-
-        private void ClearNewMessageNotificationIcon()
-        {
             if (TotalUnreadMessages == 0)
                 IoCContainer.UI.ClearNotificationNewMessageIcon();
+            else
+                IoCContainer.UI.ShowUnreadMessagesNumber(TotalUnreadMessages);
         }
     }
 }

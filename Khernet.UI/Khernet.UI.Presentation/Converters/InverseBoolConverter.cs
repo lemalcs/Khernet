@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 
 namespace Khernet.UI.Converters
 {

@@ -5,24 +5,6 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Returns a <see cref="double"/> height reduced in a amount or a default value if zero.
-    /// </summary>
-    public class ImageHeightConverter : BaseValueConverter<ImageHeightConverter>
-    {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            double height = (double)value;
-
-            return height / 2.7;
-        }
-
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
     /// Returns the first height value that is not zero.
     /// </summary>
     public class ImageHeightMultiConverter : BaseMultiValueConverter<ImageHeightMultiConverter>
@@ -39,7 +21,7 @@ namespace Khernet.UI.Converters
             double height = (double)values[0];
 
             if (height > 0)
-                return height / 2.7;
+                return height;
 
             double alternateValue;
 

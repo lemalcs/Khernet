@@ -199,7 +199,7 @@ namespace Khernet.Core.Processor
                     Metadata = fileMessage,
                     SendDate = fileObserver.Data.SendDate,
                     UID = fileObserver.Data.UID,
-                    TimeId=fileObserver.Data.TimeId,
+                    TimeId = fileObserver.Data.TimeId,
                     UIDReply = fileObserver.Data.UIDReply,
                 };
 
@@ -288,7 +288,7 @@ namespace Khernet.Core.Processor
                     SendDate = conversationMessage.SendDate,
                     Type = conversationMessage.Type,
                     UID = conversationMessage.UID,
-                    TimeId= conversationMessage.TimeId,
+                    TimeId = conversationMessage.TimeId,
                     UIDReply = conversationMessage.UIDReply,
                     Metadata = info,
                 };
@@ -556,14 +556,14 @@ namespace Khernet.Core.Processor
             for (int i = 0; i < data.Rows.Count; i++)
                 fileList.Add(new MessageItem
                 {
-                    Id= Convert.ToInt32(data.Rows[i][0]),
+                    Id = Convert.ToInt32(data.Rows[i][0]),
                     IdSenderPeer = Convert.ToInt32(data.Rows[i][1]),
-                    RegisterDate= Convert.ToDateTime(data.Rows[i][2]),
-                    State= (MessageState)Convert.ToInt32(data.Rows[i][3]),
-                    IsRead=Convert.ToBoolean(Convert.ToInt32(data.Rows[i][4])),
-                    UID= data.Rows[i][6] != DBNull.Value ? data.Rows[i][5].ToString() : string.Empty,
-                    TimeId=Convert.ToInt64(data.Rows[i][6]),
-                    Format=fileType,
+                    RegisterDate = Convert.ToDateTime(data.Rows[i][2]),
+                    State = (MessageState)Convert.ToInt32(data.Rows[i][3]),
+                    IsRead = Convert.ToBoolean(Convert.ToInt32(data.Rows[i][4])),
+                    UID = data.Rows[i][6] != DBNull.Value ? data.Rows[i][5].ToString() : string.Empty,
+                    TimeId = Convert.ToInt64(data.Rows[i][6]),
+                    Format = fileType,
                 });
 
             return fileList;
