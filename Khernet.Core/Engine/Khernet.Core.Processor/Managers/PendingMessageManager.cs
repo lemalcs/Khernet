@@ -56,12 +56,12 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
-        public void ProcessPendingMessagesOf(string receiptToken)
+        public void ProcessPendingMessagesOf(string receiverToken)
         {
             if (usersList == null)
                 usersList = new ConcurrentQueue<string>();
 
-            usersList.Enqueue(receiptToken);
+            usersList.Enqueue(receiverToken);
 
             autoResetEvent.Set();
         }
@@ -77,16 +77,16 @@ namespace Khernet.Core.Processor.Managers
 
                     while (usersList.Count > 0)
                     {
-                        string receiptToken;
+                        string receiverToken;
 
-                        usersList.TryDequeue(out receiptToken);
+                        usersList.TryDequeue(out receiverToken);
 
-                        if (string.IsNullOrEmpty(receiptToken))
+                        if (string.IsNullOrEmpty(receiverToken))
                             continue;
 
-                        SendPendingMessageOf(receiptToken);
+                        SendPendingMessageOf(receiverToken);
 
-                        RequestPendingMessageOf(receiptToken);
+                        RequestPendingMessageOf(receiverToken);
                     }
 
                     if (usersList.Count == 0)
@@ -109,9 +109,9 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
-        private void SendPendingMessageOf(string receiptToken)
+        private void SendPendingMessageOf(string receiverToken)
         {
-            List<int> messageList = communicator.GetPendingMessageOfUser(receiptToken, 1);
+            List<int> messageList = communicator.GetPendingMessageOfUser(receiverToken, 1);
 
             if (messageList == null)
                 return;
@@ -142,7 +142,7 @@ namespace Khernet.Core.Processor.Managers
             }
 
             //Get the full list of pending messages
-            messageList = communicator.GetPendingMessageOfUser(receiptToken, 0);
+            messageList = communicator.GetPendingMessageOfUser(receiverToken, 0);
 
             if (messageList == null)
                 return;
@@ -200,9 +200,9 @@ namespace Khernet.Core.Processor.Managers
             }
         }
 
-        private void RequestPendingMessageOf(string receiptToken)
+        private void RequestPendingMessageOf(string receiverToken)
         {
-            List<int> messageList = communicator.GetRequestPendingMessageForUser(receiptToken, 1);
+            List<int> messageList = communicator.GetRequestPendingMessageForUser(receiverToken, 1);
 
             if (messageList == null)
                 return;

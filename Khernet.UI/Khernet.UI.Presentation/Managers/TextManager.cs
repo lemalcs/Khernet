@@ -238,7 +238,7 @@ namespace Khernet.UI.Managers
             {
                 MessageProcessResult result = IoCContainer.Get<Messenger>().SendTextMessage(
                            observer.Text.ChatMessage.SenderUserId.Token,// SenderToken,
-                           observer.Text.ChatMessage.ReceiverUserId.Token,// ReceiptToken,
+                           observer.Text.ChatMessage.ReceiverUserId.Token,// ReceiverToken,
                            observer.Text.Content,
                            observer.Text.IdReplyMessage,
                            (ContentType)((int)observer.Text.FileType),

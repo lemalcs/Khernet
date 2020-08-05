@@ -367,7 +367,7 @@ namespace Khernet.Core.Host
                 //Compruebe que los valores de EndpointAddresses concuerdan en el remitente y el destinatario.
 
                 //This happens when for example the remote application connects to local service with a IP address through NAT
-                //Sometime it happens randomly for example when receipt and sender are executing on same machine
+                //Sometime it happens randomly for example when receiver and sender are executing on same machine
 
                 KeyedByTypeCollection<IServiceBehavior> servB = announcementServiceHost.Description.Behaviors;
                 foreach (IServiceBehavior beh in servB)

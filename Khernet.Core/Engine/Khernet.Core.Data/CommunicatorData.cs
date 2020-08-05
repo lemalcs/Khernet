@@ -600,7 +600,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public int SaveTextMessage(string senderToken, string receiptToken, DateTimeOffset regDate, byte[] content,
+        public int SaveTextMessage(string senderToken, string receiverToken, DateTimeOffset regDate, byte[] content,
             int contentType, string uid, long timeId, int? idReplyMessage, byte[] thumbnail = null,
             string filePath = null)
         {
@@ -611,7 +611,7 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@SENDER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(senderToken, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@RECEIPT_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiptToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@RECEIVER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiverToken, Encoding.UTF8, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@REG_DATE", FbDbType.Date).Value = regDate;
                 cmd.Parameters.Add("@CONTENT", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(content, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@CONTENT_TYPE", FbDbType.Integer).Value = contentType;
@@ -842,7 +842,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public void RegisterPendingMessage(string receiptToken, int idMessage)
+        public void RegisterPendingMessage(string receiverToken, int idMessage)
         {
             try
             {
@@ -850,7 +850,7 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@RECEIPT_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiptToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@RECEIVER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiverToken, Encoding.UTF8, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.SmallInt).Value = idMessage;
                 keys = null;
 
@@ -915,10 +915,10 @@ namespace Khernet.Core.Data
         /// <summary>
         /// Gets the pending message of given user.
         /// </summary>
-        /// <param name="receiptToken">The token of receipt user</param>
+        /// <param name="receiverToken">The token of receiver user</param>
         /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
         /// <returns>The list of id messages</returns>
-        public DataTable GetPendingMessageOfUser(string receiptToken, int quantity)
+        public DataTable GetPendingMessageOfUser(string receiverToken, int quantity)
         {
             try
             {
@@ -928,7 +928,7 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@RECEIPT_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiptToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@RECEIVER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiverToken, Encoding.UTF8, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@quantity", FbDbType.Integer).Value = quantity;
                 keys = null;
 
@@ -952,7 +952,7 @@ namespace Khernet.Core.Data
         /// <summary>
         /// Gets the list of message to be requested to sender peer.
         /// </summary>
-        /// <param name="receiptToken">The token of user that sent message</param>
+        /// <param name="senderToken">The token of user that sent message</param>
         /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
         /// <returns>The list of id messages</returns>
         public DataTable GetRequestPendingMessageForUser(string senderToken, int quantity)
@@ -966,7 +966,7 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@SENDER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(senderToken, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@quantity", FbDbType.Integer).Value = quantity;
+                cmd.Parameters.Add("@QUANTITY", FbDbType.Integer).Value = quantity;
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
@@ -1043,7 +1043,7 @@ namespace Khernet.Core.Data
                     //Sender token
                     table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
-                    //Receipt token
+                    //Receiver token
                     table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
                     //Content
@@ -1067,7 +1067,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public void DeletePendingMessage(string receiptToken, int idMessage)
+        public void DeletePendingMessage(string receiverToken, int idMessage)
         {
             try
             {
@@ -1075,7 +1075,7 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@RECEIPT_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiptToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@RECEIVER_TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(receiverToken, Encoding.UTF8, keys.Item1, keys.Item2);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
                 keys = null;
 

@@ -45,7 +45,7 @@ namespace Khernet.Services.Messages
         /// The token of recepit of message
         /// </summary>
         [DataMember]
-        public string ReceiptToken { get; set; }
+        public string ReceiverToken { get; set; }
 
         /// <summary>
         /// The date that message was sent
@@ -60,7 +60,7 @@ namespace Khernet.Services.Messages
         public long TimeId { get; set; }
 
         /// <summary>
-        /// Unique identifier for message, this value will be known by sender and receipt
+        /// Unique identifier for message, this value will be known by sender and receiver.
         /// </summary>
         [DataMember]
         public string UID { get; set; }

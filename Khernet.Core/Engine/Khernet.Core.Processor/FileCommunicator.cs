@@ -104,7 +104,7 @@ namespace Khernet.Core.Processor
                 //Save message of new file to application database
                 int idMessage = commData.SaveTextMessage(
                     file.FileMetaData.SenderToken,
-                    file.FileMetaData.ReceiptToken,
+                    file.FileMetaData.ReceiverToken,
                     file.FileMetaData.SendDate,
                     info,
                     (int)file.FileMetaData.Type,
@@ -164,7 +164,7 @@ namespace Khernet.Core.Processor
                     //Serialize metadata of file
                     byte[] fileInfo = JSONSerializer<FileInformation>.Serialize(fileMessage);
 
-                    tempFile = BuildIdFile(fileObserver.Data.ReceiptToken, fileObserver.Data.UID);
+                    tempFile = BuildIdFile(fileObserver.Data.ReceiverToken, fileObserver.Data.UID);
 
                     dt.ReadChanged += (args) =>
                     {
@@ -174,7 +174,7 @@ namespace Khernet.Core.Processor
                     //Save text message when a file is sent
                     idMessage = commData.SaveTextMessage(
                         fileObserver.Data.SenderToken,
-                        fileObserver.Data.ReceiptToken,
+                        fileObserver.Data.ReceiverToken,
                         fileObserver.Data.SendDate,
                         fileInfo,
                         (int)fileObserver.Data.Type,
@@ -194,7 +194,7 @@ namespace Khernet.Core.Processor
                 FileMessage fMessage = new FileMessage
                 {
                     SenderToken = fileObserver.Data.SenderToken,
-                    ReceiptToken = fileObserver.Data.ReceiptToken,
+                    ReceiverToken = fileObserver.Data.ReceiverToken,
                     Type = fileObserver.Data.Type,
                     Metadata = fileMessage,
                     SendDate = fileObserver.Data.SendDate,
@@ -206,7 +206,7 @@ namespace Khernet.Core.Processor
                 FileUploadRequestMessage fileUploadRequest = new FileUploadRequestMessage();
                 fileUploadRequest.FileMetaData = fMessage;
 
-                CommunicatorClient fClient = new CommunicatorClient(fileObserver.Data.ReceiptToken);
+                CommunicatorClient fClient = new CommunicatorClient(fileObserver.Data.ReceiverToken);
 
                 using (MemoryStream thumbnailStream = new MemoryStream(fileObserver.Thumbnail ?? new byte[0]))
                 using (DataStream dt = new DataStream(thumbnailStream))
@@ -233,7 +233,7 @@ namespace Khernet.Core.Processor
             {
                 if (idMessage > 0 && !string.IsNullOrEmpty(tempFile))
                 {
-                    RegisterPendingMessage(fileObserver.Data.ReceiptToken, idMessage);
+                    RegisterPendingMessage(fileObserver.Data.ReceiverToken, idMessage);
                     MessageProcessResult result = new MessageProcessResult(idMessage, MessageState.Pending);
                     return result;
                 }
@@ -249,18 +249,18 @@ namespace Khernet.Core.Processor
             }
         }
 
-        private void RegisterPendingMessage(string receiptToken, int idMessage)
+        private void RegisterPendingMessage(string receiverToken, int idMessage)
         {
             //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
-            commData.RegisterPendingMessage(receiptToken, idMessage);
+            commData.RegisterPendingMessage(receiverToken, idMessage);
 
             //Try to send file again
-            IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(receiptToken);
+            IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(receiverToken);
         }
 
         /// <summary>
-        /// Send a pending file message to receipt
+        /// Send a pending file message to receiver.
         /// </summary>
         /// <param name="fileMessage">Message to be sent</param>
         public void SendPendingFile(InternalConversationMessage conversationMessage)
@@ -284,7 +284,7 @@ namespace Khernet.Core.Processor
                 FileMessage fileMessage = new FileMessage
                 {
                     SenderToken = conversationMessage.SenderToken,
-                    ReceiptToken = conversationMessage.ReceiptToken,
+                    ReceiverToken = conversationMessage.ReceiverToken,
                     SendDate = conversationMessage.SendDate,
                     Type = conversationMessage.Type,
                     UID = conversationMessage.UID,
@@ -296,7 +296,7 @@ namespace Khernet.Core.Processor
                 FileUploadRequestMessage fileUploadRequest = new FileUploadRequestMessage();
                 fileUploadRequest.FileMetaData = fileMessage;
 
-                CommunicatorClient fClient = new CommunicatorClient(conversationMessage.ReceiptToken);
+                CommunicatorClient fClient = new CommunicatorClient(conversationMessage.ReceiverToken);
 
                 byte[] thumbnail = GetThumbnail(conversationMessage.Id);
 
@@ -307,7 +307,7 @@ namespace Khernet.Core.Processor
                     fClient.UploadFile(fileUploadRequest);
                 }
 
-                commData.DeletePendingMessage(conversationMessage.ReceiptToken, conversationMessage.Id);
+                commData.DeletePendingMessage(conversationMessage.ReceiverToken, conversationMessage.Id);
 
                 commData.SetMessageState(conversationMessage.Id, (int)MessageState.Processed);
 
@@ -330,7 +330,7 @@ namespace Khernet.Core.Processor
             {
                 FileCommunicatorData fileData = new FileCommunicatorData();
 
-                string idFile = BuildIdFile(file.Description.ReceiptToken, file.Description.UID);
+                string idFile = BuildIdFile(file.Description.ReceiverToken, file.Description.UID);
 
                 FileDownloadResponseMessage fileResponse = new FileDownloadResponseMessage();
                 fileResponse.File = fileData.GetFile(idFile);
@@ -460,7 +460,7 @@ namespace Khernet.Core.Processor
             string fileId = null;
 
             if (p.AccountToken == message.SenderToken)
-                fileId = BuildIdFile(message.ReceiptToken, message.UID);
+                fileId = BuildIdFile(message.ReceiverToken, message.UID);
             else
                 fileId = BuildIdFile(message.SenderToken, message.UID);
 

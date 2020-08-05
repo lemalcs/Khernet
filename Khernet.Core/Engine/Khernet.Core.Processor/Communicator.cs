@@ -25,7 +25,7 @@ namespace Khernet.Core.Processor
             commData.ClearPartialMessages();
         }
 
-        public MessageProcessResult SendTextMessage(string senderToken, string receiptToken, byte[] message, int idReplyMessage, ContentType format, long timeId, string uid = null)
+        public MessageProcessResult SendTextMessage(string senderToken, string receiverToken, byte[] message, int idReplyMessage, ContentType format, long timeId, string uid = null)
         {
             CommunicatorData commData = new CommunicatorData();
 
@@ -34,7 +34,7 @@ namespace Khernet.Core.Processor
 
             int idMessage = commData.SaveTextMessage(
                 senderToken,
-                receiptToken,
+                receiverToken,
                 DateTime.Now, message,
                 (int)format,
                 uid,
@@ -59,7 +59,7 @@ namespace Khernet.Core.Processor
         {
             try
             {
-                CommunicatorClient commClient = new CommunicatorClient(internalConversation.ReceiptToken);
+                CommunicatorClient commClient = new CommunicatorClient(internalConversation.ReceiverToken);
 
                 int chukSize = 8192;
 
@@ -81,7 +81,7 @@ namespace Khernet.Core.Processor
                     conversation.UID = internalConversation.UID;
                     conversation.TimeId = internalConversation.TimeId;
                     conversation.SenderToken = internalConversation.SenderToken;
-                    conversation.ReceiptToken = internalConversation.ReceiptToken;
+                    conversation.ReceiverToken = internalConversation.ReceiverToken;
                     conversation.Sequential = idChunk;
                     conversation.RawContent = buffer.ToArray();
                     conversation.SendDate = internalConversation.SendDate;
@@ -89,7 +89,7 @@ namespace Khernet.Core.Processor
                     conversation.UIDReply = internalConversation.UIDReply;
                     conversation.Type = internalConversation.Type;
 
-                    //Send message to receipt
+                    //Send message to receiver
                     commClient.ProcessTextMessage(conversation);
                     idChunk++;
                 }
@@ -101,11 +101,11 @@ namespace Khernet.Core.Processor
             }
         }
 
-        public void RegisterPendingMessage(string receiptToken, int idMessage)
+        public void RegisterPendingMessage(string receiverToken, int idMessage)
         {
             //Save file on database so this can be send later
             CommunicatorData commData = new CommunicatorData();
-            commData.RegisterPendingMessage(receiptToken, idMessage);
+            commData.RegisterPendingMessage(receiverToken, idMessage);
         }
 
         public string GetUIDMessage(int idMessage)
@@ -124,9 +124,9 @@ namespace Khernet.Core.Processor
 
             SendMessageByChucks(conversation, messageData.Rows[0][0] as byte[]);
 
-            commData.DeletePendingMessage(conversation.ReceiptToken, conversation.Id);
+            commData.DeletePendingMessage(conversation.ReceiverToken, conversation.Id);
 
-            //Mark message as sent to receipt
+            //Mark message as sent to receiver
             commData.SetMessageState(conversation.Id, (int)MessageState.Processed);
 
             IoCContainer.Get<NotificationManager>().ProcessMessageStateChanged(new MessageStateNotification
@@ -142,9 +142,9 @@ namespace Khernet.Core.Processor
             commData.SetMessageState(idMessage, (int)state);
         }
 
-        public void SendWritingMessage(string senderToken, string receiptToken)
+        public void SendWritingMessage(string senderToken, string receiverToken)
         {
-            EventNotifierClient notifierClient = new EventNotifierClient(receiptToken);
+            EventNotifierClient notifierClient = new EventNotifierClient(receiverToken);
 
             notifierClient.ProcessMessageProcessing(new MessageProcessingNotification
             {
@@ -188,7 +188,7 @@ namespace Khernet.Core.Processor
 
                 int idMessage = commData.SaveTextMessage(
                     message.SenderToken,
-                    message.ReceiptToken,
+                    message.ReceiverToken,
                     message.SendDate,
                     buffer,
                     (int)message.Type,
@@ -208,7 +208,7 @@ namespace Khernet.Core.Processor
 
                     InternalConversationMessage conversation = new InternalConversationMessage();
                     conversation.SenderToken = message.SenderToken;
-                    conversation.ReceiptToken = message.ReceiptToken;
+                    conversation.ReceiverToken = message.ReceiverToken;
                     conversation.SendDate = message.SendDate;
                     conversation.RawContent = buffer;
                     conversation.Id = idMessage;
@@ -252,10 +252,10 @@ namespace Khernet.Core.Processor
             return 0;
         }
 
-        public List<int> GetPendingMessageOfUser(string receiptToken, int quantity)
+        public List<int> GetPendingMessageOfUser(string receiverToken, int quantity)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetPendingMessageOfUser(receiptToken, quantity);
+            DataTable data = commData.GetPendingMessageOfUser(receiverToken, quantity);
 
             if (data.Rows.Count > 0)
             {
@@ -290,10 +290,10 @@ namespace Khernet.Core.Processor
                 return null;
         }
 
-        public void DeletePendingMessage(string receiptToken, int idMessage)
+        public void DeletePendingMessage(string receiverToken, int idMessage)
         {
             CommunicatorData commData = new CommunicatorData();
-            commData.DeletePendingMessage(receiptToken, idMessage);
+            commData.DeletePendingMessage(receiverToken, idMessage);
         }
 
         public void MarkAsReadMessage(int idMessage)
@@ -706,7 +706,7 @@ namespace Khernet.Core.Processor
 
             InternalConversationMessage message = new InternalConversationMessage();
             message.SenderToken = messageData.Rows[0][0].ToString();
-            message.ReceiptToken = messageData.Rows[0][1].ToString();
+            message.ReceiverToken = messageData.Rows[0][1].ToString();
             message.RawContent = messageData.Rows[0][2] as byte[];
             message.TimeId = Convert.ToInt64(messageData.Rows[0][5]);
             message.SendDate = Convert.ToDateTime(messageData.Rows[0][6]);

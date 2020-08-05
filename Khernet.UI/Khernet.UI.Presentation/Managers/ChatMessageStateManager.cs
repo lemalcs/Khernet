@@ -81,7 +81,7 @@ namespace Khernet.UI.Managers
                             ChatMessage message = IoCContainer.Get<Messenger>().GetMessageDetail(messageState.Id);
                             if (message != null)
                             {
-                                var chatList = IoCContainer.Chat.GetChat(message.ReceiptToken);
+                                var chatList = IoCContainer.Chat.GetChat(message.ReceiverToken);
                                 if (chatList != null)
                                 {
                                     var result = chatList.Where((chat, i) => chat.Id == messageState.Id).FirstOrDefault();

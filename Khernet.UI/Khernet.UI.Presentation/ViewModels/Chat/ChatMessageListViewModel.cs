@@ -676,7 +676,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Send an notification about writing a message to receipt peer
+        /// Send an notification about writing a message to receiver peer.
         /// </summary>
         public void SendWritingMessage()
         {

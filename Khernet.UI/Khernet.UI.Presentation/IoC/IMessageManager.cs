@@ -6,7 +6,7 @@
         /// Send a message to specific user
         /// </summary>
         /// <param name="messageModel">The message that is being sended</param>
-        /// <param name="receiver">The receipt user of message</param>
+        /// <param name="receiver">The receiver user of message</param>
         void ResendMessage(ChatMessageItemViewModel messageModel, UserItemViewModel receiver = null);
 
         /// <summary>

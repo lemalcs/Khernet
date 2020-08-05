@@ -23,24 +23,24 @@ BEGIN
         AND B.STATE>0);
 
    --Pending file message to send to peer
-   INSERT INTO PENDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
-   SELECT ID_RECEIPT,ID,:TODAY FROM MESSAGE A
+   INSERT INTO PENDING_MESSAGE(ID_RECEIVER,ID_MESSAGE,REG_DATE)
+   SELECT ID_RECEIVER,ID,:TODAY FROM MESSAGE A
    WHERE
    ID_SENDER=0 --Current logged user
    AND STATE=0 --Not sent message
    AND NOT EXISTS(SELECT 1 FROM PENDING_MESSAGE B
                    WHERE
-                   A.ID_RECEIPT=B.ID_RECEIPT
+                   A.ID_RECEIVER=B.ID_RECEIVER
                    AND A.ID=B.ID_MESSAGE);
                    
    --Pending file message to request to peer                
-   INSERT INTO PENDING_MESSAGE(ID_RECEIPT,ID_MESSAGE,REG_DATE)
+   INSERT INTO PENDING_MESSAGE(ID_RECEIVER,ID_MESSAGE,REG_DATE)
    SELECT ID_SENDER,ID,:TODAY FROM MESSAGE A
    WHERE
-   ID_RECEIPT=0 --Current logged user
+   ID_RECEIVER=0 --Current logged user
    AND STATE=-1 --Not downloaded file
    AND NOT EXISTS(SELECT 1 FROM PENDING_MESSAGE B
                    WHERE
-                   A.ID_SENDER=B.ID_RECEIPT
+                   A.ID_SENDER=B.ID_RECEIVER
                    AND A.ID=B.ID_MESSAGE);
 END

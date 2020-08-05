@@ -565,7 +565,7 @@ namespace Khernet.UI.Files
             //Prepare information about file
             FileMessage fileMessage = new FileMessage();
             fileMessage.SenderToken = observer.Media.ChatMessage.SenderUserId.Token;
-            fileMessage.ReceiptToken = observer.Media.ChatMessage.ReceiverUserId.Token;
+            fileMessage.ReceiverToken = observer.Media.ChatMessage.ReceiverUserId.Token;
             fileMessage.SendDate = observer.Media.ChatMessage.SendDate;
 
             FileInformation info = new FileInformation
@@ -652,7 +652,7 @@ namespace Khernet.UI.Files
             FileMessage fileMessage = new FileMessage
             {
                 SenderToken = message.SenderToken,
-                ReceiptToken = message.ReceiptToken,
+                ReceiverToken = message.ReceiverToken,
                 Metadata = info,
                 UID = message.UID,
             };

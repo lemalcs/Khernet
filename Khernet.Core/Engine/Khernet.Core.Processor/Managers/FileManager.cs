@@ -76,7 +76,7 @@ namespace Khernet.Core.Processor.Managers
                             FileMessage fileMessage = new FileMessage
                             {
                                 SenderToken = message.SenderToken,
-                                ReceiptToken = message.ReceiptToken,
+                                ReceiverToken = message.ReceiverToken,
                                 Metadata = info,
                                 SendDate = message.SendDate,
                                 Type = message.Type,
@@ -189,7 +189,7 @@ namespace Khernet.Core.Processor.Managers
             {
                 InternalFileMessage internalMessage = new InternalFileMessage();
                 internalMessage.SenderToken = fileMessage.SenderToken;
-                internalMessage.ReceiptToken = fileMessage.ReceiptToken;
+                internalMessage.ReceiverToken = fileMessage.ReceiverToken;
                 internalMessage.SendDate = fileMessage.SendDate;
                 internalMessage.Metadata = fileMessage.Metadata;
                 internalMessage.Type = fileMessage.Type;
