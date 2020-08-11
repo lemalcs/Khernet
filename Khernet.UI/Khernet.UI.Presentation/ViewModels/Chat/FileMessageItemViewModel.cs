@@ -203,7 +203,7 @@ namespace Khernet.UI
         /// Save and image to local file system
         /// </summary>
         /// <param name="obj"></param>
-        private async void SaveFile(object obj)
+        protected async virtual void SaveFile()
         {
             try
             {
@@ -262,7 +262,7 @@ namespace Khernet.UI
         /// </summary>
         /// <param name="obj"></param>
         /// <returns>True if file is ready to user otherwise false</returns>
-        private bool IsReadyFile(object obj)
+        private bool IsReadyFile()
         {
             return IsMessageLoaded;
         }

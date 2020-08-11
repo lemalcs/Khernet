@@ -69,6 +69,7 @@ namespace Khernet.UI
             execute = executeMethod;
             parameterlessCanExecute = canExecuteMethod;
         }
+
         public RelayCommand(Action<object> executeMethod, Predicate<object> canExecuteMethod)
         {
             parameterizedExecute = executeMethod;

@@ -579,7 +579,7 @@ namespace Khernet.UI
                     }
                     else if (MessageFormat == MessageType.Markdown)
                     {
-                        newMessage = new MarkdownChatMessageViewModel(this);
+                        newMessage = new MarkdownChatMessageViewModel(this,applicationDialog);
                     }
 
                     newMessage.DisplayUser = UserContext.User;
@@ -829,7 +829,7 @@ namespace Khernet.UI
                     break;
 
                 case MessageType.Markdown:
-                    chatMessage = new MarkdownChatMessageViewModel(this);
+                    chatMessage = new MarkdownChatMessageViewModel(this,applicationDialog);
                     break;
 
                 case MessageType.Image:

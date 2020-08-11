@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Host;
+using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
@@ -90,6 +91,32 @@ namespace Khernet.UI
         private void Resend()
         {
             messageManager.ResendMessage(this);
+        }
+
+        protected async override void SaveFile()
+        {
+            try
+            {
+                string newFileName;
+                if (!string.IsNullOrEmpty(Path.GetExtension(FileName)))
+                    newFileName = applicationDialog.ShowSaveFileDialog(Path.GetFileName(FileName));
+                else
+                    newFileName = applicationDialog.ShowSaveFileDialog($"{Path.GetFileName(FileName)}.bmp");
+
+                SaveFile(newFileName);
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                await applicationDialog.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = "Error while saving file.",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                });
+            }
         }
 
         /// <summary>

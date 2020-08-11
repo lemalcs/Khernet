@@ -26,10 +26,20 @@ namespace Khernet.UI.IoC
         string[] ShowOpenFileDialog();
 
         /// <summary>
-        /// Showa system dialog to save file
+        /// Open save file dialog with the given file name.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="fileName">The name of file.</param>
+        /// <returns>The full path of file.</returns>
         string ShowSaveFileDialog(string fileName = null);
+
+        /// <summary>
+        /// Shows system dialog to save file with the given extension.
+        /// </summary>
+        /// <param name="filter">The filter to show.</param>
+        /// <param name="defaultExtension">Optional default extension</param>
+        /// <returns>The full path of file.</returns>
+        string ShowSaveFileDialog(string filter, string defaultExtension);
+
 
         /// <summary>
         /// Opens audio player into main window

@@ -1,4 +1,5 @@
 ﻿using Khernet.Services.Messages;
+using Khernet.UI.IoC;
 using System;
 
 namespace Khernet.UI

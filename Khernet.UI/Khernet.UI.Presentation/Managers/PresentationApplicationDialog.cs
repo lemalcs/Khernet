@@ -48,10 +48,37 @@ namespace Khernet.UI.Managers
             IoCContainer.Get<ApplicationViewModel>().ShowPlayer(viewModel);
         }
 
+        /// <summary>
+        /// Open save file dialog with the given file name.
+        /// </summary>
+        /// <param name="fileName">The name of file.</param>
+        /// <returns>The full path of file.</returns>
         public string ShowSaveFileDialog(string fileName = null)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.FileName = fileName;
+            saveDialog.Filter = "All files | *.*";
+
+            if (saveDialog.ShowDialog().Value)
+            {
+                return saveDialog.FileName;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Shows system dialog to save file with the given extension.
+        /// </summary>
+        /// <param name="filter">The filter to show.</param>
+        /// <param name="defaultExtension">Optional default extension</param>
+        /// <returns>The full path of file.</returns>
+        public string ShowSaveFileDialog(string filter, string defaultExtension)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = filter;
+            saveDialog.DefaultExt = defaultExtension;
+            saveDialog.AddExtension = false;
+
             if (saveDialog.ShowDialog().Value)
             {
                 return saveDialog.FileName;
@@ -107,6 +134,20 @@ namespace Khernet.UI.Managers
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.FileName = fileName;
+            if (saveDialog.ShowDialog().Value)
+            {
+                return saveDialog.FileName;
+            }
+            return null;
+        }
+
+        public string ShowSaveFileDialog(string filter, string defaultExtension)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = filter;
+            saveDialog.DefaultExt = defaultExtension;
+            saveDialog.AddExtension = false;
+
             if (saveDialog.ShowDialog().Value)
             {
                 return saveDialog.FileName;

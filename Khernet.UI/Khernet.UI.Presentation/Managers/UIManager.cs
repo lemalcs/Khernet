@@ -225,40 +225,6 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows system dialog to save file
-        /// </summary>
-        /// <returns></returns>
-        public string ShowSaveFileDialog(string fileName = null)
-        {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.FileName = fileName;
-
-            if (saveDialog.ShowDialog().Value)
-            {
-                return saveDialog.FileName;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Shows system dialog to save file
-        /// </summary>
-        /// <returns></returns>
-        public string ShowSaveFileDialog(string filter, string defaultExtension)
-        {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = filter;
-            saveDialog.DefaultExt = defaultExtension;
-            saveDialog.AddExtension = false;
-
-            if (saveDialog.ShowDialog().Value)
-            {
-                return saveDialog.FileName;
-            }
-            return null;
-        }
-
-        /// <summary>
         /// Execute a task on user interface thread
         /// </summary>
         /// <param name="action">The task to be executed</param>

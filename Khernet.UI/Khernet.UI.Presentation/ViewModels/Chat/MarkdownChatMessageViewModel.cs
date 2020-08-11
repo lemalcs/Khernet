@@ -20,6 +20,8 @@ namespace Khernet.UI
 
         private readonly IMessageManager messageManager;
 
+        private readonly IApplicationDialog applicationDialog;
+
         private string textContent;
 
         public string TextContent
@@ -46,9 +48,10 @@ namespace Khernet.UI
 
         #endregion
 
-        public MarkdownChatMessageViewModel(IMessageManager messageManager)
+        public MarkdownChatMessageViewModel(IMessageManager messageManager, IApplicationDialog applicationDialog)//:base(applicationDialog)
         {
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
+            this.applicationDialog = applicationDialog ?? throw new ArgumentNullException($"{nameof(IApplicationDialog)} cannot be null");
 
             ReplyCommand = new RelayCommand(Reply, IsReadyMessage);
             ResendCommand = new RelayCommand(Resend, IsReadyMessage);
@@ -65,7 +68,7 @@ namespace Khernet.UI
         {
             try
             {
-                string newFileName = IoCContainer.UI.ShowSaveFileDialog("HTML document | *.html | All files | *.*", null);
+                string newFileName = applicationDialog.ShowSaveFileDialog("HTML document | *.html | All files | *.*", null);
                 if (string.IsNullOrEmpty(newFileName))
                     return;
 
@@ -77,7 +80,7 @@ namespace Khernet.UI
             catch (Exception error)
             {
                 LogDumper.WriteLog(error);
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                await applicationDialog.ShowMessageBox(new MessageBoxViewModel
                 {
                     Message = error.Message,
                     Title = "Khernet",
@@ -92,7 +95,7 @@ namespace Khernet.UI
         {
             try
             {
-                string newFileName = IoCContainer.UI.ShowSaveFileDialog("Markdown document | *.md | All files | *.*", null);
+                string newFileName = applicationDialog.ShowSaveFileDialog("Markdown document | *.md | All files | *.*", null);
                 if (string.IsNullOrEmpty(newFileName))
                     return;
 
@@ -104,7 +107,7 @@ namespace Khernet.UI
             catch (Exception error)
             {
                 LogDumper.WriteLog(error);
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                await applicationDialog.ShowMessageBox(new MessageBoxViewModel
                 {
                     Message = error.Message,
                     Title = "Khernet",
@@ -232,7 +235,7 @@ namespace Khernet.UI
         /// <returns></returns>
         public override ChatMessageItemViewModel GetInstanceCopy()
         {
-            MarkdownChatMessageViewModel chatMessage = new MarkdownChatMessageViewModel(messageManager);
+            MarkdownChatMessageViewModel chatMessage = new MarkdownChatMessageViewModel(messageManager,applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.TextContent = TextContent;
 
