@@ -10,9 +10,9 @@ namespace Khernet.UI
     public class TaskbarIconViewModel : BaseModel
     {
         /// <summary>
-        /// Indicates if application is running
+        /// Indicates whether application is running.
         /// </summary>
-        private bool running = true;
+        public bool IsRunning { get; private set; } = true;
 
         public ICommand ShowWindowCommand
         {
@@ -36,14 +36,14 @@ namespace Khernet.UI
             }
         }
 
+
         /// <summary>
         /// Shutdowns the application
         /// </summary>
         /// <param name="parameter"></param>
         private async void ExitApplication(object parameter)
         {
-            running = false;
-
+            IsRunning = false;
             Application.Current.MainWindow.Hide();
 
             await TaskEx.Run(() =>
@@ -57,7 +57,6 @@ namespace Khernet.UI
                     Engine.Stop();
                 }
             });
-
             Application.Current.Shutdown(0);
         }
 
@@ -69,7 +68,7 @@ namespace Khernet.UI
         [DebuggerStepThrough]
         private bool VerifyRunning(object parameter)
         {
-            return running;
+            return IsRunning;
         }
 
         /// <summary>

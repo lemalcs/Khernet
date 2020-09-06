@@ -216,13 +216,8 @@ namespace Khernet.UI.Managers
                 user.BuildDisplayName();
                 var unreadMessages = IoCContainer.Get<Messenger>().GetUnreadMessages(userToken);
 
-                //if (unreadMessages == null)
-                //user. ddUnreadMessages(0);
                 if (unreadMessages != null)
                     user.AddUnreadMessages(unreadMessages.Count);
-
-                //if (unreadMessages != null && unreadMessages.Count > 0)
-                //    IoCContainer.UI.ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
 
                 if (newUser.Avatar != null)
                     user.SetAvatarThumbnail(newUser.Avatar);

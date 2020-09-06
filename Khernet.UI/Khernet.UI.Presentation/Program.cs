@@ -1,4 +1,5 @@
 ﻿using Khernet.UI.Resources;
+using Khernet.UI.Resources;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -13,15 +14,42 @@ namespace Khernet.UI
 
         [STAThread]
         [DebuggerStepThrough]
-        public static void Main(string[] args)
+        public static void Main()
         {
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            IntPtr winHandle = CheckRunningInstance();
+            if (winHandle!=IntPtr.Zero)
+            {
+                //Show window of the previous instance.
+                //Only a single instance of the same assembly is allowed to execute
+                NativeMethods.ShowWindow(winHandle,NativeMethods.SW_SHOW);
+                return;
+            }
 
-            //System.Threading.Thread.Sleep(20000);
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             App app = new App();
             app.InitializeComponent();
             app.Run();
+        }
+
+        /// <summary>
+        /// Check if other instance of this application is already executing.
+        /// </summary>
+        /// <returns>The <see cref="IntPtr"/> window handle or <see cref="IntPtr.Zero"/> if not found.</returns>
+        private static IntPtr CheckRunningInstance()
+        {
+            Process[] processList = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location));
+
+            foreach (Process p in processList)
+            {
+                if(p.MainModule.FileName== Assembly.GetExecutingAssembly().Location
+                    &&p.Id!=Process.GetCurrentProcess().Id)
+                {
+                    return p.MainWindowHandle;
+                }
+            }
+
+            return IntPtr.Zero;
         }
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

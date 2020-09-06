@@ -399,10 +399,7 @@
     <Compile Include="Managers\AudioManager.cs" />
     <Compile Include="Managers\AudioObservers.cs" />
     <Compile Include="Managers\ChatMessageStateManager.cs" />
-    <Compile Include="Managers\PresentationApplicationContext.cs" />
     <Compile Include="Managers\PresentationApplicationDialog.cs" />
-    <Compile Include="Managers\PresentationApplicationNotification.cs" />
-    <Compile Include="Managers\PresentationApplicationSurface.cs" />
     <Compile Include="Managers\TextRequest.cs" />
     <Compile Include="Managers\TextManager.cs" />
     <Compile Include="Managers\FileManager.cs" />
@@ -412,7 +409,7 @@
     <Compile Include="Files\FileHelper.cs" />
     <Compile Include="Files\ImageHelper.cs" />
     <Compile Include="Files\MediaHelper.cs" />
-    <Compile Include="Files\NativeMethods.cs" />
+    <Compile Include="Resources\NativeMethods.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\AboutPage.xaml.cs">

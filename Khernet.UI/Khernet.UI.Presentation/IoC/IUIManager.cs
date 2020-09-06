@@ -136,5 +136,12 @@ namespace Khernet.UI.IoC
         /// </summary>
         /// <param name="unreadMessages">The number of unreadMessages</param>
         void ShowUnreadMessagesNumber(int unreadMessages);
+
+        /// <summary>
+        /// Show a message indicating that application is minimized to tray area.
+        /// </summary>
+        void ShowTrayMessage();
+
+
     }
 }

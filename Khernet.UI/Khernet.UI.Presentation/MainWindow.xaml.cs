@@ -30,6 +30,8 @@ namespace Khernet.UI
 
             //Show session page when this window is closed
             IoCContainer.Get<ApplicationViewModel>().ClearChatPage();
+
+            IoCContainer.Get<IUIManager>().ShowTrayMessage();
         }
 
         private void MainWin_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -24,6 +24,11 @@ namespace Khernet.UI
         private TaskbarIcon notificationIcon;
 
         /// <summary>
+        /// Indicates whether tray message was showed.
+        /// </summary>
+        private bool trayMessageShowed= false;
+
+        /// <summary>
         /// Shows a message box
         /// </summary>
         /// <param name="dialogModel">The view model</param>
@@ -168,7 +173,7 @@ namespace Khernet.UI
 
                 notificationIcon.ShowCustomBalloon(new NotificationControl(notificationModel), System.Windows.Controls.Primitives.PopupAnimation.Slide, 4000);
                 notificationIcon.HideBalloonTip();
-                notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/newMessageIcon.ico"));
+                ShowTrayIconWithIndicator();
 
                 ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
 
@@ -366,6 +371,8 @@ namespace Khernet.UI
                 return;
             }
 
+            ShowTrayIconWithIndicator();
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 double textLeftMargin = 12;
@@ -404,6 +411,39 @@ namespace Khernet.UI
                 //Show unread messages count over taskbar icon
                 App.Current.MainWindow.TaskbarItemInfo.Overlay = newMessageImage;
             }));
+        }
+
+        /// <summary>
+        /// Shows the tray icon with and indicator that says there are unread messages.
+        /// </summary>
+        private void ShowTrayIconWithIndicator()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                var notificationIcon = App.Current.Resources["notificationIcon"] as TaskbarIcon;
+                notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/newMessageIcon.ico"));
+            }));
+        }
+
+        /// <summary>
+        /// Show a message indicating that application is minimized to tray area.
+        /// </summary>
+        public void ShowTrayMessage()
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                if (trayMessageShowed || notificationIcon == null)
+                    return;
+
+                //Do not show message if application is shutting down
+                if (!((TaskbarIconViewModel)(notificationIcon.DataContext)).IsRunning)
+                    return;
+
+                notificationIcon.ShowBalloonTip("Khernet", "Application continues executing and can be restored with the icon located in system tray.", BalloonIcon.Info);
+
+                //Show tray message just once
+                trayMessageShowed = true;
+             }));
         }
     }
 }
