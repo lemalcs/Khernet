@@ -127,6 +127,26 @@ namespace Khernet.UI
         }
 
         /// <summary>
+        /// Open folder in file explorer with selected file.
+        /// </summary>
+        /// <param name="fileName">The path of file.</param>
+        public void OpenFolderForFile(string fileName)
+        {
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.FileName = "explorer.exe";
+            processInfo.Arguments = $"/select,{fileName}";
+
+            try
+            {
+                Process.Start(processInfo);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Opens a specified chat
         /// </summary>
         /// <typeparam name="T">The type of view model</typeparam>

@@ -56,6 +56,12 @@ namespace Khernet.UI.IoC
         void OpenFile(string fileName);
 
         /// <summary>
+        /// Open folder in file explorer with selected file.
+        /// </summary>
+        /// <param name="fileName">The path of file.</param>
+        void OpenFolderForFile(string fileName);
+
+        /// <summary>
         /// Opens a specified chat
         /// </summary>
         /// <typeparam name="T">The type of view model</typeparam>

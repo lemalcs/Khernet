@@ -33,7 +33,8 @@ namespace Khernet.UI.Files
                     //Check if image comes from a stream
                     if (string.IsNullOrEmpty(observer.Media.FileName))
                     {
-                        string imageFile = Guid.NewGuid().ToString();
+                        //Set image format as BMP for images retrieved from clipboard
+                        string imageFile = $"{Guid.NewGuid()}.bmp";
                         outFile = Path.Combine(Configurations.CacheDirectory.FullName, imageFile);
                         ImageHelper.SaveImageStream(observer.Media.FileData, outFile);
 
@@ -788,7 +789,7 @@ namespace Khernet.UI.Files
                             byte[] buffer = new byte[chunk];
 
                             int readBytesOriginalFile = 0;
-                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                             {
                                 readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
 
@@ -843,7 +844,7 @@ namespace Khernet.UI.Files
                             byte[] buffer = new byte[chunk];
 
                             int readBytesOriginalFile = 0;
-                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                            using (FileStream fStream = new FileStream(cacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                             {
                                 readBytesOriginalFile = dtStream.Read(buffer, 0, chunk);
 

@@ -57,7 +57,7 @@ namespace Khernet.UI.Managers
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.FileName = fileName;
-            saveDialog.Filter = "All files | *.*";
+            saveDialog.Filter = "All files |*.*";
 
             if (saveDialog.ShowDialog().Value)
             {

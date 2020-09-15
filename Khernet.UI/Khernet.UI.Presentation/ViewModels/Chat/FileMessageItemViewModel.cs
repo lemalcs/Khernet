@@ -1,6 +1,7 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
 using Khernet.Services.Messages;
+using Khernet.UI.Files;
 using Khernet.UI.IoC;
 using System;
 using System.IO;
@@ -190,13 +191,37 @@ namespace Khernet.UI
 
         #endregion
 
+        #region Commands
+
         public ICommand SaveCommand { get; protected set; }
+        public ICommand ShowInFolderCommand { get; protected set; }
+
+        #endregion
 
         public FileMessageItemViewModel(IApplicationDialog applicationDialog)
         {
             SaveCommand = new RelayCommand(SaveFile, IsReadyFile);
+            ShowInFolderCommand = new RelayCommand(ShowInFolder, IsReadyFile);
 
             this.applicationDialog = applicationDialog;
+        }
+
+        private void ShowInFolder()
+        {
+            FileOperations operations = new FileOperations();
+            if (operations.VerifyFileIntegrity(FilePath, FileSize, Id))
+            {
+                FileState = FileChatState.Ready;
+
+                //Open file with default external program
+                IoCContainer.UI.OpenFolderForFile(FilePath);
+            }
+            else if (IsFileLoaded && FileState == FileChatState.Ready)
+            {
+                //Request to download to cache
+                FileState = FileChatState.NotDownloaded;
+                FilePath = string.Empty;
+            }
         }
 
         /// <summary>

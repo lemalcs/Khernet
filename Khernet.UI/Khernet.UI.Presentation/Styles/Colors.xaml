@@ -16,7 +16,6 @@
 
     <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGrayColor}"/>
 
-    <!--<Color x:Key="BlueColor">#386cbb</Color>-->
     <Color x:Key="BlueColor">#4A86E8</Color>
     <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
 
@@ -64,15 +63,6 @@
 
     <Color x:Key="VeryDarkGray">#303030</Color>
     <SolidColorBrush x:Key="VaryDarkGrayBrush" Color="{StaticResource VeryDarkGray}"/>
-
-    <Color x:Key="TurquoiseColor">#00B4CC</Color>
-    <SolidColorBrush x:Key="TurquoiseBrush" Color="{StaticResource TurquoiseColor}"/>
-
-    <Color x:Key="LightTurquoiseColor">#22B8CC</Color>
-    <SolidColorBrush x:Key="LightTurquoiseBrush" Color="{StaticResource LightTurquoiseColor}"/>
-
-    <Color x:Key="DarkTurquoiseColor">#12A0B2</Color>
-    <SolidColorBrush x:Key="DarkTurquoiseBrush" Color="{StaticResource DarkTurquoiseColor}"/>
 
     <Color x:Key="OpaqueBlackColor">#66000000</Color>
     <SolidColorBrush x:Key="OpaqueBlackColorBrush" Color="{StaticResource OpaqueBlackColor}"/>
