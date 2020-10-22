@@ -235,7 +235,7 @@ namespace Khernet.UI
         /// <returns></returns>
         public override ChatMessageItemViewModel GetInstanceCopy()
         {
-            MarkdownChatMessageViewModel chatMessage = new MarkdownChatMessageViewModel(messageManager,applicationDialog);
+            MarkdownChatMessageViewModel chatMessage = new MarkdownChatMessageViewModel(messageManager, applicationDialog);
             chatMessage.IsSentByMe = true;
             chatMessage.TextContent = TextContent;
 

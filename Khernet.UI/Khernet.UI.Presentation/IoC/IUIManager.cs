@@ -62,24 +62,10 @@ namespace Khernet.UI.IoC
         void OpenFolderForFile(string fileName);
 
         /// <summary>
-        /// Opens a specified chat
-        /// </summary>
-        /// <typeparam name="T">The type of view model</typeparam>
-        /// <param name="viewModel">The view model of contact to chat</param>
-        void ShowChat<T>(T viewModel) where T : BaseModel;
-
-        /// <summary>
         /// Indicates if it is design time
         /// </summary>
         /// <returns>True if it is design time otherwise false</returns>
         bool IsInDesignTime();
-
-        /// <summary>
-        /// Converts a <see cref="string"/> to XAML document byte array
-        /// </summary>
-        /// <param name="value">The value to convert</param>
-        /// <returns></returns>
-        byte[] ConvertStringToDocument(string value);
 
         /// <summary>
         /// Converts a <see cref="string"/> html document to XAML document byte array
@@ -147,7 +133,5 @@ namespace Khernet.UI.IoC
         /// Show a message indicating that application is minimized to tray area.
         /// </summary>
         void ShowTrayMessage();
-
-
     }
 }

@@ -66,7 +66,7 @@ namespace Khernet.UI.Converters
             {
                 if (inlines.ElementAt(i) is Run run)
                 {
-                    sb.Append(run.Text.Replace("\r\n","  \n"));
+                    sb.Append(run.Text.Replace("\r\n", "  \n"));
                 }
                 else if (inlines.ElementAt(i) is LineBreak)
                 {

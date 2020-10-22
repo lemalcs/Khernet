@@ -34,11 +34,23 @@ namespace Khernet.UI.Pages
             {
                 await LoadEnvironment();
 
+                sbyte processResult = await CreateFirewallRules();
+
+                if (processResult != 0)
+                {
+                    await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                    {
+                        Message = "Some configurations could not be made. Please restart the application as administrator.",
+                        Title = "Khernet",
+                        ShowAcceptOption = true,
+                        AcceptOptionLabel = "OK",
+                        ShowCancelOption = false,
+                    }, true);
+                }
+
                 IoCContainer.UI.ShowNotificationIcon();
 
                 OpenInitialPage();
-
-                CreateFirewallRules();
             }
             catch (Exception error)
             {
@@ -86,35 +98,38 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Creates if firewall rules for this application exists, otherwise try to create them
+        /// Check if firewall rules for this application exist, otherwise try to create them.
         /// </summary>
-        private async void CreateFirewallRules()
+        private Task<sbyte> CreateFirewallRules()
         {
-            try
-            {
-                if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6))
-                {
-                    FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6);
-                }
+            TaskCompletionSource<sbyte> result = new TaskCompletionSource<sbyte>();
 
-                if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17))
-                {
-                    FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17);
-                }
-            }
-            catch (Exception error)
+            TaskEx.Run(() =>
             {
-                LogDumper.WriteLog(error);
-
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                try
                 {
-                    Message = "Some configurations could not be made. Please restart the application as administrator.",
-                    Title = "Khernet",
-                    ShowAcceptOption = true,
-                    AcceptOptionLabel = "OK",
-                    ShowCancelOption = false,
-                });
-            }
+                    //Create rule for TCP protocol
+                    if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6))
+                    {
+                        FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 6);
+                    }
+
+                    //Create rule for UDP protocol
+                    if (!FirewallHelper.ExistsFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17))
+                    {
+                        FirewallHelper.CreateFirewallRule(Configurations.MainApplicationAssembly, Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly), 17);
+                    }
+
+                    result.TrySetResult(0);
+                }
+                catch (Exception error)
+                {
+                    LogDumper.WriteLog(error);
+                    result.TrySetResult(-1);
+                }
+            });
+
+            return result.Task;
         }
 
     }

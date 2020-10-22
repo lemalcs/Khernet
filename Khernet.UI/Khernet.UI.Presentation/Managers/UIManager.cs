@@ -26,7 +26,7 @@ namespace Khernet.UI
         /// <summary>
         /// Indicates whether tray message was showed.
         /// </summary>
-        private bool trayMessageShowed= false;
+        private bool trayMessageShowed = false;
 
         /// <summary>
         /// Shows a message box
@@ -147,38 +147,12 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens a specified chat
-        /// </summary>
-        /// <typeparam name="T">The type of view model</typeparam>
-        /// <param name="viewModel">The view model of contact to chat</param>
-        public void ShowChat<T>(T viewModel) where T : BaseModel
-        {
-            Application.Current.MainWindow.Show();
-        }
-
-        /// <summary>
         /// Indicates if it is design time
         /// </summary>
         /// <returns>True if it is design time otherwise false</returns>
         public bool IsInDesignTime()
         {
             return DesignerProperties.GetIsInDesignMode(new DependencyObject());
-        }
-
-        public byte[] ConvertStringToDocument(string value)
-        {
-            FlowDocument fw = new FlowDocument();
-
-            fw.Blocks.Add(new Paragraph(new Run(value)));
-
-            TextRange range = new TextRange(fw.ContentStart, fw.ContentEnd);
-            byte[] messageContent = new byte[0];
-            using (MemoryStream mem = new MemoryStream())
-            {
-                range.Save(mem, DataFormats.XamlPackage);
-                messageContent = mem.ToArray();
-            }
-            return messageContent;
         }
 
         /// <summary>
@@ -463,7 +437,7 @@ namespace Khernet.UI
 
                 //Show tray message just once
                 trayMessageShowed = true;
-             }));
+            }));
         }
     }
 }

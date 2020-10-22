@@ -1,5 +1,4 @@
 ﻿using Khernet.UI.Resources;
-using Khernet.UI.Resources;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -17,11 +16,11 @@ namespace Khernet.UI
         public static void Main()
         {
             IntPtr winHandle = CheckRunningInstance();
-            if (winHandle!=IntPtr.Zero)
+            if (winHandle != IntPtr.Zero)
             {
                 //Show window of the previous instance.
                 //Only a single instance of the same assembly is allowed to execute
-                NativeMethods.ShowWindow(winHandle,NativeMethods.SW_SHOW);
+                NativeMethods.ShowWindow(winHandle, NativeMethods.SW_SHOW);
                 return;
             }
 
@@ -42,8 +41,8 @@ namespace Khernet.UI
 
             foreach (Process p in processList)
             {
-                if(p.MainModule.FileName== Assembly.GetExecutingAssembly().Location
-                    &&p.Id!=Process.GetCurrentProcess().Id)
+                if (p.MainModule.FileName == Assembly.GetExecutingAssembly().Location
+                    && p.Id != Process.GetCurrentProcess().Id)
                 {
                     return p.MainWindowHandle;
                 }
