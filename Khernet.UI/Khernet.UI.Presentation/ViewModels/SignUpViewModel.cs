@@ -220,7 +220,7 @@ namespace Khernet.UI
         /// <returns></returns>
         public bool VerifyCredentials(object parameter)
         {
-            return !string.IsNullOrEmpty(username) && !string.IsNullOrWhiteSpace(username);
+            return FieldValidator.ValidateUserName(Username);
         }
 
         /// <summary>

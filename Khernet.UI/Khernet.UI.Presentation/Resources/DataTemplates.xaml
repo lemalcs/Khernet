@@ -5,7 +5,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <!-- Version number of application -->
-    <system:String x:Key="appVersion">0.10.17</system:String>
+    <system:String x:Key="appVersion">0.10.18</system:String>
 
     <!--Data templates for every chat message type-->
     <DataTemplate x:Key="TextDataTemplate">
