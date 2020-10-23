@@ -14,51 +14,51 @@
                 Style="{DynamicResource MetroPage}"
                 x:Name="Login"
                 Title="SignUpPage">
-    
-    <StackPanel Orientation="Vertical"
+    <Grid>
+        <StackPanel Orientation="Vertical"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Width="280"
                 IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
 
-        <!-- Title -->
-        <TextBlock Text="Create an account" 
+            <!-- Title -->
+            <TextBlock Text="Create an account" 
                    Style="{StaticResource TitleText}"
                    Margin="0 0 0 15"/>
 
-        <TextBlock Text="Username" 
+            <TextBlock Text="Username" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-        <!--Username textbox-->
-        <TextBox Height="28"
+            <!--Username textbox-->
+            <TextBox Height="28"
                  Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
                  Style="{StaticResource EditTextBox}"
                  depend:IsFocusedProperty.Value="True"
                  VerticalContentAlignment="Center"/>
 
-        <TextBlock Text="Password" 
+            <TextBlock Text="Password" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-        <!--Password 1 textbox-->
-        <PasswordBox Name="pass1"
+            <!--Password 1 textbox-->
+            <PasswordBox Name="pass1"
                      Height="28"
                      VerticalContentAlignment="Center"
                      Style="{StaticResource EditPasswordBox}"/>
 
-        <TextBlock Text="Confirm password" 
+            <TextBlock Text="Confirm password" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-        <!--Password 2 textbox-->
-        <PasswordBox Name="pass2"
+            <!--Password 2 textbox-->
+            <PasswordBox Name="pass2"
                      Height="28" 
                      VerticalContentAlignment="Center"
                      Style="{StaticResource EditPasswordBox}"/>
 
-        <!--Creation account/Login button-->
-        <Button x:Name="button" 
+            <!--Creation account/Login button-->
+            <Button x:Name="button" 
                 IsDefault="True"
                 Content="CREATE" 
                 Width="120"
@@ -68,6 +68,15 @@
                 Command="{Binding SignUpCommand}"
                 CommandParameter="{Binding ElementName=Login}"
                 Style="{StaticResource HexagonalButtonStyle}"/>
+
+        </StackPanel>
         
-    </StackPanel>
+        <!-- Version of application -->
+        <TextBlock Style="{StaticResource TextblockMetadata}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom">
+            <Run Text="v"/>
+            <Run Text="{StaticResource appVersion}"/>
+        </TextBlock>
+    </Grid>
 </local:BasePage>

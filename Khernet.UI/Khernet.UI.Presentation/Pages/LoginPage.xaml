@@ -14,43 +14,43 @@
                 Style="{DynamicResource MetroPage}"
                 x:Name="Login"
                 Title="LoginPage">
-    
-    <StackPanel Orientation="Vertical" 
+    <Grid>
+        <StackPanel Orientation="Vertical" 
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Width="280"
                 Height="256"
                 IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
 
-        <!-- Title -->
-        <TextBlock Text="Sign in" 
+            <!-- Title -->
+            <TextBlock Text="Sign in" 
                    Style="{StaticResource TitleText}"
                    Margin="0 0 0 15"/>
 
-        <TextBlock Text="Username" 
+            <TextBlock Text="Username" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-        <!--Username textbox-->
-        <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+            <!--Username textbox-->
+            <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
                  Style="{StaticResource EditTextBox}"
                  depend:IsFocusedProperty.Value="True"
                  MaxLength="20" 
                  Height="28"
                  VerticalContentAlignment="Center"/>
 
-        <TextBlock Text="Password" 
+            <TextBlock Text="Password" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-        <!--Password textbox-->
-        <PasswordBox Name="pass1"
+            <!--Password textbox-->
+            <PasswordBox Name="pass1"
                      Style="{StaticResource EditPasswordBox}" 
                      VerticalContentAlignment="Center"
                      Height="28"/>
 
-        <!--Login button-->
-        <Button x:Name="button" 
+            <!--Login button-->
+            <Button x:Name="button" 
                 IsDefault="True"
                 Content="LOG IN" 
                 Width="120"
@@ -61,6 +61,15 @@
                 CommandParameter="{Binding ElementName=Login}"
                 Style="{DynamicResource HexagonalButtonStyle}"/>
 
-        <!--Remove Style="{StaticResource HexagonalButtonStyle}" this to clear issue with generics-->
-    </StackPanel>
+            <!--Remove Style="{StaticResource HexagonalButtonStyle}" this to clear issue with generics-->
+        </StackPanel>
+
+        <!-- Version of application -->
+        <TextBlock Style="{StaticResource TextblockMetadata}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom">
+            <Run Text="v"/>
+            <Run Text="{StaticResource appVersion}"/>
+        </TextBlock>
+    </Grid>
 </local:BasePage>

@@ -49,4 +49,11 @@
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
     </Style>
 
+    <Style x:Key="TextblockMetadata" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayBrush}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="Margin" Value="10"/>
+    </Style>
+
 </ResourceDictionary>
