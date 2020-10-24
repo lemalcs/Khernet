@@ -197,13 +197,13 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="Vlc.DotNet.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Core.Interops, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
     </Reference>
-    <Reference Include="Vlc.DotNet.Wpf, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1-beta1\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
+    <Reference Include="Vlc.DotNet.Wpf, Version=1.0.1.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
