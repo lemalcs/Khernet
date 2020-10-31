@@ -9,17 +9,17 @@ namespace Khernet.UI.Managers
         public ChatMessageItemViewModel ChatMessage { get; set; }
 
         /// <summary>
-        /// The operation to perfomr over file according to <see cref="MessageOperation"/>
+        /// The operation to perform over file according to <see cref="MessageOperation"/>.
         /// </summary>
         public MessageOperation OperationRequest { get; set; }
 
         /// <summary>
-        /// The contect of file according to <see cref="MessageType"/>
+        /// The content of file according to <see cref="MessageType"/>.
         /// </summary>
         public MessageType FileType { get; set; }
 
         /// <summary>
-        /// The id of message being reply
+        /// The id of message being reply.
         /// </summary>
         public int IdReplyMessage { get; set; }
     }
@@ -27,27 +27,27 @@ namespace Khernet.UI.Managers
     public abstract class MessageResponse
     {
         /// <summary>
-        /// The date the message was sent
+        /// The date the message was sent.
         /// </summary>
         public DateTimeOffset SendDate { get; set; }
 
         /// <summary>
-        /// The id of message that was replied
+        /// The id of message that was replied.
         /// </summary>
         public int IdReplyMessage { get; set; }
 
         /// <summary>
-        /// The operation done over file
+        /// The operation done over file.
         /// </summary>
         public MessageOperation Operation { get; set; }
 
         /// <summary>
-        /// The state of the message
+        /// The state of the message.
         /// </summary>
         public ChatMessageState State { get; set; }
 
         /// <summary>
-        /// The universal identifier of message
+        /// The universal identifier of message.
         /// </summary>
         public string UID { get; set; }
 
@@ -64,12 +64,12 @@ namespace Khernet.UI.Managers
     public class MediaRequest : MessageRequest
     {
         /// <summary>
-        /// The path of original file to be processed
+        /// The path of original file to be processed.
         /// </summary>
         public string FileName { get; set; }
 
         /// <summary>
-        /// The stream of file
+        /// The stream of file.
         /// </summary>
         public Stream FileData { get; set; }
 
@@ -77,8 +77,6 @@ namespace Khernet.UI.Managers
         /// Indicates whether the file is a GIF (Graphics Interchange Format)
         /// </summary>
         public bool IsGIF { get; set; }
-
-        //public int ResendId { get; set; }
     }
 
     /// <summary>
@@ -87,47 +85,47 @@ namespace Khernet.UI.Managers
     public class FileResponse : MessageResponse
     {
         /// <summary>
-        /// The path of GIF file converted to AVI format
+        /// The path of GIF file converted to AVI format.
         /// </summary>
         public string ConvertedFileName { get; set; }
 
         /// <summary>
-        /// The thumbnail path
+        /// The thumbnail path.
         /// </summary>
         public string Thumbnail { get; set; }
 
         /// <summary>
-        /// The thumbnail bytes
+        /// The thumbnail bytes.
         /// </summary>
         public byte[] ThumbnailBytes { get; set; }
 
         /// <summary>
-        /// The width of media
+        /// The width of media.
         /// </summary>
         public double Width { get; set; }
 
         /// <summary>
-        /// The height of media
+        /// The height of media.
         /// </summary>
         public double Height { get; set; }
 
         /// <summary>
-        /// The duration media file
+        /// The duration media file.
         /// </summary>
         public TimeSpan Duration { get; set; }
 
         /// <summary>
-        /// The original name of file
+        /// The original name of file.
         /// </summary>
         public string OriginalFileName { get; set; }
 
         /// <summary>
-        /// The path of file on local system
+        /// The path of file on local system.
         /// </summary>
         public string FilePath { get; set; }
 
         /// <summary>
-        /// The size of file in bytes
+        /// The size of file in bytes.
         /// </summary>
         public long Size { get; set; }
 
@@ -135,32 +133,32 @@ namespace Khernet.UI.Managers
 
 
     /// <summary>
-    /// Operation to do on files
+    /// Operation to do on files.
     /// </summary>
     public enum MessageOperation
     {
         /// <summary>
-        /// Request to upload message
+        /// Request to upload message.
         /// </summary>
         Upload,
 
         /// <summary>
-        /// Request to download message
+        /// Request to download message.
         /// </summary>
         Download,
 
         /// <summary>
-        /// Request to open file
+        /// Request to open file.
         /// </summary>
         Open,
 
         /// <summary>
-        /// Request to resend a message
+        /// Request to resend a message.
         /// </summary>
         Resend,
 
         /// <summary>
-        /// The metadata of file message
+        /// The metadata of file message.
         /// </summary>
         GetMetadata
     }

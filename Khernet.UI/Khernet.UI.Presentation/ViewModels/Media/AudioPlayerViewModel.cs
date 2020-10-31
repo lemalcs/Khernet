@@ -12,12 +12,12 @@ namespace Khernet.UI
         #region Properties
 
         /// <summary>
-        /// The player of audio files that uses VLC library
+        /// The player of audio files that uses VLC library.
         /// </summary>
         private VlcControl player;
 
         /// <summary>
-        /// The model of audio messages
+        /// The model of audio messages.
         /// </summary>
         private AudioChatMessageViewModel currentViewModel;
 
@@ -54,12 +54,12 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// The command for play of pause audio files
+        /// The command for play of pause audio files.
         /// </summary>
         public ICommand PlayCommand { get; private set; }
 
         /// <summary>
-        /// The command for mute sound
+        /// The command for mute sound.
         /// </summary>
         public ICommand MuteCommand { get; private set; }
 

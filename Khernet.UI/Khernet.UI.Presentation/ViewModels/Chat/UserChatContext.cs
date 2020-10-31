@@ -9,29 +9,29 @@ namespace Khernet.UI
         public UserItemViewModel User { get; private set; }
 
         /// <summary>
-        /// The current chat model viewed by user 
+        /// The current chat model viewed by user.
         /// </summary>
         public ChatMessageItemViewModel CurrentChatModel { get; set; }
 
         /// <summary>
-        /// The fisrt chat message displayed in chat list
+        /// The first chat message displayed in chat list.
         /// </summary>
         public ChatMessageItemViewModel FirstViewChatModel { get; set; }
 
         private ReplyMessageViewModel replyMessage;
 
         /// <summary>
-        /// Stores the first index if unread message list
+        /// Stores the first index if unread message list.
         /// </summary>
         public int FirstUnreadMessageIndex { get; set; }
 
         /// <summary>
-        /// Pending message to be sent
+        /// Pending message to be sent.
         /// </summary>
         public byte[] DraftMessage { get; set; }
 
         /// <summary>
-        /// The format of draft message
+        /// The format of draft message.
         /// </summary>
         public MessageType DraftMessageFormat { get; set; }
 

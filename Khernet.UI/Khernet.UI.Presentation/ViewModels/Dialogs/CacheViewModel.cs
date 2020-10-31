@@ -9,29 +9,29 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile
+    /// View model for user profile.
     /// </summary>
     public class CacheViewModel : BaseModel
     {
         #region Properties
 
         /// <summary>
-        /// The total size of files in bytes
+        /// The total size of files in bytes.
         /// </summary>
         private long size;
 
         /// <summary>
-        /// Indicates if cleaning operation is executing
+        /// Indicates if cleaning operation is executing.
         /// </summary>
         private bool isCleaning;
 
         /// <summary>
-        /// Message to be show about cleaning process
+        /// Message to be show about cleaning process.
         /// </summary>
         private string textProgress;
 
         /// <summary>
-        /// The dialog where settings are shown
+        /// The dialog where settings are shown.
         /// </summary>
         private readonly IPagedDialog pagedDialog;
 
@@ -80,12 +80,12 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Clear the files located in cache directory
+        /// Clear the files located in cache directory.
         /// </summary>
         public ICommand ClearCacheCommand { get; private set; }
 
         /// <summary>
-        /// Get the total size of cache in bytes
+        /// Get the total size of cache in bytes.
         /// </summary>
         public ICommand GetCacheSizeCommand { get; private set; }
 
@@ -113,9 +113,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get total size of file in cache directory
+        /// Get total size of file in cache directory.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private void GetCacheSize(object obj)
         {
             string[] files = Directory.GetFiles(Configurations.CacheDirectory.FullName);
@@ -131,9 +131,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Delete files in cache directory
+        /// Delete files in cache directory.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private async void ClearCache(object obj)
         {
             try
@@ -159,9 +159,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Delete files lacated in cache folder
+        /// Delete files located in cache folder.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> for files.</returns>
         private Task DeleteFiles()
         {
             return Task.Factory.StartNew(() =>

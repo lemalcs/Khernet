@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Meakes an element <see cref="Visibility.Visible"/> when true or <see cref="Visibility.Collapsed"/> when false
+    /// Makes an element <see cref="Visibility.Visible"/> when true or <see cref="Visibility.Collapsed"/> when false.
     /// </summary>
     public class BoolToVisibilityGoneConverter : BaseValueConverter<BoolToVisibilityGoneConverter>
     {

@@ -4,25 +4,6 @@ using System.Windows;
 
 namespace Khernet.UI.Converters
 {
-    public class SentByMeToColumn : BaseValueConverter<SentByMeToColumn>
-    {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            //Change grid column location for chat buuble and chat bubble anchor
-            bool sentByMe = (bool)value;
-            if (sentByMe)
-            {
-                return 2;
-            }
-            return 0;
-        }
-
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class SentByMeToBubbleAnchorMarginConverter : BaseValueConverter<SentByMeToBubbleAnchorMarginConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -87,7 +68,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Changes the upper and bottom anchor of chat message container
+    /// Changes the upper and bottom anchor of chat message container.
     /// </summary>
     public class SentByMeToPathDataConverter : BaseValueConverter<SentByMeToPathDataConverter>
     {
@@ -110,7 +91,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Changes the brush of chat message container
+    /// Changes the brush of chat message container.
     /// </summary>
     public class SentByMeToAnchorBrushConverter : BaseValueConverter<SentByMeToAnchorBrushConverter>
     {

@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Returns a different <see cref="Brush"/> whether user is selected or not
+    /// Returns a different <see cref="Brush"/> whether user is selected or not.
     /// </summary>
     public class IsSelectedToBrushConverter : BaseValueConverter<IsSelectedToBrushConverter>
     {

@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// The state of actual file for file messages
+    /// The state of actual file for file messages.
     /// </summary>
     public enum FileChatState
     {
@@ -35,47 +35,47 @@ namespace Khernet.UI
         #region Properties
 
         /// <summary>
-        /// The name of file without directory path
+        /// The name of file without directory path.
         /// </summary>
         private string fileName;
 
         /// <summary>
-        /// The size of image file
+        /// The size of image file.
         /// </summary>
         private long fileSize;
 
         /// <summary>
-        /// Indicates whether a metadata reading operations is running
+        /// Indicates whether a metadata reading operations is running.
         /// </summary>
         private bool isLoading;
 
         /// <summary>
-        /// Indicates if file is being read
+        /// Indicates if file is being read.
         /// </summary>
         private bool isReadingFile;
 
         /// <summary>
-        /// The current read bytes of image file
+        /// The current read bytes of image file.
         /// </summary>
         private long currentReadBytes;
 
         /// <summary>
-        /// Indicates that file is ready for use
+        /// Indicates that file is ready for use.
         /// </summary>
         private bool isFileLoaded;
 
         /// <summary>
-        /// The id of message that contains the file when resending that message
+        /// The id of message that contains the file when resending that message.
         /// </summary>
         public int ResendFileId { get; set; }
 
         /// <summary>
-        /// The path of file on local system
+        /// The path of file on local system.
         /// </summary>
         private string filePath;
 
         /// <summary>
-        /// The state of actual file
+        /// The state of actual file.
         /// </summary>
         private FileChatState fileState;
 
@@ -225,7 +225,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Save and image to local file system
+        /// Save and image to local file system.
         /// </summary>
         /// <param name="obj"></param>
         protected async virtual void SaveFile()
@@ -251,9 +251,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Save this file message to local system
+        /// Save this file message to local system.
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">The path where to save file to.</param>
         public void SaveFile(string fileName)
         {
             if (fileName != null)
@@ -283,10 +283,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Cheack is file is saved on database and ready to be read
+        /// Checks if file is saved on database and ready to be read.
         /// </summary>
         /// <param name="obj"></param>
-        /// <returns>True if file is ready to user otherwise false</returns>
+        /// <returns>True if file is ready to use otherwise false.</returns>
         private bool IsReadyFile()
         {
             return IsMessageLoaded;

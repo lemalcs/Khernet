@@ -5,34 +5,34 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile
+    /// View model for user profile.
     /// </summary>
     public class NotificationViewModel : BaseModel
     {
         #region Properties
 
         /// <summary>
-        /// The current user 
+        /// The current user.
         /// </summary>
         private UserItemViewModel user;
 
         /// <summary>
-        /// The type of context based on <see cref="Media.MessageType"/>
+        /// The type of context based on <see cref="Media.MessageType"/>.
         /// </summary>
         private MessageType messageType;
 
         /// <summary>
-        /// Indicates if this notification is visible
+        /// Indicates if this notification is visible.
         /// </summary>
         private bool isVisible;
 
         /// <summary>
-        /// The id of message received
+        /// The id of message received.
         /// </summary>
         private int idMessage;
 
         /// <summary>
-        /// The type of message that was received
+        /// The type of message that was received.
         /// </summary>
         public MessageType MessageType
         {
@@ -91,12 +91,12 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Command to open the received message
+        /// Command to open the received message.
         /// </summary>
         public ICommand OpenChatCommand { get; private set; }
 
         /// <summary>
-        /// Command to close this notification
+        /// Command to close this notification.
         /// </summary>
         public ICommand CloseCommand { get; private set; }
 
@@ -115,9 +115,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Open the chat list of user whom sent the message
+        /// Open the chat list of user whom sent the message.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private void OpenChat(object obj)
         {
             IoCContainer.Get<UserListViewModel>().SelectUser(User.Token);

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Avoids save frame history and hides navigation bar
+    /// Avoids save frame history and hides navigation bar.
     /// </summary>
     public class DisableFrameHistoryProperty : BaseAttachedProperty<DisableFrameHistoryProperty, bool>
     {

@@ -11,7 +11,7 @@ using System.Text;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for text messages (HTML inner format).
+    /// View model for text messages (HTML inner format)
     /// </summary>
     public class HtmlChatMessageViewModel : TextMessageItemViewModel, ITextObserver
     {
@@ -44,28 +44,26 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Prepares this message to be resend to other user
+        /// Prepares this message to be resend to other user.
         /// </summary>
-        /// <param name="obj"></param>
         private void Resend()
         {
             messageManager.ResendMessage(this);
         }
 
         /// <summary>
-        /// Replies a received or sent message
+        /// Replies a received or sent message.
         /// </summary>
-        /// <param name="obj"></param>
         private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
 
         /// <summary>
-        /// Gets a summary about this message
+        /// Gets a summary about this message.
         /// </summary>
-        /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
+        /// <param name="operation">The operation to do this summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary.</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -138,7 +136,7 @@ namespace Khernet.UI
                 ChatMessage = this,
             };
 
-            //Convert html source code to a message so it can be displayed on user interface
+            //Convert HTML source code to a message so it can be displayed on user interface
             var messageSource = IoCContainer.UI.ConvertHtmlToDocument(Encoding.UTF8.GetString(TextContent.ToArray()));
             SetTextContent(messageSource);
 
@@ -146,15 +144,15 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copy of this chat message
+        /// Get a copy of this chat message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> for chat message.</returns>
         public override ChatMessageItemViewModel GetInstanceCopy()
         {
             HtmlChatMessageViewModel chatMessage = new HtmlChatMessageViewModel(messageManager);
             chatMessage.IsSentByMe = true;
 
-            //Get html source code before send message
+            //Get HTML source code before send message
             byte[] messageSource = IoCContainer.Get<Messenger>().GetMessageContent(Id);
 
             chatMessage.SetTextContent(messageSource);

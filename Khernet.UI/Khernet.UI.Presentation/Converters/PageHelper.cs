@@ -1,5 +1,4 @@
 ﻿using Khernet.UI.Pages;
-using System.Diagnostics;
 
 namespace Khernet.UI.Converters
 {
@@ -25,19 +24,19 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Convert the <see cref="ApplicationPage"/>  to an actual Page for user interface
+    /// Convert the <see cref="ApplicationPage"/>  to an actual Page for user interface.
     /// </summary>
     public static class PageHelper
     {
         /// <summary>
-        /// Converts a <see cref="ApplicationPage"/> to <see cref="BasePage"/> 
+        /// Converts a <see cref="ApplicationPage"/> to <see cref="BasePage"/> .
         /// </summary>
-        /// <param name="page">The page to get to</param>
-        /// <param name="viewModel">Optional view model</param>
-        /// <returns></returns>
+        /// <param name="page">The page to get to.</param>
+        /// <param name="viewModel">Optional view model.</param>
+        /// <returns>The <see cref="BasePage"/> object for requested page.</returns>
         public static BasePage ToBasePage(this ApplicationPage page, object viewModel = null)
         {
-            //Returns de page according to KhernetPage enumeration in value parameter
+            //Returns the page according to KhernetPage enumeration in value parameter
             switch (page)
             {
                 case ApplicationPage.Login:
@@ -76,25 +75,6 @@ namespace Khernet.UI.Converters
                     System.Diagnostics.Debugger.Break();
                     return null;
             }
-        }
-
-        /// <summary>
-        /// Convert a <see cref="BasePage"/> to <see cref="ApplicationPage"/> 
-        /// </summary>
-        /// <param name="page">The page to get from</param>
-        /// <returns></returns>
-        public static ApplicationPage ToKhernetPage(this BasePage page)
-        {
-            if (page is LoginPage)
-                return ApplicationPage.Login;
-            if (page is SignUpPage)
-                return ApplicationPage.SignUp;
-            if (page is ChatPage)
-                return ApplicationPage.Session;
-
-            //Warn to developer for issue
-            Debugger.Break();
-            return default(ApplicationPage);
         }
     }
 }

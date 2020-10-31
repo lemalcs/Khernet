@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Convert HTML code to <see cref="FlowDocument"/> and viceversa
+    /// Convert HTML code to <see cref="FlowDocument"/> and vice versa.
     /// </summary>
     public class FlowDocumentHtmlConverter
     {

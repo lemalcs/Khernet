@@ -14,7 +14,7 @@ namespace Khernet.UI.Controls
     public partial class PopupContent : UserControl, ICommandSource
     {
         /// <summary>
-        /// The view model for control inside popup
+        /// The view model for control inside popup.
         /// </summary>
         public BaseModel ViewModel
         {
@@ -151,7 +151,7 @@ namespace Khernet.UI.Controls
                 {
                     var vm = baseValue as AudioChatMessageViewModel;
 
-                    //Change view model is audio control has not been created or if viewmodel has changed
+                    //Change view model is audio control has not been created or if view model has changed
                     if (popUp.control.Content == null || !popUp.GetValue(ViewModelProperty).Equals(vm))
                     {
                         //Remove previous event handler

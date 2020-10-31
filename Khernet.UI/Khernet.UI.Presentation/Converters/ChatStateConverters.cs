@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Sets color of anchor for chat messages based on the current state <see cref="ChatMessageState"/>
+    /// Sets color of anchor for chat messages based on the current state <see cref="ChatMessageState"/>.
     /// </summary>
     public class ChatStateToBrushMultiConverter : BaseMultiValueConverter<ChatStateToBrushMultiConverter>
     {

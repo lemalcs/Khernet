@@ -73,9 +73,9 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Build a validate the environment before start the application
+        /// Build a validate the environment before start the application.
         /// </summary>
-        /// <returns>A task to accomplish the operations</returns>
+        /// <returns>A <see cref="Task"/> to accomplish the operations.</returns>
         private Task LoadEnvironment()
         {
             return Task.Factory.StartNew(() =>
@@ -86,7 +86,7 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Open the first page to user
+        /// Open the first page to user.
         /// </summary>
         private void OpenInitialPage()
         {

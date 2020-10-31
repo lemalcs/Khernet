@@ -18,12 +18,12 @@ namespace Khernet.UI
     public class MediaGalleryViewModel : BaseModel
     {
         /// <summary>
-        /// List of unicode values for emojis
+        /// List of UNICODE values for emojis.
         /// </summary>
         ObservableCollection<GIFItemViewModel> animationList;
 
         /// <summary>
-        /// Indicates if GIF list is loading
+        /// Indicates if GIF list is loading.
         /// </summary>
         private bool isLoading;
 
@@ -86,9 +86,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Add new animation to the list
+        /// Add new animation to the list.
         /// </summary>
-        /// <param name="idAnimation"></param>
+        /// <param name="idAnimation">The id of animation.</param>
         public void AddAnimation(int idAnimation)
         {
             try
@@ -105,13 +105,13 @@ namespace Khernet.UI
 
 
         /// <summary>
-        /// Get animation details with the animation itself
+        /// Get animation details with the animation itself.
         /// </summary>
-        /// <param name="id">The id of animation</param>
-        /// <returns>An <see cref="AnimationChatMessageViewModel"/> object</returns>
+        /// <param name="id">The id of animation.</param>
+        /// <returns>An <see cref="AnimationChatMessageViewModel"/> object.</returns>
         private GIFItemViewModel GetAnimationModel(int id)
         {
-            //Retrieve the original message datil of animation
+            //Retrieve the original message detail of animation
             AnimationDetail animation = IoCContainer.Get<Messenger>().GetAnimationContent(id);
 
             FileInformation info = JSONSerializer<FileInformation>.DeSerialize(IoCContainer.Get<Messenger>().GetMessageContent(animation.IdMessage));

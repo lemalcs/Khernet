@@ -9,7 +9,7 @@ namespace Khernet.UI.Controls
     public partial class EmojiPaletteControl : UserControl
     {
         /// <summary>
-        /// Fired when a emoji is selected from list
+        /// Fired when a emoji is selected from list.
         /// </summary>
         public event EventHandler<SelectedEmojiEventArgs> SelectedEmoji;
 

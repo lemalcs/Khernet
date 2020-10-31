@@ -8,7 +8,7 @@ namespace Khernet.UI.Controls
     public class MarkedRichTextBox : RichTextBox
     {
         /// <summary>
-        /// Sets watermark text for this control
+        /// Sets watermark text for this control.
         /// </summary>
         public string WaterMark
         {

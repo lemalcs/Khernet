@@ -55,7 +55,7 @@ namespace Khernet.Core.Data
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    //Username
+                    //User-name
                     table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
                     //Token
@@ -89,10 +89,10 @@ namespace Khernet.Core.Data
         }
 
         /// <summary>
-        /// Get the address of a specific service published by peer
+        /// Get the address of a specific service published by peer.
         /// </summary>
-        /// <param name="token">The peer that publish service</param>
-        /// <param name="serviceType">The type of service</param>
+        /// <param name="token">The peer that publish service.</param>
+        /// <param name="serviceType">The type of service.</param>
         /// <returns></returns>
         public DataTable GetPeerAdress(string token, string serviceType)
         {
@@ -157,7 +157,7 @@ namespace Khernet.Core.Data
                     if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
                         table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
-                    //Username
+                    //User-name
                     if (!string.IsNullOrEmpty(table.Rows[i][1].ToString()))
                         table.Rows[i][1] = EncryptionHelper.DecryptString(table.Rows[i][1].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
@@ -247,7 +247,7 @@ namespace Khernet.Core.Data
                 keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    //User name
+                    //User-name
                     table.Rows[i][0] = EncryptionHelper.DecryptString(table.Rows[i][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
 
                     //Slogan
@@ -915,9 +915,9 @@ namespace Khernet.Core.Data
         /// <summary>
         /// Gets the pending message of given user.
         /// </summary>
-        /// <param name="receiverToken">The token of receiver user</param>
+        /// <param name="receiverToken">The token of receiver user.</param>
         /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
-        /// <returns>The list of id messages</returns>
+        /// <returns>The list of message ids.</returns>
         public DataTable GetPendingMessageOfUser(string receiverToken, int quantity)
         {
             try
@@ -952,9 +952,9 @@ namespace Khernet.Core.Data
         /// <summary>
         /// Gets the list of message to be requested to sender peer.
         /// </summary>
-        /// <param name="senderToken">The token of user that sent message</param>
+        /// <param name="senderToken">The token of user that sent message.</param>
         /// <param name="quantity">The number of pending message to retrieve, send 0 to get all messages.</param>
-        /// <returns>The list of id messages</returns>
+        /// <returns>The list of message ids.</returns>
         public DataTable GetRequestPendingMessageForUser(string senderToken, int quantity)
         {
             try

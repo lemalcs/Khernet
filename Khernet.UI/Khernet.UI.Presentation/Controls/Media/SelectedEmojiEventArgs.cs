@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Holds the informations about selected emoji
+    /// Holds the informations about selected emoji.
     /// </summary>
     public class SelectedEmojiEventArgs : EventArgs
     {

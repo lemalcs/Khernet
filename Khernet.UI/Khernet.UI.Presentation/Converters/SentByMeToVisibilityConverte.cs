@@ -29,7 +29,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Makes visible or invisible the background profile color of chat message within chat list
+    /// Makes visible or invisible the background profile color of chat message within chat list.
     /// </summary>
     public class SentByMeToVisibilityMultiConverter : MarkupExtension, IMultiValueConverter
     {

@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Controls that supports selection of text
+    /// Controls that supports selection of text.
     /// </summary>
     public class SelectableTextBlock : TextBlock
     {
@@ -59,7 +59,7 @@ namespace Khernet.UI.Controls
             //Set this control as focused so commands target this one
             FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), this);
 
-            //Restore default foreground and backgroud colors if there is selected text
+            //Restore default foreground and background colors if there is selected text
             if (range != null)
             {
                 range.ApplyPropertyValue(TextElement.ForegroundProperty, foregroundBrush);

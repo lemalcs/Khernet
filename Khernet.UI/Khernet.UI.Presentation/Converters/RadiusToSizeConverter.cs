@@ -8,7 +8,7 @@ using System.Windows.Markup;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts circle radius to <see cref="Size"/> for right and left arcs
+    /// Converts circle radius to <see cref="Size"/> for right and left arcs.
     /// </summary>
     public class RadiusToSizeConverter : MarkupExtension, IValueConverter
     {
@@ -29,7 +29,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts the circle radius to width for grid container
+    /// Converts the circle radius to width for grid container.
     /// </summary>
     public class RadiusToWidthMultiConverter : MarkupExtension, IMultiValueConverter
     {
@@ -57,7 +57,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts the circle radius to width for grid columns
+    /// Converts the circle radius to width for grid columns.
     /// </summary>
     public class RadiusToHalfWidthMultiConverter : MarkupExtension, IMultiValueConverter
     {

@@ -38,9 +38,9 @@ namespace Khernet.UI
 
 
         /// <summary>
-        /// Shutdowns the application
+        /// Shutdowns the application.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">The parameter for command.</param>
         private async void ExitApplication(object parameter)
         {
             IsRunning = false;
@@ -61,10 +61,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Verifies if application is running
+        /// Verifies if application is running.
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns>True if application is running otherwise false</returns>
+        /// <param name="parameter">The parameter for command.</param>
+        /// <returns>True if application is running otherwise false.</returns>
         [DebuggerStepThrough]
         private bool VerifyRunning(object parameter)
         {
@@ -72,18 +72,18 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows the main window
+        /// Shows the main window.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">The parameter for command.</param>
         private void ShowWindow(object parameter)
         {
             IoCContainer.UI.ShowWindow();
         }
 
         /// <summary>
-        /// Hides the main window
+        /// Hides the main window.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">The parameter for command.</param>
         private void HideWindow(object parameter)
         {
             Application.Current.MainWindow.Hide();

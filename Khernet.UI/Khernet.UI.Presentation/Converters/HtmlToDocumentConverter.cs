@@ -5,7 +5,7 @@ using System.Windows.Documents;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts a html document to <see cref="FlowDocument"/> object
+    /// Converts a HTML document to <see cref="FlowDocument"/> object.
     /// </summary>
     public class HtmlToDocumentConverter : BaseValueConverter<HtmlToDocumentConverter>
     {

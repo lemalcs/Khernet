@@ -6,9 +6,9 @@ using System.Windows.Markup;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Multi value converter for direct access to XAML
+    /// Multi value converter for direct access to XAML.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of converter.</typeparam>
     public abstract class BaseMultiValueConverter<T> : MarkupExtension, IMultiValueConverter
        where T : new()
     {

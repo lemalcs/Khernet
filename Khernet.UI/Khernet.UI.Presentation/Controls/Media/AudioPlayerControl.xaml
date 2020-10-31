@@ -47,7 +47,7 @@
                                             HorizontalAlignment="Center"/>
             </Button>
 
-            <!-- Timeline controls-->
+            <!-- Time line controls-->
             <Grid Grid.Column="1" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -65,7 +65,7 @@
                            Grid.Column="0"
                            Style="{StaticResource TextblockItemStyle}"/>
 
-                <!-- Timeline slider-->
+                <!-- Time line slider-->
                 <Slider Name="timelineSlider" 
                         Grid.ColumnSpan="2"
                         Grid.Row="1"
@@ -117,7 +117,7 @@
                                                                        FallbackValue=VolumeHigh}" 
                                                         Width="20"/>
 
-                            <!--Popup for volumne control-->
+                            <!--Popup for volume control-->
                             <Popup Name="popUp"
                                    StaysOpen="True"
                                    HorizontalAlignment="Center"

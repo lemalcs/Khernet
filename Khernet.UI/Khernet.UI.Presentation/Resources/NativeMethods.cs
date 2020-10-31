@@ -14,17 +14,17 @@ namespace Khernet.UI.Resources
         public const int SW_SHOW = 5;
 
         /// <summary>
-		/// Determines the MIME type from the first 256 bytes of data provided
+		/// Determines the MIME type from the first 256 bytes of data provided.
 		/// </summary>
-		/// <param name="pBC">null or pointer to bind context</param>
-		/// <param name="pwzUrl">File name or URL containing data to examine</param>
-		/// <param name="pBuffer">Output buffer</param>
-		/// <param name="cbSize">Buffer size</param>
-		/// <param name="pwzMimeProposed">Suggested Mime type</param>
-		/// <param name="dwMimeFlags">Flags that control how function operates</param>
-		/// <param name="ppwzMimeOut">out value containing the Mime type</param>
-		/// <param name="dwReserved">Reserved</param>
-		/// <returns>S_OK, E_FAIL, E_INVALIDARG or E_OUTOFMEMORY</returns>
+		/// <param name="pBC">null or pointer to bind context.</param>
+		/// <param name="pwzUrl">File name or URL containing data to examine.</param>
+		/// <param name="pBuffer">Output buffer.</param>
+		/// <param name="cbSize">Buffer size.</param>
+		/// <param name="pwzMimeProposed">Suggested Mime type.</param>
+		/// <param name="dwMimeFlags">Flags that control how function operates.</param>
+		/// <param name="ppwzMimeOut">out value containing the Mime type.</param>
+		/// <param name="dwReserved">Reserved.</param>
+		/// <returns>S_OK, E_FAIL, E_INVALIDARG or E_OUTOFMEMORY.</returns>
 		[DllImport("urlmon.dll", CharSet = CharSet.Auto, ExactSpelling = true, SetLastError = false)]
         internal static extern int FindMimeFromData(
             IntPtr pBC,
@@ -103,7 +103,7 @@ namespace Khernet.UI.Resources
         public const string Wav = "audio/wav";
 
         /// <summary>
-        /// Graphics Interchange Format (GIF).
+        /// Graphics Interchange Format (GIF)
         /// </summary>
         public const string Gif = "image/gif";
 
@@ -148,12 +148,12 @@ namespace Khernet.UI.Resources
         public const string Xjg = "image/x-jg";
 
         /// <summary>
-        /// Enhanced Metafile (EMF).
+        /// Enhanced Metafile (EMF)
         /// </summary>
         public const string Xemf = "image/x-emf";
 
         /// <summary>
-        /// Windows Metafile Format (WMF).
+        /// Windows Metafile Format (WMF)
         /// </summary>
         public const string Xwmf = "image/x-wmf";
 
@@ -188,7 +188,7 @@ namespace Khernet.UI.Resources
         public const string Macbinhex40 = "application/macbinhex40";
 
         /// <summary>
-        /// Portable Document Format (PDF).
+        /// Portable Document Format (PDF)
         /// </summary>
         public const string Pdf = "application/pdf";
 

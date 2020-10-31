@@ -54,7 +54,7 @@
                         <!--Status icon-->
                         <ColumnDefinition Width="Auto"/>
 
-                        <!-- Diaplay name-->
+                        <!-- Display name-->
                         <ColumnDefinition Width="*"/>
 
                         <!--Details button-->

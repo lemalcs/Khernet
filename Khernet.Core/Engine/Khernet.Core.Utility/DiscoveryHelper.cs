@@ -22,6 +22,10 @@ namespace Khernet.Core.Utility
             }
         }
 
+        /// <summary>
+        /// Gets an available port number not used by current process only. Warning, other process can generate the same port number.
+        /// </summary>
+        /// <returns>The unused port number.</returns>
         private static int GetAvailablePort()
         {
             System.Threading.Mutex mutex = new System.Threading.Mutex(false, "DiscoveryHelper");

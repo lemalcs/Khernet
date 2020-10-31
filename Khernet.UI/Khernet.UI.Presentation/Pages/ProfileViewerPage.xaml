@@ -88,7 +88,7 @@
                     </Grid>
                 </Border>
 
-                <!-- Aditional user details-->
+                <!-- Additional user details-->
                 <Border Grid.Row="1"
                         Padding="20 10 10 10"
                         Background="{StaticResource LightBrush}"
@@ -131,7 +131,7 @@
                                                            Style="{StaticResource TextblockItemStyle}"/>
 
                             <!-- User name-->
-                            <TextBlock Text="Username"
+                            <TextBlock Text="User-name"
                                        Style="{StaticResource TextblockHeader}"/>
 
                             <ucontrols:SelectableTextBlock Text="{Binding User.Username}"

@@ -20,7 +20,7 @@ namespace Khernet.Core.Host
     public class Initializer
     {
         /// <summary>
-        /// Identification of this user on network
+        /// Identification of current logged user on network.
         /// </summary>
         PeerIdentity identity;
 
@@ -57,7 +57,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Performs cleaning operations in database
+        /// Performs cleaning operations in database.
         /// </summary>
         private void InitializeDatabase()
         {
@@ -93,7 +93,7 @@ namespace Khernet.Core.Host
                 commHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
                 commHost.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator();
 
-                //Create and endpoint with a port which will be diferent every time the service is started
+                //Create and endpoint with a port which will be different every time the service is started
                 commHost.AddServiceEndpoint(typeof(ICommunicator), binding, commAddress);
 
                 //Add an endpoint to announce the presence of this service on network
@@ -133,7 +133,7 @@ namespace Khernet.Core.Host
 
                 Uri fileAddress = new Uri(DiscoveryHelper.AvailableTCPBaseAddress.ToString() + Guid.NewGuid());
 
-                //Create and endpoint with a port which will be diferent every time the service is started
+                //Create and endpoint with a port which will be different every time the service is started
                 commHost.AddServiceEndpoint(typeof(IFileService), fileBinding, fileAddress);
 
                 EndpointDiscoveryBehavior fileEndpointDiscoveryBehavior = new EndpointDiscoveryBehavior();
@@ -182,7 +182,7 @@ namespace Khernet.Core.Host
                 notifierHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
                 notifierHost.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator();
 
-                //Create and endpoint with a port which will be diferent every time the service is started
+                //Create and endpoint with a port which will be different every time the service is started
                 notifierHost.AddServiceEndpoint(typeof(IEventNotifier), binding, notifierAddress);
 
                 //Add an endpoint to announce the presence of this service on network
@@ -246,13 +246,13 @@ namespace Khernet.Core.Host
                 binding.MaxReceivedMessageSize = int.MaxValue;
                 binding.CloseTimeout = TimeSpan.MaxValue;
 
-                //Address of suscriptor service
-                //Endpoint to process suscription requests from clients so they can receive notification
-                Uri suscriberAddress = new Uri(DiscoveryHelper.AvailableIPCBaseAddress.ToString());
-                eventHost.AddServiceEndpoint(typeof(IEventListener), binding, suscriberAddress);
+                //Address of subscriber service
+                //Endpoint to process subscription requests from clients so they can receive notification
+                Uri subscriberAddress = new Uri(DiscoveryHelper.AvailableIPCBaseAddress.ToString());
+                eventHost.AddServiceEndpoint(typeof(IEventListener), binding, subscriberAddress);
 
                 //Address of publisher service
-                //Endpoint to send notifications to suscribers
+                //Endpoint to send notifications to subscribers
                 Uri publisherAddress = new Uri(DiscoveryHelper.AvailableIPCBaseAddress.ToString());
                 eventHost.AddServiceEndpoint(typeof(IEventListenerCallBack), binding, publisherAddress);
 
@@ -268,7 +268,7 @@ namespace Khernet.Core.Host
                     null);
 
 
-                Configuration.SetValue(Constants.SuscriberService, suscriberAddress.AbsoluteUri);
+                Configuration.SetValue(Constants.SubscriberService, subscriberAddress.AbsoluteUri);
                 Configuration.SetValue(Constants.PublisherService, publisherAddress.AbsoluteUri);
             }
             catch (Exception exception)
@@ -288,11 +288,11 @@ namespace Khernet.Core.Host
 
             //Get list of IP v4 addresses
             List<string> ipList = NetworkHelper.GetIPAddresses(Dns.GetHostName(), System.Net.Sockets.ProtocolFamily.InterNetwork);
-            string tempAddresses = ConcatAddresses(ipList, Constants.IPv4Address);
+            string tempAddresses = ConcatenateAddresses(ipList, Constants.IPv4Address);
 
             //Get list of IP v6 addresses
             ipList = NetworkHelper.GetIPAddresses(Dns.GetHostName(), System.Net.Sockets.ProtocolFamily.InterNetworkV6);
-            tempAddresses += ConcatAddresses(ipList, Constants.IPv6Address);
+            tempAddresses += ConcatenateAddresses(ipList, Constants.IPv6Address);
 
             xmlData.Add(new XElement(Constants.AlternateTag, tempAddresses));
             xmlData.Add(new XElement(Constants.ServiceIDTag, serviceID));
@@ -305,12 +305,12 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Concat a list of IP addresses with the format: [Protocol]:[IP Address]
+        /// Concatenates a list of IP addresses with the format: [Protocol]:[IP Address].
         /// </summary>
-        /// <param name="addressList">Lits of IP address</param>
-        /// <param name="protocol">Type of protocol based on <see cref="Constants.IPv4Address"/></param>
+        /// <param name="addressList">Lits of IP address.</param>
+        /// <param name="protocol">Type of protocol based on <see cref="Constants.IPv4Address"/>.</param>
         /// <returns></returns>
-        private string ConcatAddresses(List<string> addressList, int protocol)
+        private string ConcatenateAddresses(List<string> addressList, int protocol)
         {
             if (addressList == null)
                 return null;

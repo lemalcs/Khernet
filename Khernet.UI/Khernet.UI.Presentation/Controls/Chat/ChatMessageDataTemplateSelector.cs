@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI
 {
     /// <summary>
-    /// Template seletor for hat messages
+    /// Template selector for hat messages.
     /// </summary>
     public class ChatMessageDataTemplateSelector : DataTemplateSelector
     {
@@ -12,8 +12,8 @@ namespace Khernet.UI
         /// Select a template based on types of item.
         /// </summary>
         /// <param name="item">The data object for which to select the template.</param>
-        /// <param name="container">The data bound object</param>
-        /// <returns></returns>
+        /// <param name="container">The data bound object.</param>
+        /// <returns>A <see cref="DataTemplate"/> object with selected template.</returns>
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             //If item is null return null template
@@ -55,7 +55,7 @@ namespace Khernet.UI
                     return Application.Current.FindResource("FileDataTemplate") as DataTemplate;
                 }
 
-                //Template for html messages
+                //Template for HTML messages
                 if (item is HtmlChatMessageViewModel)
                 {
                     return Application.Current.FindResource("HtmlDataTemplate") as DataTemplate;

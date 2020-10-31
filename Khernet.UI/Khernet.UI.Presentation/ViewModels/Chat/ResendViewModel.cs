@@ -6,17 +6,17 @@ namespace Khernet.UI
     public class ResendViewModel : BaseModel
     {
         /// <summary>
-        /// The current selected user
+        /// The current selected user.
         /// </summary>
         private UserItemViewModel selectedUser;
 
         /// <summary>
-        /// The list of users
+        /// The list of users.
         /// </summary>
         private List<UserItemViewModel> userList;
 
         /// <summary>
-        /// The chat message to resend
+        /// The chat message to resend.
         /// </summary>
         private ChatMessageItemViewModel message;
 

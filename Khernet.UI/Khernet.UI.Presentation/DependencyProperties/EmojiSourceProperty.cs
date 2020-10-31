@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Adds a emoji to a <see cref="FlowDocument"/>
+    /// Adds a emoji to a <see cref="FlowDocument"/>.
     /// </summary>
     public class EmojiSourceProperty : BaseAttachedProperty<EmojiSourceProperty, UserControl>
     {

@@ -24,22 +24,22 @@ namespace Khernet.UI
         private readonly IMessageManager messageManager;
 
         /// <summary>
-        /// Width of video
+        /// Width of video.
         /// </summary>
         private double width;
 
         /// <summary>
-        /// Height of video
+        /// Height of video.
         /// </summary>
         private double height;
 
         /// <summary>
-        /// Thumbnail of image
+        /// Thumbnail of image.
         /// </summary>
         private ReadOnlyCollection<byte> thumbnail;
 
         /// <summary>
-        /// Stores media information such as video, audio or files
+        /// Stores media information such as video, audio or files.
         /// </summary>
         public MediaRequest Media { get; set; }
 
@@ -90,13 +90,13 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Command for open animation file
+        /// Command for open animation file.
         /// </summary>
         public ICommand OpenMediaCommand { get; private set; }
 
 
         /// <summary>
-        /// Command for save animation for future messages
+        /// Command for save animation for future messages.
         /// </summary>
         public ICommand SaveAnimationCommand { get; private set; }
 
@@ -217,16 +217,15 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Requests to send a new message
+        /// Requests to send a new message.
         /// </summary>
-        /// <param name="obj"></param>
         private void Resend()
         {
             messageManager.ResendMessage(this);
         }
 
         /// <summary>
-        /// Replies a message that was sent
+        /// Replies a message that was sent.
         /// </summary>
         private void Reply()
         {
@@ -234,10 +233,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a summary about this message
+        /// Gets a summary about this message.
         /// </summary>
-        /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
+        /// <param name="operation">The operation to do this summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary.</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -269,9 +268,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Process an animation
+        /// Process an animation.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
+        /// <param name="fileName">The path of file.</param>
         public override void Send(string filePath)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -291,7 +290,7 @@ namespace Khernet.UI
                 Thumbnail = new ReadOnlyCollection<byte>(mem.ToArray());
             }
 
-            //Requesta upload an animation
+            //Request to upload an animation
             Media = new MediaRequest
             {
                 FileName = filePath,
@@ -307,7 +306,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens an image in its original size within a model dialog
+        /// Opens an image in its original size within a model dialog.
         /// </summary>
         public async void OpenAnimation()
         {
@@ -347,11 +346,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copy of this message with the given dependencies
+        /// Get a copy of this message with the given dependencies.
         /// </summary>
-        /// <param name="messageManager">The chat list to which this message belongs</param>
-        /// <param name="applicationDialog">The application window that this message belongs</param>
-        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        /// <param name="messageManager">The chat list to which this message belongs.</param>
+        /// <param name="applicationDialog">The application window that this message belongs.</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instance with a copy of this message.</returns>
         public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
             AnimationChatMessageViewModel chatMessage = new AnimationChatMessageViewModel(messageManager, applicationDialog);
@@ -376,7 +375,7 @@ namespace Khernet.UI
 
             if (info.Operation == MessageOperation.Download)
             {
-                //Get thumbanil of GIF
+                //Get thumbnail of GIF
                 if (info.ThumbnailBytes != null)
                 {
                     Thumbnail = new ReadOnlyCollection<byte>(info.ThumbnailBytes);

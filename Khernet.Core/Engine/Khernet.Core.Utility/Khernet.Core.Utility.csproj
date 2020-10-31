@@ -87,7 +87,6 @@
     <Compile Include="LogDumper.cs" />
     <Compile Include="NetworkHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicKeyCryptographyProvider.cs" />
     <Compile Include="ReadChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile
+    /// View model for user profile.
     /// </summary>
     public class AboutViewModel : BaseModel
     {
@@ -12,7 +12,7 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Clear the files located in cache directory
+        /// Clear the files located in cache directory.
         /// </summary>
         public ICommand OpenIssueCommand { get; private set; }
 

@@ -7,27 +7,27 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// The state of chat messages
+    /// The state of chat messages.
     /// </summary>
     public enum ChatMessageState
     {
         /// <summary>
-        /// The message is not ready to be used
+        /// The message is not ready to be used.
         /// </summary>
         UnCommited = -1,
 
         /// <summary>
-        /// The message is pending to be sent
+        /// The message is pending to be sent.
         /// </summary>
         Pending = 0,
 
         /// <summary>
-        /// The message was sent or received successfully
+        /// The message was sent or received successfully.
         /// </summary>
         Processed = 1,
 
         /// <summary>
-        /// There is an error sending or receiveing the message
+        /// There is an error sending or receiving the message.
         /// </summary>
         Error = 2
     }
@@ -53,42 +53,42 @@ namespace Khernet.UI
         public IIdentity ReceiverUserId { get; set; }
 
         /// <summary>
-        /// The date that messages was sent
+        /// The date that messages was sent.
         /// </summary>
         private DateTimeOffset sendDate;
 
         /// <summary>
-        /// Indicates if it is a message send by current user
+        /// Indicates if it is a message send by current user.
         /// </summary>
         private bool isSelfMessage;
 
         /// <summary>
-        /// The identifier for chat message
+        /// The identifier for chat message.
         /// </summary>
         private int id;
 
         /// <summary>
-        /// The replied message 
+        /// The replied message.
         /// </summary>
         private ReplyMessageViewModel replyMessage;
 
         /// <summary>
-        /// The state of chat message
+        /// The state of chat message.
         /// </summary>
         private ChatMessageState state;
 
         /// <summary>
-        /// Indicates is message is loaded and ready to read
+        /// Indicates is message is loaded and ready to read.
         /// </summary>
         private bool isMessageLoaded;
 
         /// <summary>
-        /// Indicates if this message was read
+        /// Indicates if this message was read.
         /// </summary>
         private bool isRead;
 
         /// <summary>
-        /// The universal identifier of chat message
+        /// The universal identifier of chat message.
         /// </summary>
         public string UID { get; protected set; }
 
@@ -214,33 +214,33 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Reply and chat message
+        /// Reply and chat message.
         /// </summary>
         public ICommand ReplyCommand { get; set; }
 
         /// <summary>
-        /// Resend a chat message
+        /// Resend a chat message.
         /// </summary>
         public ICommand ResendCommand { get; set; }
 
         #endregion
 
         /// <summary>
-        /// Gets a symmary of this message
+        /// Gets a summary of this message.
         /// </summary>
-        /// <param name="operation"></param>
-        /// <returns></returns>
+        /// <param name="operation">The purpose of message summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object.</returns>
         public abstract ReplyMessageViewModel GetMessageSummary(MessageDirection operation);
 
         /// <summary>
-        /// Sends this message to other user
+        /// Sends this message to other user.
         /// </summary>
         public abstract void ProcessResend();
 
         /// <summary>
-        /// Syncronizes the update to <see cref="State"/> field of chat message
+        /// Synchronizes the update to <see cref="State"/> field of chat message.
         /// </summary>
-        /// <param name="state"></param>
+        /// <param name="state">The state of chat message.</param>
         public void SetChatState(ChatMessageState state)
         {
             lock (syncLock)
@@ -250,10 +250,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Checks is file is saved on database and ready to be read
+        /// Checks is file is saved on database and ready to be read.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <returns>True if message is read to used to otherwise false.</returns>
         [DebuggerStepThrough]
         protected bool IsReadyMessage()
         {
@@ -263,7 +262,7 @@ namespace Khernet.UI
         /// <summary>
         /// Load the chat message.
         /// </summary>
-        /// <param name="messageItem">The header of chat message</param>
+        /// <param name="messageItem">The header of chat message.</param>
         public abstract void Load(MessageItem messageItem);
     }
 }

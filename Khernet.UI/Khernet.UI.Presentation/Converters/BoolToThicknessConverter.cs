@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts bool value radius to <see cref="Thickness"/> for right and left arcs
+    /// Converts <see cref="bool"/> value radius to <see cref="Thickness"/> for right and left arcs.
     /// </summary>
     public class BoolToThicknessConverter : BaseValueConverter<BoolToThicknessConverter>
     {

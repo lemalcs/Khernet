@@ -14,22 +14,22 @@ namespace Khernet.UI
         #region Properties
 
         /// <summary>
-        /// Indicates if there is an attemp to login
+        /// Indicates if there is an attempt to login.
         /// </summary>
         private bool isAttemptingLogin;
 
         /// <summary>
-        /// The User for login
+        /// The User for login.
         /// </summary>
         private string username;
 
         /// <summary>
-        /// The password for login
+        /// The password for login.
         /// </summary>
         private SecureString password;
 
         /// <summary>
-        /// Indicates if login command can be executed
+        /// Indicates if login command can be executed.
         /// </summary>
         private bool canLogin;
 
@@ -99,7 +99,7 @@ namespace Khernet.UI
         #endregion
 
         /// <summary>
-        /// Command for create a new user
+        /// Command for create a new user.
         /// </summary>
         public RelayCommand SignUpCommand { get; private set; }
 
@@ -110,9 +110,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Performs login for application
+        /// Performs login for application.
         /// </summary>
-        /// <param name="parameter">The password for user</param>
+        /// <param name="parameter">The password for user.</param>
         public async void SignUp(object parameter)
         {
             //Show progress animation
@@ -157,7 +157,7 @@ namespace Khernet.UI
                 Engine.Stop();
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = "Error while trying to create acount",
+                    Message = "Error while trying to create account",
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",
@@ -181,8 +181,8 @@ namespace Khernet.UI
         /// <summary>
         /// Verifies if password match the policies.
         /// </summary>
-        /// <param name="firstPassword">The password</param>
-        /// <param name="secondPassword">The confirm password</param>
+        /// <param name="firstPassword">The password.</param>
+        /// <param name="secondPassword">The confirm password.</param>
         private async Task<bool> ValidatePasswords(SecureString firstPassword, SecureString secondPassword)
         {
 
@@ -190,7 +190,7 @@ namespace Khernet.UI
             {
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = "Passwords must be at leats 10 characters and contain letters, numbers, special characters.",
+                    Message = "Passwords must be at least 10 characters and contain letters, numbers, special characters.",
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",
@@ -214,20 +214,20 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// VAlidates thar username and password are not empty
+        /// Validates whether user-name and password are not empty.
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
+        /// <param name="parameter">The parameter for command.</param>
+        /// <returns>True if user-name is valid otherwise false.</returns>
         public bool VerifyCredentials(object parameter)
         {
             return FieldValidator.ValidateUserName(Username);
         }
 
         /// <summary>
-        /// Creates an new user for application
+        /// Creates an new user for application.
         /// </summary>
-        /// <param name="password">The password of user</param>
-        /// <returns>The identity of user <see cref="PeerIdentity"/></returns>
+        /// <param name="password">The password of user.</param>
+        /// <returns>The identity of user <see cref="PeerIdentity"/>.</returns>
         private Task<PeerIdentity> CreateUser(SecureString password)
         {
             TaskCompletionSource<PeerIdentity> result = new TaskCompletionSource<PeerIdentity>();
@@ -254,7 +254,7 @@ namespace Khernet.UI
         {
             get
             {
-                //Validate username
+                //Validate user-name
                 if (columnName == nameof(Username))
                 {
                     if (string.IsNullOrEmpty(Username))

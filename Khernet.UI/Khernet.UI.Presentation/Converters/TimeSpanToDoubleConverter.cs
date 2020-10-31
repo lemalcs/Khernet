@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Get miliseconds from video duration
+    /// Get milliseconds from video duration.
     /// </summary>
     public class TimeSpanToDoubleConverter : BaseValueConverter<TimeSpanToDoubleConverter>
     {

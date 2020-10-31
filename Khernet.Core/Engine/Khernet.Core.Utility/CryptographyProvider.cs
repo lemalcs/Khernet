@@ -55,23 +55,13 @@ namespace Khernet.Core.Utility
         public byte[] GenerateRandonNumbers(int quantityNumbers)
         {
             if (quantityNumbers <= 0)
-                throw new ArgumentException("Quantity of numbers tu generate must be equals or greater than zero");
+                throw new ArgumentException("Quantity of numbers to generate must be equals or greater than zero");
 
             RNGCryptoServiceProvider rg = new RNGCryptoServiceProvider();
             byte[] data = new byte[quantityNumbers];
             rg.GetBytes(data);
 
             return data;
-        }
-
-        public byte[] EncryptResource(byte[] source, SecureString pass)
-        {
-            return EncryptResource(source, pass, salt);
-        }
-
-        public byte[] EncryptResource(byte[] source, SecureString pass, byte[] salt)
-        {
-            return EncryptResource(source, GenerateKey(pass, 32, 2600, salt), GenerateKey(pass, 16, 2600, salt));
         }
 
         public byte[] EncryptResource(byte[] source, byte[] Key, byte[] IV)
@@ -103,16 +93,6 @@ namespace Khernet.Core.Utility
 
                 throw;
             }
-        }
-
-        public byte[] DecryptResource(byte[] source, SecureString pass)
-        {
-            return DecryptResource(source, pass, salt);
-        }
-
-        public byte[] DecryptResource(byte[] source, SecureString pass, byte[] salt)
-        {
-            return DecryptResource(source, GenerateKey(pass, 32, 2600, salt), GenerateKey(pass, 16, 2600, salt));
         }
 
         public byte[] DecryptResource(byte[] source, byte[] Key, byte[] IV)
@@ -169,7 +149,7 @@ namespace Khernet.Core.Utility
         {
             try
             {
-                //BitConverter generates groups of 2 hexadecimal digist separated by commas
+                //BitConverter generates groups of 2 hexadecimal digits separated by commas
                 return BitConverter.ToString(GetHashDigest(data)).Replace("-", "");
             }
             catch (Exception ex)

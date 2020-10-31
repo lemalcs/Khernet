@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Gets the extension of file name
+    /// Gets the extension of file name.
     /// </summary>
     public class FileNameToExtensionConverter : BaseValueConverter<FileNameToExtensionConverter>
     {

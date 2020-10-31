@@ -119,28 +119,26 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Prepares this message to be resend to other user
+        /// Prepares this message to be resend to other user.
         /// </summary>
-        /// <param name="obj"></param>
         private void Resend()
         {
             messageManager.ResendMessage(this);
         }
 
         /// <summary>
-        /// Replies a received or sent message
+        /// Replies a received or sent message.
         /// </summary>
-        /// <param name="obj"></param>
         private void Reply()
         {
             messageManager.SendReplyMessage(this);
         }
 
         /// <summary>
-        /// Gets a summary about this message
+        /// Gets a summary about this message.
         /// </summary>
-        /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
+        /// <param name="operation">The operation to do this summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary.</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -230,9 +228,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copy of this chat message
+        /// Get a copy of this chat message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> for chat message.</returns>
         public override ChatMessageItemViewModel GetInstanceCopy()
         {
             MarkdownChatMessageViewModel chatMessage = new MarkdownChatMessageViewModel(messageManager, applicationDialog);

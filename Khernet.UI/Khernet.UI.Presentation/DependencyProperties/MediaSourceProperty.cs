@@ -7,12 +7,12 @@ using Vlc.DotNet.Wpf;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Creates a clip region from parent <see cref="Border"/> depending of <see cref="CornerRadius"/> value
+    /// Creates a clip region from parent <see cref="Border"/> depending of <see cref="CornerRadius"/> value.
     /// </summary>
     public class MediaSourceProperty : BaseAttachedProperty<MediaSourceProperty, string>
     {
         /// <summary>
-        /// The audio volume in percents, the default range is from 0% to 125%
+        /// The audio volume in percents, the default range is from 0% to 125%.
         /// </summary>
         private int defaultVolume = 60;
 
@@ -28,10 +28,10 @@ namespace Khernet.UI.DependencyProperties
             {
                 string mediaPath = e.NewValue as string;
 
-                //Sets the directory path for vlc library
+                //Sets the directory path for VLC library
                 control.SourceProvider.CreatePlayer(Configurations.VlcDirectory);
 
-                //Redirect log to console output rather than the default logger in vlc ibrary.
+                //Redirect log to console output rather than the default logger in VLC library.
                 control.SourceProvider.MediaPlayer.Log += (s, ev) =>
                  {
                      string message = $"libVlc : {ev.Level} {ev.Message} @ {ev.Module}";
@@ -58,10 +58,10 @@ namespace Khernet.UI.DependencyProperties
             {
                 string mediaPath = baseValue as string;
 
-                //Sets the directory path for vlc library
+                //Sets the directory path for VLC library
                 control.SourceProvider.CreatePlayer(Configurations.VlcDirectory);
 
-                //Redirect log to console output rather than the default logger in vlc ibrary.
+                //Redirect log to console output rather than the default logger in VLC library.
                 control.SourceProvider.MediaPlayer.Log += (s, ev) =>
                 {
                     string message = $"libVlc : {ev.Level} {ev.Message} @ {ev.Module}";

@@ -14,7 +14,7 @@ using Vlc.DotNet.Core.Interops;
 namespace Khernet.UI.Media
 {
     /// <summary>
-    /// Audio and Video formats
+    /// Audio and Video formats.
     /// </summary>
     public enum MediaFormat
     {
@@ -39,9 +39,9 @@ namespace Khernet.UI.Media
         /// <summary>
         /// Converts and video file ro a specific format.
         /// </summary>
-        /// <param name="inputFile">The path of source video </param>
-        /// <param name="outpuFile">The path of converted video</param>
-        /// <param name="outputFormat">The format to convert to</param>
+        /// <param name="inputFile">The path of source video.</param>
+        /// <param name="outpuFile">The path of converted video.</param>
+        /// <param name="outputFormat">The format to convert to.</param>
         public static void ConvertTo(string inputFile, string outpuFile, MediaFormat outputFormat)
         {
             try
@@ -63,10 +63,10 @@ namespace Khernet.UI.Media
         /// <summary>
         /// Converts and video file to a specific format with given size.
         /// </summary>
-        /// <param name="inputFile">The path of source video </param>
-        /// <param name="outpuFile">The path of converted video</param>
-        /// <param name="width">The width of converted video</param>
-        /// <param name="height">The height of converted video</param>
+        /// <param name="inputFile">The path of source video.</param>
+        /// <param name="outpuFile">The path of converted video.</param>
+        /// <param name="width">The width of converted video.</param>
+        /// <param name="height">The height of converted video.</param>
         public static void ConvertTo(string inputFile, string outpuFile, int width, int height)
         {
             try
@@ -87,10 +87,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Gets image size
+        /// Gets image size.
         /// </summary>
-        /// <param name="fileName">The path of image file</param>
-        /// <returns><see cref="Size"/> containd width and height of image</returns>
+        /// <param name="fileName">The path of image file.</param>
+        /// <returns><see cref="Size"/> that contains width and height of image.</returns>
         public static Size GetImageSize(string fileName)
         {
             BitmapImage image = new BitmapImage();
@@ -105,9 +105,9 @@ namespace Khernet.UI.Media
         /// <summary>
         /// Gets and thumbnail image from video.
         /// </summary>
-        /// <param name="videoFile">The path of video</param>
-        /// <param name="outputFile">The path of thumbnail image extracted from video</param>
-        /// <param name="startTime">The point in time from to take thumbnail</param>
+        /// <param name="videoFile">The path of video.</param>
+        /// <param name="outputFile">The path of thumbnail image extracted from video.</param>
+        /// <param name="startTime">The point in time from to take thumbnail.</param>
         public static void GetVideoThumbnail(string videoFile, string outputFile, TimeSpan startTime)
         {
             try
@@ -127,9 +127,9 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Starts the ffmpeg.exe tool to do operations with video files 
+        /// Starts the ffmpeg.exe tool to do operations with video files.
         /// </summary>
-        /// <param name="arguments">The arguments for ffmepg tool</param>
+        /// <param name="arguments">The arguments for FFMEPG tool.</param>
         private static void StartProcess(string arguments)
         {
             var currentAssembly = Assembly.GetEntryAssembly();
@@ -189,10 +189,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Get duration of video
+        /// Get duration of video.
         /// </summary>
-        /// <param name="fileName">The path of video</param>
-        /// <returns>The duration of video</returns>
+        /// <param name="fileName">The path of video.</param>
+        /// <returns>The duration of video.</returns>
         public static async Task<TimeSpan> GetVideoDuration(string fileName)
         {
             return await TaskEx.Run(() =>
@@ -206,7 +206,7 @@ namespace Khernet.UI.Media
 
                     mediaPlayer.EncounteredError += (sender, e) =>
                     {
-                        //Release the waiting process so it can contnue executing in case of error
+                        //Release the waiting process so it can continue executing in case of error
                         reset.Set();
                     };
 
@@ -214,13 +214,13 @@ namespace Khernet.UI.Media
                     {
                         var media = (VlcMediaPlayer)sender;
 
-                        //Get duration of video in miliseconds and convert it to TimeSpan object
+                        //Get duration of video in milliseconds and convert it to TimeSpan object
                         duration = TimeSpan.FromMilliseconds(media.Length);
 
-                        //Set position to final so video can stop inmediatly
+                        //Set position to final so video can stop immediately
                         media.Position = media.Length;
 
-                        //Release the waiting process so it can contnue executing
+                        //Release the waiting process so it can continue executing
                         reset.Set();
                     };
 
@@ -238,10 +238,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Get width and height of video
+        /// Get width and height of video.
         /// </summary>
-        /// <param name="fileName">The path of video</param>
-        /// <returns>The duration of video</returns>
+        /// <param name="fileName">The path of video.</param>
+        /// <returns>The duration of video.</returns>
         public static async Task<Size> GetVideoSize(string fileName)
         {
             return await TaskEx.Run(() =>
@@ -255,7 +255,7 @@ namespace Khernet.UI.Media
 
                     mediaPlayer.EncounteredError += (sender, e) =>
                     {
-                        //Release the waiting process so it can contnue executing in case of error
+                        //Release the waiting process so it can continue executing in case of error
                         reset.Set();
                     };
 
@@ -278,10 +278,10 @@ namespace Khernet.UI.Media
                             videoSize.Height = track.Height;
                         }
 
-                        //Set position to final so video can stop inmediatly
+                        //Set position to final so video can stop immediately
                         media.Position = media.Length;
 
-                        //Release the waiting process so it can contnue executing
+                        //Release the waiting process so it can continue executing
                         reset.Set();
                     };
 
@@ -299,9 +299,9 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Indicates if file has video tracks
+        /// Indicates if file has video tracks.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
+        /// <param name="fileName">The path of file.</param>
         /// <returns></returns>
         public static async Task<bool> HasVideo(string fileName)
         {
@@ -316,7 +316,7 @@ namespace Khernet.UI.Media
 
                     mediaPlayer.EncounteredError += (sender, e) =>
                     {
-                        //Release the waiting process so it can contnue executing in case of error
+                        //Release the waiting process so it can continue executing in case of error
                         reset.Set();
                     };
 
@@ -324,13 +324,13 @@ namespace Khernet.UI.Media
                     {
                         var media = (VlcMediaPlayer)sender;
 
-                        //Get duration of video in miliseconds and convert it to TimeSpan object
+                        //Get duration of video in milliseconds and convert it to TimeSpan object
                         hasVideo = media.Video.Tracks.Count > 0;
 
-                        //Set position to final so video can stop inmediatly
+                        //Set position to final so video can stop immediately
                         media.Position = media.Length;
 
-                        //Release the waiting process so it can contnue executing
+                        //Release the waiting process so it can continue executing
                         reset.Set();
                     };
 

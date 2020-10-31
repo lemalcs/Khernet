@@ -14,77 +14,77 @@ namespace Khernet.UI
     {
         #region Properties
         /// <summary>
-        /// The current page displayed
+        /// The current page displayed.
         /// </summary>
         private ApplicationPage currentPage;
 
         /// <summary>
-        /// Indicates if user list is visible
+        /// Indicates if user list is visible.
         /// </summary>
         private bool isSidePanelVisible;
 
         /// <summary>
-        /// Indicates if audio player is visible
+        /// Indicates if audio player is visible.
         /// </summary>
         private bool isPlayerVisible;
 
         /// <summary>
-        /// Indicates if a modal dialog is shown
+        /// Indicates if a modal dialog is shown.
         /// </summary>
         private bool isModalDialogVisible;
 
         /// <summary>
-        /// Indicates if a child dialog owned by <see cref="ModalDialogViewModel"/> is shown
+        /// Indicates if a child dialog owned by <see cref="ModalDialogViewModel"/> is shown.
         /// </summary>
         private bool isChildDialogVisible;
 
         /// <summary>
-        /// Indicates if a message box is shown
+        /// Indicates if a message box is shown.
         /// </summary>
         private bool isMessageBoxVisible;
 
         /// <summary>
-        /// The view model for current page
+        /// The view model for current page.
         /// </summary>
         private BaseModel currentViewModel;
 
         /// <summary>
-        /// The view model for audio player
+        /// The view model for audio player.
         /// </summary>
         private BaseModel playerViewModel;
 
         /// <summary>
-        /// The view model of modal dialog
+        /// The view model of modal dialog.
         /// </summary>
         private BaseModel modalDialogViewModel;
 
         /// <summary>
-        /// The view model of child dialog owned by <see cref="ModalDialogViewModel"/>
+        /// The view model of child dialog owned by <see cref="ModalDialogViewModel"/>.
         /// </summary>
         private BaseModel childDialogViewModel;
 
         /// <summary>
-        /// The view model for modal dialogs
+        /// The view model for modal dialogs.
         /// </summary>
         private ModalDialogViewModel messageViewModel;
 
         /// <summary>
-        /// The view model for user list
+        /// The view model for user list.
         /// </summary>
         private UserListViewModel userViewModel;
 
         /// <summary>
-        /// The Z index of overlay panel when a modai dialog is shown
+        /// The Z index of overlay panel when a modal dialog is shown.
         /// </summary>
         private int overlayLevel;
 
         /// <summary>
-        /// The previous value of Z index of overlay panel
+        /// The previous value of Z index of overlay panel.
         /// </summary>
         private int previousOverlayLevel;
 
         /// <summary>
-        /// The current Page application shows
+        /// The current Page application shows.
         /// </summary>
         public ApplicationPage CurrentPage
         {
@@ -106,7 +106,7 @@ namespace Khernet.UI
 
 
         /// <summary>
-        /// Indicates if side panel is visible
+        /// Indicates if side panel is visible.
         /// </summary>
         public bool IsSidePanelVisible
         {
@@ -126,7 +126,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicates whether to show or hide dimmed overlay
+        /// Indicates whether to show or hide dimmed overlay.
         /// </summary>
         private bool isOverlayVisible;
 
@@ -173,7 +173,7 @@ namespace Khernet.UI
                 {
                     isPlayerVisible = value;
 
-                    //Remove previuos view model when hidding audio player
+                    //Remove previous view model when hiding audio player
                     if (!value)
                         PlayerViewModel = null;
 
@@ -239,7 +239,7 @@ namespace Khernet.UI
                     {
                         MessageViewModel = null;
 
-                        //Don't hide overlay panel if a mmodal dialog is visible yet
+                        //Don't hide overlay panel if a modal dialog is visible yet
                         if (!IsModalDialogVisible)
                             IsOverlayVisible = false;
 
@@ -383,9 +383,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens settings dialog
+        /// Opens settings dialog.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private void ViewSettings(object obj)
         {
             //Set settings list as first page
@@ -408,10 +408,10 @@ namespace Khernet.UI
 
 
         /// <summary>
-        /// Navigates to page with specific view model
+        /// Navigates to page with specific view model.
         /// </summary>
-        /// <param name="page">The page to navigate to</param>
-        /// <param name="viewModel">The view model for page to use</param>
+        /// <param name="page">The page to navigate to.</param>
+        /// <param name="viewModel">The view model for page to use.</param>
         public void GoToPage(ApplicationPage page, BaseModel viewModel = null)
         {
             //View model for page
@@ -433,9 +433,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get users from data source
+        /// Get users from data source.
         /// </summary>
-        /// <returns><see cref="Task"/> that performs loading</returns>
+        /// <returns><see cref="Task"/> that performs loading.</returns>
         private void LoadUsers()
         {
             try
@@ -473,9 +473,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows audio player
+        /// Shows audio player.
         /// </summary>
-        /// <param name="viewModel">The view model for audio player</param>
+        /// <param name="viewModel">The view model for audio player.</param>
         public void ShowPlayer(BaseModel viewModel)
         {
             PlayerViewModel = viewModel;
@@ -483,9 +483,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows a modal dialog
+        /// Shows a modal dialog.
         /// </summary>
-        /// <param name="viewModel">The view model for dialog</param>
+        /// <param name="viewModel">The view model for dialog.</param>
         public void ShowModalDialog(BaseModel viewModel)
         {
             if (CurrentPage == ApplicationPage.SignOut)
@@ -498,9 +498,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows a modal dialog
+        /// Shows a modal dialog.
         /// </summary>
-        /// <param name="viewModel">The view model for dialog</param>
+        /// <param name="viewModel">The view model for dialog.</param>
         public void ShowChildModalDialog(BaseModel viewModel)
         {
             if (CurrentPage == ApplicationPage.SignOut)
@@ -513,9 +513,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Showa a modal message box
+        /// Shows a modal message box.
         /// </summary>
-        /// <param name="viewModel">The view model for message box</param>
+        /// <param name="viewModel">The view model for message box.</param>
         public void ShowMessageBox(ModalDialogViewModel viewModel)
         {
             if (CurrentPage == ApplicationPage.SignOut)
@@ -531,7 +531,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Unselect an user from list when manin window is shown after it was hidden
+        /// Deselect an user from list when main window is shown after it was hidden.
         /// </summary>
         public void ClearChatPage()
         {

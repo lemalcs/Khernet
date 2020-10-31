@@ -5,38 +5,38 @@ using Ninject;
 namespace Khernet.UI.IoC
 {
     /// <summary>
-    /// Provides dependency injection using Ninject framework
+    /// Provides dependency injection using Ninject framework.
     /// </summary>
     public static class IoCContainer
     {
         /// <summary>
-        /// The kernel of dependency injection framework
+        /// The kernel of dependency injection framework.
         /// </summary>
         public static IKernel Kernel { get; private set; } = new StandardKernel();
 
         /// <summary>
-        /// Get an instance of <see cref="UIManager"/>
+        /// Get an instance of <see cref="UIManager"/>.
         /// </summary>
         public static IUIManager UI => Get<IUIManager>();
 
         /// <summary>
-        /// Get an instance of <see cref="FileManager"/>
+        /// Get an instance of <see cref="FileManager"/>.
         /// </summary>
         public static IFileObservable Media => Get<IFileObservable>();
 
         /// <summary>
-        /// Gets an instance of <see cref="ChatCache"/>
+        /// Gets an instance of <see cref="ChatCache"/>.
         /// </summary>
         public static IChatList Chat => Get<IChatList>();
 
 
         /// <summary>
-        /// Gets an instance of <see cref="ChatCache"/>
+        /// Gets an instance of <see cref="ChatCache"/>.
         /// </summary>
         public static ITextObservable Text => Get<ITextObservable>();
 
         /// <summary>
-        /// Configure binding for objects
+        /// Configure binding for objects.
         /// </summary>
         public static void Configure()
         {
@@ -44,9 +44,9 @@ namespace Khernet.UI.IoC
         }
 
         /// <summary>
-        /// Configures an instance of type T
+        /// Configures an instance of type T.
         /// </summary>
-        /// <typeparam name="T">the type of object</typeparam>
+        /// <typeparam name="T">the type of object.</typeparam>
         public static void Configure<T>() where T : new()
         {
             Kernel.Bind<T>().ToConstant(new T());
@@ -69,21 +69,21 @@ namespace Khernet.UI.IoC
         }
 
         /// <summary>
-        /// Configures and instance that implementes and interface
+        /// Configures and instance that implements an interface.
         /// </summary>
-        /// <typeparam name="T">The interface that object must implement</typeparam>
-        /// <typeparam name="U">The type that implements the interface</typeparam>
-        /// <param name="obj"></param>
+        /// <typeparam name="T">The interface that object must implement.</typeparam>
+        /// <typeparam name="U">The type that implements the interface.</typeparam>
+        /// <param name="obj">The implementation instance.</param>
         public static void Configure<T, U>(U obj) where U : T, new()
         {
             Kernel.Bind<T>().ToConstant(obj);
         }
 
         /// <summary>
-        /// Gets an instance of type T
+        /// Gets an instance of type T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">The type of object to retrieve.</typeparam>
+        /// <returns>The requested object of type <see cref="T"/>.</returns>
         public static T Get<T>()
         {
             return Kernel.Get<T>();

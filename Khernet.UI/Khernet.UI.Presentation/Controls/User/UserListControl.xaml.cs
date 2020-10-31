@@ -9,7 +9,7 @@ namespace Khernet.UI.Controls
     public partial class UserListControl : UserControl
     {
         /// <summary>
-        /// Fired when a user is selected from list
+        /// Fired when a user is selected from list.
         /// </summary>
         public event EventHandler<SelectedUserEventArgs> SelectedUser;
         public UserListControl()
@@ -30,9 +30,9 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Executes <see cref="SelectedUser"/> event
+        /// Executes <see cref="SelectedUser"/> event.
         /// </summary>
-        /// <param name="userToken"></param>
+        /// <param name="userToken">The token of peer.</param>
         protected void OnSelecteduser(string userToken)
         {
             SelectedUser?.Invoke(this, new SelectedUserEventArgs(userToken));

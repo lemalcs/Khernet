@@ -15,7 +15,7 @@ namespace Khernet.UI.Controls
     {
 
         /// <summary>
-        /// Indicates the current page that is shown
+        /// Indicates the current page that is shown.
         /// </summary>
         public ApplicationPage CurrentPage
         {
@@ -29,7 +29,7 @@ namespace Khernet.UI.Controls
 
 
         /// <summary>
-        /// The current view model for page
+        /// The current view model for page.
         /// </summary>
         public BaseModel CurrentViewModel
         {
@@ -48,7 +48,7 @@ namespace Khernet.UI.Controls
             set { SetValue(CommandProperty, value); }
         }
 
-        // The dependencyProperty as the backing store for MyProperty.
+        // The dependencyProperty as the backing store for CommandProperty.
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(PageContainer), new PropertyMetadata(default(ICommand), CommandChanged));
 

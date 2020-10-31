@@ -31,7 +31,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Shows an indicator when peer is writing or sending a file otherwise hides it
+    /// Shows an indicator when peer is writing or sending a file otherwise hides it.
     /// </summary>
     public class BoolToVisibilityMultiConverter : BaseMultiValueConverter<BoolToVisibilityMultiConverter>
     {

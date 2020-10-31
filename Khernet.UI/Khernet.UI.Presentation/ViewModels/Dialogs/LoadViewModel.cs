@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile
+    /// View model for user profile.
     /// </summary>
     public class LoadViewModel : BaseModel
     {

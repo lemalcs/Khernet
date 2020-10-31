@@ -92,7 +92,6 @@
     <Compile Include="FileCommunicator.cs" />
     <Compile Include="AccountManager.cs" />
     <Compile Include="IoC\IoCContainer.cs" />
-    <Compile Include="IoC\IProcessor.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Managers\TextMessageManager.cs" />
     <Compile Include="Managers\FileManager.cs" />

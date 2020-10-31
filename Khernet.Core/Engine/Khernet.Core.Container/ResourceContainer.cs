@@ -6,50 +6,55 @@ namespace Khernet.Core.Resources
     public class ResourceContainer
     {
         /// <summary>
-        /// Get the configuration file (firebird database) for application
+        /// Get the configuration file (FIREBIRD database) for application.
         /// </summary>
-        /// <returns>An arrsy of bytes containing firebird database</returns>
+        /// <returns>An array of bytes containing FIREBIRD database.</returns>
         public byte[] GetConfigurationFile()
         {
             return GetResource("CONFIG_zip");
         }
 
         /// <summary>
-        /// Get the firebird database libraries
+        /// Get the FIREBIRD database libraries.
         /// </summary>
-        /// <returns>An array of bytes of zip file containing firebird libraries</returns>
+        /// <returns>A <see cref="byte"/> array of zip file containing FIREBIRD libraries.</returns>
         public byte[] GetDataBaseEngine()
         {
-            return GetResource("FIREBIRD"); //Resources.FIREBIRD;
+            return GetResource("FIREBIRD");
         }
 
         /// <summary>
-        /// Get the database to store data used by application for example: chat messages, contact list
+        /// Get the database to store data used by application for example: chat messages, contact list.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="byte"/> array of zip file containing database.</returns>
         public byte[] GetApplicationDataBase()
         {
-            return GetResource("KH_zip"); //Resources.KH_zip;
+            return GetResource("KH_zip");
         }
 
         /// <summary>
-        /// Get ffmpeg libraries to read and write media files
+        /// Get FFMPEG libraries to read and write media files
         /// </summary>
-        /// <returns>An array of bytes of zip file containing ffmpeg libraries</returns>
+        /// <returns>A <see cref="byte"/> array of zip file containing FFMPEG libraries</returns>
         public byte[] GetMediaTools()
         {
-            return GetResource("tls_zip"); //Resources.tls_zip;
+            return GetResource("tls_zip");
         }
 
         /// <summary>
-        /// Get VLC libraries to play audio and video files
+        /// Get VLC libraries to play audio and video files.
         /// </summary>
-        /// <returns>An array of bytes of zip file containing VLC libraries</returns>
+        /// <returns>A <see cref="byte"/> array of zip file containing VLC libraries.</returns>
         public byte[] GetVLCLibrary()
         {
-            return GetResource("vlc_x86_zip");//Resources.vlc_x86_zip;
+            return GetResource("vlc_x86_zip");
         }
 
+        /// <summary>
+        /// Gets a resource that is embedded into assembly.
+        /// </summary>
+        /// <param name="assetName">The name of resource to get.</param>
+        /// <returns>A <see cref="byte"/> array containing the resource.</returns>
         private byte[] GetResource(string assetName)
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();

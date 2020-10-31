@@ -262,7 +262,7 @@ namespace Khernet.Core.Processor
         /// <summary>
         /// Send a pending file message to receiver.
         /// </summary>
-        /// <param name="fileMessage">Message to be sent</param>
+        /// <param name="fileMessage">Message to be sent.</param>
         public void SendPendingFile(InternalConversationMessage conversationMessage)
         {
             try
@@ -355,7 +355,7 @@ namespace Khernet.Core.Processor
         /// <summary>
         /// Request to download a file.
         /// </summary>
-        /// <param name="senderToken">Token of user that sent file</param>
+        /// <param name="senderToken">Token of user that sent file.</param>
         public void RequestFile(FileObserver fileObserver)
         {
             CommunicatorData commData = new CommunicatorData();
@@ -570,7 +570,7 @@ namespace Khernet.Core.Processor
         }
 
         /// <summary>
-        /// Gte the number of files shared between current user and remote peer.
+        /// Gets the number of files shared between current user and remote peer.
         /// </summary>
         /// <param name="userToken">The type of file.</param>
         /// <param name="fileType">The token of remote peer.</param>

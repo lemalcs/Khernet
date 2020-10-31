@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI
 {
     /// <summary>
-    /// The result of a dialog when it is closed
+    /// The result of a dialog when it is closed.
     /// </summary>
     public enum DialogResult
     {

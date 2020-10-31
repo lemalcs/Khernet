@@ -179,10 +179,10 @@ namespace Khernet.Core.Processor.Managers
         }
 
         /// <summary>
-        /// Send notification to a consumer about a new received file 
+        /// Send notification to a consumer about a new received file.
         /// </summary>
-        /// <param name="idMessage">The id of message</param>
-        /// <param name="fileMessage">Metadata of file</param>
+        /// <param name="idMessage">The id of message.</param>
+        /// <param name="fileMessage">Metadata of file.</param>
         private void SendNotification(int idMessage, FileMessage fileMessage)
         {
             try
@@ -240,7 +240,7 @@ namespace Khernet.Core.Processor.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -258,7 +258,7 @@ namespace Khernet.Core.Processor.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

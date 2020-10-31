@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.IoC
 {
     /// <summary>
-    /// Controller to manage application settings
+    /// Controller to manage application settings.
     /// </summary>
     public interface ISettingController
     {

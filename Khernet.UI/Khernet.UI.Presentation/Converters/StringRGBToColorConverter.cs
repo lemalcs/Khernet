@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts a string RGB hexadecimal value like A34F6D to an WPF Brush
+    /// Converts a string RGB hexadecimal value like A34F6D to an WPF Brush.
     /// </summary>
     public class StringRGBToColorConverter : BaseValueConverter<StringRGBToColorConverter>
     {

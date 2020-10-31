@@ -7,7 +7,7 @@ namespace Khernet.UI.DependencyProperties
         where Parent : BaseAttachedProperty<Parent, bool>, new()
     {
         /// <summary>
-        /// Indicates if it the first time this property is loaded
+        /// Indicates if it the first time this property is loaded.
         /// </summary>
         public bool IsFirstLoad { get; set; } = true;
 
@@ -74,7 +74,7 @@ namespace Khernet.UI.DependencyProperties
     }
 
     /// <summary>
-    /// Animates an element sliding up from bottom to show an sliding down from botton to hide
+    /// Animates an element sliding up from bottom to show an sliding down from bottom to hide.
     /// </summary>
     public class SlideFromBottomAnimationProperty : AnimationBaseProperty<SlideFromBottomAnimationProperty>
     {
@@ -96,7 +96,7 @@ namespace Khernet.UI.DependencyProperties
     }
 
     /// <summary>
-    /// Animates an element sliding up from bottom to show an sliding down from botton to hide
+    /// Animates an element sliding up from bottom to show an sliding down from bottom to hide.
     /// </summary>
     public class FadeAnimationProperty : AnimationBaseProperty<FadeAnimationProperty>
     {

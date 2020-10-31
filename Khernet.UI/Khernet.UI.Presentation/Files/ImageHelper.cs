@@ -40,18 +40,18 @@ namespace Khernet.UI
     public static class ImageHelper
     {
         /// <summary>
-        /// Get an <see cref="ImageSource"/> from clipboard
+        /// Gets an <see cref="ImageSource"/> from clipboard.
         /// </summary>
-        /// <returns>Image reprsented by <see cref="ImageSource"/> </returns>
+        /// <returns>Image represented by <see cref="ImageSource"/>.</returns>
         public static ImageSource GetImageFromClipboard()
         {
             return GetImageFromStream(Clipboard.GetData(DataFormats.Dib) as MemoryStream);
         }
 
         /// <summary>
-        /// Reads an image from file and returns a <see cref="ImageSource"/> .
+        /// Reads an image from file and returns a <see cref="ImageSource"/>.
         /// </summary>
-        /// <param name="filePath">The path of imagge file</param>
+        /// <param name="filePath">The path of image file.</param>
         /// <returns></returns>
         public static ImageSource GetImageFromFile(string filePath)
         {
@@ -62,7 +62,7 @@ namespace Khernet.UI
         /// Reads an image from <see cref="Stream"/> source.
         /// </summary>
         /// <param name="imageStream">The <see cref="Stream"/> that contains the image.</param>
-        /// <returns></returns>
+        /// <returns>The <see cref="ImageSource"/> object containing the image.</returns>
         public static ImageSource GetImageFromStream(Stream imageStream)
         {
             //Check if there is an image on clipboard
@@ -79,8 +79,8 @@ namespace Khernet.UI
         /// <summary>
         /// Gets and stream from an image retrieved from <see cref="Clipboard"/>, this enable to render or save image.
         /// </summary>
-        /// <param name="imageStream">The stream containing image</param>
-        /// <returns></returns>
+        /// <param name="imageStream">The stream containing image.</param>
+        /// <returns>The <see cref="Stream"/> containing the image.</returns>
         public static Stream GetStreamFromClipboardImage(Stream imageStream)
         {
             if (imageStream == null)
@@ -109,7 +109,7 @@ namespace Khernet.UI
             //Get bytes from BITMAPFILEHEADER
             byte[] fileHeaderBytes = BinaryStructHelper.StructToByteArray(fileHeader);
 
-            //Buid an image in memory using BITMAPINFOHEADER and BITMAPFILEHEADER structs
+            //Build an image in memory using BITMAPINFOHEADER and BITMAPFILEHEADER structs
             MemoryStream memImage = new MemoryStream();
             memImage.Write(fileHeaderBytes, 0, fileHeaderSize);
             memImage.Write(didBuffer, 0, didBuffer.Length);
@@ -119,10 +119,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Saves an image from a strem to the file system.
+        /// Saves an image from a stream to the file system.
         /// </summary>
-        /// <param name="imageStream">The stream that contains image retrieved from <see cref="Clipboard"/></param>
-        /// <param name="fileName">The file name to save</param>
+        /// <param name="imageStream">The stream that contains image retrieved from <see cref="Clipboard"/>.</param>
+        /// <param name="fileName">The file name to save.</param>
         public static void SaveImageStream(Stream imageStream, string fileName)
         {
             MemoryStream memImage = GetStreamFromClipboardImage(imageStream) as MemoryStream;
@@ -135,11 +135,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a thumbnail of given image
+        /// Gets a thumbnail of given image.
         /// </summary>
-        /// <param name="fileName">The path of image file</param>
-        /// <param name="width">The width of thumbnail</param>
-        /// <returns>A <see cref="MemoryStream"/> contains tha thumbnail bytes</returns>
+        /// <param name="fileName">The path of image file.</param>
+        /// <param name="width">The width of thumbnail.</param>
+        /// <returns>A <see cref="MemoryStream"/> contains the thumbnail bytes.</returns>
         public static MemoryStream GetImageThumbnail(string fileName, int width = 200)
         {
             MemoryStream fs = new MemoryStream();
@@ -162,9 +162,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get thw width and height of an image.
+        /// Gets the width and height of an image.
         /// </summary>
-        /// <param name="fileName">The path of image</param>
+        /// <param name="fileName">The path of image.</param>
         /// <returns>The <see cref="Size"/> of image.</returns>
         public static Size GetImageDimensions(string fileName)
         {

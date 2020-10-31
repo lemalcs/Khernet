@@ -7,7 +7,7 @@ namespace Khernet.Services.Client
         public const string CommunicatorService = "COMMSRV";
         public const string FileService = "FILESRV";
         public const string NotifierService = "NOTIFSRV";
-        public const string SuscriberService = "SUSSRV";
+        public const string SubscriberService = "SUSSRV";
         public const string PublisherService = "PUBSRV";
     }
 

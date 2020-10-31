@@ -57,16 +57,15 @@ namespace Khernet.Core.Processor
             eventData.SaveNotification(id, (short)type, content);
         }
 
-        public void Suscribe(string listenerKey)
+        public void Subscribe(string listenerKey)
         {
-            IoCContainer.Get<NotificationManager>().Suscribe(listenerKey);
+            IoCContainer.Get<NotificationManager>().Subscribe(listenerKey);
         }
 
 
-        public void UnSuscribe(string listenerKey)
+        public void Unsubscribe(string listenerKey)
         {
-
-            IoCContainer.Get<NotificationManager>().UnSuscribe(listenerKey);
+            IoCContainer.Get<NotificationManager>().Unsubscribe(listenerKey);
         }
 
         public void ProcessNewMessage(MessageNotification notification)

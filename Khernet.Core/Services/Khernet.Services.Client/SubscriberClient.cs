@@ -4,11 +4,11 @@ using System.ServiceModel;
 
 namespace Khernet.Services.Client
 {
-    public class SuscriberClient
+    public class SubscriberClient
     {
         public string Address { get; private set; }
 
-        public SuscriberClient(string address)
+        public SubscriberClient(string address)
         {
             Address = address;
         }
@@ -22,13 +22,13 @@ namespace Khernet.Services.Client
             return binding;
         }
 
-        public void Suscribe(string listenerKey)
+        public void Subscribe(string listenerKey)
         {
             try
             {
                 using (ServiceClient<IEventListener> client = new ServiceClient<IEventListener>(GetBinding(), Address))
                 {
-                    client.serviceContract.Suscribe(listenerKey);
+                    client.serviceContract.Subscribe(listenerKey);
                 }
             }
             catch (Exception ex)
@@ -38,13 +38,13 @@ namespace Khernet.Services.Client
             }
         }
 
-        public void UnSuscribe(string listenerKey)
+        public void Unsubscribe(string listenerKey)
         {
             try
             {
                 using (ServiceClient<IEventListener> client = new ServiceClient<IEventListener>(GetBinding(), Address))
                 {
-                    client.serviceContract.UnSuscribe(listenerKey);
+                    client.serviceContract.Unsubscribe(listenerKey);
                 }
             }
             catch (Exception ex)

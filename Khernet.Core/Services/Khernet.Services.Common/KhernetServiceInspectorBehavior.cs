@@ -39,7 +39,7 @@ namespace Khernet.Services.Common
 
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
         {
-            //Verifiy options of services host
+            //Verify options of services host
         }
     }
 }

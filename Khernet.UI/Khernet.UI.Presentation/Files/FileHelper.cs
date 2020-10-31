@@ -7,37 +7,37 @@ using System.Runtime.InteropServices;
 namespace Khernet.UI.Media
 {
     /// <summary>
-    /// The content of file
+    /// The content of file.
     /// </summary>
     public enum MessageType
     {
         /// <summary>
-        /// File is an image
+        /// File is an image.
         /// </summary>
         Image = 0,
 
         /// <summary>
-        /// File is a GIF (Graphics Interchangge Format)
+        /// File is a GIF (Graphics Interchange Format)
         /// </summary>
         GIF = 1,
 
         /// <summary>
-        /// File is a video
+        /// File is a video.
         /// </summary>
         Video = 2,
 
         /// <summary>
-        /// File is audio
+        /// File is audio.
         /// </summary>
         Audio = 3,
 
         /// <summary>
-        /// Other type of file
+        /// Other type of file.
         /// </summary>
         Binary = 4,
 
         /// <summary>
-        /// Data inside Stream
+        /// Data inside Stream.
         /// </summary>
         StreamData = 5,
 
@@ -47,78 +47,78 @@ namespace Khernet.UI.Media
         Text = 6,
 
         /// <summary>
-        /// Html text message
+        /// HTML text message.
         /// </summary>
         Html = 7,
 
         /// <summary>
-        /// Markdown text message
+        /// Markdown text message.
         /// </summary>
         Markdown = 8
     }
 
     /// <summary>
-    /// Unit of quantity of bytes
+    /// Unit of quantity of bytes.
     /// </summary>
     public enum ByteUnit
     {
         /// <summary>
-        /// Unit of bytes
+        /// Unit of bytes.
         /// </summary>
         Bytes = 0,
 
         /// <summary>
-        /// Kilobyte
+        /// Kilobyte.
         /// </summary>
         KB = 1,
 
         /// <summary>
-        /// Megabyte
+        /// Megabyte.
         /// </summary>
         MB = 2,
 
         /// <summary>
-        /// Gigabyte
+        /// Gigabyte.
         /// </summary>
         GB = 3,
 
         /// <summary>
-        /// Terabyte
+        /// Terabyte.
         /// </summary>
         TB = 4
     }
     public class FileHelper
     {
         /// <summary>
-        /// The size of 1 kylobyte
+        /// The size of 1 kilobyte.
         /// </summary>
         public const long KILOBYTE = 1024;
 
         /// <summary>
-        /// The size of 1 megabyte
+        /// The size of 1 megabyte.
         /// </summary>
         public const long MEGABYTE = 1048576;
 
         /// <summary>
-        /// The size of 1 gigabyte
+        /// The size of 1 gigabyte.
         /// </summary>
         public const long GIGABYTE = 1073741824;
 
         /// <summary>
-        /// The size of 1 gigabyte
+        /// The size of 1 gigabyte.
         /// </summary>
         public const long TERABYTE = 1099511627776;
 
         /// <summary>
-        /// The defualt file type type id cannot be determined.
+        /// The default file type id cannot be determined.
         /// </summary>
         public const string DefaultFileType = "application/octet-stream";
 
         /// <summary>
         /// Determines the file type reading the first 256 bytes.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
-        /// <returns>Rerturns the MIME type of file, if file is empty returns null</returns>
+        /// <param name="fileName">The path of file.</param>
+        /// <returns>Returns the MIME type of file, if file is empty returns null.</returns>
         private static string ScanFileForMimeType(string fileName)
         {
             try
@@ -155,9 +155,9 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Gets the MIME type from file
+        /// Gets the MIME type from file.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
+        /// <param name="fileName">The path of file.</param>
         /// <returns></returns>
         public static MessageType GetContentType(string fileName)
         {
@@ -181,8 +181,8 @@ namespace Khernet.UI.Media
         /// <summary>
         /// Get length of file in bytes.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
-        /// <returns></returns>
+        /// <param name="fileName">The path of file.</param>
+        /// <returns>The size of file in bytes.</returns>
         public static long GetFileSize(string fileName)
         {
             FileInfo finfo = new FileInfo(fileName);
@@ -190,10 +190,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Get a new file name appending a sequential number to original name
+        /// Get a new file name appending a sequential number to original name.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
-        /// <returns></returns>
+        /// <param name="fileName">The path of file.</param>
+        /// <returns>If file exists returns a file name with a sequential number appended otherwise returns the same file name.</returns>
         public static string GetNewFileName(string fileName)
         {
             try
@@ -205,11 +205,11 @@ namespace Khernet.UI.Media
                     {
                         counter++;
                         newFileName = Path.Combine(
-                            Path.GetDirectoryName(fileName),//Ruta del archivo
+                            Path.GetDirectoryName(fileName),//Path of file
                             string.Format("{0} ({1}){2}",
-                                            Path.GetFileNameWithoutExtension(fileName), //nombre del archivo
-                                            counter,//Contador para nuevo nombre de archivo
-                                            Path.GetExtension(fileName))//extensión del archivo
+                                            Path.GetFileNameWithoutExtension(fileName), //Name of file
+                                            counter,//Counter for new file name
+                                            Path.GetExtension(fileName))//extension of file
                             );
                     }
                     return newFileName;
@@ -223,11 +223,11 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Builds a file path with given extension
+        /// Builds a file path with given extension.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
-        /// <param name="extension">The extension of file</param>
-        /// <returns></returns>
+        /// <param name="fileName">The path of file.</param>
+        /// <param name="extension">The extension of file.</param>
+        /// <returns>The file name appended the extension.</returns>
         public static string GetFileNameWithExtension(string fileName, string extension)
         {
             try
@@ -242,10 +242,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Convert number to smallest size based on <see cref="ByteUnit"/> units
+        /// Convert number to smallest size based on <see cref="ByteUnit"/> units.
         /// </summary>
-        /// <param name="size">The value size to convert</param>
-        /// <returns>The value converted to supported units based on <see cref="ByteUnit"/> </returns>
+        /// <param name="size">The value size to convert.</param>
+        /// <returns>The value converted to supported units based on <see cref="ByteUnit"/>.</returns>
         public static double ConvertToSmallestSize(long size)
         {
             if (size <= 0 ||
@@ -265,10 +265,10 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Get the smallest unit name from byte to terabyte
+        /// Get the smallest unit name from byte to terabyte.
         /// </summary>
-        /// <param name="size">The number of bytes</param>
-        /// <returns></returns>
+        /// <param name="size">The number of bytes.</param>
+        /// <returns>The unit of measurement.</returns>
         public static ByteUnit GetSmallestUnit(long size)
         {
             if (size <= 0 ||
@@ -331,11 +331,11 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
-        /// Checks if two byte arrays are equal
+        /// Checks if two byte arrays are equal.
         /// </summary>
-        /// <param name="array1">The fisrt array to be compared</param>
-        /// <param name="array2">The second array to be compared</param>
-        /// <returns></returns>
+        /// <param name="array1">The first array to be compared.</param>
+        /// <param name="array2">The second array to be compared.</param>
+        /// <returns>True if arrays are equal otherwise false.</returns>
         public static bool AreEqualArray(byte[] array1, byte[] array2)
         {
             if (array1 == null && array2 == null)

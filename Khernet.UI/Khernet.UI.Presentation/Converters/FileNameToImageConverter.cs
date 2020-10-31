@@ -48,7 +48,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts emoji code to image path
+    /// Converts emoji code to image path.
     /// </summary>
     public class NameToImageConverter : BaseValueConverter<NameToImageConverter>
     {

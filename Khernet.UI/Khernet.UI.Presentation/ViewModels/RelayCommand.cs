@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// Command to be executed by controls
+    /// Command to be executed by controls.
     /// </summary>
     [DebuggerStepThrough]
     public class RelayCommand : ICommand
@@ -15,7 +15,7 @@ namespace Khernet.UI
         {
             //Weird: In Visual Studio 2015 this event is not marked as "not used"
 
-            //CommandManager.RequerySuggested  is resposible for execute method CanExcecute when conditions could change its result
+            //CommandManager.RequerySuggested is responsible for execute method CanExcecute when conditions could change its result
             add
             {
                 CommandManager.RequerySuggested += value;
@@ -27,23 +27,23 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Method to be executed, does not any value
+        /// Method to be executed, does not any value.
         /// </summary>
         private Action<object> parameterizedExecute;
 
 
         /// <summary>
-        /// Method to be executed, does not any value
+        /// Method to be executed, does not any value.
         /// </summary>
         private Action execute;
 
         /// <summary>
-        /// Method to verify if this command can be executed, only return true or false
+        /// Method to verify if this command can be executed, only return true or false.
         /// </summary>
         private Predicate<object> canExecute;
 
         /// <summary>
-        /// Parameterless method to verify if this command can be executed, only return true or false
+        /// Parameterless method to verify if this command can be executed, only return true or false.
         /// </summary>
         private Func<bool> parameterlessCanExecute;
 

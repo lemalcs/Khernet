@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Enables video looping for <see cref="MediaElement"/>
+    /// Enables video looping for <see cref="MediaElement"/>.
     /// </summary>
     public class VideoSourceProperty : BaseAttachedProperty<VideoSourceProperty, string>
     {

@@ -7,13 +7,13 @@ using Vlc.DotNet.Core.Interops.Signatures;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Change a string state based on <see cref="MediaStates"/>
+    /// Change a string state based on <see cref="MediaStates"/>.
     /// </summary>
     public class MediaStatesToStringConverter : BaseValueConverter<MediaStatesToStringConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //Get miliseconds from video duration
+            //Get milliseconds from video duration
             MediaStates state = (MediaStates)value;
             return state == MediaStates.Playing ? "Pause" : "Play";
         }

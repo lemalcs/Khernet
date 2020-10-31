@@ -5,12 +5,12 @@ using System.Windows.Controls;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Enables video looping for <see cref="MediaElement"/>
+    /// Enables video looping for <see cref="MediaElement"/>.
     /// </summary>
     public class EnableVideoLoopProperty : BaseAttachedProperty<EnableVideoLoopProperty, bool>
     {
         /// <summary>
-        /// Called when media ends playing
+        /// Called when media ends playing.
         /// </summary>
         private RoutedEventHandler mediaEndedHandler;
 

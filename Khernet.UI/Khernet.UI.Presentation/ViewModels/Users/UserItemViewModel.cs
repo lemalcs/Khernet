@@ -12,62 +12,62 @@ namespace Khernet.UI
     {
         #region Properties
         /// <summary>
-        /// The name initials for defualt picture profile
+        /// The name initials for default picture profile.
         /// </summary>
         private string initials;
 
         /// <summary>
-        /// The Hexadecimal value for color, for example: F5A2D8
+        /// The Hexadecimal value for color, for example: F5A2D8.
         /// </summary>
         private string colorHex;
 
         /// <summary>
-        /// The state of user
+        /// The state of user.
         /// </summary>
         private string state;
 
         /// <summary>
-        /// The group of user
+        /// The group of user.
         /// </summary>
         private string group;
 
         /// <summary>
-        /// The slogan of user
+        /// The slogan of user.
         /// </summary>
         private string slogan;
 
         /// <summary>
-        /// Indicates if user is selected
+        /// Indicates if user is selected.
         /// </summary>
         private bool isSelected;
 
         /// <summary>
-        /// The username
+        /// The user-name.
         /// </summary>
         private string username;
 
         /// <summary>
-        /// Gets the number of unread messages
+        /// Gets the number of unread messages.
         /// </summary>
         private int unreadMessages;
 
         /// <summary>
-        /// Indicates if user is writing a message
+        /// Indicates if user is writing a message.
         /// </summary>
         private bool isWritingMessage;
 
         /// <summary>
-        /// Indicates if user is sending a file
+        /// Indicates if user is sending a file.
         /// </summary>
         private bool isSendingFile;
 
         /// <summary>
-        /// The HTML format of full name
+        /// The HTML format of full name.
         /// </summary>
         private string sourceFullName;
 
         /// <summary>
-        /// The HTML format of display name
+        /// The HTML format of display name.
         /// </summary>
         private string sourceDisplayName;
 
@@ -188,7 +188,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The token of user
+        /// The token of user.
         /// </summary>
         public string Token
         {
@@ -197,7 +197,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The custon name to display for this user
+        /// The custom name to display for this user.
         /// </summary>
         public ReadOnlyCollection<byte> DisplayName
         {
@@ -278,7 +278,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Stores the time when last writing message was received
+        /// Stores the time when last writing message was received.
         /// </summary>
         private DateTime lastWritingTime = DateTime.Now;
 
@@ -310,7 +310,7 @@ namespace Khernet.UI
         #endregion
 
         /// <summary>
-        /// Opens a chat for selected user
+        /// Opens a chat for selected user.
         /// </summary>
         public ICommand OpenChatCommand { get; private set; }
 
@@ -325,7 +325,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Increase in one the number of unread messages
+        /// Increase in one the number of unread messages.
         /// </summary>
         public void IncreaseUnreadMessages()
         {
@@ -334,7 +334,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Decrease in one the number of unread messages
+        /// Decrease in one the number of unread messages.
         /// </summary>
         public void DecreaseUnreadMessages()
         {
@@ -348,7 +348,7 @@ namespace Khernet.UI
         public void AddUnreadMessages(int messageQuantity)
         {
             if (messageQuantity < 0)
-                throw new ArgumentException("Message quatity must be equals or greater than zero");
+                throw new ArgumentException("Message quantity must be equals or greater than zero");
 
             UnreadMessages += messageQuantity;
 
@@ -399,7 +399,7 @@ namespace Khernet.UI
         /// <summary>
         /// Gets a copy of this object.
         /// </summary>
-        /// <returns>A new <see cref="UserItemViewModel"/> object</returns>
+        /// <returns>A new <see cref="UserItemViewModel"/> object.</returns>
         public UserItemViewModel Clone()
         {
             UserItemViewModel user = new UserItemViewModel();
@@ -417,7 +417,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicate that this user is writing a message
+        /// Indicate that this user is writing a message.
         /// </summary>
         public async void ShowUserWriting()
         {
@@ -440,7 +440,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicate that this user stopped writing a message
+        /// Indicate that this user stopped writing a message.
         /// </summary>
         public void HideUserWriting()
         {

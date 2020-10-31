@@ -9,7 +9,7 @@ namespace Khernet.Services.Common
     public class ServiceErrorHandler : IErrorHandler
     {
         //Allow to make task related to error handling like logging.
-        //It is called asynchronously in another process to avoid locking the error sending to client
+        //It is called asynchronously in another process to avoid locking the error sending to client.
         public bool HandleError(Exception error)
         {
             LogDumper.WriteLog(error);
@@ -38,7 +38,7 @@ namespace Khernet.Services.Common
             }
         }
 
-        //It is called when an error is raised in service, allow the creation of a custom FaultException
+        //It is called when an error is raised in service, allow the creation of a custom FaultException.
         public void ProvideFault(Exception error, MessageVersion version, ref Message fault)
         {
             ErrorInformation fileError = new ErrorInformation();

@@ -10,17 +10,17 @@ namespace Khernet.UI.Managers
         AudioPlayerViewModel AudioModel { get; }
 
         /// <summary>
-        /// Suscribe audio tracker
+        /// Subscribes to audio tracker.
         /// </summary>
         void Suscribe(IAudioObserver audioObserver);
 
         /// <summary>
-        /// Unsuscribe audio tracker
+        /// Unsubscribe from audio tracker.
         /// </summary>
         void Unsuscribe(IAudioObserver audioObserver);
 
         /// <summary>
-        /// Stop playing and audio file and release resources
+        /// Stop playing and audio file and release resources.
         /// </summary>
         void StopPlayer();
     }
@@ -28,9 +28,9 @@ namespace Khernet.UI.Managers
     public interface IAudioObserver
     {
         /// <summary>
-        /// Notify when a new audio file is being tracked
+        /// Notify when a new audio file is being tracked.
         /// </summary>
-        /// <param name="audioModel">The model of global audio player</param>
+        /// <param name="audioModel">The model of global audio player.</param>
         void OnChangeAudio(AudioPlayerViewModel audioModel);
     }
 }

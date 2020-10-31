@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Focus an control
+    /// Focus an control.
     /// </summary>
     public class FocusProperty : BaseAttachedProperty<FocusProperty, bool>
     {

@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts a <see cref="MessageType"/> enumaration to friendly name
+    /// Converts a <see cref="MessageType"/> enumeration to friendly name.
     /// </summary>
     public class MessageTypeToFriendlyName : BaseValueConverter<MessageTypeToFriendlyName>
     {

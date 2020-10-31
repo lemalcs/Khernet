@@ -14,7 +14,7 @@ namespace Khernet.UI.DependencyProperties
             //Get scrollviewer
             var scrollControl = (ScrollViewer)d;
 
-            //Scroll to bottom when datacontext changes
+            //Scroll to bottom when DataContext changes
             scrollControl.DataContextChanged -= ScrollControl_DataContextChanged;
             scrollControl.DataContextChanged += ScrollControl_DataContextChanged;
         }

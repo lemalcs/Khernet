@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts <see cref="MessageDirection"/> value to string that represents an icon name
+    /// Converts <see cref="MessageDirection"/> value to string that represents an icon name.
     /// </summary>
     public class MessageOperationToStringConverter : BaseValueConverter<MessageOperationToStringConverter>
     {

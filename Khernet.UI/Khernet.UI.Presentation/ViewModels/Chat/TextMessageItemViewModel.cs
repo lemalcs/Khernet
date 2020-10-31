@@ -9,9 +9,9 @@ namespace Khernet.UI
     public abstract class TextMessageItemViewModel : ChatMessageItemViewModel
     {
         /// <summary>
-        /// Gets a copy of this message
+        /// Gets a copy of this message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> for chat message.</returns>
         public abstract ChatMessageItemViewModel GetInstanceCopy();
 
         public abstract void Send(byte[] message);

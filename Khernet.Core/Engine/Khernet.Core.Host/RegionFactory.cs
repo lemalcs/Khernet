@@ -9,9 +9,9 @@ namespace Khernet.Core.Host
     public class RegionFactory
     {
         /// <summary>
-        /// Validate databases used by application, verifing their existence and successful connection to them.
+        /// Validate databases used by application, verifying their existence and successful connection to them.
         /// </summary>
-        /// <returns>True if connection to database was successfull, otherwise false</returns>
+        /// <returns>True if connection to database was successful, otherwise false.</returns>
         private bool ValidateDatabase()
         {
             try
@@ -72,7 +72,7 @@ namespace Khernet.Core.Host
         {
             try
             {
-                //Crear folder to store firebird database engine files
+                //Create folder to store FIREBIRD database engine files
                 Storage storage = new Storage();
                 string firebirdEnginePath = Path.GetDirectoryName(storage.EngineAddress);
 

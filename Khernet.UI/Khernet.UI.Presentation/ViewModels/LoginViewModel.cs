@@ -13,22 +13,22 @@ namespace Khernet.UI
         #region Properties
 
         /// <summary>
-        /// Indicates if there is an attemp to login
+        /// Indicates if there is an attempt to login.
         /// </summary>
         private bool isAttemptingLogin;
 
         /// <summary>
-        /// The User for login
+        /// The User for login.
         /// </summary>
         private string username;
 
         /// <summary>
-        /// The password for login
+        /// The password for login.
         /// </summary>
         private SecureString password;
 
         /// <summary>
-        /// Indicates if login command can be executed
+        /// Indicates if login command can be executed.
         /// </summary>
         private bool canLogin;
 
@@ -99,7 +99,7 @@ namespace Khernet.UI
 
 
         /// <summary>
-        /// Command for login
+        /// Command for login.
         /// </summary>
         public RelayCommand LoginCommand { get; private set; }
 
@@ -110,9 +110,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Performs login for application
+        /// Performs login for application.
         /// </summary>
-        /// <param name="parameter">The password for user</param>
+        /// <param name="parameter">The password for user.</param>
         public async void Login(object parameter)
         {
             //Show progress animation
@@ -175,9 +175,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// VAlidates thar username and password are not empty
+        /// Validates whether user-name and password are not empty.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">The parameter for command.</param>
         /// <returns></returns>
         public bool VerifyCredentials(object parameter)
         {
@@ -185,10 +185,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Authenticate the current users to access application
+        /// Authenticate the current users to access application.
         /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="password">The password if user.</param>
+        /// <returns>A <see cref="Task"/> for authentication.</returns>
         private Task<PeerIdentity> AuthenticateUser(SecureString password)
         {
             TaskCompletionSource<PeerIdentity> result = new TaskCompletionSource<PeerIdentity>();

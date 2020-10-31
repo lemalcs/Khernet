@@ -63,7 +63,7 @@ namespace Khernet.Core.Host
                 discoveryClient.FindProgressChanged += new EventHandler<FindProgressChangedEventArgs>(discoveryClient_FindProgressChanged);
                 discoveryClient.FindCompleted += new EventHandler<FindCompletedEventArgs>(discoveryClient_FindCompleted);
 
-                // Do async discovery
+                // Do asynchronous discovery
                 discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)));
                 discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)));
                 discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)));
@@ -201,8 +201,8 @@ namespace Khernet.Core.Host
         /// <summary>
         /// Get the active IP address of given host.
         /// </summary>
-        /// <param name="address">List of IPv4 and IPv6 addresses</param>
-        /// <returns></returns>
+        /// <param name="address">List of IPv4 and IPv6 addresses.</param>
+        /// <returns>The IP address.</returns>
         private static string GetActiveHostName(string hostName, string alternateAddresses, int port)
         {
             if (!string.IsNullOrEmpty(hostName) || !string.IsNullOrWhiteSpace(hostName))
@@ -622,7 +622,7 @@ namespace Khernet.Core.Host
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -640,7 +640,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

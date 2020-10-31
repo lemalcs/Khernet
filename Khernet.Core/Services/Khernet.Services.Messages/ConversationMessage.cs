@@ -7,25 +7,25 @@ namespace Khernet.Services.Messages
     public enum MessageState
     {
         /// <summary>
-        /// The message is not ready to be used
+        /// The message is not ready to be used.
         /// </summary>
         [EnumMember]
         UnCommited = -1,
 
         /// <summary>
-        /// The message is pedding to sent
+        /// The message is pending to sent.
         /// </summary>
         [EnumMember]
         Pending = 0,
 
         /// <summary>
-        /// The message was sent or received successfully
+        /// The message was sent or received successfully.
         /// </summary>
         [EnumMember]
         Processed = 1,
 
         /// <summary>
-        /// There was and error while sending or receiving the message
+        /// There was and error while sending or receiving the message.
         /// </summary>
         [EnumMember]
         Error = 2
@@ -36,25 +36,25 @@ namespace Khernet.Services.Messages
     public abstract class ChatMessage
     {
         /// <summary>
-        /// The token of sender of message
+        /// The token of sender of message.
         /// </summary>
         [DataMember]
         public string SenderToken { get; set; }
 
         /// <summary>
-        /// The token of recepit of message
+        /// The token of receiver of message.
         /// </summary>
         [DataMember]
         public string ReceiverToken { get; set; }
 
         /// <summary>
-        /// The date that message was sent
+        /// The date that message was sent.
         /// </summary>
         [DataMember]
         public DateTimeOffset SendDate { get; set; }
 
         /// <summary>
-        /// The number of ticks (100 nanoseconds) since January 1, 0001 in the Gregorian calendar
+        /// The number of ticks (100 nanoseconds) since January 1, 0001 in the Gregorian calendar.
         /// </summary>
         [DataMember]
         public long TimeId { get; set; }
@@ -66,19 +66,19 @@ namespace Khernet.Services.Messages
         public string UID { get; set; }
 
         /// <summary>
-        /// The UID of message being replied
+        /// The UID of message being replied.
         /// </summary>
         [DataMember]
         public string UIDReply { get; set; }
 
         /// <summary>
-        /// The type of message
+        /// The type of message.
         /// </summary>
         [DataMember]
         public ContentType Type { get; set; }
 
         /// <summary>
-        /// The state of the message
+        /// The state of the message.
         /// </summary>
         [DataMember]
         public MessageState State { get; set; }
@@ -97,13 +97,13 @@ namespace Khernet.Services.Messages
     public class ConversationMessage : TextMessage
     {
         /// <summary>
-        /// Number that identifies the order of chunks when message is splitted
+        /// Number that identifies the order of chunks when message is splitted.
         /// </summary>
         [DataMember]
         public int Sequential { get; set; }
 
         /// <summary>
-        /// Indicates the total number of chunks for this message
+        /// Indicates the total number of chunks for this message.
         /// </summary>
         [DataMember]
         public int TotalChunks { get; set; }
@@ -121,13 +121,13 @@ namespace Khernet.Services.Messages
     }
 
     /// <summary>
-    /// Metadata for chat messages
+    /// Metadata for chat messages.
     /// </summary>
     [DataContract]
     public class MessageItem
     {
         /// <summary>
-        /// The id for message
+        /// The id for message.
         /// </summary>
         [DataMember]
         public int Id { get; set; }
@@ -139,31 +139,31 @@ namespace Khernet.Services.Messages
         public int IdSenderPeer { get; set; }
 
         /// <summary>
-        /// The type of message
+        /// The type of message.
         /// </summary>
         [DataMember]
         public ContentType Format { get; set; }
 
         /// <summary>
-        /// The date when message was sent or received
+        /// The date when message was sent or received.
         /// </summary>
         [DataMember]
         public DateTimeOffset RegisterDate { get; set; }
 
         /// <summary>
-        /// The state of chat message
+        /// The state of chat message.
         /// </summary>
         [DataMember]
         public MessageState State { get; set; }
 
         /// <summary>
-        /// Indicates if this message was read
+        /// Indicates if this message was read.
         /// </summary>
         [DataMember]
         public bool IsRead { get; set; }
 
         /// <summary>
-        /// The universal identifier of message
+        /// The universal identifier of message.
         /// </summary>
         [DataMember]
         public string UID { get; set; }

@@ -4,33 +4,33 @@ using System.Windows.Controls;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Shown of an modal dialog inside parent window
+    /// Shown of an modal dialog inside parent window.
     /// </summary>
     public partial class ModalDialogControl : UserControl
     {
         /// <summary>
-        /// Default Up and down margin for ContentControl
+        /// Default Up and down margin for ContentControl.
         /// </summary>
         double defaultMargin = 20;
 
         /// <summary>
-        /// Current up and down margin for ContentControl
+        /// Current up and down margin for ContentControl.
         /// </summary>
 
         double currentMargin = 20;
 
         /// <summary>
-        /// The height of windows that owns this control
+        /// The height of windows that owns this control.
         /// </summary>
         double windowTitleHeight = 30;
 
         /// <summary>
-        /// The current height of window owner
+        /// The current height of window owner.
         /// </summary>
         double currentOwnerHeight;
 
         /// <summary>
-        /// The height of parent windows that owns this control
+        /// The height of parent windows that owns this control.
         /// </summary>
         public double OwnerHeight
         {
@@ -43,10 +43,10 @@ namespace Khernet.UI.Controls
             DependencyProperty.Register(nameof(OwnerHeight), typeof(double), typeof(ModalDialogControl), new PropertyMetadata(0d, OnOwnerHeightChanged));
 
         /// <summary>
-        /// Set height of <see cref="ModalDialogControl"/> based on <see cref="OwnerHeight"/>
+        /// Set height of <see cref="ModalDialogControl"/> based on <see cref="OwnerHeight"/>.
         /// </summary>
-        /// <param name="d">The control that owns this property</param>
-        /// <param name="e">The new value</param>
+        /// <param name="d">The control that owns this property.</param>
+        /// <param name="e">The new value.</param>
         private static void OnOwnerHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ModalDialogControl;
@@ -54,9 +54,9 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Sets the height of this control
+        /// Sets the height of this control.
         /// </summary>
-        /// <param name="ownerHeight">The height value</param>
+        /// <param name="ownerHeight">The height value.</param>
         protected void OnOwnerHeightChanged(double ownerHeight)
         {
             //Set the current owner height
@@ -69,7 +69,7 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// The view model for control to show in modal dialog
+        /// The view model for control to show in modal dialog.
         /// </summary>
         public BaseModel DialogViewModel
         {
@@ -84,10 +84,10 @@ namespace Khernet.UI.Controls
             DependencyProperty.Register(nameof(DialogViewModel), typeof(BaseModel), typeof(ModalDialogControl), new PropertyMetadata(null, OnViewModelUpdated, null));
 
         /// <summary>
-        /// Set view model for <see cref="ModalDialogControl"/>
+        /// Set view model for <see cref="ModalDialogControl"/>.
         /// </summary>
-        /// <param name="d">The control that owns this property</param>
-        /// <param name="e">The height value</param>
+        /// <param name="d">The control that owns this property.</param>
+        /// <param name="e">The height value.</param>
         private static void OnViewModelUpdated(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ModalDialogControl;
@@ -99,9 +99,9 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Sets view model for this control
+        /// Sets view model for this control.
         /// </summary>
-        /// <param name="viewModel">The view model value</param>
+        /// <param name="viewModel">The view model value.</param>
         protected void OnViewModelUpdated(BaseModel viewModel)
         {
             DataContext = viewModel;

@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Returns <see cref="Visibility.Visible"/> if value is not null, otherwise returns <see cref="Visibility.Collapsed"/>
+    /// Returns <see cref="Visibility.Visible"/> if value is not null, otherwise returns <see cref="Visibility.Collapsed"/>.
     /// </summary>
     public class NullToStretchImageConverter : BaseValueConverter<NullToStretchImageConverter>
     {

@@ -11,22 +11,22 @@ namespace Khernet.UI
     public enum AppOptions
     {
         /// <summary>
-        /// View and edit logged user profile
+        /// View and edit logged user profile.
         /// </summary>
         Profile = 0,
 
         /// <summary>
-        /// Clear cache folder used by application
+        /// Clear cache folder used by application.
         /// </summary>
         Cache = 1,
 
         /// <summary>
-        /// Close current session
+        /// Close current session.
         /// </summary>
         CloseSession = 2,
 
         /// <summary>
-        /// Opens the about page
+        /// Opens the about page.
         /// </summary>
         About = 3
     }
@@ -35,12 +35,12 @@ namespace Khernet.UI
     public class SettingControllerViewModel : BaseModel, ISettingController
     {
         /// <summary>
-        /// The dialog where settings are shown
+        /// The dialog where settings are shown.
         /// </summary>
         private readonly IPagedDialog pagedDialog;
 
         /// <summary>
-        /// The user list for chat
+        /// The user list for chat.
         /// </summary>
         public List<SettingItemViewModel> Items { get; private set; }
 

@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts a long value to a double value according to bytes units
+    /// Converts a long value to a double value according to bytes units.
     /// </summary>
     public class SizeUnitConverter : BaseValueConverter<SizeUnitConverter>
     {
@@ -21,7 +21,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts a long value to a double value according to bytes units
+    /// Converts a long value to a double value according to bytes units.
     /// </summary>
     public class SizeToUnitNameConverter : BaseValueConverter<SizeToUnitNameConverter>
     {

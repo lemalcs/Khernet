@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Container for audio chat messages
+    /// Container for audio chat messages.
     /// </summary>
     public partial class AudioMessageControl : UserControl
     {

@@ -27,11 +27,11 @@
                    Style="{StaticResource TitleText}"
                    Margin="0 0 0 15"/>
 
-            <TextBlock Text="Username" 
+            <TextBlock Text="User-name" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-            <!--Username textbox-->
+            <!--User-name -->
             <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
                  Style="{StaticResource EditTextBox}"
                  depend:IsFocusedProperty.Value="True"
@@ -43,7 +43,7 @@
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-            <!--Password textbox-->
+            <!--Password -->
             <PasswordBox Name="pass1"
                      Style="{StaticResource EditPasswordBox}" 
                      VerticalContentAlignment="Center"

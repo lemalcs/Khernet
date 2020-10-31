@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts circle radius to <see cref="Size"/> for right and left arcs
+    /// Converts circle radius to <see cref="Size"/> for right and left arcs.
     /// </summary>
     public class UnreadCountWidthConverter : BaseValueConverter<UnreadCountWidthConverter>
     {

@@ -8,10 +8,10 @@ namespace Khernet.Core.Utility
     public class EncryptionHelper
     {
         /// <summary>
-        /// Generate key and intialization vector from a password
+        /// Generate key and initialization vector from a password.
         /// </summary>
-        /// <param name="password">Source password</param>
-        /// <returns></returns>
+        /// <param name="password">Source password.</param>
+        /// <returns>A <see cref="SecureString "/> containing key.</returns>
         public static SecureString PackAESKeys(SecureString password)
         {
             try
@@ -59,6 +59,7 @@ namespace Khernet.Core.Utility
                 throw exception;
             }
         }
+
         public static string EncryptString(string data, Encoding encoding, byte[] IV, byte[] Key)
         {
             try

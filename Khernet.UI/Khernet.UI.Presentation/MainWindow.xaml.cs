@@ -22,7 +22,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Hide main window
+        /// Hide main window.
         /// </summary>
         private void HideWindow()
         {

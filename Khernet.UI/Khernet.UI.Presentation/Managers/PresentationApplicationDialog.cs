@@ -70,7 +70,7 @@ namespace Khernet.UI.Managers
         /// Shows system dialog to save file with the given extension.
         /// </summary>
         /// <param name="filter">The filter to show.</param>
-        /// <param name="defaultExtension">Optional default extension</param>
+        /// <param name="defaultExtension">Optional default extension.</param>
         /// <returns>The full path of file.</returns>
         public string ShowSaveFileDialog(string filter, string defaultExtension)
         {

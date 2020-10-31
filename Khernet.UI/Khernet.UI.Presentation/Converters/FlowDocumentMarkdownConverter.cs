@@ -8,7 +8,7 @@ using System.Windows.Documents;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Convert Markdown code to <see cref="FlowDocument"/> and viceversa
+    /// Convert Markdown code to <see cref="FlowDocument"/> and vice versa.
     /// </summary>
     public class FlowDocumentMarkdownConverter
     {

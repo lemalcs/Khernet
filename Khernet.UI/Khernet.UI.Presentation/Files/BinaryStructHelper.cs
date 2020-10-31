@@ -6,11 +6,11 @@ namespace Khernet.UI
     public static class BinaryStructHelper
     {
         /// <summary>
-        /// Converts an struct to byte array
+        /// Converts an struct to byte array.
         /// </summary>
-        /// <typeparam name="T">The type of struct</typeparam>
-        /// <param name="st">The struct to convert to</param>
-        /// <returns></returns>
+        /// <typeparam name="T">The type of struct.</typeparam>
+        /// <param name="st">The struct to convert to.</param>
+        /// <returns>A <see cref="byte"/> array of struct.</returns>
         public static byte[] StructToByteArray<T>(T st) where T : struct
         {
             IntPtr pointer = IntPtr.Zero;
@@ -41,11 +41,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Convert a byte array to struct
+        /// Convert a byte array to struct.
         /// </summary>
-        /// <typeparam name="T">The struct to get</typeparam>
-        /// <param name="st">The byte array</param>
-        /// <returns></returns>
+        /// <typeparam name="T">The struct to get.</typeparam>
+        /// <param name="st">The byte array.</param>
+        /// <returns>The struct of <see cref="byte"/> array.</returns>
         public static T ByteArrayToStruct<T>(byte[] st) where T : struct
         {
             IntPtr pointer = IntPtr.Zero;
@@ -75,10 +75,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get struct size
+        /// Get struct size.
         /// </summary>
-        /// <param name="st">The type of struct</param>
-        /// <returns></returns>
+        /// <param name="st">The type of struct.</param>
+        /// <returns>The size of struct.</returns>
         public static int GetStructSize(Type st)
         {
             return Marshal.SizeOf(st);

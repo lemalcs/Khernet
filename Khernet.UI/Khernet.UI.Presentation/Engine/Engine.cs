@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Khernet.UI
 {
     /// <summary>
-    /// The states of the chat engine
+    /// The states of the chat engine.
     /// </summary>
     public enum EngineState
     {
@@ -40,9 +40,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Start server core
+        /// Start server core.
         /// </summary>
-        /// <param name="currentUser">The identity for this server</param>
+        /// <param name="currentUser">The identity for this server.</param>
         public static Task Start(PeerIdentity currentUser)
         {
             return TaskEx.Run(() =>
@@ -97,7 +97,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Creates client to listen notifications from core
+        /// Creates client to listen notifications from core.
         /// </summary>
         private static void StartClient()
         {

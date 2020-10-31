@@ -35,7 +35,7 @@ namespace Khernet.UI
         private double width;
 
         /// <summary>
-        /// The height of imahe.
+        /// The height of image.
         /// </summary>
         private double height;
         public double Width
@@ -120,10 +120,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a summary about this message
+        /// Gets a summary about this message.
         /// </summary>
-        /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
+        /// <param name="operation">The operation to do this summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary.</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -154,7 +154,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Replies a message that was sent
+        /// Replies a message that was sent.
         /// </summary>
         private void Reply()
         {
@@ -169,7 +169,7 @@ namespace Khernet.UI
         /// <summary>
         /// Retrieve an image from file system.
         /// </summary>
-        /// <param name="fileName">The path of image</param>
+        /// <param name="fileName">The path of image.</param>
         public override void Send(string filePath)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -191,7 +191,7 @@ namespace Khernet.UI
                 SetImageThumbnail(mem.ToArray());
             }
 
-            //Request to updaload a image from file system
+            //Request to upload a image from file system
             Media = new MediaRequest
             {
                 FileName = filePath,
@@ -215,7 +215,7 @@ namespace Khernet.UI
         /// <summary>
         /// Retrieve and image from a <see cref="Stream"/>.
         /// </summary>
-        /// <param name="rawImage">The stream of image</param>
+        /// <param name="rawImage">The stream of image.</param>
         public void Send(Stream rawImage)
         {
             using (MemoryStream mem = (MemoryStream)ImageHelper.GetStreamFromClipboardImage(rawImage))
@@ -282,7 +282,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens an image in its original size within a model dialog
+        /// Opens an image in its original size within a model dialog.
         /// </summary>
         public async void OpenImage()
         {
@@ -383,11 +383,11 @@ namespace Khernet.UI
         #endregion
 
         /// <summary>
-        /// Get a copy of this message with the given dependencies
+        /// Get a copy of this message with the given dependencies.
         /// </summary>
-        /// <param name="messageManager">The chat list to which this message belongs</param>
-        /// <param name="applicationDialog">The application window that this message belongs</param>
-        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        /// <param name="messageManager">The chat list to which this message belongs.</param>
+        /// <param name="applicationDialog">The application window that this message belongs.</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instance with a copy of this message.</returns>
         public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
             ImageChatMessageViewModel chatMessage = new ImageChatMessageViewModel(messageManager, applicationDialog);
@@ -424,7 +424,7 @@ namespace Khernet.UI
                 }
             }
 
-            //Request to updaload a image from file system
+            //Request to upload a image from file system
             Media = new MediaRequest
             {
                 FileName = FileName,

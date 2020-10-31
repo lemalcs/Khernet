@@ -29,9 +29,9 @@ namespace Khernet.UI
         private bool trayMessageShowed = false;
 
         /// <summary>
-        /// Shows a message box
+        /// Shows a message box.
         /// </summary>
-        /// <param name="dialogModel">The view model</param>
+        /// <param name="dialogModel">The view model.</param>
         /// <returns></returns>
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
         {
@@ -41,8 +41,8 @@ namespace Khernet.UI
         /// <summary>
         /// Shows a single message dialog into a specific parent window.
         /// </summary>
-        /// <param name="dialogModel">View model for message dialog</param>
-        /// <param name="newWindow">True to show message in a new windows, false to show message into main window</param>
+        /// <param name="dialogModel">View model for message dialog.</param>
+        /// <param name="newWindow">True to show message in a new windows, false to show message into main window.</param>
         /// <returns></returns>
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel, bool newWindow)
         {
@@ -53,10 +53,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows a modal dialog
+        /// Shows a modal dialog.
         /// </summary>
-        /// <typeparam name="T">View model type</typeparam>
-        /// <param name="viewModel">the view model</param>
+        /// <typeparam name="T">View model type.</typeparam>
+        /// <param name="viewModel">the view model.</param>
         /// <returns></returns>
         public async Task ShowDialog<T>(T viewModel) where T : BaseModel
         {
@@ -79,9 +79,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows <see cref="OpenFileDialog"/> to choose files
+        /// Shows <see cref="OpenFileDialog"/> to choose files.
         /// </summary>
-        /// <returns>List of dile names</returns>
+        /// <returns>List of file names.</returns>
         public string[] ShowOpenFileDialog()
         {
             //Show open file dialog 
@@ -98,19 +98,19 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens audio player into main window
+        /// Opens audio player into main window.
         /// </summary>
-        /// <typeparam name="T">The type view model</typeparam>
-        /// <param name="viewModel">The view model for player</param>
+        /// <typeparam name="T">The type view model.</typeparam>
+        /// <param name="viewModel">The view model for player.</param>
         public void ShowPlayer<T>(T viewModel) where T : BaseModel
         {
             IoCContainer.Get<ApplicationViewModel>().ShowPlayer(viewModel);
         }
 
         /// <summary>
-        /// Open a file with the defualt application.
+        /// Open a file with the default application.
         /// </summary>
-        /// <param name="fileName">The path of file</param>
+        /// <param name="fileName">The path of file.</param>
         public void OpenFile(string fileName)
         {
             ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -147,18 +147,18 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicates if it is design time
+        /// Indicates if it is design time.
         /// </summary>
-        /// <returns>True if it is design time otherwise false</returns>
+        /// <returns>True if it is design time otherwise false.</returns>
         public bool IsInDesignTime()
         {
             return DesignerProperties.GetIsInDesignMode(new DependencyObject());
         }
 
         /// <summary>
-        /// Shows a notification ballon
+        /// Shows a notification balloon.
         /// </summary>
-        /// <param name="notificationModel"></param>
+        /// <param name="notificationModel">The notification model.</param>
         public void ShowNotification(NotificationViewModel notificationModel)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -182,8 +182,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Display unread chat messages
+        /// Display unread chat messages.
         /// </summary>
+        /// <param name="idMessage">The id of message.</param>
         public void ShowUnReadMessage(int idMessage)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -198,7 +199,7 @@ namespace Khernet.UI
         /// <summary>
         /// Indicates if main window is active.
         /// </summary>
-        /// <returns>True if window has physical focused otherwise false</returns>
+        /// <returns>True if window has physical focused otherwise false.</returns>
         public bool IsMainWindowActive()
         {
             return (bool)Application.Current.Dispatcher.Invoke(new Func<bool>(() =>
@@ -208,7 +209,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows windows if it is not visible
+        /// Shows windows if it is not visible.
         /// </summary>
         public void ShowWindow()
         {
@@ -224,9 +225,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Execute a task on user interface thread
+        /// Execute a task on user interface thread.
         /// </summary>
-        /// <param name="action">The task to be executed</param>
+        /// <param name="action">The task to be executed.</param>
         public void ExecuteAsync(Action action)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -236,7 +237,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Execute a task synchronously on user interface thread
+        /// Execute a task synchronously on user interface thread.
         /// </summary>
         public void Execute(Action action)
         {
@@ -247,11 +248,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Show an child modal dialog owned by parent modial dialog
+        /// Show an child modal dialog owned by parent modal dialog.
         /// </summary>
-        /// <typeparam name="T">The type of view model for dialog</typeparam>
-        /// <param name="viewModel">The view model</param>
-        /// <returns></returns>
+        /// <typeparam name="T">The type of view model for dialog.</typeparam>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns>A <see cref="Task"/> for dialog.</returns>
         public async Task ShowChildDialog<T>(T viewModel) where T : BaseModel
         {
             if (viewModel is PagedDialogViewModel)
@@ -269,10 +270,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Converts a <see cref="string"/> html document to XAML document byte array
+        /// Converts a <see cref="string"/> HTML document to XAML document byte array.
         /// </summary>
-        /// <param name="value">The html document</param>
-        /// <returns>A <see cref="byte[]"/> array</returns>
+        /// <param name="value">The HTML document.</param>
+        /// <returns>A <see cref="byte[]"/> array with document for view.</returns>
         public byte[] ConvertHtmlToDocument(string html)
         {
             byte[] result = null;
@@ -297,10 +298,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Converts markdown text to XAML document byte array
+        /// Converts markdown text to XAML document byte array.
         /// </summary>
-        /// <param name="markdownText"></param>
-        /// <returns></returns>
+        /// <param name="markdownText">The text in markdown syntax.</param>
+        /// <returns>A <see cref="byte[]"/> array with document for view.</returns>
         public byte[] ConvertMarkdownToDocument(string markdownText)
         {
             byte[] result = null;
@@ -337,7 +338,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Hide the new message indicator of icon located in notification area
+        /// Hide the new message indicator of icon located in notification area.
         /// </summary>
         public void ClearNotificationNewMessageIcon()
         {
@@ -356,7 +357,7 @@ namespace Khernet.UI
         /// <summary>
         /// Shows the number of unread message on taskbar icon.
         /// </summary>
-        /// <param name="unreadMessages">The number of unreadMessages</param>
+        /// <param name="unreadMessages">The number of unreadMessages.</param>
         public void ShowUnreadMessagesNumber(int unreadMessages)
         {
             if (unreadMessages <= 0)

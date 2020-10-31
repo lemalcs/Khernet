@@ -1,22 +1,22 @@
 ﻿namespace Khernet.UI.Animations
 {
     /// <summary>
-    /// Animation types to add to pages
+    /// Animation types to add to pages.
     /// </summary>
     public enum PageAnimation
     {
         /// <summary>
-        /// No aminations to apply
+        /// No animations to apply.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Slide from left animation
+        /// Slide from left animation.
         /// </summary>
         SlideAndFadeFromLeft = 1,
 
         /// <summary>
-        /// Slide from right animation
+        /// Slide from right animation.
         /// </summary>
         SlideAndFadeFromRight = 2
     }

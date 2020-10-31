@@ -60,7 +60,7 @@ namespace Khernet.UI
 
             AssemblyName assemblyName;
 
-            //Load System.Core library for .Net Framework 4.0 if a previuos version is requested
+            //Load System.Core library for .Net Framework 4.0 if a previous version is requested
             if (args.Name == "System.Core, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e, Retargetable=Yes")
             {
                 assemblyName = new AssemblyName("System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
@@ -106,10 +106,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Load assembly from resources located in entry assembly
+        /// Load assembly from resources located in entry assembly.
         /// </summary>
-        /// <param name="parentAssembly">The assembly where to search for</param>
-        /// <param name="assemblyName">The requested assembly embedded as resource</param>
+        /// <param name="parentAssembly">The assembly where to search for.</param>
+        /// <param name="assemblyName">The requested assembly embedded as resource.</param>
         /// <returns></returns>
         private static Assembly LoadDependency(Assembly parentAssembly, string assemblyName)
         {

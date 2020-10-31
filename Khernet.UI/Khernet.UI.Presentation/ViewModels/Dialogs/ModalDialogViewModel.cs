@@ -5,27 +5,27 @@ namespace Khernet.UI
     public class ModalDialogViewModel : BaseModel
     {
         /// <summary>
-        /// Content hosted inside dialog
+        /// Content hosted inside dialog.
         /// </summary>
         private Control content;
 
         /// <summary>
-        /// The maximun height of dialog
+        /// The maximum height of dialog.
         /// </summary>
         private double maxheight;
 
         /// <summary>
-        /// The minimum height of dialog
+        /// The minimum height of dialog.
         /// </summary>
         private double minheight;
 
         /// <summary>
-        /// Indicates if dialog must be in full screen
+        /// Indicates if dialog must be in full screen.
         /// </summary>
         private bool isFullScreen;
 
         /// <summary>
-        /// The width of modal dialog
+        /// The width of modal dialog.
         /// </summary>
         private double width;
 

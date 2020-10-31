@@ -8,12 +8,12 @@ namespace Khernet.UI
     public class UserListViewModel : BaseModel
     {
         /// <summary>
-        /// The list of users
+        /// The list of users.
         /// </summary>
         private ObservableCollection<UserItemViewModel> items;
 
         /// <summary>
-        /// Tyhe current selected user
+        /// The current selected user.
         /// </summary>
         private UserItemViewModel selectedUser;
 
@@ -41,7 +41,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The list of users
+        /// The list of users.
         /// </summary>
         public ObservableCollection<UserItemViewModel> Items
         {
@@ -57,7 +57,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The number of unread messages from all user in the list
+        /// The number of unread messages from all user in the list.
         /// </summary>
         public int TotalUnreadMessages
         {
@@ -66,10 +66,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Find and user based on token
+        /// Find and user based on token.
         /// </summary>
-        /// <param name="token">The token of user</param>
-        /// <returns>Instance of <see cref="UserItemViewModel"/></returns>
+        /// <param name="token">The token of user.</param>
+        /// <returns>Instance of <see cref="UserItemViewModel"/>.</returns>
         public UserItemViewModel FindUser(string token)
         {
             UserItemViewModel userItem = null;
@@ -87,9 +87,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Sets user as selected
+        /// Sets user as selected.
         /// </summary>
-        /// <param name="token">The token of user</param>
+        /// <param name="token">The token of user.</param>
         public void SelectUser(string token)
         {
             if (Items == null)
@@ -101,7 +101,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Unselect the current user.
+        /// Deselect the current user.
         /// </summary>
         public void ClearSelection()
         {
@@ -112,7 +112,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Clears list of users
+        /// Clears list of users.
         /// </summary>
         public void Clear()
         {
@@ -121,9 +121,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a copy of user list
+        /// Gets a copy of user list.
         /// </summary>
-        /// <returns>A list of <see cref="UserItemViewModel"/> objects</returns>
+        /// <returns>A list of <see cref="UserItemViewModel"/> objects.</returns>
         public List<UserItemViewModel> Clone()
         {
             List<UserItemViewModel> list = new List<UserItemViewModel>();

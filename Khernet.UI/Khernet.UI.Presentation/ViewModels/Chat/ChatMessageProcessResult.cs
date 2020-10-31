@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI
 {
     /// <summary>
-    /// The state of messages
+    /// The state of messages.
     /// </summary>
     public class ChatMessageProcessResult
     {

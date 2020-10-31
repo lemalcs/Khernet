@@ -6,14 +6,14 @@ using System.Windows.Markup;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Value Converter for direct access to XAML
+    /// Value Converter for direct access to XAML.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter
         where T : class, new()
     {
         /// <summary>
-        /// Instance for specific value converter
+        /// Instance for specific value converter.
         /// </summary>
         private static T converter = null;
 

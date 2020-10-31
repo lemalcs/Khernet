@@ -11,39 +11,39 @@ namespace Khernet.UI.Managers
     public enum UserChangeType
     {
         /// <summary>
-        /// User has changed profile
+        /// User has changed profile.
         /// </summary>
         ProfileChange = 0,
 
         /// <summary>
-        /// Request to load profile
+        /// Request to load profile.
         /// </summary>
         ProfileLoading = 1,
 
         /// <summary>
-        /// User has changed avatar
+        /// User has changed avatar.
         /// </summary>
         AvatarChange = 2,
 
         /// <summary>
-        /// Request to load avatar
+        /// Request to load avatar.
         /// </summary>
         AvatarLoading = 4,
 
         /// <summary>
-        /// Peer has changed its state
+        /// Peer has changed its state.
         /// </summary>
         StateChange = 5
     }
     public class UserState
     {
         /// <summary>
-        /// The token of user
+        /// The token of user.
         /// </summary>
         public string Token { get; set; }
 
         /// <summary>
-        /// The type of chenge for user
+        /// The type of change for user.
         /// </summary>
         public UserChangeType Change { get; set; }
 
@@ -52,17 +52,17 @@ namespace Khernet.UI.Managers
     public class UserManager : IDisposable
     {
         /// <summary>
-        /// The process to manage states
+        /// The process to manage states.
         /// </summary>
         private Thread userStateMonitor;
 
         /// <summary>
-        /// Controls when to start to upload text message
+        /// Controls when to start to upload text message.
         /// </summary>
         private AutoResetEvent userStateAutoReset;
 
         /// <summary>
-        /// Indicates if state manager should continue running
+        /// Indicates if state manager should continue running.
         /// </summary>
         private bool stopMonitoring = false;
 
@@ -190,11 +190,10 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Get a peer from peer list if it does not exist add the new peer to list
+        /// Get a peer from peer list if it does not exist add the new peer to list.
         /// </summary>
-        /// <param name="userToken"></param>
-        /// <param name="username"></param>
-        /// <returns>A <see cref="UserItemViewModel"/> of peer</returns>
+        /// <param name="userToken">The token of user.</param>
+        /// <returns>A <see cref="UserItemViewModel"/> of peer.</returns>
         private UserItemViewModel GetUserFromList(string userToken)
         {
             var userList = IoCContainer.Get<UserListViewModel>();
@@ -232,7 +231,7 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Fill profile of a peer.
         /// </summary>
-        /// <param name="userModel">The object profile of peer</param>
+        /// <param name="userModel">The model of peer.</param>
         private void FillUserProfile(UserItemViewModel userModel)
         {
             Peer peer = IoCContainer.Get<Messenger>().GetPeerProfile(userModel.Token);
@@ -278,7 +277,7 @@ namespace Khernet.UI.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -296,7 +295,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

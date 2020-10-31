@@ -108,12 +108,6 @@ namespace Khernet.Core.Processor
             commData.RegisterPendingMessage(receiverToken, idMessage);
         }
 
-        public string GetUIDMessage(int idMessage)
-        {
-            CommunicatorData commData = new CommunicatorData();
-            return commData.GetUIDMessage(idMessage);
-        }
-
         public void SendPendingMessage(InternalConversationMessage conversation)
         {
             CommunicatorData commData = new CommunicatorData();
@@ -288,12 +282,6 @@ namespace Khernet.Core.Processor
             }
             else
                 return null;
-        }
-
-        public void DeletePendingMessage(string receiverToken, int idMessage)
-        {
-            CommunicatorData commData = new CommunicatorData();
-            commData.DeletePendingMessage(receiverToken, idMessage);
         }
 
         public void MarkAsReadMessage(int idMessage)
@@ -476,9 +464,9 @@ namespace Khernet.Core.Processor
         }
 
         /// <summary>
-        /// Generates a random color in hexadecimal format
+        /// Generates a random color in hexadecimal format.
         /// </summary>
-        /// <returns>The hexadecimal vlue of color in format RRGGBB (Red, blue and green)</returns>
+        /// <returns>The hexadecimal value of color in format RRGGBB (Red, blue and green)</returns>
         private string GenerateHexadecimalColor()
         {
             var randomGenerator = new CryptoApiRandomGenerator();
@@ -512,19 +500,13 @@ namespace Khernet.Core.Processor
 
             PublisherClient publisher = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
 
-            //Send a notification of offline client to suscribers
+            //Send a notification of offline client to subscribers
             publisher.ProcessContactChange(new PeerNotification
             {
                 Token = token,
                 Change = PeerChangeType.StateChange,
                 State = status
             });
-        }
-
-        public void ClearPeers()
-        {
-            CommunicatorData commData = new CommunicatorData();
-            commData.ClearPeers();
         }
 
         public void ClearPeersState()

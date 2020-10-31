@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.Pages
 {
     /// <summary>
-    /// Listo of audio files interchanged with peer.
+    /// List of audio files interchanged with peer.
     /// </summary>
     public partial class AboutPage : BasePage<AboutViewModel>
     {

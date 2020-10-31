@@ -8,8 +8,8 @@ namespace Khernet.Core.Utility
         /// <summary>
         /// Validates if password is valid, it must have letters, numbers and special characters.
         /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="password">The password to validate.</param>
+        /// <returns>True if it is a valid password otherwise false.</returns>
         public static bool ValidatePassword(SecureString password)
         {
             CryptographyProvider crypt = new CryptographyProvider();
@@ -26,11 +26,11 @@ namespace Khernet.Core.Utility
         }
 
         /// <summary>
-        /// Verify if two  password objects have same values
+        /// Verify if two  password objects have same values.
         /// </summary>
-        /// <param name="firstPassword">The fisrt password</param>
-        /// <param name="secondPassword">The second password</param>
-        /// <returns></returns>
+        /// <param name="firstPassword">The first password.</param>
+        /// <param name="secondPassword">The second password.</param>
+        /// <returns>True if passwords are the same otherwise false.</returns>
         public static bool ComparePasswords(SecureString firstPassword, SecureString secondPassword)
         {
             CryptographyProvider crypt = new CryptographyProvider();
@@ -39,10 +39,10 @@ namespace Khernet.Core.Utility
         }
 
         /// <summary>
-        /// Validates a user name
+        /// Validates a user name.
         /// </summary>
-        /// <param name="username">The username to validate</param>
-        /// <returns></returns>
+        /// <param name="username">The user-name to validate.</param>
+        /// <returns>True if it is a valid user-name otherwise false.</returns>
         public static bool ValidateUserName(string username)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrWhiteSpace(username))

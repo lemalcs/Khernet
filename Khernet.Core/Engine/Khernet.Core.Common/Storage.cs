@@ -8,12 +8,22 @@ namespace Khernet.Core.Common
 {
     public enum StorageType
     {
+        /// <summary>
+        /// Database of application's configurations.
+        /// </summary>
         Configuration = 0,
+
+        /// <summary>
+        /// Database of applications's data such as messages and user information.
+        /// </summary>
         Repository = 1
     }
 
     public class Storage
     {
+        /// <summary>
+        /// The path of file system where FIREBIRD engine is located.
+        /// </summary>
         public string EngineAddress
         {
             get
@@ -23,6 +33,9 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// The path of file system where configuration's database is located.
+        /// </summary>
         public string ConfigAddress
         {
             get
@@ -36,6 +49,9 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// The path of file system where database of file messages is located.
+        /// </summary>
         public string RepoAddress
         {
             get
@@ -45,15 +61,9 @@ namespace Khernet.Core.Common
             }
         }
 
-        public string FolderRepoAddress
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "kdata\\Download");
-            }
-        }
-
+        /// <summary>
+        /// The path of file system where database of messages is located.
+        /// </summary>
         public string FileRepoAddress
         {
             get
@@ -63,6 +73,9 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// The path of file system where cache folder is located.
+        /// </summary>
         public string CacheAddress
         {
             get
@@ -72,6 +85,9 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// The path of file system where FFMPEG library is located.
+        /// </summary>
         public string MediaToolsAddress
         {
             get
@@ -81,6 +97,9 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// The path of file system where VLC library is located.
+        /// </summary>
         public string VLCLibX86Address
         {
             get
@@ -90,6 +109,11 @@ namespace Khernet.Core.Common
             }
         }
 
+        /// <summary>
+        /// Gets a connection string to a specific database based on <see cref="StorageType"/> enumeration.
+        /// </summary>
+        /// <param name="storageType">The type of database.</param>
+        /// <returns>The connection string.</returns>
         public string BuildConnectionString(StorageType storageType)
         {
             FbConnectionStringBuilder connBuilder = new FbConnectionStringBuilder();
@@ -111,6 +135,10 @@ namespace Khernet.Core.Common
             return connBuilder.ToString();
         }
 
+        /// <summary>
+        /// Checks if user has an account to log in to application.
+        /// </summary>
+        /// <returns>True if account exists otherwise false.</returns>
         public bool VerifyInitialization()
         {
             FbCommand cmd = new FbCommand("VERIFY_INITIALIZATION");
@@ -125,6 +153,11 @@ namespace Khernet.Core.Common
             return result;
         }
 
+        /// <summary>
+        /// Connects to a database file to verify if it exists and is valid.
+        /// </summary>
+        /// <param name="storageType">The type of database.</param>
+        /// <returns>True if connection success otherwise false.</returns>
         public bool TryConnectTo(StorageType storageType)
         {
             try
@@ -142,39 +175,11 @@ namespace Khernet.Core.Common
             }
         }
 
-        public string RenameDirectory(string directory)
-        {
-            try
-            {
-                if (Directory.Exists(directory))
-                {
-                    string newDirectoryName = directory;
-                    string[] directories = newDirectoryName.Split(Path.DirectorySeparatorChar);
-                    string directoryname = directories[directories.Length - 1];
-
-                    for (int counter = 0; Directory.Exists(newDirectoryName);)
-                    {
-                        counter++;
-                        newDirectoryName = Path.Combine(
-                            Directory.GetParent(directory).FullName,//Full path of file
-                            string.Format("{0} ({1})",
-                                            directoryname, //Name of file
-                                            counter//Counter for new file name
-                            ));
-                    }
-                    Directory.Move(directory, newDirectoryName);
-
-                    return newDirectoryName;
-                }
-                return null;
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw;
-            }
-        }
-
+        /// <summary>
+        /// Gets a new file name based on existing file appending a sequential number.
+        /// </summary>
+        /// <param name="fileName">The path of file.</param>
+        /// <returns>If file exists returns a file name with a sequential number appended otherwise returns the same file name.</returns>
         public string GetNewFileFrom(string fileName)
         {
             try

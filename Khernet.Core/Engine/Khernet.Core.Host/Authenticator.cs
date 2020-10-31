@@ -18,7 +18,7 @@ namespace Khernet.Core.Host
                 AccountManager peerIdentity = new AccountManager();
                 peerIdentity.Create(userName, password);
 
-                //Delete key of intenal communication service because it is exclusively for this application
+                //Delete key of internal communication service because it is exclusively for this application
                 Configuration.SetValue(Constants.ListenerKey, string.Empty);
             }
             catch (Exception exception)
@@ -75,7 +75,7 @@ namespace Khernet.Core.Host
                     //Key to encrypt the application database
                     Obfuscator.SetKey(applicationtKey);
 
-                    //It will be used certificate autentication between server and client, both must 
+                    //It will be used certificate authentication between server and client, both must 
                     //use their certificates to be recognized as a valid peers on network
 
                     //The user must have access to private key
@@ -94,12 +94,12 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Generate and save an randon key to authenticate internal communication services. It will be different
-        /// every time user log in and not equal to empty
+        /// Generate and save an random key to authenticate internal communication services. It will be different
+        /// every time user log in and not equal to empty.
         /// </summary>
         private void SaveListenerKey()
         {
-            //Generate randon key and save it in application database
+            //Generate random key and save it in application database
             CryptographyProvider cryptoProvider = new CryptographyProvider();
             byte[] listenerKey = cryptoProvider.GenerateRandonNumbers(32);
 

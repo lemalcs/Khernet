@@ -72,7 +72,7 @@
                 </EventTrigger>
             </StackPanel.Triggers>
 
-            <!-- Timeline controls-->
+            <!-- Time line controls-->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -86,7 +86,7 @@
                            Foreground="White"
                            Margin="4 0 4 0"/>
 
-                <!-- Timeline slider-->
+                <!-- Time line slider-->
                 <Slider Name="timelineSlider" 
                         Grid.Column="1"
                         Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"

@@ -29,7 +29,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Start process to check if connection is open to internal communication service
+        /// Start process to check if connection is open to internal communication service.
         /// </summary>
         private void StartConnectionChecker()
         {
@@ -49,7 +49,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Connect to internal communication service
+        /// Connect to internal communication service.
         /// </summary>
         private void Connect()
         {
@@ -67,12 +67,12 @@ namespace Khernet.Core.Host
                 binding.MaxReceivedMessageSize = int.MaxValue;
                 binding.CloseTimeout = TimeSpan.MaxValue;
 
-                EndpointAddress address = new EndpointAddress(Configuration.GetValue(Constants.SuscriberService));
+                EndpointAddress address = new EndpointAddress(Configuration.GetValue(Constants.SubscriberService));
 
                 listenerClient = new DuplexChannelFactory<IEventListener>(listenerContext, binding, address);
                 listenerService = listenerClient.CreateChannel();
 
-                listenerService.Suscribe(Configuration.GetValue(Constants.ListenerKey));
+                listenerService.Subscribe(Configuration.GetValue(Constants.ListenerKey));
             }
             catch (Exception exception)
             {
@@ -82,8 +82,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Check if connetion to internal communication service is open, 
-        /// otherwise try to open a new connection
+        /// Check if connection to internal communication service is open, otherwise try to open a new connection.
         /// </summary>
         private void CheckConnection()
         {
@@ -99,7 +98,7 @@ namespace Khernet.Core.Host
                         }
                         catch (CommunicationException commException)
                         {
-                            LogDumper.WriteLog(commException, "CommunicationException ocurred.");
+                            LogDumper.WriteLog(commException, "CommunicationException occurred.");
 
                             //Try to connect again
                             if (continueChecking)
@@ -219,7 +218,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Stop client connected to internal communication service
+        /// Stop client connected to internal communication service.
         /// </summary>
         public void Stop()
         {
@@ -232,7 +231,7 @@ namespace Khernet.Core.Host
                     {
                         try
                         {
-                            listenerService.UnSuscribe(Configuration.GetValue(Constants.ListenerKey));
+                            listenerService.Unsubscribe(Configuration.GetValue(Constants.ListenerKey));
                             listenerClient.Close();
                         }
                         catch (CommunicationException ex)

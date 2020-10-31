@@ -20,7 +20,7 @@ namespace Khernet.UI
         private readonly IMessageManager messageManager;
 
         /// <summary>
-        /// The duration of video
+        /// The duration of video.
         /// </summary>
         private TimeSpan duration;
 
@@ -79,10 +79,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Gets a summary about this message
+        /// Gets a summary about this message.
         /// </summary>
-        /// <param name="operation">The operation to do this this summary</param>
-        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary</returns>
+        /// <param name="operation">The operation to do this summary.</param>
+        /// <returns>A <see cref="ReplyMessageViewModel"/> object containing summary.</returns>
         public override ReplyMessageViewModel GetMessageSummary(MessageDirection operation)
         {
             ReplyMessageViewModel reply = new ReplyMessageViewModel();
@@ -114,7 +114,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Replies a message that was sent
+        /// Replies a message that was sent.
         /// </summary>
         private void Reply()
         {
@@ -150,7 +150,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens an image in its original size within a model dialog
+        /// Opens an image in its original size within a model dialog.
         /// </summary>
         public void OpenAudio()
         {
@@ -175,11 +175,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copy of this message with the given dependencies
+        /// Get a copy of this message with the given dependencies.
         /// </summary>
-        /// <param name="messageManager">The chat list to which this message belongs</param>
-        /// <param name="applicationDialog">The application window that this message belongs</param>
-        /// <returns>A <see cref="ChatMessageItemViewModel"/> instace with a copy of this message</returns>
+        /// <param name="messageManager">The chat list to which this message belongs.</param>
+        /// <param name="applicationDialog">The application window that this message belongs.</param>
+        /// <returns>A <see cref="ChatMessageItemViewModel"/> instance with a copy of this message.</returns>
         public FileMessageItemViewModel GetInstanceCopy(IMessageManager messageManager, IApplicationDialog applicationDialog)
         {
             AudioChatMessageViewModel chatMessage = new AudioChatMessageViewModel(messageManager, applicationDialog);

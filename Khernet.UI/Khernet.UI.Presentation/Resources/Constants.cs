@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public const string ErrorMessage = "An error ocurred";
+        public const string ErrorMessage = "An error occurred";
 
         public const string MetroLibrary = "MahApps.Metro.dll";
     }

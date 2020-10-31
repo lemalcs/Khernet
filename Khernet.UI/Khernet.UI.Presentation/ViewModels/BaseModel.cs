@@ -7,9 +7,9 @@ namespace Khernet.UI
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Fire an evenmt when property changes.
+        /// Fire an event when property changes.
         /// </summary>
-        /// <param name="property">Property name</param>
+        /// <param name="property">Property name.</param>
         protected virtual void OnPropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

@@ -3,12 +3,12 @@
 namespace Khernet.UI
 {
     /// <summary>
-    /// Dilaog to be shown in a secondary window.
+    /// Dialog to be shown in a secondary window.
     /// </summary>
     public partial class DialogWindow
     {
         /// <summary>
-        /// View model for dialog window
+        /// View model for dialog window.
         /// </summary>
         private DialogWindowViewModel dialogVM;
 

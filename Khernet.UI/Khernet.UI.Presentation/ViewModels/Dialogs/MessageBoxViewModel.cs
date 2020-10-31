@@ -3,7 +3,7 @@
 namespace Khernet.UI
 {
     /// <summary>
-    /// The result of message bos when it is closed
+    /// The result of message box when it is closed.
     /// </summary>
     public enum MessageBoxResponse
     {
@@ -15,27 +15,27 @@ namespace Khernet.UI
     public class MessageBoxViewModel : BaseModel
     {
         /// <summary>
-        /// The title for dialog windows
+        /// The title for dialog windows.
         /// </summary>
         private string title;
 
         /// <summary>
-        /// The label for accept option
+        /// The label for accept option.
         /// </summary>
         private string acceptOptionLabel;
 
         /// <summary>
-        /// The label for cancel option
+        /// The label for cancel option.
         /// </summary>
         private string cancelOptionLabel;
 
         /// <summary>
-        /// Indicates whether to show accept option
+        /// Indicates whether to show accept option.
         /// </summary>
         private bool showAcceptOption;
 
         /// <summary>
-        /// Indicates whethrt to show the cancel option
+        /// Indicates whether to show the cancel option.
         /// </summary>
         private bool showCancelOption;
 
@@ -57,7 +57,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The message for dialog window
+        /// The message for dialog window.
         /// </summary>
         private string message;
 

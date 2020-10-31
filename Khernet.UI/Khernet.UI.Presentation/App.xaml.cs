@@ -6,14 +6,14 @@ using System.Windows;
 namespace Khernet.UI
 {
     /// <summary>
-    /// Logic for whole application
+    /// Logic for whole application.
     /// </summary>
     public partial class App : Application
     {
         /// <summary>
-        /// Execute tasks when application starts
+        /// Execute tasks when application starts.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">The event arguments.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -41,7 +41,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Configure dependency injection before any window is showed
+        /// Configure dependency injection before any window is showed.
         /// </summary>
         private void Setup()
         {

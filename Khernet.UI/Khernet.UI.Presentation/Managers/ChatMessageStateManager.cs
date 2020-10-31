@@ -20,22 +20,22 @@ namespace Khernet.UI.Managers
     public class ChatMessageStateManager : IDisposable
     {
         /// <summary>
-        /// The process to manage states
+        /// The process to manage states.
         /// </summary>
         private Thread stateMonitor;
 
         /// <summary>
-        /// Controls when to start to upload text message
+        /// Controls when to start to upload text message.
         /// </summary>
         private AutoResetEvent stateAutoReset;
 
         /// <summary>
-        /// Indicates if state manager should continue running
+        /// Indicates if state manager should continue running.
         /// </summary>
         private bool stopMonitoring = false;
 
         /// <summary>
-        /// Queue of id messages
+        /// Queue of id messages.
         /// </summary>
         private ConcurrentQueue<MessageStateInfo> idMessageList;
 
@@ -140,7 +140,7 @@ namespace Khernet.UI.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -158,7 +158,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

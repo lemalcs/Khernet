@@ -6,18 +6,18 @@
     public class TextRequest : MessageRequest
     {
         /// <summary>
-        /// The bytes of text message
+        /// The bytes of text message.
         /// </summary>
         public byte[] Content { get; set; }
     }
 
     /// <summary>
-    /// Information for media files
+    /// Information for media files.
     /// </summary>
     public class TextResponse : MessageResponse
     {
         /// <summary>
-        /// The bytes of text message
+        /// The bytes of text message.
         /// </summary>
         public byte[] Content { get; set; }
     }

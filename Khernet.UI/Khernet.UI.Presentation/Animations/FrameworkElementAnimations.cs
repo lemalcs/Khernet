@@ -7,11 +7,11 @@ namespace Khernet.UI.Animations
     public static class FramworkElementAnimations
     {
         /// <summary>
-        /// Adds slide from right animation to framework element
+        /// Adds slide from right animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeInFromRight(this FrameworkElement element, float seconds)
         {
             //Adds an animation to page
@@ -34,11 +34,11 @@ namespace Khernet.UI.Animations
         }
 
         /// <summary>
-        /// Adds slide from right animation to framework element
+        /// Adds slide from right animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeInFromLeft(this FrameworkElement element, float seconds, bool keepWidth = true)
         {
             //Adds an animation to page
@@ -61,11 +61,11 @@ namespace Khernet.UI.Animations
         }
 
         /// <summary>
-        /// Adds slide from right animation to framework element
+        /// Adds slide from right animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeOutToLeft(this FrameworkElement element, float seconds, bool keepWidth = true)
         {
             //Adds an animation to page
@@ -89,11 +89,11 @@ namespace Khernet.UI.Animations
 
 
         /// <summary>
-        /// Adds slide in from bottom animation to framework element
+        /// Adds slide in from bottom animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeInFromBottom(this FrameworkElement element, float seconds, bool keepHeight = true)
         {
             //Adds an animation to page
@@ -116,11 +116,11 @@ namespace Khernet.UI.Animations
         }
 
         /// <summary>
-        /// Adds slide out to bottom animation to framework element
+        /// Adds slide out to bottom animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeOutToBottom(this FrameworkElement element, float seconds, bool keepHeight = true)
         {
             //Adds an animation to page
@@ -144,11 +144,11 @@ namespace Khernet.UI.Animations
 
 
         /// <summary>
-        /// Adds fade in animation to framework element
+        /// Adds fade in animation to framework element.
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task FadeIn(this FrameworkElement element, float seconds)
         {
             //Adds an animation to page
@@ -170,9 +170,9 @@ namespace Khernet.UI.Animations
         /// <summary>
         /// Adds fade out animation to framework element
         /// </summary>
-        /// <param name="element">The framework element to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="element">The framework element to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task FadeOut(this FrameworkElement element, float seconds)
         {
             //Adds an animation to page

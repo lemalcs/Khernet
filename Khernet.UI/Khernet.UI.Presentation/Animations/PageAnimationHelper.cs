@@ -8,11 +8,11 @@ namespace Khernet.UI.Animations
     public static class PageAnimationHelper
     {
         /// <summary>
-        /// Adds slide from right animation to page
+        /// Adds slide from right animation to page.
         /// </summary>
-        /// <param name="page">The page to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="page">The page to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeFromRight(this Page page, float seconds)
         {
             //Adds an animation to page
@@ -35,11 +35,11 @@ namespace Khernet.UI.Animations
         }
 
         /// <summary>
-        /// Adds slide from right animation to page
+        /// Adds slide from right animation to page.
         /// </summary>
-        /// <param name="page">The page to animate</param>
-        /// <param name="seconds">The time animation will take</param>
-        /// <returns></returns>
+        /// <param name="page">The page to animate.</param>
+        /// <param name="seconds">The time animation will take.</param>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public static async Task SlideAndFadeToLeft(this Page page, float seconds)
         {
             //Adds an animation to page

@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Convert a markdown string to <see cref="FlowDocument"/> object
+    /// Convert a markdown string to <see cref="FlowDocument"/> object.
     /// </summary>
     public class ByteToDocumentConverter : BaseValueConverter<ByteToDocumentConverter>
     {
@@ -40,7 +40,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Convert a markdown string to <see cref="FlowDocument"/> object
+    /// Convert a markdown string to <see cref="FlowDocument"/> object.
     /// </summary>
     public class HtmlByteToDocumentConverter : BaseValueConverter<HtmlByteToDocumentConverter>
     {

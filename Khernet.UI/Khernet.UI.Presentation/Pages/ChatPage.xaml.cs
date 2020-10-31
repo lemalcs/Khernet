@@ -23,9 +23,9 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Constructor with an specific view model
+        /// Constructor with an specific view model.
         /// </summary>
-        /// <param name="viewModel">The view model</param>
+        /// <param name="viewModel">The view model.</param>
         public ChatPage(ChatMessageListViewModel viewModel) : base(viewModel)
         {
             viewModel.ScrollToCurrentContent = ScrollToCurrentContent;
@@ -37,10 +37,10 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Capture keys for textbox and control new line insertions and message sending
+        /// Capture keys for textbox and control new line insertions and message sending.
         /// </summary>
-        /// <param name="sender">The textbox</param>
-        /// <param name="e">Arguments for event</param>
+        /// <param name="sender">The textbox.</param>
+        /// <param name="e">Arguments for event.</param>
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var textbox = sender as MarkedRichTextBox;
@@ -151,7 +151,7 @@ namespace Khernet.UI.Pages
 
         private void ChatMessageListControl_Drop(object sender, DragEventArgs e)
         {
-            //Ckeck if there is a file to drop over this control
+            //Check if there is a file to drop over this control
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 //Get files path
@@ -177,7 +177,7 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Renders a preview of markdown message
+        /// Renders a preview of markdown message.
         /// </summary>
         private void ActivateMarkdownPreview()
         {
@@ -236,8 +236,8 @@ namespace Khernet.UI.Pages
         /// <summary>
         /// Get a text message in HTML format.
         /// </summary>
-        /// <param name="document">The <see cref="FlowDocument"/> that contains text message</param>
-        /// <returns>A byte array containing HTML string encoded in UTF-8</returns>
+        /// <param name="document">The <see cref="FlowDocument"/> that contains text message.</param>
+        /// <returns>A byte array containing HTML string encoded in UTF-8.</returns>
         private byte[] GetHtmlMessage(FlowDocument document)
         {
             if (document == null)
@@ -257,8 +257,8 @@ namespace Khernet.UI.Pages
         /// <summary>
         /// Get a text message in markdown format.
         /// </summary>
-        /// <param name="document">The <see cref="FlowDocument"/> that contains text message</param>
-        /// <returns>A byte array containing markdown string encoded in UTF-8</returns>
+        /// <param name="document">The <see cref="FlowDocument"/> that contains text message.</param>
+        /// <returns>A byte array containing markdown string encoded in UTF-8.</returns>
         private byte[] GetMarkdownTextMessage(FlowDocument document)
         {
             if (document == null)

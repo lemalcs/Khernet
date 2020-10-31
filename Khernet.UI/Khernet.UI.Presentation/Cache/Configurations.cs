@@ -20,7 +20,7 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// The compete path of entry executable
+        /// The compete path of entry executable.
         /// </summary>
         public static string MainApplicationAssembly
         {
@@ -33,12 +33,12 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// The directory where vlc library is stored
+        /// The directory where VLC library is stored.
         /// </summary>
         public static DirectoryInfo VlcDirectory => new DirectoryInfo(Path.Combine(HomeDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
 
         /// <summary>
-        /// The directory that serves as temporal repository for files
+        /// The directory that serves as temporal repository for files.
         /// </summary>
         public static DirectoryInfo CacheDirectory => new DirectoryInfo(System.IO.Path.Combine(HomeDirectory, "cache"));
     }

@@ -12,12 +12,12 @@ namespace Khernet.UI
         #region Properties
 
         /// <summary>
-        /// The token of user
+        /// The token of user.
         /// </summary>
         private ProfileViewModel userProfile;
 
         /// <summary>
-        /// The name of field
+        /// The name of field.
         /// </summary>
         private string fieldName;
 
@@ -29,7 +29,7 @@ namespace Khernet.UI
         private string sourceDataField;
 
         /// <summary>
-        /// The content of field
+        /// The content of field.
         /// </summary>
         public ReadOnlyCollection<byte> DataField
         {
@@ -81,12 +81,12 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Command to update the current field
+        /// Command to update the current field.
         /// </summary>
         public ICommand UpdateFieldCommand { get; private set; }
 
         /// <summary>
-        /// Command to open emoji gallery
+        /// Command to open emoji gallery.
         /// </summary>
         public ICommand OpenMediaGalleryCommand { get; private set; }
 
@@ -105,9 +105,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Update the value of field
+        /// Update the value of field.
         /// </summary>
-        /// <param name="newValue">The new value of type <see cref="byte[]"/></param>
+        /// <param name="newValue">The new value of type <see cref="byte[]"/>.</param>
         private async void UpdateField(object newValue)
         {
             try

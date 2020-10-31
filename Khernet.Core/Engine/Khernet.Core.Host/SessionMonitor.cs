@@ -43,7 +43,7 @@ namespace Khernet.Core.Host
         private void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
         {
             //There is a session ending (log out) event on current Operating System
-            //Notificate to application that it must exit
+            //Notify to application that it must exit
             SendNotification(PeerState.Offline);
         }
 
@@ -60,7 +60,7 @@ namespace Khernet.Core.Host
         }
 
         /// <summary>
-        /// Send a notification of peers when its state is changed
+        /// Send a notification of peers when its state is changed.
         /// </summary>
         /// <param name="state">
         /// States:

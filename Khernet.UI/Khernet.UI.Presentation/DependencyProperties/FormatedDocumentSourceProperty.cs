@@ -6,7 +6,7 @@ using System.Windows.Documents;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Allows a <see cref="RichTextBox.Document"/> to be binded to another <see cref="FlowDocument"/>
+    /// Allows a <see cref="RichTextBox.Document"/> to be binded to another <see cref="FlowDocument"/>.
     /// </summary>
     public class FormatedDocumentSourceProperty : BaseAttachedProperty<FormatedDocumentSourceProperty, FlowDocument>
     {

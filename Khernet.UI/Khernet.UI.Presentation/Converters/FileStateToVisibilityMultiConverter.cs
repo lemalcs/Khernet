@@ -7,7 +7,7 @@ using System.Windows.Markup;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Shows or hides download icon for files
+    /// Shows or hides download icon for files.
     /// </summary>
     public class FileStateToVisibilityMultiConverter : MarkupExtension, IMultiValueConverter
     {

@@ -6,45 +6,45 @@ namespace Khernet.UI
 {
     public class PagedDialogViewModel : BaseModel, IPagedDialog
     {
-        #region Propeties
+        #region Properties
 
         /// <summary>
-        /// The type of page
+        /// The type of page.
         /// </summary>
         private ApplicationPage homePage;
 
         /// <summary>
-        /// Title of home page
+        /// Title of home page.
         /// </summary>
         private string homeCategory;
 
         /// <summary>
-        /// The model of home page
+        /// The model of home page.
         /// </summary>
         private BaseModel homeModel;
 
         /// <summary>
-        /// Indicates if child dialog is visible
+        /// Indicates if child dialog is visible.
         /// </summary>
         private bool isChildDialogVisible;
 
         /// <summary>
-        /// The view model for dialog showed inside paged dialog
+        /// The view model for dialog showed inside paged dialog.
         /// </summary>
         private BaseModel childDialogModel;
 
         /// <summary>
-        /// The current page for settings
+        /// The current page for settings.
         /// </summary>
         private ApplicationPage currentPage;
 
         /// <summary>
-        /// The category of setting
+        /// The category of setting.
         /// </summary>
         private string category;
 
         /// <summary>
-        /// The view model used for current page
+        /// The view model used for current page.
         /// </summary>
         private BaseModel currentViewModel;
 
@@ -100,7 +100,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicates wheter this page is home
+        /// Indicates whether this page is home.
         /// </summary>
         public bool IsHomePageEnabled
         {

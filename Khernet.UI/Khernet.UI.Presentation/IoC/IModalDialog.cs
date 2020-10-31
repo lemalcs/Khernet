@@ -5,7 +5,7 @@ namespace Khernet.UI.IoC
     public interface IModalDialog
     {
         /// <summary>
-        /// Close the dialog
+        /// Closes the dialog.
         /// </summary>
         void Close();
     }
@@ -13,7 +13,7 @@ namespace Khernet.UI.IoC
     public interface IPagedDialog
     {
         /// <summary>
-        /// Close the dialog
+        /// Closes the dialog.
         /// </summary>
         void GoToPage(ApplicationPage page, BaseModel viewModel, string title);
 

@@ -52,7 +52,7 @@ namespace Khernet.Services.Messages
         BeginSendingFile = 1,
 
         /// <summary>
-        /// Peer has finished sending a file message
+        /// Peer has finished sending a file message.
         /// </summary>
         [EnumMember]
         EndSendingFile = 2,
@@ -109,7 +109,7 @@ namespace Khernet.Services.Messages
         public string Token { get; set; }
 
         /// <summary>
-        /// State of perr.
+        /// State of peer.
         /// </summary>
         [DataMember]
         public PeerState State { get; set; }
@@ -146,7 +146,7 @@ namespace Khernet.Services.Messages
         public string SenderToken { get; set; }
 
         /// <summary>
-        /// The format of message
+        /// The format of message.
         /// </summary>
         [DataMember]
         public ContentType Format { get; set; }

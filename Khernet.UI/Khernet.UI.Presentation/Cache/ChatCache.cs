@@ -9,15 +9,15 @@ namespace Khernet.UI.Cache
     public class ChatCache : IChatList
     {
         /// <summary>
-        /// Contains the chat list of users
+        /// Contains the chat list of users.
         /// </summary>
         private ConcurrentDictionary<UserChatContext, ObservableCollection<ChatMessageItemViewModel>> messageList;
 
         /// <summary>
-        /// Adss a chat list for given token
+        /// Adds a chat list for given token.
         /// </summary>
-        /// <param name="token">The token of user</param>
-        /// <param name="chatList">The chat list</param>
+        /// <param name="token">The token of user.</param>
+        /// <param name="chatList">The chat list.</param>
         public void AddChatList(UserItemViewModel user)
         {
             if (user == null)
@@ -34,10 +34,10 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// Verify if list should be updated or added
+        /// Verify if list should be updated or added.
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="chatList"></param>
+        /// <param name="token">The context of user.</param>
+        /// <param name="chatList">The chat list.</param>
         /// <returns></returns>
         private ObservableCollection<ChatMessageItemViewModel> UpdateChatList(UserChatContext chatContext, ObservableCollection<ChatMessageItemViewModel> chatList)
         {
@@ -45,10 +45,10 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// Get a chat list for given token
+        /// Get a chat list for given token.
         /// </summary>
-        /// <param name="token">The token of user</param>
-        /// <returns>The chat list </returns>
+        /// <param name="token">The token of user.</param>
+        /// <returns>The chat list.</returns>
         public ObservableCollection<ChatMessageItemViewModel> GetChat(UserItemViewModel user)
         {
             if (messageList == null)
@@ -80,7 +80,7 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// Clears the chat cache
+        /// Clears the chat cache.
         /// </summary>
         public void Clear()
         {

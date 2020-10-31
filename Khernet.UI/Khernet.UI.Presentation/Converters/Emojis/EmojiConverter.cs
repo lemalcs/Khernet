@@ -5,10 +5,10 @@ namespace Khernet.UI.Cache
     public class EmojiConverter
     {
         /// <summary>
-        /// Converts a emoji from unicode code points
+        /// Converts a emoji from UNICODE code points.
         /// </summary>
-        /// <param name="codePoint">A string containing the emoji</param>
-        /// <returns></returns>
+        /// <param name="codePoint">A string containing the emoji.</param>
+        /// <returns>The emoji character.</returns>
         public string ConvertToString(string codePoint)
         {
             if (string.IsNullOrEmpty(codePoint) || string.IsNullOrWhiteSpace(codePoint))

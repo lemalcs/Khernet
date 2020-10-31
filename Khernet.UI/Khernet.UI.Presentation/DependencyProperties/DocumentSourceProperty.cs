@@ -10,7 +10,7 @@ using System.Windows.Media;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Creates a <see cref="FlowDocument"/> from a byte collection
+    /// Creates a <see cref="FlowDocument"/> from a byte collection.
     /// </summary>
     public class DocumentSourceProperty : BaseAttachedProperty<DocumentSourceProperty, ReadOnlyCollection<byte>>
     {

@@ -13,12 +13,12 @@ namespace Khernet.UI
     public enum MessageDirection
     {
         /// <summary>
-        /// Send a reply message
+        /// Send a reply message.
         /// </summary>
         Reply = 0,
 
         /// <summary>
-        /// Send a message to an different or same user
+        /// Send a message to an different or same user.
         /// </summary>
         Resend = 1
     }
@@ -31,27 +31,27 @@ namespace Khernet.UI
 
         #region Properties
         /// <summary>
-        /// The user whom sent the message
+        /// The user whom sent the message.
         /// </summary>
         private UserItemViewModel user;
 
         /// <summary>
-        /// The name of file
+        /// The name of file.
         /// </summary>
         private string fileName;
 
         /// <summary>
-        /// The name of icon that indicates type of message
+        /// The name of icon that indicates type of message.
         /// </summary>
         private string iconName;
 
         /// <summary>
-        /// Indicates if messages is being replying (true) or begin resending
+        /// Indicates if messages is being replying (true) or begin resending.
         /// </summary>
         private bool isReplying;
 
         /// <summary>
-        /// The operations to be done over message
+        /// The operations to be done over message.
         /// </summary>
         private MessageDirection operation;
 
@@ -79,7 +79,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The thumbnail used by the message
+        /// The thumbnail used by the message.
         /// </summary>
         public ReadOnlyCollection<byte> Thumbnail
         {
@@ -113,7 +113,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The text message
+        /// The text message.
         /// </summary>
         public ReadOnlyCollection<byte> TextContent
         {
@@ -148,7 +148,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The internal id of message
+        /// The internal id of message.
         /// </summary>
         public int Id
         {
@@ -220,10 +220,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Set details of this reply message 
+        /// Set details of this reply message.
         /// </summary>
-        /// <param name="messageDetail">The message being replied</param>
-        /// <param name="idReplyMessage">The id of reply message</param>
+        /// <param name="messageDetail">The message being replied.</param>
+        /// <param name="idReplyMessage">The id of reply message.</param>
         public void BuildReplyMessage(ChatMessage messageDetail, int idReplyMessage)
         {
             if (messageDetail == null)
@@ -321,7 +321,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copu of this instance to be attached to responce message
+        /// Get a copy of this instance to be attached to response message.
         /// </summary>
         /// <returns>An instance of <see cref="ReplyMessageViewModel"/>.</returns>
         public ReplyMessageViewModel GetSendCopy()

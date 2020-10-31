@@ -3,7 +3,7 @@
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Holds the informations about selected user
+    /// Holds the informations about selected user.
     /// </summary>
     public class SelectedUserEventArgs : EventArgs
     {

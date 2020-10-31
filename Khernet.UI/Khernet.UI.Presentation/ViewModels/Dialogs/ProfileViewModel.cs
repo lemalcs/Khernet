@@ -13,7 +13,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile
+    /// View model for user profile.
     /// </summary>
     public class ProfileViewModel : BaseModel
     {
@@ -22,17 +22,17 @@ namespace Khernet.UI
         private readonly IMessageManager messageManager;
 
         /// <summary>
-        /// The view model for user
+        /// The view model for user.
         /// </summary>
         private UserItemViewModel user;
 
         /// <summary>
-        /// The path of image file
+        /// The path of image file.
         /// </summary>
         private string fileName;
 
         /// <summary>
-        /// Indicates if emoji gallery is open
+        /// Indicates if emoji gallery is open.
         /// </summary>
         private bool isEmojiGalleryOpen;
 
@@ -82,7 +82,7 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Command for update user name
+        /// Command for update user name.
         /// </summary>
         public ICommand UpdateProfileImageCommand { get; private set; }
 
@@ -92,32 +92,32 @@ namespace Khernet.UI
         public ICommand SaveProfileCommand { get; private set; }
 
         /// <summary>
-        /// Command for edit user name
+        /// Command for edit user name.
         /// </summary>
         public ICommand OpenEditNameCommand { get; private set; }
 
         /// <summary>
-        /// Commando for open emoji gallery
+        /// Commando for open emoji gallery.
         /// </summary>
         public ICommand OpenEmojiGalleyCommand { get; private set; }
 
         /// <summary>
-        /// Command for open image files list
+        /// Command for open image files list.
         /// </summary>
         public ICommand OpenImageListCommand { get; private set; }
 
         /// <summary>
-        /// Command for open binary files list
+        /// Command for open binary files list.
         /// </summary>
         public ICommand OpenFileListCommand { get; private set; }
 
         /// <summary>
-        /// Command for open video files list
+        /// Command for open video files list.
         /// </summary>
         public ICommand OpenVideoListCommand { get; private set; }
 
         /// <summary>
-        /// Command for open audio files list
+        /// Command for open audio files list.
         /// </summary>
         public ICommand OpenAudioListCommand { get; private set; }
 
@@ -164,9 +164,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Save avatar to file system
+        /// Save avatar to file system.
         /// </summary>
-        /// <param name="fileName">The name of avatar file</param>
+        /// <param name="fileName">The name of avatar file.</param>
         private void SaveAvatar(string fileName)
         {
             if (User.Avatar == null)
@@ -207,9 +207,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Edits user name to show on this aplication only
+        /// Edits user name to show on this application only.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private async void EditName(object obj)
         {
             try
@@ -242,7 +242,7 @@ namespace Khernet.UI
             //Open file dialog
             string[] imagePath = IoCContainer.UI.ShowOpenFileDialog();
 
-            //Check if an image was choosen
+            //Check if an image was chosen
             if (imagePath != null)
             {
                 try
@@ -278,9 +278,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Saves profile details of current logged user
+        /// Saves profile details of current logged user.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The container for full name.</param>
         private async void SaveProfile(object obj)
         {
             try
@@ -331,9 +331,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Loads avatar for a user profile
+        /// Loads avatar for a user profile.
         /// </summary>
-        /// <param name="avatar">The byte array of image</param>
+        /// <param name="avatar">The byte array of image.</param>
         public async void ProcessImage(byte[] avatar)
         {
             if (avatar == null)
@@ -405,7 +405,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Shows proifle in a new dialog
+        /// Shows profile in a new dialog.
         /// </summary>
         public async void ShowProfile()
         {

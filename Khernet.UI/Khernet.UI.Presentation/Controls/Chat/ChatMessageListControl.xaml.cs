@@ -15,32 +15,32 @@ namespace Khernet.UI.Controls
     public partial class ChatMessageListControl : UserControl
     {
         /// <summary>
-        /// Indicates if loading of messages is allowed
+        /// Indicates if loading of messages is allowed.
         /// </summary>
         bool allowLoadMessages = false;
 
         /// <summary>
-        /// Indicates if chat list is scrolling to bottom side
+        /// Indicates if chat list is scrolling to bottom side.
         /// </summary>
         private bool scrollingToEnd = false;
 
         /// <summary>
-        /// Indicates if the backing of vertical offset is allowed
+        /// Indicates if the backing of vertical offset is allowed.
         /// </summary>
         bool allowScroll = false;
 
         /// <summary>
-        /// Indicates if it is the first time this control is loaded so it does not have any messages
+        /// Indicates if it is the first time this control is loaded so it does not have any messages.
         /// </summary>
         bool isFirstLoad = false;
 
         /// <summary>
-        /// The chat message model to scroll to when chat list is loaded
+        /// The chat message model to scroll to when chat list is loaded.
         /// </summary>
         private ChatMessageItemViewModel pendingChatModel;
 
         /// <summary>
-        /// Index of chat message within underlying items source
+        /// Index of chat message within underlying items source.
         /// </summary>
         private int pendingChatModelIndex = -1;
 
@@ -277,7 +277,7 @@ namespace Khernet.UI.Controls
                 else
                 {
                     // The Tree template has not named the ItemsPresenter, 
-                    // so walk the descendents and find the child.
+                    // so walk the descendants and find the child.
                     itemsPresenter = FindVisualChild<ItemsPresenter>(container);
                     if (itemsPresenter == null)
                     {

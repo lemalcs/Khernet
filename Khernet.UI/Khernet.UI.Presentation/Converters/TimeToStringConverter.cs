@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Converts a <see cref="DateTimeOffset"/> to a short string representation
+    /// Converts a <see cref="DateTimeOffset"/> to a short string representation.
     /// </summary>
     public class TimeToStringConverter : BaseValueConverter<TimeToStringConverter>
     {
@@ -27,7 +27,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts a <see cref="TimeSpan"/> to a short string representation
+    /// Converts a <see cref="TimeSpan"/> to a short string representation.
     /// </summary>
     public class TimeSpanToStringConverter : BaseValueConverter<TimeSpanToStringConverter>
     {
@@ -50,7 +50,7 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Converts a <see cref="long"/> time representation to a short string representation
+    /// Converts a <see cref="long"/> time representation to a short string representation.
     /// </summary>
     class NumberToTimeStringConverter : BaseValueConverter<NumberToTimeStringConverter>
     {

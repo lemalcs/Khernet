@@ -383,9 +383,6 @@
     <Compile Include="Files\FileOperations.cs" />
     <Compile Include="IoC\IApplicationContext.cs" />
     <Compile Include="IoC\IApplicationDialog.cs" />
-    <Compile Include="IoC\IApplicationSurface.cs" />
-    <Compile Include="IoC\IApplicationWindow.cs" />
-    <Compile Include="IoC\IChatController.cs" />
     <Compile Include="IoC\IIdentity.cs" />
     <Compile Include="IoC\IChatList.cs" />
     <Compile Include="IoC\IMessageManager.cs" />

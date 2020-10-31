@@ -8,12 +8,12 @@ namespace Khernet.UI.Managers
     public class AudioManager : IAudioObservable
     {
         /// <summary>
-        /// The observers queue whom listen for notifications
+        /// The observers queue whom listen for notifications.
         /// </summary>
         private SynchronizedCollection<IAudioObserver> observersList;
 
         /// <summary>
-        /// The audio volume in percents, the default range is from 0% to 125%
+        /// The audio volume in percents, the default range is from 0% to 125%.
         /// </summary>
         private const int defaultVolume = 60;
 
@@ -23,12 +23,12 @@ namespace Khernet.UI.Managers
         private int currentVolume;
 
         /// <summary>
-        /// Indicates if VlcControl is created
+        /// Indicates if VlcControl is created.
         /// </summary>
         private bool isPlayerCreated = false;
 
         /// <summary>
-        /// The global player model for audio files
+        /// The global player model for audio files.
         /// </summary>
         public AudioPlayerViewModel AudioModel { get; private set; }
 
@@ -88,10 +88,10 @@ namespace Khernet.UI.Managers
 
             AudioModel.Player = new VlcControl();
 
-            //Sets the directory path for vlc library
+            //Sets the directory path for VLC library
             AudioModel.Player.SourceProvider.CreatePlayer(Configurations.VlcDirectory);
 
-            //Redirect log to console output rather than the default logger in vlc ibrary.
+            //Redirect log to console output rather than the default logger in VLC library.
             AudioModel.Player.SourceProvider.MediaPlayer.Log += (s, ev) =>
             {
                 string message = $"libVlc : {ev.Level} {ev.Message} @ {ev.Module}";
@@ -159,7 +159,7 @@ namespace Khernet.UI.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -177,7 +177,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

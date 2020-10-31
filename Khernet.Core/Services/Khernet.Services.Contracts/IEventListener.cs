@@ -6,10 +6,10 @@ namespace Khernet.Services.Contracts
     public interface IEventListener
     {
         [OperationContract]
-        void Suscribe(string listenerKey);
+        void Subscribe(string listenerKey);
 
         [OperationContract]
-        void UnSuscribe(string listenerKey);
+        void Unsubscribe(string listenerKey);
 
         [OperationContract]
         void Echo();

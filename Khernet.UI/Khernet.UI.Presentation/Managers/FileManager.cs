@@ -7,27 +7,27 @@ using System.Threading;
 namespace Khernet.UI.Managers
 {
     /// <summary>
-    /// Provides notification to observers about media operation
+    /// Provides notification to observers about media operation.
     /// </summary>
     public class FileManager : IFileObservable
     {
         /// <summary>
-        /// The observers queue whom listen for notifications
+        /// The observers queue whom listen for notifications.
         /// </summary>
         private ConcurrentQueue<IFileObserver> observersList;
 
         /// <summary>
-        /// The process for media operations request
+        /// The process for media operations request.
         /// </summary>
         private Thread processor;
 
         /// <summary>
-        /// Indicates if processor should continue running
+        /// Indicates if processor should continue running.
         /// </summary>
         private bool stopProcessing = false;
 
         /// <summary>
-        /// Controls when to start to process text message
+        /// Controls when to start to process text message.
         /// </summary>
         private AutoResetEvent autoReset;
 
@@ -37,9 +37,9 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Posts and request to process a media file
+        /// Posts and request to process a media file.
         /// </summary>
-        /// <param name="observer">The observer that request media processing</param>
+        /// <param name="observer">The observer that request media processing.</param>
         public void ProcessFile(IFileObserver observer)
         {
             //Check if observer is null
@@ -60,7 +60,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Starts the processor of media files, creates a new one if does not exists yet
+        /// Starts the processor of media files, creates a new one if does not exists yet.
         /// </summary>
         private void StartProcessor()
         {
@@ -75,7 +75,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Performs operations over media files
+        /// Performs operations over media files.
         /// </summary>
         private void ProcessRequest()
         {
@@ -152,7 +152,7 @@ namespace Khernet.UI.Managers
 
 
         /// <summary>
-        /// Stops the processor of media files
+        /// Stops the processor of media files.
         /// </summary>
         public void StopProcessor()
         {
@@ -185,7 +185,7 @@ namespace Khernet.UI.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -203,7 +203,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

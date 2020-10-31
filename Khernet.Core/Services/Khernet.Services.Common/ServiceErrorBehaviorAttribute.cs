@@ -24,10 +24,10 @@ namespace Khernet.Services.Common
 
         /// <summary>
         /// Allow change property values or insert custom extension objects at runtime like:
-        /// managers, message and parameter interceptors, secutiry extensions.
+        /// managers, message and parameter interceptors, security extensions.
         /// </summary>
-        /// <param name="serviceDescription">The service description</param>
-        /// <param name="serviceHostBase">The host of service</param>
+        /// <param name="serviceDescription">The service description.</param>
+        /// <param name="serviceHostBase">The host of service.</param>
         public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
         {
             IErrorHandler errorHandler = null;

@@ -4,7 +4,7 @@ using System.Security;
 namespace Khernet.UI
 {
     /// <summary>
-    /// Holds passwords
+    /// Holds passwords.
     /// </summary>
     public interface IPasswordContainer
     {
@@ -12,13 +12,13 @@ namespace Khernet.UI
         SecureString secondPassword { get; }
 
         /// <summary>
-        /// Clear any passwords typed
+        /// Clear any passwords typed.
         /// </summary>
         void Clear();
     }
 
     /// <summary>
-    /// Operations for documents
+    /// Operations for documents.
     /// </summary>
     public interface IDocumentContainer
     {

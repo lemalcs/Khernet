@@ -10,7 +10,7 @@ namespace Khernet.Services.Messages
         [MessageBodyMember(Order = 1)]
         public Stream File { get; set; }
 
-        #region Miembros de IDisposable
+        #region Members of IDisposable
 
         public void Dispose()
         {

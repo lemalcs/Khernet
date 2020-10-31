@@ -13,7 +13,7 @@ namespace Khernet.UI.Controls
     public partial class AudioItemControl : UserControl, IAudioObserver
     {
         /// <summary>
-        /// Gets or set the current <see cref="VlcControl"/> for playing audio files
+        /// Gets or set the current <see cref="VlcControl"/> for playing audio files.
         /// </summary>
         public VlcControl CurrentPlayer
         {
@@ -39,7 +39,7 @@ namespace Khernet.UI.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //Suscribe to event for notification when media changes
+            //Subscribe to event for notification when media changes
             //this allow to open the AudioPlayerControl to play audio
             //or to control the audio file when it is playing
             IoCContainer.Get<IAudioObservable>().Suscribe(this);
@@ -50,8 +50,8 @@ namespace Khernet.UI.Controls
             //Allow designer to render this control properly due to lack of dependencies at design time
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                //Virtualization of chat list creates new objets or reuses them so it is necessary 
-                //to check if current playing audio is the same as this control's datacontext.
+                //Virtualization of chat list creates new objects or reuses them so it is necessary 
+                //to check if current playing audio is the same as this control's data context.
                 IoCContainer.Get<IAudioObservable>().Suscribe(this);
 
                 OnChangeAudio(IoCContainer.Get<IAudioObservable>().AudioModel);

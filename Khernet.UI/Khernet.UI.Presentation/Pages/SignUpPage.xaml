@@ -26,11 +26,11 @@
                    Style="{StaticResource TitleText}"
                    Margin="0 0 0 15"/>
 
-            <TextBlock Text="Username" 
+            <TextBlock Text="User-name" 
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-            <!--Username textbox-->
+            <!--User-name -->
             <TextBox Height="28"
                  Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
                  Style="{StaticResource EditTextBox}"
@@ -41,7 +41,7 @@
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-            <!--Password 1 textbox-->
+            <!--Password 1 -->
             <PasswordBox Name="pass1"
                      Height="28"
                      VerticalContentAlignment="Center"
@@ -51,7 +51,7 @@
                    Style="{StaticResource TextblockHeader}"
                    Margin="0 15 0 5"/>
 
-            <!--Password 2 textbox-->
+            <!--Password 2 -->
             <PasswordBox Name="pass2"
                      Height="28" 
                      VerticalContentAlignment="Center"

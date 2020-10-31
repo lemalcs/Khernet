@@ -22,7 +22,7 @@ namespace Khernet.Services.Client
 
             factory.Endpoint.Binding = GetBinding(serviceType);
 
-            //Set credentials to auhtenticate server to clients
+            //Set credentials to authenticate server to clients
             factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
             factory.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator();
 

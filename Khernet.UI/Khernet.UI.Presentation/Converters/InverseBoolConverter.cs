@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Returns inverse value bool variable.
+    /// Returns inverse value <see cref="bool"/> variable.
     /// </summary>
     public class InverseBoolConverter : BaseValueConverter<InverseBoolConverter>
     {

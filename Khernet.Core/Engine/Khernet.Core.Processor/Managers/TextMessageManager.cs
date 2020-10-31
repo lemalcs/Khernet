@@ -9,7 +9,7 @@ using System.Threading;
 namespace Khernet.Core.Processor.Managers
 {
     /// <summary>
-    /// Sends a message to receiver and avoid the delay between saveing the message locally and sendding it over network
+    /// Sends a message to receiver and avoid the delay between saving the message locally and sending it over network.
     /// </summary>
     public class TextMessageManager : IDisposable
     {
@@ -138,7 +138,7 @@ namespace Khernet.Core.Processor.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -156,7 +156,7 @@ namespace Khernet.Core.Processor.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

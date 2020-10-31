@@ -15,17 +15,17 @@ namespace Khernet.UI
         private readonly IMessageManager messageManager;
 
         /// <summary>
-        /// Indicates if file list is loading
+        /// Indicates if file list is loading.
         /// </summary>
         private bool isLoading;
 
         /// <summary>
-        /// Indicates if file list is empty
+        /// Indicates if file list is empty.
         /// </summary>
         private bool isEmpty;
 
         /// <summary>
-        /// Operation to be done on chat message such as reply o resend
+        /// Operation to be done on chat message such as reply o resend.
         /// </summary>
         public Action Done { get; set; }
 
@@ -35,12 +35,12 @@ namespace Khernet.UI
         private ObservableCollection<FileMessageItemViewModel> items;
 
         /// <summary>
-        /// Represents the objet to display dialogs
+        /// Represents the object to display dialogs.
         /// </summary>
         private ModalApplicationDialog modalDialog;
 
         /// <summary>
-        /// The number of loaded files
+        /// The number of loaded files.
         /// </summary>
         private int itemsCount;
 
@@ -58,7 +58,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// The user to whom files were sent or received
+        /// The user to whom files were sent or received.
         /// </summary>
         public UserItemViewModel User { get; set; }
 
@@ -102,7 +102,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Constructor needed for design time
+        /// Constructor needed for design time.
         /// </summary>
         public FileListViewModel()
         {
@@ -119,9 +119,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Loads files asynchronously
+        /// Loads files asynchronously.
         /// </summary>
-        /// <param name="messageType">The type of message to load</param>
+        /// <param name="messageType">The type of message to load.</param>
         public void LoadFiles(MessageType messageType)
         {
             IoCContainer.UI.ExecuteAsync(() =>

@@ -6,12 +6,12 @@ namespace Khernet.UI.Controls
     public class BasePopUpControl : UserControl
     {
         /// <summary>
-        /// Event fired when any data is confirmed
+        /// Event fired when any data is confirmed.
         /// </summary>
         public event EventHandler Commited;
 
         /// <summary>
-        /// Executes <see cref="Commited"/> event
+        /// Executes <see cref="Commited"/> event.
         /// </summary>
         protected void OnCommited()
         {

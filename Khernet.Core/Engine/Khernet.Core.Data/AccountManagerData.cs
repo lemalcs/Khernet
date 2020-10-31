@@ -7,12 +7,22 @@ namespace Khernet.Core.Data
 {
     public class AccountManagerData
     {
+        /// <summary>
+        /// Gets connection string to use the repository.
+        /// </summary>
+        /// <returns>The connection string for repository.</returns>
         private string GetConnectionString()
         {
             Storage st = new Storage();
             return st.BuildConnectionString(StorageType.Repository);
         }
 
+        /// <summary>
+        /// Save the account for current logged user.
+        /// </summary>
+        /// <param name="username">The user name.</param>
+        /// <param name="token">The token generated for user.</param>
+        /// <param name="certificate">The X509 certificate created for user.</param>
         public void SaveAccount(string username, string token, byte[] certificate)
         {
             try
@@ -35,6 +45,10 @@ namespace Khernet.Core.Data
             }
         }
 
+        /// <summary>
+        /// Gets the token for current logged user.
+        /// </summary>
+        /// <returns>A <see cref="DataTable"/> containing the token.</returns>
         public DataTable GetToken()
         {
             try
@@ -54,6 +68,10 @@ namespace Khernet.Core.Data
             }
         }
 
+        /// <summary>
+        /// Sets the state of current logged user.
+        /// </summary>
+        /// <param name="state">The state of user.</param>
         public void SetAccountState(sbyte state)
         {
             try

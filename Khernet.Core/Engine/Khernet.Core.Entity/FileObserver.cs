@@ -8,25 +8,19 @@ namespace Khernet.Core.Entity
     public enum FileDirection
     {
         /// <summary>
-        /// Indicates that file is being sent
+        /// Indicates that file is being sent.
         /// </summary>
         Send = 0,
 
         /// <summary>
-        /// Indicates that file is being received
+        /// Indicates that file is being received.
         /// </summary>
         Receive = 1,
 
         /// <summary>
-        /// Indicates that file is being saved in local file system
+        /// Indicates that file is being saved in local file system.
         /// </summary>
         Save = 2
-    }
-
-    public class FileReading
-    {
-        public long ReadBytes { get; set; }
-        public long TotalBytes { get; set; }
     }
 
     public class ProgressChangedEventArgs : EventArgs
@@ -53,42 +47,42 @@ namespace Khernet.Core.Entity
     public class FileObserver : IObserver<long>
     {
         /// <summary>
-        /// The id of message
+        /// The id of message.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Metadata of file
+        /// Metadata of file.
         /// </summary>
         public FileMessage Data { get; private set; }
 
         /// <summary>
-        /// The full path of file on local file system
+        /// The full path of file on local file system.
         /// </summary>
         public string PhysicalFileName { get; set; }
 
         /// <summary>
-        /// Thumbnail of file if there is one
+        /// Thumbnail of file if there is one.
         /// </summary>
         public byte[] Thumbnail { get; set; }
 
         /// <summary>
-        /// The operation done over file
+        /// The operation done over file.
         /// </summary>
         public FileDirection Direction { get; set; }
 
         /// <summary>
-        /// Event fired when file is being read
+        /// Event fired when file is being read.
         /// </summary>
         public event ProgressChangedEventHandler ProgressChanged;
 
         /// <summary>
-        /// Event fired there was an error while reading file 
+        /// Event fired there was an error while reading file.
         /// </summary>
         public event ReadFailedEventHandler ReadFailed;
 
         /// <summary>
-        /// Event fired when file has been ead completely
+        /// Event fired when file has been read completely.
         /// </summary>
         public event ReadCompletedEventHandler ReadCompleted;
 

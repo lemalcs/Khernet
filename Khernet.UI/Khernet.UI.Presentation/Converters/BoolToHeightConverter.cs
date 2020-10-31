@@ -5,7 +5,7 @@ using System.Windows;
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Returns <see cref="Visibility.Visible"/> if value is not null, otherwise returns <see cref="Visibility.Collapsed"/>
+    /// Returns <see cref="Visibility.Visible"/> if value is not null, otherwise returns <see cref="Visibility.Collapsed"/>.
     /// </summary>
     public class BoolToHeightConverter : BaseValueConverter<BoolToHeightConverter>
     {

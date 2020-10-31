@@ -8,7 +8,7 @@
     <!--Default image-->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/blank.png" x:Key="DefaultImage"/>
 
-    <!-- Defualt avatar image -->
+    <!-- Default avatar image -->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/DefaultAvatar.png" x:Key="DefaultAvatar"/>
 
     <!-- Application logo -->
@@ -29,7 +29,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
     </Style>
 
-    <!--Context meny for taskbar notify icon-->
+    <!--Context menu for taskbar notify icon-->
     <ContextMenu x:Shared="false" x:Key="SysTrayMenu" >
         <MenuItem Header="Show Window" Command="{Binding ShowWindowCommand}" />
         <MenuItem Header="Hide Window" Command="{Binding HideWindowCommand}" />

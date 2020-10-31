@@ -9,22 +9,22 @@ using System.Windows.Media;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Creates a <see cref="Inline"/> array from a <see cref="FlowDocument"/> byte collection
+    /// Creates a <see cref="Inline"/> array from a <see cref="FlowDocument"/> byte collection.
     /// </summary>
     public class InlineSourceProperty : BaseAttachedProperty<InlineSourceProperty, ReadOnlyCollection<byte>>
     {
         /// <summary>
-        /// The current number of characters
+        /// The current number of characters.
         /// </summary>
         private int symbolsCount = 0;
 
         /// <summary>
-        /// The maximun number of characters to take
+        /// The maximum number of characters to take.
         /// </summary>
         private readonly int symbolsCountLimit = 32;
 
         /// <summary>
-        /// The textbloxk that will contain the read characters
+        /// The textblock that will contain the read characters.
         /// </summary>
         private TextBlock textBlock;
 

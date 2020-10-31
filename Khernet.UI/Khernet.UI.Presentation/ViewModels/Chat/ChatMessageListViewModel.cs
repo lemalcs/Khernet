@@ -30,78 +30,78 @@ namespace Khernet.UI
         private bool isGIFGalleryOpen;
 
         /// <summary>
-        /// The view model for media gallery
+        /// The view model for media gallery.
         /// </summary>
         private MediaGalleryViewModel mediaVM;
 
         /// <summary>
-        /// Indicates if ther is a pending message
+        /// Indicates if there is a pending message.
         /// </summary>
         private bool hasMessage;
 
         /// <summary>
-        /// Indicates if other peer is writing a message
+        /// Indicates if other peer is writing a message.
         /// </summary>
         private bool isPeerWriting;
 
         /// <summary>
-        /// Indicates the last timea message was send to peer
+        /// Indicates the last time a message was send to peer.
         /// </summary>
         private DateTime lastMessageSendTime;
 
         /// <summary>
         /// Indicates whether text field has the focus, the specific value of this property does not matter, 
-        /// only its changes
+        /// only its changes.
         /// </summary>
         private bool isTextBoxFocused;
 
         /// <summary>
-        /// Indicates of unread popup should be shown
+        /// Indicates of unread popup should be shown.
         /// </summary>
         private bool canShowUnreadPopup;
 
         /// <summary>
-        /// Scrolls the chat list
+        /// Scrolls the chat list.
         /// </summary>
         public Action ScrollToCurrentContent { get; set; }
 
         /// <summary>
-        /// Set draft message
+        /// Set draft message.
         /// </summary>
         public Action<byte[]> SetContent { get; set; }
 
         /// <summary>
-        /// Get draft message
+        /// Get draft message.
         /// </summary>
         public Func<byte[]> GetContent { get; set; }
 
         /// <summary>
-        /// Get draft message
+        /// Get draft message.
         /// </summary>
         public Action<ChatMessageItemViewModel, int> ScrollToChatMessage { get; set; }
 
         /// <summary>
-        /// The state of user
+        /// The state of user.
         /// </summary>
         private UserChatContext userContext;
 
         /// <summary>
-        /// The format of text message
+        /// The format of text message.
         /// </summary>
         private MessageType messageFormat;
 
         /// <summary>
-        /// Object used to sync access to chat list
+        /// Object used to sync access to chat list.
         /// </summary>
         private object SyncObject = new object();
 
         /// <summary>
-        /// The message of chat list
+        /// The message of chat list.
         /// </summary>
         private ObservableCollection<ChatMessageItemViewModel> items;
 
         /// <summary>
-        /// Represents the objet to display dialogs
+        /// Represents the object to display dialogs.
         /// </summary>
         private PresentationApplicationDialog applicationDialog;
 
@@ -171,7 +171,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicates if there is a reply message pending
+        /// Indicates if there is a reply message pending.
         /// </summary>
         public bool ReplyMessagePending
         {
@@ -253,37 +253,37 @@ namespace Khernet.UI
         #region Commands
 
         /// <summary>
-        /// Command to view user profile
+        /// Command to view user profile.
         /// </summary>
         public ICommand ViewProfileCommand { get; private set; }
 
         /// <summary>
-        /// Command to send message
+        /// Command to send message.
         /// </summary>
         public ICommand SendCommand { get; private set; }
 
         /// <summary>
-        /// Command to send a file
+        /// Command to send a file.
         /// </summary>
         public ICommand OpenFileCommand { get; private set; }
 
         /// <summary>
-        /// Command to open emoji gallery
+        /// Command to open emoji gallery.
         /// </summary>
         public ICommand OpenMediaGalleryCommand { get; private set; }
 
         /// <summary>
-        /// Command to open GIF gallery
+        /// Command to open GIF gallery.
         /// </summary>
         public ICommand OpenGIFGalleryCommand { get; private set; }
 
         /// <summary>
-        /// Command to discard a reply message
+        /// Command to discard a reply message.
         /// </summary>
         public ICommand CloseReplyMessage { get; private set; }
 
         /// <summary>
-        /// Command to got to the bottom of chat list
+        /// Command to got to the bottom of chat list.
         /// </summary>
         public ICommand GoToBottomCommand { get; private set; }
 
@@ -319,7 +319,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Marks all unread message as read
+        /// Marks all unread message as read.
         /// </summary>
         private void MarkAsReadMessages()
         {
@@ -364,9 +364,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Opens a dialog to select files
+        /// Opens a dialog to select files.
         /// </summary>
-        /// <param name="obj">A <see cref="IDocumentContainer"/> object</param>
+        /// <param name="obj">A <see cref="IDocumentContainer"/> object.</param>
         private void OpenFile(object parameter)
         {
             //Get file paths
@@ -385,9 +385,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Send a one or more files
+        /// Send a one or more files.
         /// </summary>
-        /// <param name="files">The paths of files</param>
+        /// <param name="files">The paths of files.</param>
         public async void Send(string[] files)
         {
             //Do not do anything if there is not a file
@@ -452,9 +452,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Send a image from a stream (used for images from cliboard)
+        /// Send a image from a stream (used for images from clipboard)
         /// </summary>
-        /// <param name="media"></param>
+        /// <param name="media">The stream to read the file from.</param>
         public void Send(Stream media)
         {
             //Do not do anything if there is not a file
@@ -478,9 +478,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// View current profile
+        /// View current profile.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">The parameter for command.</param>
         private void ViewProfile(object obj)
         {
             ProfileViewModel profile = new ProfileViewModel(this)
@@ -491,9 +491,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Sends text message
+        /// Sends text message.
         /// </summary>
-        /// <param name="parameter">An <see cref="IDocumentContainer"/> object</param>
+        /// <param name="parameter">An <see cref="IDocumentContainer"/> object.</param>
         public void Send(object parameter)
         {
             if (parameter == null)
@@ -521,9 +521,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Sends text message with XAML format
+        /// Sends message to receiver.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">The message to send to.</param>
         public async void Send(byte[] message)
         {
             try
@@ -666,9 +666,9 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Sets <see cref="HasMessage"/> that indicates if there is a message
+        /// Sets <see cref="HasMessage"/> that indicates if there is a message.
         /// </summary>
-        /// <param name="hasMessage">True if there is message otherwise false</param>
+        /// <param name="hasMessage">True if there is message otherwise false.</param>
         public void SetHasMessage(bool hasMessage)
         {
             this.HasMessage = hasMessage;
@@ -934,10 +934,10 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Get a copy of a chat message that id being resend
+        /// Get a copy of a chat message that id being resend.
         /// </summary>
-        /// <param name="chatMessage">The original chat message to copy to</param>
-        /// <returns>A new instance of <see cref="ChatMessageItemViewModel"/></returns>
+        /// <param name="chatMessage">The original chat message to copy to.</param>
+        /// <returns>A new instance of <see cref="ChatMessageItemViewModel"/>.</returns>
         private ChatMessageItemViewModel GetChatMessageCopy(ChatMessageItemViewModel chatMessage)
         {
             if (chatMessage is ImageChatMessageViewModel imageMessage)

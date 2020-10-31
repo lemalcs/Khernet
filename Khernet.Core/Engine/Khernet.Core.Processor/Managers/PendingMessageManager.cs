@@ -10,7 +10,7 @@ using System.Threading;
 namespace Khernet.Core.Processor.Managers
 {
     /// <summary>
-    /// Sends pending messages to peers whem them turn online again.
+    /// Sends pending messages to peers when them turn online again.
     /// </summary>
     public class PendingMessageManager : IDisposable
     {
@@ -244,7 +244,7 @@ namespace Khernet.Core.Processor.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -262,7 +262,7 @@ namespace Khernet.Core.Processor.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

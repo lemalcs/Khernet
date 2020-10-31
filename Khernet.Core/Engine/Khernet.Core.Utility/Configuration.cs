@@ -97,55 +97,5 @@ namespace Khernet.Core.Utility
                 value = null;
             }
         }
-
-        public static string GetConnectionString(string key)
-        {
-            DataTable table = new DataTable();
-            CryptographyProvider cp = new CryptographyProvider();
-
-            FbCommand cmd = new FbCommand("GET_STR");
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            //The key that identify the configuration is stored encrypted in database
-            cmd.Parameters.Add("@IDKEY", FbDbType.VarChar).Value = Convert.ToBase64String(cp.EncryptResource(Encoding.UTF8.GetBytes(key), Configuration.passwd));
-
-            using (cmd.Connection = new FbConnection(GetConnectionString()))
-            {
-                cmd.Connection.Open();
-                FbDataAdapter fda = new FbDataAdapter(cmd);
-                fda.Fill(table);
-            }
-
-            string configValue = null;
-
-            if (table.Rows.Count > 0)
-            {
-                byte[] rawValue = (byte[])table.Rows[0][0];
-                if (Configuration.passwd != null)
-                {
-                    configValue = Encoding.UTF8.GetString(cp.DecryptResource(rawValue, Configuration.passwd));
-                }
-            }
-
-            return configValue;
-        }
-
-        public static void SetConnectionString(string key, string value)
-        {
-            CryptographyProvider cp = new CryptographyProvider();
-            FbCommand cmd = new FbCommand("SET_STR");
-
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@IDKEY", FbDbType.VarChar).Value = Convert.ToBase64String(cp.EncryptResource(Encoding.UTF8.GetBytes(key), Configuration.passwd));
-
-            byte[] valor = cp.EncryptResource(Encoding.UTF8.GetBytes(value), passwd);
-            cmd.Parameters.Add("@VAL", FbDbType.Binary).Value = valor;
-
-            using (cmd.Connection = new FbConnection(GetConnectionString()))
-            {
-                cmd.Connection.Open();
-                int resultado = Convert.ToInt32(cmd.ExecuteScalar());
-            }
-        }
     }
 }

@@ -8,27 +8,27 @@ using System.Windows.Media;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// The type of modal dialog to show
+    /// The type of modal dialog to show.
     /// </summary>
     public enum Dialog
     {
         /// <summary>
-        /// Message box dialog inside parent window
+        /// Message box dialog inside parent window.
         /// </summary>
         Box,
 
         /// <summary>
-        /// Dialog inside parent window
+        /// Dialog inside parent window.
         /// </summary>
         Modal,
 
         /// <summary>
-        /// Child modal for modal dialogs
+        /// Child modal for modal dialogs.
         /// </summary>
         ChildModal,
 
         /// <summary>
-        /// Dialog in new window
+        /// Dialog in new window.
         /// </summary>
         NewWindow,
     }
@@ -41,7 +41,7 @@ namespace Khernet.UI.Controls
         TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
 
         /// <summary>
-        /// The window that hosts this user control
+        /// The window that hosts this user control.
         /// </summary>
         private DialogWindow dialog;
 
@@ -51,10 +51,9 @@ namespace Khernet.UI.Controls
         public RelayCommand CloseCommand { get; private set; }
 
         /// <summary>
-        /// The type of dialog showed
+        /// The type of dialog showed.
         /// </summary>
         private Dialog dialogType;
-
 
 
         public double OwnerDialogHeight
@@ -69,7 +68,7 @@ namespace Khernet.UI.Controls
 
 
         /// <summary>
-        /// default constructor
+        /// Default constructor.
         /// </summary>
         public BaseDialogUserControl() : base()
         {
@@ -120,10 +119,10 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Show a modal dialog message
+        /// Show a modal dialog message.
         /// </summary>
-        /// <param name="viewModel">The view model</param>
-        /// <returns></returns>
+        /// <param name="viewModel">The view model.</param>
+        /// <returns>A <see cref="Task"/> for dialog.</returns>
         public Task ShowMessage<T>(T viewModel, bool fullScreen = false, string backgroudnColorHex = null) where T : BaseModel
         {
             var result = new TaskCompletionSource<bool>();
@@ -136,7 +135,7 @@ namespace Khernet.UI.Controls
                     try
                     {
                         //If there is not a main windows, don't show modal message.
-                        //Usefull when the main window is closed and there are dialog in the dispatcher queue.
+                        //Useful when the main window is closed and there are dialog in the dispatcher queue.
                         if (Application.Current.MainWindow == null)
                             return;
 
@@ -158,10 +157,10 @@ namespace Khernet.UI.Controls
                         dialog.Owner = Application.Current.MainWindow;
                         dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-                        //Check if windows is full screeen size
+                        //Check if windows is full screen size
                         if (fullScreen)
                         {
-                            //Do not size windows to content for full screem size
+                            //Do not size windows to content for full screen size
                             dialog.SizeToContent = SizeToContent.Manual;
                             dialog.WindowState = WindowState.Maximized;
 

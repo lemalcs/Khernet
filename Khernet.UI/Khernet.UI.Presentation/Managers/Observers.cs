@@ -8,44 +8,44 @@ namespace Khernet.UI.Managers
     public interface IFileObserver
     {
         /// <summary>
-        /// The media to process
+        /// The media to process.
         /// </summary>
         MediaRequest Media { get; set; }
 
         /// <summary>
-        /// Notifies when media medtadata was read.
+        /// Notifies when media metadata was read.
         /// </summary>
-        /// <param name="info">The metadata of media</param>
+        /// <param name="info">The metadata of media.</param>
         void OnGetMetadata(FileResponse info);
 
         /// <summary>
-        /// Notifies about the current progress of media processing
+        /// Notifies about the current progress of media processing.
         /// </summary>
-        /// <param name="operation">Information about current progress</param>
+        /// <param name="operation">Information about current progress.</param>
         void OnProcessing(long bytesProcessed);
 
         /// <summary>
-        /// Notifies when an operation has ended
+        /// Notifies when an operation has ended.
         /// </summary>
-        /// <param name="operationType">The type of completed operation</param>
+        /// <param name="operationType">The type of completed operation.</param>
         void OnCompleted(ChatMessageProcessResult result);
 
         /// <summary>
-        /// Notifies when an error ocurrs.
+        /// Notifies when an error occurs.
         /// </summary>
-        /// <param name="exception">The error detail</param>
+        /// <param name="exception">The error detail.</param>
         void OnError(Exception exception);
     }
 
     /// <summary>
-    /// Provides notification to observers about media operation
+    /// Provides notification to observers about media operation.
     /// </summary>
     public interface IFileObservable : IDisposable
     {
         /// <summary>
-        /// Process the media file to be sent or received
+        /// Process the media file to be sent or received.
         /// </summary>
-        /// <param name="observer"></param>
+        /// <param name="observer">The observer to track operations on files.</param>
         void ProcessFile(IFileObserver observer);
     }
 
@@ -56,38 +56,38 @@ namespace Khernet.UI.Managers
     public interface ITextObserver
     {
         /// <summary>
-        /// The text message to process
+        /// The text message to process.
         /// </summary>
         TextRequest Text { get; set; }
 
         /// <summary>
-        /// Notifies when an operation has ended
+        /// Notifies when an operation has ended.
         /// </summary>
-        /// <param name="operationType">The type of completed operation</param>
+        /// <param name="operationType">The type of completed operation.</param>
         void OnGetMetadata(TextResponse info);
 
         /// <summary>
-        /// Notifies when an operation has ended
+        /// Notifies when an operation has ended.
         /// </summary>
-        /// <param name="operationType">The type of completed operation</param>
+        /// <param name="operationType">The type of completed operation.</param>
         void OnCompleted(ChatMessageProcessResult result);
 
         /// <summary>
-        /// Notifies when an error ocurrs.
+        /// Notifies when an error occurs.
         /// </summary>
-        /// <param name="exception">The error detail</param>
+        /// <param name="exception">The error detail.</param>
         void OnError(Exception exception);
     }
 
     /// <summary>
-    /// Provides notification to observers about media operation
+    /// Provides notification to observers about media operation.
     /// </summary>
     public interface ITextObservable : IDisposable
     {
         /// <summary>
-        /// Process the media file to be sent or received
+        /// Process the media file to be sent or received.
         /// </summary>
-        /// <param name="observer"></param>
+        /// <param name="observer">The observer to track operations on files.</param>
         void ProcessText(ITextObserver observer);
     }
 }

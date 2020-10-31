@@ -6,17 +6,17 @@ using System.Windows.Media;
 namespace Khernet.UI.DependencyProperties
 {
     /// <summary>
-    /// Creates a clip region from parent <see cref="Border"/> depending of <see cref="CornerRadius"/> value
+    /// Creates a clip region from parent <see cref="Border"/> depending of <see cref="CornerRadius"/> value.
     /// </summary>
     public class ClipFromBorderProperty : BaseAttachedProperty<ClipFromBorderProperty, bool>
     {
         /// <summary>
-        /// Called when elemet loads
+        /// Called when element loads.
         /// </summary>
         private RoutedEventHandler eventHandler;
 
         /// <summary>
-        /// Called when element changes its size
+        /// Called when element changes its size.
         /// </summary>
         private SizeChangedEventHandler sizeHandler;
 
@@ -59,10 +59,10 @@ namespace Khernet.UI.DependencyProperties
 
             var rect = new RectangleGeometry();
 
-            //Match the goemtry corner radius to the border's radius
+            //Match the geometry corner radius to the border's radius
             rect.RadiusX = rect.RadiusY = Math.Max(0, border.CornerRadius.TopLeft - border.BorderThickness.Left * 0.5);
 
-            //Set rectagle size to match the actual child size
+            //Set rectangle size to match the actual child size
             rect.Rect = new Rect(child.RenderSize);
 
             //Set clipping area for child

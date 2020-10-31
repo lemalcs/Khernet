@@ -68,7 +68,7 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 //This event is not priority
-                LogDumper.WriteLog(exception, "Writting message could not be sent.");
+                LogDumper.WriteLog(exception, "Writing message could not be sent.");
             }
         }
 

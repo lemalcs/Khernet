@@ -35,7 +35,7 @@ namespace Khernet.Core.Processor
             //Validate user name
             //Validate password
             //Generate a key pair using RSA algorithm
-            //Generate a symetric key using AES-256 from user password
+            //Generate a symmetric key using AES-256 from user password
             //Encrypt RSA keys with generated key
             //Generate the address using public key
             //Save on database the following: user name, RAS keys, address and AES-256 key
@@ -68,7 +68,7 @@ namespace Khernet.Core.Processor
             //This key will be used to encrypt values of configurations except this key
             Configuration.SetPassword(configKeyContainer, storage.BuildConnectionString(StorageType.Configuration));
 
-            //Generate key to encrypt appplication database
+            //Generate key to encrypt application database
             salt = cryptoProvider.GenerateRandonNumbers(64);
             alternateKey = Convert.ToBase64String(cryptoProvider.GenerateKey(configKeyContainer, 64, 4096, salt));
             salt = null;
@@ -98,7 +98,7 @@ namespace Khernet.Core.Processor
             byte[] obfuscatedCert = EncryptionHelper.EncryptByteArray(certificate.Export(X509ContentType.Pfx, applicationKey), keys.Item1, keys.Item2);
             applicationKey = null;
 
-            //Generate TOKEN for account: stirng of letters and numbers to identify uniquely this user
+            //Generate TOKEN for account: string of letters and numbers to identify uniquely this user
             string obfuscatedToken = EncryptionHelper.EncryptString(token, Encoding.UTF8, keys.Item1, keys.Item2);
             string obfuscatedUserName = EncryptionHelper.EncryptString(encodedUserName, Encoding.UTF8, keys.Item1, keys.Item2);
             keys = null;
@@ -127,10 +127,10 @@ namespace Khernet.Core.Processor
         }
 
         /// <summary>
-        /// Generate token from public key encoded with BASE58Check
+        /// Generate token from public key encoded with BASE58Check.
         /// </summary>
-        /// <param name="publicKey">The public key of user</param>
-        /// <returns>Enconded token with BASE58Check</returns>
+        /// <param name="publicKey">The public key of user.</param>
+        /// <returns>Encoded token with BASE58Check.</returns>
         public string BuildToken(string publicKey)
         {
             CryptographyProvider cryptoProvider = new CryptographyProvider();
@@ -221,7 +221,7 @@ namespace Khernet.Core.Processor
             SubjectPublicKeyInfo info = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(subjectKeyPair.Public);
             byte[] publicKey = info.PublicKeyData.GetBytes();
 
-            //Generar token de usuario
+            //Generate user token
             string token = BuildToken(publicKey);
             subjectName = token;
 
@@ -369,11 +369,10 @@ namespace Khernet.Core.Processor
         }
 
         /// <summary>
-        /// Add the "Subject Alternative Names" extension. Note that you have to repeat
-        /// the value from the "Subject Name" property.
+        /// Add the "Subject Alternative Names" extension. Note that you have to repeat the value from the "Subject Name" property.
         /// </summary>
-        /// <param name="certificateGenerator"></param>
-        /// <param name="subjectAlternativeNames"></param>
+        /// <param name="certificateGenerator">The generator of certificate.</param>
+        /// <param name="subjectAlternativeNames">List of alternative subject names.</param>
         private static void AddSubjectAlternativeNames(X509V3CertificateGenerator certificateGenerator,
                                                        IEnumerable<string> subjectAlternativeNames)
         {
@@ -395,8 +394,8 @@ namespace Khernet.Core.Processor
         /// <summary>
         /// Add the "Basic Constraints" extension.
         /// </summary>
-        /// <param name="certificateGenerator"></param>
-        /// <param name="isCertificateAuthority"></param>
+        /// <param name="certificateGenerator">The generator of certificate.</param>
+        /// <param name="isCertificateAuthority">Indicates whether it is a certificate authority.</param>
         private static void AddBasicConstraints(X509V3CertificateGenerator certificateGenerator,
                                                 bool isCertificateAuthority)
         {
@@ -407,8 +406,8 @@ namespace Khernet.Core.Processor
         /// <summary>
         /// Add the Subject Key Identifier.
         /// </summary>
-        /// <param name="certificateGenerator"></param>
-        /// <param name="subjectKeyPair"></param>
+        /// <param name="certificateGenerator">The generator of certificate.</param>
+        /// <param name="subjectKeyPair">The private and public key pair.</param>
         private static void AddSubjectKeyIdentifier(X509V3CertificateGenerator certificateGenerator,
                                                     AsymmetricCipherKeyPair subjectKeyPair)
         {

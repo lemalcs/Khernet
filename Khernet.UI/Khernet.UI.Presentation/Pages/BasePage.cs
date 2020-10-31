@@ -9,7 +9,7 @@ namespace Khernet.UI.Pages
     public class BasePage : Page
     {
         /// <summary>
-        /// The view model for <see cref="Page"/> 
+        /// The view model for <see cref="Page"/>.
         /// </summary>
         private object viewModel;
 
@@ -30,27 +30,27 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Animation to play when page is loaded
+        /// Animation to play when page is loaded.
         /// </summary>
         public PageAnimation LoadAnimation { get; set; } = PageAnimation.SlideAndFadeFromRight;
 
         /// <summary>
-        /// Animation to play when page is unloaded
+        /// Animation to play when page is unloaded.
         /// </summary>
         public PageAnimation UnloadAnimation { get; set; } = PageAnimation.SlideAndFadeFromLeft;
 
         /// <summary>
-        /// Indicate whether to animate out a <see cref="Page"/> 
+        /// Indicate whether to animate out a <see cref="Page"/>.
         /// </summary>
         public bool ShouldAnimateOut { get; set; }
 
         /// <summary>
-        /// The duration animation will take
+        /// The duration animation will take.
         /// </summary>
         public float SlideSecondsDuration { get; set; } = 0.5f;
 
         /// <summary>
-        /// Event fired when any data is confirmed
+        /// Event fired when any data is confirmed.
         /// </summary>
         public event EventHandler Commited;
 
@@ -65,10 +65,10 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Perform an animation when page is loaded
+        /// Perform an animation when page is loaded.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The object source of event.</param>
+        /// <param name="e">The event arguments.</param>
         private async void BasePage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             //Check whether animate out or in
@@ -79,9 +79,9 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Animates a page when load
+        /// Animates a page when load.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         private async Task AnimateIn()
         {
             //If there is nothing to animate, return
@@ -100,9 +100,9 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Animates a page when unload
+        /// Animates a page when unload.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> for animation.</returns>
         public async Task AnimateOut()
         {
             //If there is nothing to animate, return
@@ -121,7 +121,7 @@ namespace Khernet.UI.Pages
         }
 
         /// <summary>
-        /// Executes <see cref="Commited"/> event
+        /// Executes <see cref="Commited"/> event.
         /// </summary>
         protected void OnCommited()
         {
@@ -133,7 +133,7 @@ namespace Khernet.UI.Pages
         where VM : BaseModel, new()
     {
         /// <summary>
-        /// Gets or set the specific view model
+        /// Gets or set the specific view model.
         /// </summary>
         public VM SpecificViewModel
         {

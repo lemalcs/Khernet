@@ -26,7 +26,7 @@ namespace Khernet.UI.Controls
 
 
         /// <summary>
-        /// The thickness of progress indicator
+        /// The thickness of progress indicator.
         /// </summary>
         public double Thickness
         {
@@ -34,13 +34,13 @@ namespace Khernet.UI.Controls
             set { SetValue(ThicknessProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Thickness.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Thickness.
         public static readonly DependencyProperty ThicknessProperty =
             DependencyProperty.Register(nameof(Thickness), typeof(double), typeof(ProgressCircleControl), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsRender, OnThicknessChanged));
 
 
         /// <summary>
-        /// The current value of progress
+        /// The current value of progress.
         /// </summary>
         public double Value
         {
@@ -53,7 +53,7 @@ namespace Khernet.UI.Controls
             DependencyProperty.Register(nameof(Value), typeof(double), typeof(ProgressCircleControl), new PropertyMetadata(0d, OnValueChanged, OnValidateValue));
 
         /// <summary>
-        /// The maximun value of progress
+        /// The maximum value of progress.
         /// </summary>
         public double Maximum
         {
@@ -68,8 +68,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Verify if <see cref="Maximum"/> if greater or equals to <see cref="Minimum"/>.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="baseValue">The current value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="baseValue">The current value.</param>
         private static object OnValidateMaximunValue(DependencyObject d, object baseValue)
         {
             var control = d as ProgressCircleControl;
@@ -80,7 +80,7 @@ namespace Khernet.UI.Controls
 
 
         /// <summary>
-        /// The minimum value of progress
+        /// The minimum value of progress.
         /// </summary>
         public double Minimum
         {
@@ -95,8 +95,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Verify if <see cref="Minimum"/> if less or equals to <see cref="Maximum"/>.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="baseValue">The current value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="baseValue">The current value.</param>
         /// <returns></returns>
         private static object OnValidateMinimuValue(DependencyObject d, object baseValue)
         {
@@ -122,8 +122,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets the background color path that progress indicator follows.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="e">The current value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="e">The current value.</param>
         private static void OnStrokeBackGroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ProgressCircleControl;
@@ -136,7 +136,7 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Speficies the <see cref="Brush"/> of arcs
+        /// Specifies the <see cref="Brush"/> of arcs.
         /// </summary>
         public Brush StrokeBrush
         {
@@ -151,8 +151,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets the color of arc paths.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="e">The current value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="e">The current value.</param>
         private static void OnStrokeBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ProgressCircleControl;
@@ -162,7 +162,7 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets color of arc paths.
         /// </summary>
-        /// <param name="brush">The <see cref="Brush"/> to color paths</param>
+        /// <param name="brush">The <see cref="Brush"/> to color paths.</param>
         protected void OnStrokeBrushChanged(Brush brush)
         {
             startingPath.Stroke = brush;
@@ -172,9 +172,9 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Verify if <see cref="Value"/> is between <see cref="Minimum"/> and <see cref="Maximum"/> values.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="baseValue">The current value</param>
-        /// <returns></returns>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="baseValue">The current value.</param>
+        /// <returns>The validated value.</returns>
         private static object OnValidateValue(DependencyObject d, object baseValue)
         {
             var control = d as ProgressCircleControl;
@@ -192,9 +192,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets the current <see cref="Value"/> of progress.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="baseValue">The current value</param>
-        /// <returns></returns>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="baseValue">The current value.</param>
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ProgressCircleControl;
@@ -212,7 +211,7 @@ namespace Khernet.UI.Controls
             //Calculate the proportional value from Value property of this control
             double realValue = value * perimeter / Maximum;
 
-            //The lenght of arc according to current value
+            //The length of arc according to current value
             double arcLenght = 0;
 
             //If value is less or equal to half perimeter, set endpoints of right arc
@@ -255,10 +254,10 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Changes the visual progress when <see cref="Thickness"/> is changed
+        /// Changes the visual progress when <see cref="Thickness"/> is changed.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="e">The current and old value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="e">The current and old value.</param>
         private static void OnThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ProgressCircleControl;
@@ -269,7 +268,7 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Changes the control layout when <see cref="Thickness"/> changes.
         /// </summary>
-        /// <param name="thickValue"></param>
+        /// <param name="thickValue">The value of thickness.</param>
         protected void OnThicknessChanged(double thickValue)
         {
             SetArcThickness(thickValue);
@@ -280,9 +279,9 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Sets arc thickness
+        /// Sets arc thickness.
         /// </summary>
-        /// <param name="thickValue">The thickness value</param>
+        /// <param name="thickValue">The thickness value.</param>
         private void SetArcThickness(double thickValue)
         {
             //Set thickness of left and right arc
@@ -303,10 +302,10 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Changes the control layout when <see cref="Radius"/> is changed
+        /// Changes the control layout when <see cref="Radius"/> is changed.
         /// </summary>
-        /// <param name="d">The owner of this property</param>
-        /// <param name="e">The current and old value</param>
+        /// <param name="d">The owner of this property.</param>
+        /// <param name="e">The current and old value.</param>
         private static void OnRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as ProgressCircleControl;
@@ -317,7 +316,7 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Changes the control layout when <see cref="Radius"/> is changed.
         /// </summary>
-        /// <param name="radius"></param>
+        /// <param name="radius">The value of radius.</param>
         protected void OnRadiusChanged(double radius)
         {
             //Configure right arc 
@@ -371,9 +370,9 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets the endpoint of arc.
         /// </summary>
-        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc</param>
-        /// <param name="startPoint">The start point</param>
-        /// <param name="endPoint">The final point</param>
+        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc.</param>
+        /// <param name="startPoint">The start point.</param>
+        /// <param name="endPoint">The final point.</param>
         private void SetArcEndpoints(PathGeometry path, Point startPoint, Point endPoint)
         {
             var figures = path.Figures;
@@ -388,8 +387,8 @@ namespace Khernet.UI.Controls
         /// <summary>
         /// Sets the final <see cref="Point"/> of arc.
         /// </summary>
-        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc</param>
-        /// <param name="finalPoint">The final point</param>
+        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc.</param>
+        /// <param name="finalPoint">The final point.</param>
         private void SetArcFinalPoint(PathGeometry path, Point finalPoint)
         {
             var figures = path.Figures;
@@ -400,10 +399,10 @@ namespace Khernet.UI.Controls
         }
 
         /// <summary>
-        /// Sets the radius of arc
+        /// Sets the radius of arc.
         /// </summary>
-        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc</param>
-        /// <param name="radius">The radius value</param>
+        /// <param name="path">The <see cref="PathGeometry"/> that owns the arc.</param>
+        /// <param name="radius">The radius value.</param>
         private void SetArcRadius(PathGeometry path, double radius)
         {
             var figures = path.Figures;

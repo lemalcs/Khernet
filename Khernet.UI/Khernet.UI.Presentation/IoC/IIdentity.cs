@@ -1,7 +1,7 @@
 ﻿namespace Khernet.UI.IoC
 {
     /// <summary>
-    /// The identity for current logged user
+    /// The identity for current logged user.
     /// </summary>
     public interface IIdentity
     {

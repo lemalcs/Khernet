@@ -458,7 +458,7 @@ namespace Khernet.Core.Data
         }
 
         /// <summary>
-        /// Gte the number of files shared between current user and remote peer.
+        /// Gets the number of files shared between current user and remote peer.
         /// </summary>
         /// <param name="userToken">The type of file.</param>
         /// <param name="fileType">The token of remote peer.</param>

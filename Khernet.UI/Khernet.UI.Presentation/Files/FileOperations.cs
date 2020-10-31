@@ -139,9 +139,9 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Send or receives GIF files
+        /// Send or receives GIF files.
         /// </summary>
-        /// <param name="observer">The observer to notify about performed operations</param>
+        /// <param name="observer">The observer to notify about performed operations.</param>
         public async void ProcessGIF(IFileObserver observer)
         {
             Stream dtStream = null;
@@ -251,9 +251,9 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Send or receives video files
+        /// Send or receives video files.
         /// </summary>
-        /// <param name="observer">The observer who listens to notifications about performed operations</param>
+        /// <param name="observer">The observer who listens to notifications about performed operations.</param>
         public async void ProcessVideo(IFileObserver observer)
         {
             Stream dtStream = null;
@@ -281,7 +281,7 @@ namespace Khernet.UI.Files
 
                     if (hasVideoTracks)
                     {
-                        //Build thmubnail file 
+                        //Build thumbnail file 
                         string thumbnailFile = Path.Combine(Configurations.CacheDirectory.FullName, Path.GetFileNameWithoutExtension(observer.Media.FileName) + ".jpg");
 
                         if (File.Exists(thumbnailFile))
@@ -303,7 +303,7 @@ namespace Khernet.UI.Files
                     }
 
 
-                    //Get the orignal name of video file
+                    //Get the original name of video file
                     metadata.OriginalFileName = Path.GetFileName(observer.Media.FileName);
                     metadata.FilePath = observer.Media.FileName;
 
@@ -373,9 +373,9 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Sends o receives audio files
+        /// Sends o receives audio files.
         /// </summary>
-        /// <param name="observer">The observer who listens to notifications about performed operations</param>
+        /// <param name="observer">The observer who listens to notifications about performed operations.</param>
         public async void ProcessAudio(IFileObserver observer)
         {
             Stream dtStream = null;
@@ -464,9 +464,9 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Sends and receives any type of files
+        /// Sends and receives any type of files.
         /// </summary>
-        /// <param name="observer">The observer who listens to notifications about performed operations</param>
+        /// <param name="observer">The observer who listens to notifications about performed operations.</param>
         public void ProcessFile(IFileObserver observer)
         {
             Stream dtStream = null;
@@ -549,10 +549,10 @@ namespace Khernet.UI.Files
         /// <summary>
         /// Uploads a file to destination peer.
         /// </summary>
-        /// <param name="observer">The sender that will be notified about operations performed over file</param>
-        /// <param name="response">Holds information about metadata of file</param>
-        /// <param name="fileName">The path of file to send</param>
-        /// <returns>The id of file</returns>
+        /// <param name="observer">The sender that will be notified about operations performed over file.</param>
+        /// <param name="response">Holds information about metadata of file.</param>
+        /// <param name="fileName">The path of file to send.</param>
+        /// <returns>The id of file.</returns>
         private MessageProcessResult UploadFile(IFileObserver observer, FileResponse response)
         {
             response.UID = observer.Media.ChatMessage.UID;
@@ -600,8 +600,8 @@ namespace Khernet.UI.Files
         /// <summary>
         /// Get the metadata of requested file.
         /// </summary>
-        /// <param name="observer">The observer that will be notified about operations performed over file</param>
-        /// <returns>A <see cref="FileResponse"/> object with metadata</returns>
+        /// <param name="observer">The observer that will be notified about operations performed over file.</param>
+        /// <returns>A <see cref="FileResponse"/> object with metadata.</returns>
         private FileResponse GetFileMetadata(IFileObserver observer)
         {
             //Get file information
@@ -634,8 +634,8 @@ namespace Khernet.UI.Files
         /// <summary>
         /// Get the file from application local storage which is saved in cache folder.
         /// </summary>
-        /// <param name="observer">The observer that will be notified about operations performed over file</param>
-        /// <returns>The path of physical file</returns>
+        /// <param name="observer">The observer that will be notified about operations performed over file.</param>
+        /// <returns>The path of physical file.</returns>
         private string GetCacheFile(IFileObserver observer)
         {
             ConversationMessage message = (ConversationMessage)IoCContainer.Get<Messenger>().GetMessageDetail(observer.Media.ChatMessage.Id);
@@ -708,10 +708,10 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Saves file of database in cache folder
+        /// Saves file of database in cache folder.
         /// </summary>
-        /// <param name="observer"></param>
-        /// <returns></returns>
+        /// <param name="observer">The observer to track file operations.</param>
+        /// <returns>The metadata of requested file.</returns>
         private FileResponse GetLocalFile(IFileObserver observer)
         {
             //Build name of file for local file system
@@ -768,12 +768,12 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Checks if the file located in cache is the same file that is stored on database
+        /// Checks if the file located in cache is the same file that is stored on database.
         /// </summary>
-        /// <param name="cacheFile">The path of cache file</param>
-        /// <param name="originalFileSize">The size of original file</param>
-        /// <param name="idMessage">The id of message thats owns the file</param>
-        /// <returns>True if both file in database and file in cache are equal, otherwise false</returns>
+        /// <param name="cacheFile">The path of cache file.</param>
+        /// <param name="originalFileSize">The size of original file.</param>
+        /// <param name="idMessage">The id of message thats owns the file.</param>
+        /// <returns>True if both file in database and file in cache are equal, otherwise false.</returns>
         public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, int idMessage)
         {
             try
@@ -822,12 +822,12 @@ namespace Khernet.UI.Files
         }
 
         /// <summary>
-        /// Checks if the file located in cache is the same file that is stored on database
+        /// Checks if the file located in cache is the same file that is stored on database.
         /// </summary>
-        /// <param name="cacheFile">The path of cache file</param>
-        /// <param name="originalFileSize">The size of original file</param>
-        /// <param name="observer">The observer to be notified about progress</param>
-        /// <returns>True if both file in database and file in cache are equal, otherwise false</returns>
+        /// <param name="cacheFile">The path of cache file.</param>
+        /// <param name="originalFileSize">The size of original file.</param>
+        /// <param name="observer">The observer to be notified about progress.</param>
+        /// <returns>True if both file in database and file in cache are equal, otherwise false.</returns>
         public bool VerifyFileIntegrity(string cacheFile, long originalFileSize, IFileObserver observer)
         {
             try

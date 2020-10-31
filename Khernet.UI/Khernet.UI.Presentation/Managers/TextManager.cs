@@ -10,42 +10,42 @@ using System.Windows;
 namespace Khernet.UI.Managers
 {
     /// <summary>
-    /// Provides notification to observers about Text operation
+    /// Provides notification to observers about Text operation.
     /// </summary>
     public class TextManager : ITextObservable
     {
         /// <summary>
-        /// The observers queue for message sending requests
+        /// The observers queue for message sending requests.
         /// </summary>
         private ConcurrentQueue<ITextObserver> sendersList;
 
         /// <summary>
-        /// The observers queue for message receiving requests
+        /// The observers queue for message receiving requests.
         /// </summary>
         private ConcurrentQueue<ITextObserver> receiversList;
 
         /// <summary>
-        /// The process to send messages
+        /// The process to send messages.
         /// </summary>
         private Thread messageSender;
 
         /// <summary>
-        /// The process to send messages
+        /// The process to send messages.
         /// </summary>
         private Thread messageReceiver;
 
         /// <summary>
-        /// Indicates if processor should continue running
+        /// Indicates if processor should continue running.
         /// </summary>
         private bool stopProcessing = false;
 
         /// <summary>
-        /// Controls when to start to upload text message
+        /// Controls when to start to upload text message.
         /// </summary>
         private AutoResetEvent senderAutoReset;
 
         /// <summary>
-        /// Controls when to start to download text message
+        /// Controls when to start to download text message.
         /// </summary>
         private AutoResetEvent receiverAutoReset;
 
@@ -57,9 +57,9 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Posts and request to process a Text file
+        /// Posts and request to process a Text file.
         /// </summary>
-        /// <param name="observer">The observer that request Text processing</param>
+        /// <param name="observer">The observer that request Text processing.</param>
         public void ProcessText(ITextObserver observer)
         {
             //Check if observer is null
@@ -96,7 +96,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Starts the processor to send messages, creates a new one if does not exists yet
+        /// Starts the processor to send messages, creates a new one if does not exists yet.
         /// </summary>
         private void StartSenderProcessor()
         {
@@ -111,7 +111,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Starts the processor to send messages, creates a new one if does not exists yet
+        /// Starts the processor to send messages, creates a new one if does not exists yet.
         /// </summary>
         private void StartReceiverProcessor()
         {
@@ -126,7 +126,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Performs operations sending requests
+        /// Performs operations sending requests.
         /// </summary>
         private void ProcessSendingRequest()
         {
@@ -179,7 +179,7 @@ namespace Khernet.UI.Managers
 
 
         /// <summary>
-        /// Performs operations receiving requests
+        /// Performs operations receiving requests.
         /// </summary>
         private void ProcessReceivingRequest()
         {
@@ -303,7 +303,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Stops the processor of Text files
+        /// Stops the processor of Text files.
         /// </summary>
         public void StopProcessor()
         {
@@ -357,7 +357,11 @@ namespace Khernet.UI.Managers
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // Para detectar llamadas redundantes
+
+        /// <summary>
+        /// Variable to detect reentry calls.
+        /// </summary>
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {

@@ -12,9 +12,9 @@ namespace Khernet.Core.Utility
         /// <summary>
         /// Get a list of IP addresses with specified protocol.
         /// </summary>
-        /// <param name="server">Hostname of IP address</param>
-        /// <param name="protocol">The type of protocol</param>
-        /// <returns>The list of IP addresses</returns>
+        /// <param name="server">Hostname of IP address.</param>
+        /// <param name="protocol">The type of protocol.</param>
+        /// <returns>The list of IP addresses.</returns>
         public static List<string> GetIPAddresses(string server, ProtocolFamily protocol)
         {
 
@@ -46,10 +46,10 @@ namespace Khernet.Core.Utility
         }
 
         /// <summary>
-        /// Get IP address of a WCF context
+        /// Get IP address of a WCF context.
         /// </summary>
-        /// <param name="context">The WCF context</param>
-        /// <returns>True if connection success, otherwise false</returns>
+        /// <param name="context">The WCF context.</param>
+        /// <returns>True if connection success, otherwise false.</returns>
         public static IPAddress GetIPAddressFromContext(OperationContext context)
         {
             MessageProperties properties = context.IncomingMessageProperties;
@@ -65,11 +65,11 @@ namespace Khernet.Core.Utility
         }
 
         /// <summary>
-        /// Try to connect to a host with through a specified port
+        /// Try to connect to a host with through a specified port.
         /// </summary>
-        /// <param name="hostname">The hostname</param>
-        /// <param name="port">The port to connect to</param>
-        /// <returns>True if connection success, otherwise false</returns>
+        /// <param name="hostname">The hostname.</param>
+        /// <param name="port">The port to connect to.</param>
+        /// <returns>True if connection success, otherwise false.</returns>
         public static bool TryConnectToHost(string hostname, int port)
         {
             //First try to connect using host name or IP address
@@ -88,11 +88,11 @@ namespace Khernet.Core.Utility
 
 
         /// <summary>
-        /// Try to connect to a host with and IP address and port
+        /// Try to connect to a host with and IP address and port.
         /// </summary>
-        /// <param name="ipAddres">The IP address of host</param>
-        /// <param name="port">The port to connect to</param>
-        /// <returns>True if connection success, otherwise false</returns>
+        /// <param name="ipAddres">The IP address of host.</param>
+        /// <param name="port">The port to connect to.</param>
+        /// <returns>True if connection success, otherwise false.</returns>
         public static bool TryConnectToIP(string ipAddres, int port)
         {
             IPAddress ip;
@@ -125,11 +125,11 @@ namespace Khernet.Core.Utility
         }
 
         /// <summary>
-        /// Try to connect to th available IP addresses of a host with the specified port
+        /// Try to connect to th available IP addresses of a host with the specified port.
         /// </summary>
-        /// <param name="ipAddress">The IP address of host</param>
-        /// <param name="port">The port to connect to</param>
-        /// <returns>True if connection success, otherwise false</returns>
+        /// <param name="ipAddress">The IP address of host.</param>
+        /// <param name="port">The port to connect to.</param>
+        /// <returns>True if connection success, otherwise false.</returns>
         public static bool TryConnect(string ipAddress, int port)
         {
             IPHostEntry host = Dns.GetHostEntry(ipAddress);

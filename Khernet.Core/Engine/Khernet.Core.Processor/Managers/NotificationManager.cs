@@ -12,7 +12,7 @@ namespace Khernet.Core.Processor.Managers
 {
     public class NotificationManager : IDisposable
     {
-        private static IEventListenerCallBack suscriber;
+        private static IEventListenerCallBack subscriber;
         private static Thread notificationMonitor;
         private static AutoResetEvent autoReset;
         private static volatile bool continueMonitoring = false;
@@ -43,7 +43,7 @@ namespace Khernet.Core.Processor.Managers
 
                 while (continueMonitoring)
                 {
-                    if (suscriber == null)
+                    if (subscriber == null)
                     {
                         Thread.Sleep(1000);
                         continue;
@@ -64,14 +64,14 @@ namespace Khernet.Core.Processor.Managers
                             switch (notificationType)
                             {
                                 case NotificationType.MessageProcessingChange:
-                                    suscriber.ProcessMessageProcessing(JSONSerializer<MessageProcessingNotification>.DeSerialize(notificationDetail));
+                                    subscriber.ProcessMessageProcessing(JSONSerializer<MessageProcessingNotification>.DeSerialize(notificationDetail));
                                     break;
                                 case NotificationType.NewMessage:
-                                    suscriber.ProcessNewMessage(JSONSerializer<MessageNotification>.DeSerialize(notificationDetail));
+                                    subscriber.ProcessNewMessage(JSONSerializer<MessageNotification>.DeSerialize(notificationDetail));
                                     break;
 
                                 case NotificationType.MessageChange:
-                                    suscriber.ProcessMessageStateChanged(JSONSerializer<MessageStateNotification>.DeSerialize(notificationDetail));
+                                    subscriber.ProcessMessageStateChanged(JSONSerializer<MessageStateNotification>.DeSerialize(notificationDetail));
                                     break;
                             }
 
@@ -102,27 +102,27 @@ namespace Khernet.Core.Processor.Managers
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Suscribe(string listenerKey)
+        public void Subscribe(string listenerKey)
         {
 
-            if (suscriber != null)
+            if (subscriber != null)
             {
-                ICommunicationObject suscriberClient = (ICommunicationObject)suscriber;
-                if (suscriberClient.State == CommunicationState.Closed || suscriberClient.State == CommunicationState.Faulted)
+                ICommunicationObject subscriberClient = (ICommunicationObject)subscriber;
+                if (subscriberClient.State == CommunicationState.Closed || subscriberClient.State == CommunicationState.Faulted)
                 {
                     AddApplicationClient(listenerKey);
                     return;
                 }
             }
 
-            if (suscriber == null)
+            if (subscriber == null)
             {
                 AddApplicationClient(listenerKey);
             }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UnSuscribe(string listenerKey)
+        public void Unsubscribe(string listenerKey)
         {
 
             string tempListenerKey = Configuration.GetValue(Constants.ListenerKey);
@@ -140,7 +140,7 @@ namespace Khernet.Core.Processor.Managers
 
             if (tempListenerKey == listenerKey)
             {
-                suscriber = null;
+                subscriber = null;
                 continueMonitoring = false;
 
                 if (!autoReset.SafeWaitHandle.IsClosed)
@@ -167,7 +167,7 @@ namespace Khernet.Core.Processor.Managers
 
             if (tempListenerKey == listenerKey)
             {
-                suscriber = OperationContext.Current.GetCallbackChannel<IEventListenerCallBack>();
+                subscriber = OperationContext.Current.GetCallbackChannel<IEventListenerCallBack>();
             }
             else
                 throw new Exception("Invalid key");
@@ -177,9 +177,9 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                //Calls to this method can fail even if client can connet to this service
-                if (suscriber != null)
-                    suscriber.ProcessNewMessage(notification);
+                //Calls to this method can fail even if client can connect to this service
+                if (subscriber != null)
+                    subscriber.ProcessNewMessage(notification);
                 else
                     SavePendingNotification(notification);
             }
@@ -198,8 +198,8 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                if (suscriber != null)
-                    suscriber.ProcessContactChange(notification);
+                if (subscriber != null)
+                    subscriber.ProcessContactChange(notification);
                 else
                     SavePendingNotification(notification);
             }
@@ -218,8 +218,8 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                if (suscriber != null)
-                    suscriber.ProcessMessageProcessing(notification);
+                if (subscriber != null)
+                    subscriber.ProcessMessageProcessing(notification);
                 else
                     SavePendingNotification(notification);
             }
@@ -236,8 +236,8 @@ namespace Khernet.Core.Processor.Managers
         {
             try
             {
-                if (suscriber != null)
-                    suscriber.ProcessMessageStateChanged(notification);
+                if (subscriber != null)
+                    subscriber.ProcessMessageStateChanged(notification);
                 else
                     SavePendingNotification(notification);
             }
@@ -316,7 +316,7 @@ namespace Khernet.Core.Processor.Managers
         #region IDisposable Support
 
         /// <summary>
-        /// Variable to detect reentry calls
+        /// Variable to detect reentry calls.
         /// </summary>
         private bool disposedValue = false;
 
@@ -334,7 +334,7 @@ namespace Khernet.Core.Processor.Managers
         }
 
         /// <summary>
-        /// Cleans resources
+        /// Cleans resources.
         /// </summary>
         public void Dispose()
         {

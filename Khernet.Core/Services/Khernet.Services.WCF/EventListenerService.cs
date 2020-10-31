@@ -26,10 +26,10 @@ namespace Khernet.Services.WCF
             eventListener.ProcessMessageProcessing(notification);
         }
 
-        public void Suscribe(string listenerKey)
+        public void Subscribe(string listenerKey)
         {
             EventListener eventListener = new EventListener();
-            eventListener.Suscribe(listenerKey);
+            eventListener.Subscribe(listenerKey);
         }
 
         public void Echo()
@@ -37,10 +37,10 @@ namespace Khernet.Services.WCF
 
         }
 
-        public void UnSuscribe(string listenerKey)
+        public void Unsubscribe(string listenerKey)
         {
             EventListener eventListener = new EventListener();
-            eventListener.UnSuscribe(listenerKey);
+            eventListener.Unsubscribe(listenerKey);
         }
 
         public void ProcessMessageStateChanged(MessageStateNotification notification)

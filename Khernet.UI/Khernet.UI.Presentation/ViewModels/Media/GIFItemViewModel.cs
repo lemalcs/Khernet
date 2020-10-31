@@ -5,37 +5,37 @@ namespace Khernet.UI
     public class GIFItemViewModel : BaseModel
     {
         /// <summary>
-        /// The id of message that contains the actual GIF
+        /// The id of message that contains the actual GIF.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// The name of GIF file
+        /// The name of GIF file.
         /// </summary>
         public string FileName { get; set; }
 
         /// <summary>
-        /// The path of GIF file
+        /// The path of GIF file.
         /// </summary>
         private string filePath;
 
         /// <summary>
-        /// The width of GIF thumbanil 
+        /// The width of GIF thumbnail.
         /// </summary>
         private int thumbNailWidth;
 
         /// <summary>
-        /// The height of GIF thumbanil 
+        /// The height of GIF thumbnail.
         /// </summary>
         private int thumbNailHeight;
 
         /// <summary>
-        /// The with of GIF
+        /// The with of GIF.
         /// </summary>
         private double width;
 
         /// <summary>
-        /// The height of GIF
+        /// The height of GIF.
         /// </summary>
         private double height;
 

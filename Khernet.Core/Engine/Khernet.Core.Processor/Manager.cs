@@ -32,25 +32,25 @@ namespace Khernet.Core.Processor
         public static void StopNotificationManager()
         {
             IoCContainer.Get<NotificationManager>().Stop();
-            IoCContainer.UnConfigure<NotificationManager>();
+            IoCContainer.UnSet<NotificationManager>();
         }
 
         public static void StopMessageManager()
         {
             IoCContainer.Get<PendingMessageManager>().Stop();
-            IoCContainer.UnConfigure<PendingMessageManager>();
+            IoCContainer.UnSet<PendingMessageManager>();
         }
 
         public static void StopFileManager()
         {
             IoCContainer.Get<FileManager>().Stop();
-            IoCContainer.UnConfigure<FileManager>();
+            IoCContainer.UnSet<FileManager>();
         }
 
         public static void StopTextMessageManager()
         {
             IoCContainer.Get<TextMessageManager>().Stop();
-            IoCContainer.UnConfigure<TextMessageManager>();
+            IoCContainer.UnSet<TextMessageManager>();
         }
     }
 }

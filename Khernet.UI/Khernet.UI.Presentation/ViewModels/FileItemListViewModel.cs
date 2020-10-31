@@ -6,17 +6,17 @@ namespace Khernet.UI
     public class FileItemListViewModel : BaseModel
     {
         /// <summary>
-        /// The setting option name
+        /// The setting option name.
         /// </summary>
         private string name;
 
         /// <summary>
-        /// The action to execute when this items is selected
+        /// The action to execute when this items is selected.
         /// </summary>
         public Action FileAction { get; set; }
 
         /// <summary>
-        /// The Hexadecimal value for color, for example: F5A2D8
+        /// The Hexadecimal value for color, for example: F5A2D8.
         /// </summary>
         private string iconName;
 
@@ -48,7 +48,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Command to open the list of files
+        /// Command to open the list of files.
         /// </summary>
         public ICommand OpenFileListCommand { get; private set; }
 
@@ -58,7 +58,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Open a specific setting
+        /// Open a specific setting.
         /// </summary>
         private void OpenSetting()
         {

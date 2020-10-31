@@ -5,17 +5,17 @@ namespace Khernet.UI
     public class DialogWindowViewModel : BaseModel
     {
         /// <summary>
-        /// Title of dialog window
+        /// Title of dialog window.
         /// </summary>
         private string title;
 
         /// <summary>
-        /// The color of background dialog
+        /// The color of background dialog.
         /// </summary>
         private string backgroundColorHex;
 
         /// <summary>
-        /// Indicates if windows has full screen size
+        /// Indicates if windows has full screen size.
         /// </summary>
         private bool isFullScreen;
 
@@ -37,7 +37,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Content hosted inside dialog
+        /// Content hosted inside dialog.
         /// </summary>
         private Control content;
 
