@@ -45,6 +45,11 @@ namespace Khernet.UI.Controls
         private int pendingChatModelIndex = -1;
 
         /// <summary>
+        /// Indicates whether it's necessary to attempt do scroll to current item again.
+        /// </summary>
+        private bool scrollToCurrentItemAgain = true;
+
+        /// <summary>
         /// The <see cref="ScrollViewer"/> owned by <see cref="TreeView"/> container.
         /// </summary>
         private ScrollViewer scrollViewer;
@@ -53,6 +58,11 @@ namespace Khernet.UI.Controls
         /// The <see cref="VirtualizingStackPanelEx"/> owned by <see cref="ScrollViewer"/>.
         /// </summary>
         private VirtualizingStackPanelEx panel;
+
+        /// <summary>
+        /// Holds the found control after hit test within ScrollViewer.
+        /// </summary>
+        private HitTestResult hitResult;
 
         public ChatMessageListControl()
         {
@@ -128,6 +138,8 @@ namespace Khernet.UI.Controls
 
         private void Container_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            scrollingToEnd = e.Delta < 0;
+
             //Scroll to up
             if (e.Delta > 0)
             {
@@ -147,40 +159,24 @@ namespace Khernet.UI.Controls
                 panel = FindVisualChild<VirtualizingStackPanelEx>(scrollViewer);
             }
 
-            var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, e.ViewportHeight));
+            hitResult = VisualTreeHelper.HitTest(panel, new Point(1, e.ViewportHeight));
 
-            if (hitTest != null)
-            {
-                IoCContainer.Get<ChatMessageListViewModel>().CheckUnreadMessageAsRead((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
-                if (allowScroll)
-                    IoCContainer.Get<ChatMessageListViewModel>().SetCurrentChatModel((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
-            }
+            if (hitResult != null && allowScroll)
+                IoCContainer.Get<ChatMessageListViewModel>().SetCurrentChatModel((ChatMessageItemViewModel)((FrameworkElement)hitResult.VisualHit).DataContext);
 
-            var firstItem = VisualTreeHelper.HitTest(panel, new Point(1, 30));
-
-            if (firstItem != null)
-            {
-                IoCContainer.Get<ChatMessageListViewModel>().SetFirstViewChatModel(
-                    (ChatMessageItemViewModel)((FrameworkElement)firstItem.VisualHit).DataContext);
-            }
-
+            //Detect if scroll bar is at top of list before load messages
             if (e.VerticalOffset == 0 && e.VerticalChange < 0)
             {
                 if (allowLoadMessages)
-                {
                     LoadMessages(false);
-                }
+
                 allowLoadMessages = true;
             }
-            else if (!scrollingToEnd)
+            //Detect if scroll bar is at bottom of list before load messages
+            else if ((scrollingToEnd && allowScroll) &&
+                (scrollViewer.ExtentHeight == scrollViewer.VerticalOffset + scrollViewer.ViewportHeight))
             {
-                //Detect if scroll bar is at bottom of list
-                double scrollDifference = Math.Abs(e.ExtentHeight - e.VerticalOffset - e.ViewportHeight);
-
-                if (scrollDifference >= 0 && scrollDifference <= 1)
-                {
-                    LoadMessages(true);
-                }
+                LoadMessages(true);
             }
         }
 
@@ -190,32 +186,9 @@ namespace Khernet.UI.Controls
         /// <param name="loadFordward">True to load new messages otherwise false.</param>
         private void LoadMessages(bool loadFordward)
         {
-            ChatMessageItemViewModel lastChatModel = null;
-
-            if (IoCContainer.Get<ChatMessageListViewModel>().UserContext != null)
-            {
-                lastChatModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;
-            }
-
-            IoCContainer.UI.ExecuteAsync(() =>
+            IoCContainer.UI.Execute(() =>
             {
                 IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(loadFordward);
-
-                if (loadFordward)
-                    return;
-
-                ChatMessageItemViewModel firstChatModel = null;
-
-                if (IoCContainer.Get<ChatMessageListViewModel>().UserContext != null)
-                {
-                    firstChatModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.FirstViewChatModel;
-                }
-                if (IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(firstChatModel) != 0)
-                {
-
-                    int lastIndex = IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(firstChatModel);
-                    ScrollToItem(firstChatModel, lastIndex);
-                }
             });
         }
 
@@ -225,9 +198,14 @@ namespace Khernet.UI.Controls
                 return;
 
             if (container.IsLoaded)
-                GetTreeViewItem(container, chatModel, index);
+            {
+                TreeViewItem item = GetTreeViewItem(container, chatModel, index);
+                item.IsSelected = true;
+                item.Focus();
+            }
             else
             {
+                //Save item to scroll to when list of messages (TreeView) is ready to use
                 pendingChatModel = chatModel;
                 pendingChatModelIndex = index;
             }
@@ -371,16 +349,16 @@ namespace Khernet.UI.Controls
             if (e.Key == Key.PageUp)
             {
                 if (scrollViewer.VerticalOffset == 0)
-                {
-                    IoCContainer.UI.ExecuteAsync(() =>
-                    {
-                        IoCContainer.Get<ChatMessageListViewModel>().LoadMessages(false);
-                    });
-                }
+                    LoadMessages(false);
+
+                scrollingToEnd = false;
             }
 
             if (e.Key == Key.PageUp || e.Key == Key.PageDown)
+            {
                 allowScroll = true;
+                scrollingToEnd = true;
+            }
         }
 
         private void container_TargetUpdated(object sender, DataTransferEventArgs e)
@@ -390,6 +368,9 @@ namespace Khernet.UI.Controls
                 isFirstLoad = true;
                 return;
             }
+
+            pendingChatModel = null;
+            scrollToCurrentItemAgain = true;
 
             allowLoadMessages = false;
             allowScroll = false;
@@ -403,6 +384,7 @@ namespace Khernet.UI.Controls
                 ScrollToItem(pendingChatModel, pendingChatModelIndex);
                 pendingChatModel = null;
                 pendingChatModelIndex = -1;
+                scrollToCurrentItemAgain = true;
             }
 
             if (isFirstLoad)
@@ -415,8 +397,42 @@ namespace Khernet.UI.Controls
             IoCContainer.Get<ChatMessageListViewModel>().FocusTextBox();
         }
 
-        private void container_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        private void container_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (container.SelectedItem == null)
+                return;
+
+            if (!scrollToCurrentItemAgain)
+                return;
+
+            var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, scrollViewer.ViewportHeight));
+
+            if (hitTest != null)
+            {
+                //If current message is not visible in chat list then try to select it again
+                if (((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext).Id !=
+                    IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel.Id)
+                {
+                    ChatMessageItemViewModel currentModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;
+                    ScrollToItem(currentModel, IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(currentModel));
+                }
+            }
+        }
+
+        private void container_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            //ScrollChanged event is not fired when thumb is dragged.
+            //Set the current message when thumb is released after dragged.
+            if (!allowScroll)
+            {
+                var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, scrollViewer.ViewportHeight));
+
+                if (hitTest != null)
+                {
+                    IoCContainer.Get<ChatMessageListViewModel>().SetCurrentChatModel((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext);
+                }
+            }
+
             allowScroll = true;
         }
     }

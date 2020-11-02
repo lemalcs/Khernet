@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              AllowDrop="True">
-    
+
     <UserControl.Resources>
         <selec:ChatMessageDataTemplateSelector x:Key="ChatTemplateSelector"/>
     </UserControl.Resources>
@@ -31,10 +31,12 @@
                   ScrollViewer.ScrollChanged="container_ScrollChanged"
                   TargetUpdated="container_TargetUpdated"
                   Loaded="container_Loaded"
+                  SelectedItemChanged="container_SelectedItemChanged"
                   SelectedValuePath="Id"
-                  ScrollBar.Scroll="container_Scroll"
+                  
+                  Thumb.DragCompleted="container_DragCompleted"
                   Focusable="False">
-            
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <local:VirtualizingStackPanelEx />

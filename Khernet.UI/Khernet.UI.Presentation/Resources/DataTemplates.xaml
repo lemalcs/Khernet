@@ -5,7 +5,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <!-- Version number of application -->
-    <system:String x:Key="appVersion">0.10.21</system:String>
+    <system:String x:Key="appVersion">0.10.23</system:String>
 
     <!--Data templates for every chat message type-->
     <DataTemplate x:Key="TextDataTemplate">
@@ -185,8 +185,8 @@
 
             <!-- Additional fields of message for debug purposes only -->
 
-            <!--
-            <StackPanel Margin="0"
+
+            <!--<StackPanel Margin="0"
                        Grid.Column="2"
                        Grid.Row="2"
                        VerticalAlignment="Bottom"
@@ -195,8 +195,8 @@
                 <TextBlock Text="{Binding Id}"/>
                 <TextBlock Text="{Binding TimeId}"/>
                 
-            </StackPanel>
-            -->
+            </StackPanel>-->
+
 
             <!-- Bottom horizontal line -->
             <Path Grid.Column="2" 

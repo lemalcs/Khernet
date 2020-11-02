@@ -1000,17 +1000,7 @@ namespace Khernet.UI
         public void SetCurrentChatModel(ChatMessageItemViewModel messageModel)
         {
             AddCurrentChatModel(messageModel);
-        }
-
-        public void SetFirstViewChatModel(ChatMessageItemViewModel messageModel)
-        {
-            if (UserContext.FirstViewChatModel != messageModel)
-                UserContext.FirstViewChatModel = messageModel;
-        }
-
-        public ChatMessageItemViewModel GetCurrentChatModel()
-        {
-            return UserContext == null ? null : UserContext.CurrentChatModel;
+            CheckUnreadMessageAsRead(messageModel);
         }
 
         private void AddCurrentChatModel(ChatMessageItemViewModel chatModel)
@@ -1036,8 +1026,9 @@ namespace Khernet.UI
             if (chatList == null)
             {
                 IoCContainer.Chat.AddChatList(user);
+                chatList = IoCContainer.Chat.GetChat(user);
             }
-            chatList = IoCContainer.Chat.GetChat(user);
+
             UserContext = IoCContainer.Chat.GetUserContext(user);
 
             //Set chat list to view model
@@ -1060,6 +1051,10 @@ namespace Khernet.UI
             CanShowUnreadPopup = UserContext.User.UnreadMessages > 0;
 
             FocusTextBox();
+
+            //At first load set last viewed message the last message of list
+            if (UserContext.CurrentChatModel == null && (Items != null && Items.Count > 0))
+                UserContext.CurrentChatModel = Items[Items.Count - 1];
 
             //Scroll to last viewed message
             int startIndex = Items.IndexOf(UserContext.CurrentChatModel);

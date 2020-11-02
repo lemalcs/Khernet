@@ -13,11 +13,6 @@ namespace Khernet.UI
         /// </summary>
         public ChatMessageItemViewModel CurrentChatModel { get; set; }
 
-        /// <summary>
-        /// The first chat message displayed in chat list.
-        /// </summary>
-        public ChatMessageItemViewModel FirstViewChatModel { get; set; }
-
         private ReplyMessageViewModel replyMessage;
 
         /// <summary>
