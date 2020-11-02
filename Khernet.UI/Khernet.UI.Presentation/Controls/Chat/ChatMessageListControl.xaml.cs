@@ -96,6 +96,7 @@ namespace Khernet.UI.Controls
         public void ScrollToEnd()
         {
             scrollingToEnd = true;
+            allowLoadMessages = false;
 
             if (scrollViewer == null)
                 return;
@@ -133,6 +134,7 @@ namespace Khernet.UI.Controls
                 scrollViewer.ScrollToVerticalOffset(scrollViewer.ScrollableHeight - scrollViewer.ViewportHeight);
             }
 
+            allowLoadMessages = true;
             scrollingToEnd = false;
         }
 
@@ -173,7 +175,7 @@ namespace Khernet.UI.Controls
                 allowLoadMessages = true;
             }
             //Detect if scroll bar is at bottom of list before load messages
-            else if ((scrollingToEnd && allowScroll) &&
+            else if ((scrollingToEnd && allowScroll&& allowLoadMessages) &&
                 (scrollViewer.ExtentHeight == scrollViewer.VerticalOffset + scrollViewer.ViewportHeight))
             {
                 LoadMessages(true);
