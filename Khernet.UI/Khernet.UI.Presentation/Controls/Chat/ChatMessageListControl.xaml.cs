@@ -405,6 +405,9 @@ namespace Khernet.UI.Controls
             if (!scrollToCurrentItemAgain)
                 return;
 
+            if (panel == null || scrollViewer == null)
+                return;
+
             var hitTest = VisualTreeHelper.HitTest(panel, new Point(1, scrollViewer.ViewportHeight));
 
             if (hitTest != null)
@@ -414,6 +417,7 @@ namespace Khernet.UI.Controls
                     IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel.Id)
                 {
                     ChatMessageItemViewModel currentModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;
+                    scrollToCurrentItemAgain = false;
                     ScrollToItem(currentModel, IoCContainer.Get<ChatMessageListViewModel>().Items.IndexOf(currentModel));
                 }
             }

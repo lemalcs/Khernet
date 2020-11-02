@@ -167,7 +167,6 @@ namespace Khernet.UI
 
                 notificationIcon.ShowCustomBalloon(new NotificationControl(notificationModel), System.Windows.Controls.Primitives.PopupAnimation.Slide, 4000);
                 notificationIcon.HideBalloonTip();
-                ShowTrayIconWithIndicator();
 
                 ShowUnreadMessagesNumber(IoCContainer.Get<UserListViewModel>().TotalUnreadMessages);
 

@@ -168,37 +168,35 @@ namespace Khernet.UI
 
         private static void Listener_MessageArrived(object sender, MessageArrivedEventArgs e)
         {
-            var currentUser = IoCContainer.Get<ChatMessageListViewModel>().UserContext;
-
             if (State != EngineState.Executing)
                 return;
 
+            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
+
+            if (user == null)
+                return;
+
+            user.IncreaseUnreadMessages();
+
+            var currentUser = IoCContainer.Get<ChatMessageListViewModel>().UserContext;
+
+            //If current user is different from sender peer just show a notification dialog
             if (currentUser == null || currentUser.User.Token != e.Notification.SenderToken)
             {
-                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
-
-                if (user == null)
-                    return;
-
-                user.IncreaseUnreadMessages();
                 IoCContainer.UI.ShowNotification(new NotificationViewModel
                 {
                     User = user,
                     MessageType = (MessageType)(int)e.Notification.Format,
                 });
             }
+            //If current user is the same as sender peer and window is active just show a popup into chat list
             else if (IoCContainer.UI.IsMainWindowActive())
             {
                 IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
             }
+            //If main windows is closed show unread message number in taskbar and a notification dialog
             else
             {
-                var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
-
-                if (user == null)
-                    return;
-
-                user.IncreaseUnreadMessages();
                 IoCContainer.UI.ShowUnReadMessage(e.Notification.MessageId);
 
                 IoCContainer.UI.ShowNotification(new NotificationViewModel
