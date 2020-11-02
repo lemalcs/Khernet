@@ -9,6 +9,7 @@
                 x:Class="Khernet.UI.Pages.SignUpPage"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:Cache="clr-namespace:Khernet.UI.Cache"
                 mc:Ignorable="d" 
                 d:DesignHeight="300" d:DesignWidth="300"
                 Style="{DynamicResource MetroPage}"
@@ -76,7 +77,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom">
             <Run Text="v"/>
-            <Run Text="{StaticResource appVersion}"/>
+            <Run Text="{x:Static Cache:Configurations.AppVerion}"/>
         </TextBlock>
     </Grid>
 </local:BasePage>

@@ -20,7 +20,7 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// The compete path of entry executable.
+        /// The complete path of entry executable.
         /// </summary>
         public static string MainApplicationAssembly
         {
@@ -29,6 +29,21 @@ namespace Khernet.UI.Cache
                 var currentAssembly = Assembly.GetEntryAssembly();
                 var currentName = new FileInfo(currentAssembly.Location).FullName;
                 return currentName;
+            }
+        }
+
+        /// <summary>
+        /// The version number of application.
+        /// </summary>
+        public static string AppVerion
+        {
+            get
+            {
+                string currentVersion = Assembly.GetEntryAssembly().FullName.Split(',')[1].Trim().Replace("Version=","");
+
+                //Take the first 3 numbers from application version
+                currentVersion = currentVersion.Substring(0, currentVersion.Length - 2);
+                return currentVersion;
             }
         }
 
