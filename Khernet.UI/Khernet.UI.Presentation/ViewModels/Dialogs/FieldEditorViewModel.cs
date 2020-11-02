@@ -121,7 +121,14 @@ namespace Khernet.UI
                     IoCContainer.Get<Messenger>().SavePeerDisplayname(userProfile.User.Token, document.GetDocument(Media.MessageType.Html));
 
                     //Update the field with new value
-                    userProfile.User.ReadDisplayName(document.GetDocument(Media.MessageType.Html));
+                    userProfile.User.SetDisplayName(document.GetDocument(Media.MessageType.Html));
+                }
+                else
+                {
+                    //Clear value of display name
+                    IoCContainer.Get<Messenger>().SavePeerDisplayname(userProfile.User.Token, null);
+                    userProfile.User.SetDisplayName(null);
+                    userProfile.User.BuildDisplayName();
                 }
             }
             catch (Exception error)

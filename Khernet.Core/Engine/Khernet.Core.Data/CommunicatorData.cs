@@ -371,7 +371,11 @@ namespace Khernet.Core.Data
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@TOKEN", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(token, Encoding.UTF8, keys.Item1, keys.Item2);
-                cmd.Parameters.Add("@AVATAR", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(displayName, keys.Item1, keys.Item2);
+
+                if (displayName != null)
+                    cmd.Parameters.Add("@DISPLAY_NAME", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(displayName, keys.Item1, keys.Item2);
+                else
+                    cmd.Parameters.Add("@DISPLAY_NAME", FbDbType.Binary).Value = null;
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))

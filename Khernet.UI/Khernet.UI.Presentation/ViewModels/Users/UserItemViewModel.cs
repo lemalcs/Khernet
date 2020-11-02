@@ -383,10 +383,15 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(FullName));
         }
 
-        public void ReadDisplayName(byte[] displayNameBytes)
+        public void SetDisplayName(byte[] displayNameBytes)
         {
             if (displayNameBytes == null)
+            {
+                DisplayName = null;
+                SourceDisplayName = null;
+                OnPropertyChanged(nameof(DisplayName));
                 return;
+            }
 
             SourceDisplayName = Encoding.UTF8.GetString(displayNameBytes);
             var name = IoCContainer.UI.ConvertHtmlToDocument(Encoding.UTF8.GetString(displayNameBytes));
@@ -475,7 +480,7 @@ namespace Khernet.UI
             }
 
             if (DisplayName == null && !string.IsNullOrEmpty(Username))
-                ReadDisplayName(Encoding.UTF8.GetBytes(Username));
+                SetDisplayName(Encoding.UTF8.GetBytes(Username));
         }
     }
 }

@@ -250,7 +250,7 @@ namespace Khernet.UI
                     Username = peer.UserName,
                     Token = peer.AccountToken,
                 };
-                reply.User.ReadDisplayName(peer.FullName);
+                reply.User.SetDisplayName(peer.FullName);
                 reply.User.BuildDisplayName();
             }
             else
