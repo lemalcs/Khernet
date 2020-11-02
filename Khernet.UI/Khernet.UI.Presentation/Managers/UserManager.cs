@@ -240,7 +240,7 @@ namespace Khernet.UI.Managers
             userModel.Group = peer.Group;
             userModel.Slogan = peer.Slogan;
             userModel.Initials = peer.Initials;
-            userModel.ReadFullName(peer.FullName);
+            userModel.SetFullName(peer.FullName);
             userModel.SetDisplayName(peer.DisplayName);
             userModel.ColorHex = peer.HexColor;
 

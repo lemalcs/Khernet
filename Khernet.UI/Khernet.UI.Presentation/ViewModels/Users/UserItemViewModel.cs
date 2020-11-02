@@ -370,10 +370,14 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(Avatar));
         }
 
-        public void ReadFullName(byte[] fullNameBytes)
+        public void SetFullName(byte[] fullNameBytes)
         {
             if (fullNameBytes == null)
+            {
+                FullName = null;
+                OnPropertyChanged(nameof(FullName));
                 return;
+            }
 
             SourceFullName = Encoding.UTF8.GetString(fullNameBytes);
 

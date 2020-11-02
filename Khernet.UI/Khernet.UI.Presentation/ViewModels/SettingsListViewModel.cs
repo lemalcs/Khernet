@@ -100,7 +100,7 @@ namespace Khernet.UI
                 State = peer.State.ToString(),
             };
 
-            profile.User.ReadFullName(peer.FullName);
+            profile.User.SetFullName(peer.FullName);
 
             profile.User.SetAvatarThumbnail(IoCContainer.Get<Messenger>().GetAvatar());
 
