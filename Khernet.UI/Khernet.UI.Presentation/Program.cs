@@ -12,7 +12,7 @@ namespace Khernet.UI
         private static ConcurrentDictionary<string, Assembly> assemblyList;
 
         [STAThread]
-        //[DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static void Main()
         {
             IntPtr winHandle = CheckRunningInstance();
@@ -23,7 +23,7 @@ namespace Khernet.UI
                 NativeMethods.ShowWindow(winHandle, NativeMethods.SW_SHOW);
                 return;
             }
-            var a=Assembly.GetEntryAssembly();
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             App app = new App();

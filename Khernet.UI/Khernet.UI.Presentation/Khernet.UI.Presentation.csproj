@@ -228,6 +228,7 @@
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BaseValueMultiConverter.cs" />
+    <Compile Include="Converters\ChatMessageAnchorConverter.cs" />
     <Compile Include="Converters\ImageHeightConverter.cs" />
     <Compile Include="Converters\ButtonShapeMultiConverter.cs" />
     <Compile Include="Converters\ButtonShineMultiConverter.cs" />
@@ -459,6 +460,7 @@
     <Compile Include="Resources\Constants.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessageCollection.cs" />
     <Compile Include="ViewModels\Chat\TextMessageItemViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessageProcessResult.cs" />
     <Compile Include="ViewModels\Chat\FileMessageItemViewModel.cs" />

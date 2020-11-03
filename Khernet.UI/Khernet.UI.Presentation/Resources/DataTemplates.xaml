@@ -58,47 +58,47 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--Background color profile-->
-            <Border Width="32"
-                    Grid.Column="0"
-                    Grid.Row="1"
+            <Grid Grid.Column="0"
+                  Grid.Row="1"
+                  Visibility="{Binding ElementName=upperAnchor,Path=IsVisible,Converter={conv:BoolToVisibilityConverter}}">
+                <!--Background color profile-->
+                <Border Width="32"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="{Binding DisplayUser.ColorHex, Converter={conv:StringRGBToColorConverter}}"
                     Margin="0 0 10 0"
                     Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
                     CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
-                <Border.Visibility>
-                    <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
-                        <Binding Path="IsSentByMe"/>
-                        <Binding Path="DisplayUser.Avatar"/>
-                    </MultiBinding>
-                </Border.Visibility>
+                    <Border.Visibility>
+                        <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
+                            <Binding Path="IsSentByMe"/>
+                            <Binding Path="DisplayUser.Avatar"/>
+                        </MultiBinding>
+                    </Border.Visibility>
 
-                <!--Initials-->
-                <TextBlock Text="{Binding DisplayUser.Initials}"
+                    <!--Initials-->
+                    <TextBlock Text="{Binding DisplayUser.Initials}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="{StaticResource LightBrush}"
                            FontFamily="{StaticResource RobotoRegularFont}"/>
-            </Border>
+                </Border>
 
-            <!--Avatar image-->
-            <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                <!--Avatar image-->
+                <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
                     Visibility="{Binding IsSentByMe,Converter={conv:SentByMeToVisibilityConverter}}"
-                    Grid.Column="0"
-                    Grid.Row="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Width="{Binding Height,RelativeSource={RelativeSource Self}}"
                     Height="32"
                     Margin="0 0 10 0">
 
-                <Border.Background>
-                    <ImageBrush Stretch="UniformToFill" 
+                    <Border.Background>
+                        <ImageBrush Stretch="UniformToFill" 
                                 ImageSource="{Binding DisplayUser.Avatar,Converter={conv:BytesToImageConverter}}"/>
-                </Border.Background>
-            </Border>
+                    </Border.Background>
+                </Border>
+            </Grid>
 
             <!-- Upper anchor -->
             <Path Grid.Column="1" 
@@ -106,7 +106,14 @@
                   Margin="0" 
                   StrokeThickness="1"
                   Grid.Row="0"
-                  VerticalAlignment="Bottom">
+                  VerticalAlignment="Bottom"
+                  Name="upperAnchor">
+                <Path.Visibility>
+                    <MultiBinding Converter="{conv:ChatAnchorToVisibilityMultiConverter}">
+                        <Binding Path="IsSentByMe"/>
+                        <Binding Path="PreviousChatMessage.IsSentByMe"/>
+                    </MultiBinding>
+                </Path.Visibility>
                 <Path.Stroke>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
                         <Binding Path="IsSentByMe"/>
@@ -142,7 +149,7 @@
 
                         <!-- Hour -->
                         <RowDefinition Height="Auto"/>
-                        
+
                         <!-- User content -->
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>

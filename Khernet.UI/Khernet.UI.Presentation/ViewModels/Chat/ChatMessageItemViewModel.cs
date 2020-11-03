@@ -97,6 +97,16 @@ namespace Khernet.UI
         /// </summary>
         public long TimeId { get; protected set; }
 
+        /// <summary>
+        /// The previous chat message to link to.
+        /// </summary>
+        private ChatMessageItemViewModel previousChatMessage;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private ChatMessageItemViewModel nextChatMessage;
+
         public DateTimeOffset SendDate
         {
             get
@@ -209,6 +219,24 @@ namespace Khernet.UI
             }
         }
 
+        /// <summary>
+        /// The previous chat message to link to.
+        /// </summary>
+        public ChatMessageItemViewModel PreviousChatMessage 
+        { 
+            get; 
+            set; 
+        }
+        
+        /// <summary>
+        /// The next chat message to link to.
+        /// </summary>
+        public ChatMessageItemViewModel NextChatMessage 
+        { 
+            get; 
+            set; 
+        }
+
         #endregion
 
         #region Commands
@@ -222,7 +250,6 @@ namespace Khernet.UI
         /// Resend a chat message.
         /// </summary>
         public ICommand ResendCommand { get; set; }
-
         #endregion
 
         /// <summary>

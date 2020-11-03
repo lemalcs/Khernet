@@ -98,7 +98,7 @@ namespace Khernet.UI
         /// <summary>
         /// The message of chat list.
         /// </summary>
-        private ObservableCollection<ChatMessageItemViewModel> items;
+        private /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection items;
 
         /// <summary>
         /// Represents the object to display dialogs.
@@ -118,7 +118,7 @@ namespace Khernet.UI
             }
         }
 
-        public ObservableCollection<ChatMessageItemViewModel> Items
+        public /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection Items
         {
             get => items;
             set
@@ -395,7 +395,7 @@ namespace Khernet.UI
                 return;
 
             if (Items == null)
-                Items = new ObservableCollection<ChatMessageItemViewModel>();
+                Items = new /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection();
 
             //Send Files
             foreach (string f in files)
@@ -462,7 +462,7 @@ namespace Khernet.UI
                 return;
 
             if (Items == null)
-                Items = new ObservableCollection<ChatMessageItemViewModel>();
+                Items = new /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection();
 
             var imageMessage = new ImageChatMessageViewModel(this, applicationDialog);
             imageMessage.DisplayUser = UserContext.User;
@@ -533,7 +533,7 @@ namespace Khernet.UI
                     return;
 
                 if (Items == null)
-                    Items = new ObservableCollection<ChatMessageItemViewModel>();
+                    Items = new /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection();
 
                 ReplyMessageViewModel reply = null;
 
@@ -699,7 +699,7 @@ namespace Khernet.UI
             lock (SyncObject)
             {
                 if (Items == null)
-                    Items = new ObservableCollection<ChatMessageItemViewModel>();
+                    Items = new /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection();
 
                 if (UserContext == null)
                     return;
@@ -1022,7 +1022,8 @@ namespace Khernet.UI
             SaveDraftMessage();
 
             //Retrieve chat list from cache, add if it does not exist
-            ObservableCollection<ChatMessageItemViewModel> chatList = IoCContainer.Chat.GetChat(user);
+            /*ObservableCollection<ChatMessageItemViewModel>*/
+            ChatMessageCollection chatList = IoCContainer.Chat.GetChat(user);
             if (chatList == null)
             {
                 IoCContainer.Chat.AddChatList(user);
@@ -1079,9 +1080,9 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(IsTextBoxFocused));
         }
 
-        protected void SetChatList(IEnumerable<ChatMessageItemViewModel> chatList)
+        protected void SetChatList(/*IEnumerable<ChatMessageItemViewModel>*/ChatMessageCollection chatList)
         {
-            Items = (ObservableCollection<ChatMessageItemViewModel>)chatList;
+            Items = (/*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection)chatList;
         }
     }
 }
