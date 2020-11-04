@@ -1,5 +1,4 @@
 ﻿using Khernet.UI.IoC;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -175,7 +174,7 @@ namespace Khernet.UI.Controls
                 allowLoadMessages = true;
             }
             //Detect if scroll bar is at bottom of list before load messages
-            else if ((scrollingToEnd && allowScroll&& allowLoadMessages) &&
+            else if ((scrollingToEnd && allowScroll && allowLoadMessages) &&
                 (scrollViewer.ExtentHeight == scrollViewer.VerticalOffset + scrollViewer.ViewportHeight))
             {
                 LoadMessages(true);

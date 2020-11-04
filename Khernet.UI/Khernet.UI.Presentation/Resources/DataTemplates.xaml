@@ -33,117 +33,32 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
-        <Grid Margin="20 2 20 8">
+        <Grid Margin="0 0 20 0">
             <Grid.ColumnDefinitions>
 
-                <!-- Picture -->
-                <ColumnDefinition Width="Auto"/>
-
-                <!-- Left Lines -->
+                <!-- Message state indicator -->
                 <ColumnDefinition Width="Auto"/>
 
                 <!-- User content -->
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-
-                <!-- Upper anchor -->
-                <RowDefinition Height="Auto"/>
-
-                <!-- Vertical line -->
-                <RowDefinition Height="*"/>
-
-                <!-- Bottom lines -->
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Column="0"
-                  Grid.Row="1"
-                  Visibility="{Binding ElementName=upperAnchor,Path=IsVisible,Converter={conv:BoolToVisibilityConverter}}">
-                <!--Background color profile-->
-                <Border Width="32"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="{Binding DisplayUser.ColorHex, Converter={conv:StringRGBToColorConverter}}"
-                    Margin="0 0 10 0"
-                    Height="{Binding ActualWidth,RelativeSource={RelativeSource Self}}"
-                    CornerRadius="{Binding ActualWidth,RelativeSource={RelativeSource Self}}">
-                    <Border.Visibility>
-                        <MultiBinding Converter="{conv:SentByMeToVisibilityMultiConverter}">
-                            <Binding Path="IsSentByMe"/>
-                            <Binding Path="DisplayUser.Avatar"/>
-                        </MultiBinding>
-                    </Border.Visibility>
-
-                    <!--Initials-->
-                    <TextBlock Text="{Binding DisplayUser.Initials}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{StaticResource LightBrush}"
-                           FontFamily="{StaticResource RobotoRegularFont}"/>
-                </Border>
-
-                <!--Avatar image-->
-                <Border CornerRadius="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
-                    Visibility="{Binding IsSentByMe,Converter={conv:SentByMeToVisibilityConverter}}"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Width="{Binding Height,RelativeSource={RelativeSource Self}}"
-                    Height="32"
-                    Margin="0 0 10 0">
-
-                    <Border.Background>
-                        <ImageBrush Stretch="UniformToFill" 
-                                ImageSource="{Binding DisplayUser.Avatar,Converter={conv:BytesToImageConverter}}"/>
-                    </Border.Background>
-                </Border>
-            </Grid>
-
-            <!-- Upper anchor -->
-            <Path Grid.Column="1" 
-                  Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=upperAnchor}" 
-                  Margin="0" 
-                  StrokeThickness="1"
-                  Grid.Row="0"
-                  VerticalAlignment="Bottom"
-                  Name="upperAnchor">
-                <Path.Visibility>
-                    <MultiBinding Converter="{conv:ChatAnchorToVisibilityMultiConverter}">
-                        <Binding Path="IsSentByMe"/>
-                        <Binding Path="PreviousChatMessage.IsSentByMe"/>
-                    </MultiBinding>
-                </Path.Visibility>
-                <Path.Stroke>
-                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id1">
-                        <Binding Path="IsSentByMe"/>
-                        <Binding Path="State"/>
-                    </MultiBinding>
-                </Path.Stroke>
-            </Path>
-
-            <!-- Vertical line -->
-            <Path Grid.Column="1" 
-                  Data="M0,0 L0,1" 
-                  Fill="#FFF4F4F5" 
-                  Margin="0 -1 0 -1" 
-                  StrokeThickness="1"
-                  Grid.Row="1" 
-                  Stretch="Fill"
-                  HorizontalAlignment="{Binding IsSentByMe,Converter={conv:SentByMeToAligment}}">
-                <Path.Stroke>
+            <!-- Message state indicator -->
+            <Border Grid.Column="0"
+                    Width="3"
+                    Margin="{Binding IsSentByMe,Converter={conv:SentByMeToMarginConverter}}">
+                <Border.Background>
                     <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id2">
                         <Binding Path="IsSentByMe"/>
                         <Binding Path="State"/>
                     </MultiBinding>
-                </Path.Stroke>
-            </Path>
+                </Border.Background>
+            </Border>
 
             <!--The content of user-->
-            <Border Grid.Column="2"
-                        Grid.Row="1"
-                        Margin="15 0 0 0"
-                        Height="{Binding Path=Height,ElementName=cont}">
+            <Border Grid.Column="1"
+                    Margin="25 10 0 10"
+                    Height="{Binding Path=Height,ElementName=cont}">
                 <Grid>
                     <Grid.RowDefinitions>
 
@@ -171,46 +86,6 @@
                                   Name="cont"/>
                 </Grid>
             </Border>
-
-            <!-- Bottom anchor -->
-            <Path Grid.Column="1" 
-                  Data="{Binding IsSentByMe,Converter={conv:SentByMeToPathDataConverter},ConverterParameter=bottomAnchor}" 
-                  Margin="0" 
-                  StrokeThickness="1"
-                  Grid.Row="2" >
-                <Path.Stroke>
-                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id3">
-                        <Binding Path="IsSentByMe"/>
-                        <Binding Path="State"/>
-                    </MultiBinding>
-                </Path.Stroke>
-            </Path>
-
-
-            <!-- Additional fields of message for debug purposes only -->
-
-
-            <!--<StackPanel Margin="0"
-                       Grid.Column="2"
-                       Grid.Row="2"
-                       VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left">
-
-                <TextBlock Text="{Binding Id}"/>
-                <TextBlock Text="{Binding TimeId}"/>
-                
-            </StackPanel>-->
-
-
-            <!-- Bottom horizontal line -->
-            <Path Grid.Column="2" 
-                      Data="M0,0 L1,0" 
-                      Margin="16 0 0 0" 
-                      StrokeThickness="0.75"
-                      Grid.Row="2" 
-                      Stretch="Fill"
-                      VerticalAlignment="Bottom"
-                      Stroke="{StaticResource VeryLightGrayBrush}" />
         </Grid>
     </ControlTemplate>
 </ResourceDictionary>

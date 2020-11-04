@@ -39,7 +39,7 @@ namespace Khernet.UI.Cache
         {
             get
             {
-                string currentVersion = Assembly.GetEntryAssembly().FullName.Split(',')[1].Trim().Replace("Version=","");
+                string currentVersion = Assembly.GetEntryAssembly().FullName.Split(',')[1].Trim().Replace("Version=", "");
 
                 //Take the first 3 numbers from application version
                 currentVersion = currentVersion.Substring(0, currentVersion.Length - 2);

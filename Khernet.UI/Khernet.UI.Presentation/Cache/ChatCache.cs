@@ -11,7 +11,7 @@ namespace Khernet.UI.Cache
         /// <summary>
         /// Contains the chat list of users.
         /// </summary>
-        private ConcurrentDictionary<UserChatContext, ChatMessageCollection> messageList;
+        private ConcurrentDictionary<UserChatContext, ObservableCollection<ChatMessageItemViewModel>> messageList;
 
         /// <summary>
         /// Adds a chat list for given token.
@@ -24,11 +24,11 @@ namespace Khernet.UI.Cache
                 throw new ArgumentException($"Parameter {nameof(user)} cannot be null");
 
             if (messageList == null)
-                messageList = new ConcurrentDictionary<UserChatContext, ChatMessageCollection>();
+                messageList = new ConcurrentDictionary<UserChatContext, ObservableCollection<ChatMessageItemViewModel>>();
 
             UserChatContext chatContext = new UserChatContext(user);
 
-            ChatMessageCollection chatList = new ChatMessageCollection();
+            ObservableCollection<ChatMessageItemViewModel> chatList = new ObservableCollection<ChatMessageItemViewModel>();
 
             messageList.AddOrUpdate(chatContext, chatList, UpdateChatList);
         }
@@ -39,7 +39,7 @@ namespace Khernet.UI.Cache
         /// <param name="token">The context of user.</param>
         /// <param name="chatList">The chat list.</param>
         /// <returns></returns>
-        private ChatMessageCollection UpdateChatList(UserChatContext chatContext, ChatMessageCollection chatList)
+        private ObservableCollection<ChatMessageItemViewModel> UpdateChatList(UserChatContext chatContext, ObservableCollection<ChatMessageItemViewModel> chatList)
         {
             return chatList;
         }
@@ -49,7 +49,7 @@ namespace Khernet.UI.Cache
         /// </summary>
         /// <param name="token">The token of user.</param>
         /// <returns>The chat list.</returns>
-        public ChatMessageCollection GetChat(UserItemViewModel user)
+        public ObservableCollection<ChatMessageItemViewModel> GetChat(UserItemViewModel user)
         {
             if (messageList == null)
                 return null;
@@ -59,7 +59,7 @@ namespace Khernet.UI.Cache
             return chatList.Value;
         }
 
-        public ChatMessageCollection GetChat(string token)
+        public ObservableCollection<ChatMessageItemViewModel> GetChat(string token)
         {
             if (messageList == null)
                 return null;

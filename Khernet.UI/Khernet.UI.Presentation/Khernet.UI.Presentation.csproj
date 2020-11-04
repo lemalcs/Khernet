@@ -228,7 +228,6 @@
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BaseValueMultiConverter.cs" />
-    <Compile Include="Converters\ChatMessageAnchorConverter.cs" />
     <Compile Include="Converters\ImageHeightConverter.cs" />
     <Compile Include="Converters\ButtonShapeMultiConverter.cs" />
     <Compile Include="Converters\ButtonShineMultiConverter.cs" />
@@ -333,7 +332,6 @@
     <Compile Include="Converters\BoolToVisibilityGoneConverter.cs" />
     <Compile Include="Converters\ChatStateConverters.cs" />
     <Compile Include="Converters\ByteToDocumentConverter.cs" />
-    <Compile Include="Converters\BoolToThicknessConverter.cs" />
     <Compile Include="Converters\Emojis\EmojiInlineRenderer.cs" />
     <Compile Include="Converters\Emojis\EmojiWpfRenderer.cs" />
     <Compile Include="Converters\FileNameToExtensionConverter.cs" />
@@ -355,7 +353,6 @@
     <Compile Include="Converters\MediaStateConverters.cs" />
     <Compile Include="Converters\RadiusToSizeConverter.cs" />
     <Compile Include="Converters\SentByMeConverters.cs" />
-    <Compile Include="Converters\SentByMeToVisibilityConverte.cs" />
     <Compile Include="Converters\TimeSpanToDoubleConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Converters\StringRGBToColorConverter.cs" />
@@ -460,7 +457,6 @@
     <Compile Include="Resources\Constants.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessageCollection.cs" />
     <Compile Include="ViewModels\Chat\TextMessageItemViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessageProcessResult.cs" />
     <Compile Include="ViewModels\Chat\FileMessageItemViewModel.cs" />

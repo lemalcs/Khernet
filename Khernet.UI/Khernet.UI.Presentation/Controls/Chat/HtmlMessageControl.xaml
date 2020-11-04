@@ -21,21 +21,23 @@
         </Grid.RowDefinitions>
 
         <!--Reply Message-->
-        <Border Background="{StaticResource SectionBackgroundBrush}">
+        <Border Background="{StaticResource SectionBackgroundBrush}"
+                Margin="0 0 0 5"
+                Visibility="{Binding ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}">
             <ucontrols:PopupContent Grid.Row="0"
-                                    Visibility="{Binding ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}"
                                     ViewModel="{Binding ReplyMessage}"/>
         </Border>
+        
         <!--Chat message-->
         <RichTextBox depend:DocumentSourceProperty.Value="{Binding TextContent}"
-                         HorizontalAlignment="Stretch"
-                         HorizontalContentAlignment="Stretch"
-                         VerticalAlignment="Center"
-                         Grid.Row="1"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         IsReadOnly="True"
-                         IsReadOnlyCaretVisible="False"
-                         ContextMenu="{DynamicResource messageContextMenu}"/>
+                     HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Grid.Row="1"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     IsReadOnlyCaretVisible="False"
+                     ContextMenu="{DynamicResource messageContextMenu}"/>
     </Grid>
 </UserControl>

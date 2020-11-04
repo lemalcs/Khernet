@@ -7,7 +7,7 @@ namespace Khernet.UI
     {
         public ChatMessageListDesignModel()
         {
-            var items = new /*ObservableCollection<ChatMessageItemViewModel>*/ChatMessageCollection
+            var items = new ObservableCollection<ChatMessageItemViewModel>
             {
                 new TextChatMessageViewModel(this)
                 {

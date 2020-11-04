@@ -14,14 +14,19 @@
              ContextMenu="{StaticResource fileMessageContextMenu}"
              Template="{StaticResource messageContainer}">
 
-    <!--Text message container-->
+    <!--File message container-->
     <Border BorderThickness="1"
-            BorderBrush="{StaticResource BlueBrush}"
             HorizontalAlignment="Left"
             Background="{StaticResource LightBrush}"
             Height="60">
 
-        <!--Text message container-->
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" 
+                              Color="{StaticResource OpaqueGreyColor}"
+                              ShadowDepth="0"/>
+        </Border.Effect>
+        
+        <!--File message background-->
         <Border Background="#00FFFFFF"
             Padding="5">
 
@@ -41,7 +46,10 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="45"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
                 </Grid.ColumnDefinitions>
+
+
 
                 <!--Animation to show load progress-->
                 <Controls:ProgressRing Width="36"
@@ -106,7 +114,8 @@
                         </TextBlock>
 
                         <!--File size-->
-                        <TextBlock Style="{StaticResource TextblockItemStyle}">
+                        <TextBlock Style="{StaticResource TextblockItemStyle}"
+                                   Foreground="{StaticResource DarkGrayBrush}">
                         <Run Text="{Binding FileSize,Converter={conv:SizeUnitConverter}}"/>
                         <Run Text="{Binding FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
                         </TextBlock>

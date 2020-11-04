@@ -14,7 +14,7 @@
             IconName = "Play";
             FileName = "thisaudio.mp3";
 
-            Operation = MessageDirection.Resend;
+            Operation = MessageDirection.Reply;
         }
     }
 }

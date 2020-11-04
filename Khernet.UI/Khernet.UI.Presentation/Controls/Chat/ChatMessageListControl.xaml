@@ -33,7 +33,6 @@
                   Loaded="container_Loaded"
                   SelectedItemChanged="container_SelectedItemChanged"
                   SelectedValuePath="Id"
-                  
                   Thumb.DragCompleted="container_DragCompleted"
                   Focusable="False">
 

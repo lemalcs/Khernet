@@ -75,7 +75,7 @@
 
                         <Border Name="Bd"
                                         Grid.Column="1"
-                                        Background="{TemplateBinding Background}"
+                                        Background="{Binding IsSentByMe,Converter={conv:SentByMeToChatBackgroudBrushConverter}}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         Padding="{TemplateBinding Padding}"

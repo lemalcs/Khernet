@@ -15,9 +15,9 @@ namespace Khernet.UI.IoC
         /// Gets a chat list for given <see cref="UserItemViewModel"/>.
         /// </summary>
         /// <param name="token">The token of user.</param>
-        /// <returns>An object <see cref="ChatMessageCollection"/> containing chat list.</returns>
+        /// <returns>An object <see cref="ObservableCollection<ChatMessageItemViewModel>"/> containing chat list.</returns>
         /*ObservableCollection<ChatMessageItemViewModel>*/
-        ChatMessageCollection GetChat(UserItemViewModel user);
+        ObservableCollection<ChatMessageItemViewModel> GetChat(UserItemViewModel user);
 
         /// <summary>
         /// Gets a chat list for given token.
@@ -25,7 +25,7 @@ namespace Khernet.UI.IoC
         /// <param name="token">The token of user.</param>
         /// <returns>An object <see cref="ObservableCollection{ChatMessageItemViewModel}"/> containing chat list.</returns>
         /*ObservableCollection<ChatMessageItemViewModel>*/
-        ChatMessageCollection GetChat(string token);
+        ObservableCollection<ChatMessageItemViewModel> GetChat(string token);
 
         /// <summary>
         /// Gets user context of chat cache.

@@ -81,9 +81,9 @@
     </Style>
 
     <Style x:Key="EllipticalButton" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{StaticResource LightBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush3}"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
@@ -375,7 +375,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="#4A86E8"/>
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
@@ -410,7 +410,7 @@
 
                                 <Polygon.Effect>
                                     <DropShadowEffect BlurRadius="2" 
-                                                      Color="#4A86E8"
+                                                      Color="{StaticResource LightGrayColor}"
                                                       ShadowDepth="0"
                                                       Opacity="1"/>
                                 </Polygon.Effect>
@@ -431,7 +431,7 @@
                                      Stretch="Uniform" 
                                      Margin="0,0,0,0" 
                                      Fill="White"
-                                     Opacity="0.03"
+                                     Opacity="0.07"
                                      VerticalAlignment="Top">
                                 <Polygon.Points>
                                     <MultiBinding Converter="{conv:ButtonShineMultiConverter}">
@@ -485,7 +485,7 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="#8bafea"/>
+                            <Setter Property="Fill" TargetName="polygonBorder" Value="{StaticResource TextBoxBackgroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

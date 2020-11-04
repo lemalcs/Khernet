@@ -51,9 +51,6 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
 
-                        <!--Status icon-->
-                        <ColumnDefinition Width="Auto"/>
-
                         <!-- Display name-->
                         <ColumnDefinition Width="*"/>
 
@@ -62,18 +59,8 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <!--Status icon-->
-                    <Button Grid.Column="0"
-                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                            FontWeight="Bold"
-                            Style="{StaticResource IconButton}"
-                            Visibility="Hidden">
-                        <iconPacks:PackIconMaterial Kind="CircleOutline" />
-                    </Button>
-
                     <!-- Display name-->
-                    
-                    <RichTextBox Grid.Column="1"
+                    <RichTextBox Grid.Column="0"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  IsReadOnly="True"
@@ -83,10 +70,11 @@
                                  FontSize="{StaticResource RegularFontSize}"
                                  Cursor="Arrow"
                                  VerticalAlignment="Center"
+                                 Margin="15 0 0 0"
                                  depend:DocumentSourceProperty.Value="{Binding UserContext.User.DisplayName}"/>
 
                     <!--Details button-->
-                    <Button Grid.Column="2"
+                    <Button Grid.Column="1"
                             Height="40"
                             Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                             Background="Transparent" 

@@ -16,7 +16,7 @@
 
     <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGrayColor}"/>
 
-    <Color x:Key="BlueColor">#4A86E8</Color>
+    <Color x:Key="BlueColor">#6aa5ed</Color>
     <SolidColorBrush x:Key="BlueBrush" Color="{StaticResource BlueColor}"/>
 
     <Color x:Key="LighterBlueColor">#407CD6</Color>
@@ -31,10 +31,10 @@
     <Color x:Key="GlowLightBlue">#c0d9f5</Color>
     <SolidColorBrush x:Key="GlowLighterBlue" Color="{StaticResource GlowLightBlue}"/>
 
-    <Color x:Key="LightBlueAnchor">#91afdb</Color>
+    <Color x:Key="LightBlueAnchor">#a4c6f9</Color>
     <SolidColorBrush x:Key="LightBlueAnchorBrush" Color="{StaticResource LightBlueAnchor}"/>
 
-    <Color x:Key="LightGrayAnchor">#D1D0D1</Color>
+    <Color x:Key="LightGrayAnchor">#e6e5e6</Color>
     <SolidColorBrush x:Key="LightGrayAnchorBrush" Color="{StaticResource LightGrayAnchor}"/>
 
     <Color x:Key="VeryLightBlueColor">#ebf0f3</Color>
@@ -61,11 +61,15 @@
     <Color x:Key="VeryLightGrayColor">#f7f8f9</Color>
     <SolidColorBrush x:Key="VeryLightGrayBrush" Color="{StaticResource VeryLightGrayColor}"/>
 
+    <SolidColorBrush x:Key="AlmostWhiteGrayBrush" Color="#fafafa"/>
+
     <Color x:Key="VeryDarkGray">#303030</Color>
     <SolidColorBrush x:Key="VaryDarkGrayBrush" Color="{StaticResource VeryDarkGray}"/>
 
     <Color x:Key="OpaqueBlackColor">#66000000</Color>
     <SolidColorBrush x:Key="OpaqueBlackColorBrush" Color="{StaticResource OpaqueBlackColor}"/>
+
+    <Color x:Key="OpaqueGreyColor">#22e2e3e6</Color>
 
     <Color x:Key="AverageOpaqueBlackColor">#88000000</Color>
     <SolidColorBrush x:Key="AverageOpaqueBlackColorBrush" Color="{StaticResource AverageOpaqueBlackColor}"/>
@@ -88,7 +92,7 @@
     <Color x:Key="LightRed">#ef5859</Color>
     <SolidColorBrush x:Key="LightRedBrush" Color="{StaticResource LightRed}"/>
 
-    <Color x:Key="DarkRed">#da9694</Color>
+    <Color x:Key="DarkRed">#eab3b1</Color>
     <SolidColorBrush x:Key="DarkRedBrush" Color="{StaticResource DarkRed}"/>
 
     <Color x:Key="DefaultUserItemColor">#009bdb</Color>

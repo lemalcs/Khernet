@@ -34,46 +34,6 @@ namespace Khernet.UI.Converters
     }
 
     /// <summary>
-    /// Shows or hides a control based on <see cref="ChatMessageState"/>.
-    /// </summary>
-    public class ChatStateToVisibilityConverter : BaseValueConverter<ChatStateToVisibilityConverter>
-    {
-        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var chatState = (ChatMessageState)value;
-            return chatState == ChatMessageState.Error || chatState == ChatMessageState.UnCommited ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// Shows or hides a control based on <see cref="ChatMessageState"/> and if message was loaded successfully.
-    /// </summary>
-    public class ChatStateToVisibilityMultiConverter : BaseMultiValueConverter<ChatStateToVisibilityMultiConverter>
-    {
-        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-
-            if (values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
-                return null;
-
-            bool isFileLoaded = (bool)values[0];
-            ChatMessageState state = (ChatMessageState)values[1];
-
-            return isFileLoaded && (state == ChatMessageState.Processed || state == ChatMessageState.Pending) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
     /// Converts a <see cref="ChatMessageState"/> to a <see cref="Cursor"/>.
     /// </summary>
     public class ChatStateToCursorMultiConverter : BaseMultiValueConverter<ChatStateToCursorMultiConverter>
