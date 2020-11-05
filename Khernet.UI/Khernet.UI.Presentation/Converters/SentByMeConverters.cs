@@ -34,7 +34,7 @@ namespace Khernet.UI.Converters
         {
             if ((bool)value)
             {
-                return new Thickness(20, 0, 0, 0);
+                return new Thickness(40, 0, 0, 0);
             }
             return new Thickness(0, 0, 0, 0);
         }

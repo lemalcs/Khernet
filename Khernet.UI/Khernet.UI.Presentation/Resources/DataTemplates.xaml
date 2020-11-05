@@ -33,7 +33,7 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
-        <Grid Margin="0 0 20 0">
+        <Grid Margin="0 0 40 0">
             <Grid.ColumnDefinitions>
 
                 <!-- Message state indicator -->
@@ -57,7 +57,7 @@
 
             <!--The content of user-->
             <Border Grid.Column="1"
-                    Margin="25 10 0 10"
+                    Margin="35 10 0 10"
                     Height="{Binding Path=Height,ElementName=cont}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -79,7 +79,6 @@
                                FontSize="{StaticResource SmallFontSize}"
                                FontFamily="{StaticResource RobotoRegularFont}"
                                Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"/>
-
 
                     <!-- User content -->
                     <ContentPresenter Grid.Row="1" 
