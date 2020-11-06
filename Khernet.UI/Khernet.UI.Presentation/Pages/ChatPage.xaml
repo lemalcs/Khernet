@@ -43,12 +43,22 @@
 
             <!--Current User-->
             <Border Grid.Row="0"
-                    Height="40"
+                    Height="50"
                     BorderThickness="0 0 0 1"
                     BorderBrush="{StaticResource TextBoxBackgroundBrush}">
 
                 <!-- User header-->
                 <Grid>
+                    <Grid.RowDefinitions>
+
+                        <!-- Display name-->
+                        <RowDefinition Height="*"/>
+
+                        <!-- Typing message indicator -->
+                        <RowDefinition Height="Auto"/>
+                        
+                    </Grid.RowDefinitions>
+                    
                     <Grid.ColumnDefinitions>
 
                         <!-- Display name-->
@@ -61,6 +71,7 @@
 
                     <!-- Display name-->
                     <RichTextBox Grid.Column="0"
+                                 Grid.Row="0"
                                  Background="Transparent"
                                  BorderThickness="0"
                                  IsReadOnly="True"
@@ -73,9 +84,35 @@
                                  Margin="15 0 0 0"
                                  depend:DocumentSourceProperty.Value="{Binding UserContext.User.DisplayName}"/>
 
+                    <!-- Typing message indicator -->
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="1" 
+                               Background="Transparent"
+                               Margin="15 5 0 5"
+                               Foreground="{StaticResource BlueBrush}"
+                               FontFamily="{StaticResource RobotoBoldFont}"
+                               Style="{StaticResource TextblockItemStyle}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
+                                <Binding Path="UserContext.User.IsWritingMessage"/>
+                                <Binding Path="UserContext.User.IsSendingFile"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+
+                        <TextBlock.Visibility>
+                            <MultiBinding Converter="{conv:BoolToVisibilityMultiConverter}" FallbackValue="Collapsed">
+                                <Binding Path="UserContext.User.IsWritingMessage"/>
+                                <Binding Path="UserContext.User.IsSendingFile"/>
+                            </MultiBinding>
+                        </TextBlock.Visibility>
+
+                        
+                    </TextBlock>
+
                     <!--Details button-->
                     <Button Grid.Column="1"
-                            Height="40"
+                            Grid.RowSpan="2"
+                            Height="50"
                             Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                             Background="Transparent" 
                             Style="{DynamicResource IconButton}"
@@ -87,12 +124,13 @@
             </Border>
 
             <!--Chat list-->
-            <Grid Grid.Row="1"
-                        >
-
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
+
+                    <!-- Chat message list-->
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+
+                    <!--Current reply/resend message-->
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -148,28 +186,8 @@
                     </Border>
                 </StackPanel>
 
-                <!-- Typing message indicator -->
-                <TextBlock Grid.Row="1" 
-                           Background="Transparent"
-                           Margin="10 0 0 0"
-                           Style="{StaticResource TextblockItemStyle}">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{conv:BoolToStringConverter}" FallbackValue="">
-                            <Binding Path="UserContext.User.IsWritingMessage"/>
-                            <Binding Path="UserContext.User.IsSendingFile"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-
-                    <TextBlock.Visibility>
-                        <MultiBinding Converter="{conv:BoolToVisibilityMultiConverter}" FallbackValue="Collapsed">
-                            <Binding Path="UserContext.User.IsWritingMessage"/>
-                            <Binding Path="UserContext.User.IsSendingFile"/>
-                        </MultiBinding>
-                    </TextBlock.Visibility>
-                </TextBlock>
-
                 <!--Current reply/resend message-->
-                <Border Grid.Row="2"
+                <Border Grid.Row="1"
                         BorderThickness="0 1 0 1"
                         BorderBrush="{StaticResource TextBoxBackgroundBrush}"
                         Visibility="{Binding UserContext.ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}">
@@ -232,11 +250,19 @@
                 <Grid>
 
                     <Grid.ColumnDefinitions>
+
+                        <!-- Attach message control -->
                         <ColumnDefinition Width="Auto"/>
+
+                        <!-- Text message control -->
                         <ColumnDefinition Width="*"/>
+
+                        <!-- Multimedia message controls -->
                         <ColumnDefinition Width="Auto"/>
+                        
                     </Grid.ColumnDefinitions>
 
+                    <!-- Attach message control -->
                     <StackPanel Grid.Column="0"
                                 Orientation="Horizontal">
                         
@@ -265,6 +291,7 @@
                         </ToggleButton>
                     </StackPanel>
 
+                    <!-- Text message control -->
                     <Border Grid.Column="1"
                             BorderBrush="{StaticResource BlueBrush}"
                             BorderThickness="{Binding MessageFormat,Converter={conv:MessageFormatToThicknessConverter}}">
@@ -324,6 +351,7 @@
                     </Border>
 
 
+                    <!-- Multimedia message controls -->
                     <StackPanel Grid.Column="2" 
                                 Orientation="Horizontal">
 
