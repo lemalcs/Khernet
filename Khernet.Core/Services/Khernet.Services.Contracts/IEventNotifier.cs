@@ -7,9 +7,6 @@ namespace Khernet.Services.Contracts
     public interface IEventNotifier
     {
         [OperationContract(IsOneWay = true)]
-        void ProcessContactChange(PeerNotification notification);
-
-        [OperationContract(IsOneWay = true)]
         void ProcessMessageProcessing(MessageProcessingNotification notification);
     }
 }

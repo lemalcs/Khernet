@@ -11,12 +11,6 @@ namespace Khernet.Services.WCF
     [KhernetServiceInspectorBehavior]
     public class EventNotifierService : IEventNotifier
     {
-        public void ProcessContactChange(PeerNotification notification)
-        {
-            EventNotifier eventNotifier = new EventNotifier();
-            eventNotifier.ProcessContactChange(notification);
-        }
-
         public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             EventNotifier eventNotifier = new EventNotifier();

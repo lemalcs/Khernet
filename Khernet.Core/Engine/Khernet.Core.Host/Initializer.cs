@@ -351,7 +351,7 @@ namespace Khernet.Core.Host
         {
             try
             {
-                sessionMonitor = new SessionMonitor(identity);
+                sessionMonitor = new SessionMonitor();
                 sessionMonitor.SessionClosing += SessionMonitor_SessionClosing;
                 sessionMonitor.Start();
             }

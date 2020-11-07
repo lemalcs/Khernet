@@ -13,22 +13,6 @@ namespace Khernet.Services.Client
             Address = address;
         }
 
-        public void ProcessContactChange(PeerNotification notification)
-        {
-            try
-            {
-                using (ServiceClient<IEventNotifier> client = new ServiceClient<IEventNotifier>(Address, ServiceType.NotifierService))
-                {
-                    client.serviceContract.ProcessContactChange(notification);
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
         public void ProcessMessageProcessing(MessageProcessingNotification notification)
         {
             try

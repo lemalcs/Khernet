@@ -1,12 +1,6 @@
-﻿using Khernet.Core.Entity;
-using Khernet.Core.Processor;
-using Khernet.Core.Utility;
-using Khernet.Services.Client;
-using Khernet.Services.Messages;
+﻿using Khernet.Core.Utility;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Khernet.Core.Host
 {
@@ -14,12 +8,7 @@ namespace Khernet.Core.Host
 
     internal class SessionMonitor
     {
-        PeerIdentity identity;
         public event SessionClosingEventHandler SessionClosing;
-        public SessionMonitor(PeerIdentity peerIdentity)
-        {
-            identity = peerIdentity;
-        }
 
         protected void OnSessionClosing()
         {
@@ -30,7 +19,6 @@ namespace Khernet.Core.Host
         {
             try
             {
-                SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
                 SystemEvents.SessionEnded += SystemEvents_SessionEnded;
             }
             catch (Exception exception)
@@ -42,75 +30,13 @@ namespace Khernet.Core.Host
 
         private void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
         {
-            //There is a session ending (log out) event on current Operating System
-            //Notify to application that it must exit
-            SendNotification(PeerState.Offline);
-        }
-
-        private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
-        {
-            PeerState state = PeerState.Idle;//Idle state
-            if (e.Reason == SessionSwitchReason.RemoteConnect ||
-                e.Reason == SessionSwitchReason.ConsoleConnect ||
-                e.Reason == SessionSwitchReason.SessionLogon ||
-                e.Reason == SessionSwitchReason.SessionUnlock)
-                state = PeerState.Online;//Online state
-
-            SendNotification(state);
-        }
-
-        /// <summary>
-        /// Send a notification of peers when its state is changed.
-        /// </summary>
-        /// <param name="state">
-        /// States:
-        /// 0: Offline
-        /// 1: Idle
-        /// 2: Online
-        /// </param>
-        private void SendNotification(PeerState state)
-        {
-            try
-            {
-                Communicator communicator = new Communicator();
-                List<Peer> addressList = communicator.GetPeers();
-                addressList.ForEach(((peer) =>
-                {
-                    Task.Factory.StartNew(((p) =>
-                    {
-                        try
-                        {
-                            EventNotifierClient notifierClient = new EventNotifierClient(((Peer)p).AccountToken);
-
-                            PeerNotification notification = new PeerNotification
-                            {
-                                State = state,
-                                Token = identity.Token,
-                                Change = PeerChangeType.StateChange,
-                            };
-
-                            notifierClient.ProcessContactChange(notification);
-                        }
-                        catch (Exception exception)
-                        {
-                            //Do not throw an exception if notification could no be sent
-                            LogDumper.WriteLog(exception);
-                        }
-                    }), peer);
-                }));
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
+            OnSessionClosing();
         }
 
         public void Stop()
         {
             try
             {
-                SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
                 SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
             }
             catch (Exception exception)
