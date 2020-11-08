@@ -11,5 +11,8 @@ namespace Khernet.Services.Contracts
 
         [OperationContract(IsOneWay = true)]
         void ProcessTextMessage(ConversationMessage message);
+
+        [OperationContract(IsOneWay = true)]
+        void ProcessMessageProcessing(MessageProcessingNotification notification);
     }
 }

@@ -25,7 +25,6 @@ namespace Khernet.Core.Host
         PeerIdentity identity;
 
         ServiceHost commHost;
-        ServiceHost notifierHost;
         ServiceHost eventHost;
 
         PeerWatcher peerWatcher;
@@ -51,7 +50,6 @@ namespace Khernet.Core.Host
             InitManagers();
             StartPeerWatcher();
             StartEventListener();
-            StartEventNotifier();
             StartCommunicator();
             InitSessionMonitor();
         }
@@ -158,66 +156,6 @@ namespace Khernet.Core.Host
             }
         }
 
-        private void StartEventNotifier()
-        {
-            try
-            {
-                notifierHost = new ServiceHost(typeof(EventNotifierService));
-
-                NetTcpBinding binding = new NetTcpBinding();
-                binding.TransferMode = TransferMode.Buffered;
-                binding.MaxReceivedMessageSize = int.MaxValue;
-                binding.CloseTimeout = TimeSpan.MaxValue;
-                binding.ReceiveTimeout = TimeSpan.MaxValue;
-                binding.SendTimeout = TimeSpan.MaxValue;
-                binding.Security.Mode = SecurityMode.Message;
-                binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
-
-                Uri notifierAddress = new Uri(DiscoveryHelper.AvailableTCPBaseAddress.ToString() + Guid.NewGuid());
-
-                //Set certificate to authenticate this service to other services on network
-                notifierHost.Credentials.ServiceCertificate.Certificate = identity.Certificate;
-
-                //Set custom validator for client credentials
-                notifierHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
-                notifierHost.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator();
-
-                //Create and endpoint with a port which will be different every time the service is started
-                notifierHost.AddServiceEndpoint(typeof(IEventNotifier), binding, notifierAddress);
-
-                //Add an endpoint to announce the presence of this service on network
-                ServiceDiscoveryBehavior announceBehavior = new ServiceDiscoveryBehavior();
-                announceBehavior.AnnouncementEndpoints.Add(new UdpAnnouncementEndpoint());
-                notifierHost.Description.Behaviors.Add(announceBehavior);
-
-                //Add discovery support over UDP protocol to find other services similar to CommunicatorService
-                notifierHost.AddServiceEndpoint(new UdpDiscoveryEndpoint());
-
-#if DEBUG
-                SetupFaultExceptions(notifierHost.Description.Behaviors, true);
-#endif
-
-                //Set token for this service
-                EndpointDiscoveryBehavior endpointDiscoveryBehavior = new EndpointDiscoveryBehavior();
-                endpointDiscoveryBehavior.Extensions.Add(BuildXMLDescription(Constants.NotifierService));
-                ServiceEndpoint simpleEndPoint = notifierHost.Description.Endpoints.Find(typeof(IEventNotifier));
-                simpleEndPoint.Behaviors.Add(endpointDiscoveryBehavior);
-
-                notifierHost.BeginOpen(
-                    (result) =>
-                    {
-                        notifierHost.EndOpen(result);
-                    },
-                    null);
-
-                Configuration.SetValue(Constants.NotifierService, notifierAddress.AbsoluteUri);
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw exception;
-            }
-        }
 
         /// <summary>
         /// Enable or disable the inclusion of exceptions in service description.
@@ -386,7 +324,6 @@ namespace Khernet.Core.Host
                     sessionMonitor.Stop();
 
                 StopCommunicatorService();
-                StopEventNotifierService();
                 StopEventListenerService();
                 peerWatcher = null;
                 sessionMonitor = null;
@@ -406,21 +343,6 @@ namespace Khernet.Core.Host
                 if (commHost != null)
                 {
                     commHost.Close();
-                }
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-            }
-        }
-
-        private void StopEventNotifierService()
-        {
-            try
-            {
-                if (notifierHost != null)
-                {
-                    notifierHost.Close();
                 }
             }
             catch (Exception exception)

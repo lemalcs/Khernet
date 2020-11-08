@@ -94,5 +94,21 @@ namespace Khernet.Services.Client
                 throw ex;
             }
         }
+
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
+        {
+            try
+            {
+                using (ServiceClient<ICommunicator> client = new ServiceClient<ICommunicator>(Address, ServiceType.CommunicatorService))
+                {
+                    client.serviceContract.ProcessMessageProcessing(notification);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

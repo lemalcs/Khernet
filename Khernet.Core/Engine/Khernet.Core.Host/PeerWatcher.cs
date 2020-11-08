@@ -66,7 +66,6 @@ namespace Khernet.Core.Host
                 // Do asynchronous discovery
                 discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)));
                 discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)));
-                discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)));
             }
             catch (Exception exception)
             {
@@ -450,7 +449,6 @@ namespace Khernet.Core.Host
                     {
                         discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
                         discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)), tokenList);
-                        discoveryClient.FindAsync(new FindCriteria(typeof(IEventNotifier)), tokenList);
                         autoReset.WaitOne();
                     }
 
@@ -525,11 +523,6 @@ namespace Khernet.Core.Host
             if (!result)
             {
                 criteria = new FindCriteria(typeof(IFileService));
-                result = criteria.IsMatch(metaData);
-            }
-            if (!result)
-            {
-                criteria = new FindCriteria(typeof(IEventNotifier));
                 result = criteria.IsMatch(metaData);
             }
             return result;

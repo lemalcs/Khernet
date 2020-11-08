@@ -138,9 +138,9 @@ namespace Khernet.Core.Processor
 
         public void SendWritingMessage(string senderToken, string receiverToken)
         {
-            EventNotifierClient notifierClient = new EventNotifierClient(receiverToken);
+            CommunicatorClient communicatorClient = new CommunicatorClient(receiverToken);
 
-            notifierClient.ProcessMessageProcessing(new MessageProcessingNotification
+            communicatorClient.ProcessMessageProcessing(new MessageProcessingNotification
             {
                 Process = MessageProcessing.WritingText,
                 SenderToken = senderToken,
