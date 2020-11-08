@@ -4,7 +4,6 @@
     {
         public const string CommunicatorService = "COMMSRV";
         public const string FileService = "FILESRV";
-        public const string NotifierService = "NOTIFSRV";
         public const string SubscriberService = "SUSSRV";
         public const string PublisherService = "PUBSRV";
 

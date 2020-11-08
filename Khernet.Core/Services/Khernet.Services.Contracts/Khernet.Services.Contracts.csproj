@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IEventListener.cs" />
-    <Compile Include="IEventNotifier.cs" />
     <Compile Include="IEventListenerCallBack.cs" />
     <Compile Include="IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -40,5 +40,11 @@ namespace Khernet.Services.WCF
             Communicator comm = new Communicator();
             comm.ProcessTextMessage(message);
         }
+
+        public void ProcessMessageProcessing(MessageProcessingNotification notification)
+        {
+            EventNotifier eventNotifier = new EventNotifier();
+            eventNotifier.ProcessMessageProcessing(notification);
+        }
     }
 }
