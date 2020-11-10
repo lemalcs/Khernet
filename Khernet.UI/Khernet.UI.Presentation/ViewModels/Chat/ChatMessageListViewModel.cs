@@ -332,7 +332,7 @@ namespace Khernet.UI
                 UserContext.FirstUnreadMessageIndex = 0;
             }
             if (Items.Count > 0)
-                IoCContainer.Get<Messenger>().BulkMarkAsReadMessage(Items[Items.Count - 1].Id);
+                IoCContainer.Get<Messenger>().BulkMarkAsReadMessage(userContext.User.Token, Items[Items.Count - 1].TimeId);
         }
 
         private void OpenGIFGallery(object obj)

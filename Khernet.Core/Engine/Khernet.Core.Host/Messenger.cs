@@ -86,12 +86,12 @@ namespace Khernet.Core.Host
             }
         }
 
-        public void BulkMarkAsReadMessage(int lastIdUnreadMessage)
+        public void BulkMarkAsReadMessage(string senderToken, long lastIdUnreadMessage)
         {
             try
             {
                 Communicator communicator = new Communicator();
-                communicator.BulkMarkAsReadMessage(lastIdUnreadMessage);
+                communicator.BulkMarkAsReadMessage(senderToken, lastIdUnreadMessage);
             }
             catch (Exception exception)
             {

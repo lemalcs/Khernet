@@ -893,7 +893,7 @@ namespace Khernet.Core.Data
             }
         }
 
-        public void BulkMarkAsReadMessage(int lastIdUnreadMessage)
+        public void BulkMarkAsReadMessage(string senderToken, long lastIdUnreadMessage)
         {
             try
             {
@@ -901,7 +901,8 @@ namespace Khernet.Core.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@LAST_MESSAGE_ID", FbDbType.Integer).Value = lastIdUnreadMessage;
+                cmd.Parameters.Add("@SENDER_PEER", FbDbType.VarChar).Value = EncryptionHelper.EncryptString(senderToken, Encoding.UTF8, keys.Item1, keys.Item2);
+                cmd.Parameters.Add("@LAST_MESSAGE_TIMEID", FbDbType.BigInt).Value = lastIdUnreadMessage;
                 keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))

@@ -290,10 +290,10 @@ namespace Khernet.Core.Processor
             commData.MarkAsReadMessage(idMessage);
         }
 
-        public void BulkMarkAsReadMessage(int lastIdUnreadMessage)
+        public void BulkMarkAsReadMessage(string senderToken, long lastIdUnreadMessage)
         {
             CommunicatorData commData = new CommunicatorData();
-            commData.BulkMarkAsReadMessage(lastIdUnreadMessage);
+            commData.BulkMarkAsReadMessage(senderToken, lastIdUnreadMessage);
         }
 
         public List<Peer> GetPeers()
