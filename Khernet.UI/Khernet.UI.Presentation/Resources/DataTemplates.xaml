@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
-                    xmlns:conv="clr-namespace:Khernet.UI.Converters"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:conv="clr-namespace:Khernet.UI.Converters">
 
     <!--Data templates for every chat message type-->
     <DataTemplate x:Key="TextDataTemplate">
@@ -31,46 +30,39 @@
     <DataTemplate x:Key="MarkdownDataTemplate">
         <ucontrols:MarkdownMessageControl/>
     </DataTemplate>
-
+    
+    
+    <!-- Template for chat messages -->
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
-        <Grid Margin="0 0 40 0">
-            <Grid.ColumnDefinitions>
 
-                <!-- Message state indicator -->
-                <ColumnDefinition Width="Auto"/>
-
-                <!-- User content -->
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!--The content of user-->
+        <Border Grid.Column="1"
+                Height="{Binding Path=Height,ElementName=cont}"
+                BorderThickness="3 0 0 0"
+                Padding="35 10 40 10"
+                Margin="{Binding IsSentByMe,Converter={conv:SentByMeToMarginConverter}}">
 
             <!-- Message state indicator -->
-            <Border Grid.Column="0"
-                    Width="3"
-                    Margin="{Binding IsSentByMe,Converter={conv:SentByMeToMarginConverter}}">
-                <Border.Background>
-                    <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}" ConverterParameter="Id2">
-                        <Binding Path="IsSentByMe"/>
-                        <Binding Path="State"/>
-                    </MultiBinding>
-                </Border.Background>
-            </Border>
+            <Border.BorderBrush>
+                <MultiBinding Converter="{conv:ChatStateToBrushMultiConverter}">
+                    <Binding Path="IsSentByMe"/>
+                    <Binding Path="State"/>
+                </MultiBinding>
+            </Border.BorderBrush>
 
-            <!--The content of user-->
-            <Border Grid.Column="1"
-                    Margin="35 10 0 10"
-                    Height="{Binding Path=Height,ElementName=cont}">
-                <Grid>
-                    <Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
 
-                        <!-- Hour -->
-                        <RowDefinition Height="Auto"/>
+                    <!-- Hour -->
+                    <RowDefinition Height="Auto"/>
 
-                        <!-- User content -->
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    <!-- User content -->
+                    <RowDefinition Height="*"/>
+                    
+                </Grid.RowDefinitions>
 
-                    <!--Hour-->
-                    <TextBlock Margin="0 0 0 5"
+                <!--Hour-->
+                <TextBlock Margin="0 0 0 5"
                                Grid.Row="0"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Left"
@@ -80,11 +72,10 @@
                                FontFamily="{StaticResource RobotoRegularFont}"
                                Text="{Binding SendDate,Converter={conv:TimeToStringConverter}}"/>
 
-                    <!-- User content -->
-                    <ContentPresenter Grid.Row="1" 
+                <!-- User content -->
+                <ContentPresenter Grid.Row="1" 
                                   Name="cont"/>
-                </Grid>
-            </Border>
-        </Grid>
+            </Grid>
+        </Border>
     </ControlTemplate>
 </ResourceDictionary>
