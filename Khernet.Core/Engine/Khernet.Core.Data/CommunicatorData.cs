@@ -690,9 +690,7 @@ namespace Khernet.Core.Data
                 FbCommand cmd = new FbCommand("GET_TIMEID_MESSAGE");
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = id;
-                keys = null;
 
                 DataTable table = new DataTable();
 
@@ -724,9 +722,7 @@ namespace Khernet.Core.Data
                 FbCommand cmd = new FbCommand("GET_UID_MESSAGE");
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
-                keys = null;
 
                 DataTable table = new DataTable();
 
@@ -743,7 +739,7 @@ namespace Khernet.Core.Data
                     string uid = null;
                     if (table.Rows[0][0] != DBNull.Value)
                     {
-                        keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                        var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                         uid = EncryptionHelper.DecryptString(table.Rows[0][0].ToString(), Encoding.UTF8, keys.Item1, keys.Item2);
                         keys = null;
                     }
@@ -877,9 +873,7 @@ namespace Khernet.Core.Data
                 FbCommand cmd = new FbCommand("MARK_AS_READ_MESSAGE");
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
-                keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
                 {
@@ -1303,9 +1297,7 @@ namespace Khernet.Core.Data
                 FbCommand cmd = new FbCommand("GET_MESSAGES_HEADER");
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
                 cmd.Parameters.Add("@ID_MESSAGE", FbDbType.Integer).Value = idMessage;
-                keys = null;
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))
                 {
@@ -1317,7 +1309,7 @@ namespace Khernet.Core.Data
 
                 if (table.Rows.Count > 0)
                 {
-                    keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                    var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
 
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
