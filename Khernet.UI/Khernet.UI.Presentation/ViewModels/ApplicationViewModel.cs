@@ -370,6 +370,8 @@ namespace Khernet.UI
                     IoCContainer.Get<IAudioObservable>().StopPlayer();
                     IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
                     IoCContainer.Get<UserManager>().StopProcessor();
+                    IoCContainer.Get<MessageWritingChecker>().StopProcessor();
+                    IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
                     Engine.Stop();
                 });
 

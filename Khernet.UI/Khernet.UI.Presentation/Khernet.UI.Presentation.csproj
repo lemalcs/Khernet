@@ -394,7 +394,10 @@
     <Compile Include="Managers\AudioManager.cs" />
     <Compile Include="Managers\AudioObservers.cs" />
     <Compile Include="Managers\ChatMessageStateManager.cs" />
+    <Compile Include="Managers\MessageWritingChecker.cs" />
     <Compile Include="Managers\PresentationApplicationDialog.cs" />
+    <Compile Include="Managers\MessageProcessingEventManager.cs" />
+    <Compile Include="Managers\MessageEvents.cs" />
     <Compile Include="Managers\TextRequest.cs" />
     <Compile Include="Managers\TextManager.cs" />
     <Compile Include="Managers\FileManager.cs" />

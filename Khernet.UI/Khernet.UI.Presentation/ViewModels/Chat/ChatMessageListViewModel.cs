@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -303,6 +302,8 @@ namespace Khernet.UI
 
             applicationDialog = new PresentationApplicationDialog();
         }
+
+        #region Methods
 
         private void GoToBottom(object parameter)
         {
@@ -683,12 +684,14 @@ namespace Khernet.UI
             //Send writing message every 3 seconds
             if ((DateTime.Now - lastMessageSendTime).TotalSeconds > 3)
             {
-                TaskEx.Run(() =>
+                MessageEventData messageEvent = new MessageEventData
                 {
-                    //Get token of user logged into application
-                    string senderToken = IoCContainer.Get<IIdentity>().Token;
-                    IoCContainer.Get<Messenger>().SendWrtitingMessage(senderToken, UserContext.User.Token);
-                });
+                    SenderPeer = IoCContainer.Get<IIdentity>().Token,
+                    EventType = MessageEvent.BeginWriting,
+                    ReceiverPeer = UserContext.User.Token,
+                };
+
+                IoCContainer.Get<MessageProcessingEventManager>().SendMessageEvent(messageEvent);
 
                 lastMessageSendTime = DateTime.Now;
             }
@@ -890,49 +893,6 @@ namespace Khernet.UI
             }
         }
 
-        public async void ResendMessage(ChatMessageItemViewModel messageModel, UserItemViewModel receiver = null)
-        {
-            if (receiver != null)
-            {
-                UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
-                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
-
-                OnPropertyChanged(nameof(CanSendMessage));
-                return;
-            }
-
-            var pagedVM = IoCContainer.Get<PagedDialogViewModel>();
-
-            //Set list of settings as first page
-            pagedVM.CurrentPage = ApplicationPage.Resend;
-
-            //Title for page
-            pagedVM.Category = "Select a user: ";
-
-            ResendViewModel resend = new ResendViewModel
-            {
-                Items = IoCContainer.Get<UserListViewModel>().Clone(),
-                SelectedUser = null,
-                Message = messageModel,
-            };
-
-            //Set the view model for settings list
-            pagedVM.CurrentViewModel = resend;
-
-            pagedVM.SetHomePage(pagedVM.CurrentPage, pagedVM.Category, pagedVM.CurrentViewModel);
-
-            await IoCContainer.UI.ShowDialog(pagedVM);
-
-            if (resend.SelectedUser != null)
-            {
-                UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
-                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
-                OnPropertyChanged(nameof(CanSendMessage));
-            }
-            else
-                FocusTextBox();
-        }
-
         /// <summary>
         /// Get a copy of a chat message that id being resend.
         /// </summary>
@@ -962,17 +922,6 @@ namespace Khernet.UI
             }
             else
                 return ((TextMessageItemViewModel)chatMessage).GetInstanceCopy();
-        }
-
-
-        public void SendReplyMessage(ChatMessageItemViewModel messageModel)
-        {
-            if (messageModel == null)
-                throw new ArgumentNullException($"Parameter {nameof(messageModel)} cannot be null");
-
-            UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Reply);
-
-            OnPropertyChanged(nameof(ReplyMessagePending));
         }
 
         public void CheckUnreadMessageAsRead(ChatMessageItemViewModel messageModel)
@@ -1084,5 +1033,64 @@ namespace Khernet.UI
         {
             Items = (ObservableCollection<ChatMessageItemViewModel>)chatList;
         }
+
+        #endregion
+
+        #region IMessageManager members
+
+        public async void ResendMessage(ChatMessageItemViewModel messageModel, UserItemViewModel receiver = null)
+        {
+            if (receiver != null)
+            {
+                UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
+                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
+
+                OnPropertyChanged(nameof(CanSendMessage));
+                return;
+            }
+
+            var pagedVM = IoCContainer.Get<PagedDialogViewModel>();
+
+            //Set list of settings as first page
+            pagedVM.CurrentPage = ApplicationPage.Resend;
+
+            //Title for page
+            pagedVM.Category = "Select a user: ";
+
+            ResendViewModel resend = new ResendViewModel
+            {
+                Items = IoCContainer.Get<UserListViewModel>().Clone(),
+                SelectedUser = null,
+                Message = messageModel,
+            };
+
+            //Set the view model for settings list
+            pagedVM.CurrentViewModel = resend;
+
+            pagedVM.SetHomePage(pagedVM.CurrentPage, pagedVM.Category, pagedVM.CurrentViewModel);
+
+            await IoCContainer.UI.ShowDialog(pagedVM);
+
+            if (resend.SelectedUser != null)
+            {
+                UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Resend);
+                UserContext.ResendMessage = GetChatMessageCopy(messageModel);
+                OnPropertyChanged(nameof(CanSendMessage));
+            }
+            else
+                FocusTextBox();
+        }
+
+        public void SendReplyMessage(ChatMessageItemViewModel messageModel)
+        {
+            if (messageModel == null)
+                throw new ArgumentNullException($"Parameter {nameof(messageModel)} cannot be null");
+
+            UserContext.ReplyMessage = messageModel.GetMessageSummary(MessageDirection.Reply);
+
+            OnPropertyChanged(nameof(ReplyMessagePending));
+        }
+
+        #endregion
     }
 }

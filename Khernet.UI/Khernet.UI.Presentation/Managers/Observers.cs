@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Khernet.UI.IoC;
+using System;
 
 namespace Khernet.UI.Managers
 {
@@ -89,5 +90,30 @@ namespace Khernet.UI.Managers
         /// </summary>
         /// <param name="observer">The observer to track operations on files.</param>
         void ProcessText(ITextObserver observer);
+    }
+
+
+    public interface IMessageEventObserver : IIdentity
+    {
+        /// <summary>
+        /// Notifies when a message event has arrived.
+        /// </summary>
+        /// <param name="operationType">The event data.</param>
+        void OnUpdate(MessageEventData info);
+    }
+
+    public interface IMessageEventObservable : IDisposable
+    {
+        /// <summary>
+        /// Subscribe a listener of message events.
+        /// </summary>
+        /// <param name="eventObserver">The listener to subscribe to.</param>
+        void Subscribe(IMessageEventObserver eventObserver);
+
+        /// <summary>
+        /// Unsubscribe the listener of message events.
+        /// </summary>
+        /// <param name="eventObserver">The listener to unsubscribe to.</param>
+        void Unsubscribe(IMessageEventObserver eventObserver);
     }
 }

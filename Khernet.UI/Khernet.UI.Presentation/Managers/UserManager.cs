@@ -51,6 +51,7 @@ namespace Khernet.UI.Managers
 
     public class UserManager : IDisposable
     {
+        #region Properties
         /// <summary>
         /// The process to manage states.
         /// </summary>
@@ -68,10 +69,14 @@ namespace Khernet.UI.Managers
 
         private ConcurrentQueue<UserState> userStateMessageList;
 
+        #endregion
+
         public UserManager()
         {
             userStateAutoReset = new AutoResetEvent(false);
         }
+
+        #region Methods
 
         public void ProcessState(UserState state)
         {
@@ -221,6 +226,8 @@ namespace Khernet.UI.Managers
                 if (newUser.Avatar != null)
                     user.SetAvatarThumbnail(newUser.Avatar);
 
+                IoCContainer.Get<MessageProcessingEventManager>().Subscribe(user);
+
                 //Add new user to list
                 IoCContainer.Get<UserListViewModel>().AddUser(user);
             }
@@ -229,7 +236,7 @@ namespace Khernet.UI.Managers
         }
 
         /// <summary>
-        /// Fill profile of a peer.
+        /// Fills profile of a peer.
         /// </summary>
         /// <param name="userModel">The model of peer.</param>
         private void FillUserProfile(UserItemViewModel userModel)
@@ -273,6 +280,8 @@ namespace Khernet.UI.Managers
                 userStateMessageList = null;
             }
         }
+
+        #endregion
 
         #region IDisposable Support
 

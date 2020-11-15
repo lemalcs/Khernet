@@ -54,6 +54,8 @@ namespace Khernet.UI
                     IoCContainer.Text.Dispose();
                     IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
                     IoCContainer.Get<UserManager>().StopProcessor();
+                    IoCContainer.Get<MessageWritingChecker>().StopProcessor();
+                    IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
                     Engine.Stop();
                 }
             });

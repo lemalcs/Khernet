@@ -83,6 +83,8 @@ namespace Khernet.UI
                     IoCContainer.Configure<ChatMessageListViewModel>();
 
                     IoCContainer.Configure<UserListViewModel>();
+                    IoCContainer.Configure<MessageWritingChecker>();
+                    IoCContainer.Configure<MessageProcessingEventManager>();
 
                     StartClient();
 
@@ -212,24 +214,26 @@ namespace Khernet.UI
             if (State != EngineState.Executing)
                 return;
 
-            var user = IoCContainer.Get<UserListViewModel>().FindUser(e.Notification.SenderToken);
-            if (user == null)
-                return;
+            MessageEventData messageEvent = new MessageEventData();
 
             switch (e.Notification.Process)
             {
                 case MessageProcessing.WritingText:
-                    user.ShowUserWriting();
+                    messageEvent.EventType = MessageEvent.BeginWriting;
                     break;
 
                 case MessageProcessing.BeginSendingFile:
-                    user.ShowUserSendingFile();
+                    messageEvent.EventType = MessageEvent.BeginSendingFile;
                     break;
 
                 case MessageProcessing.EndSendingFile:
-                    user.HideUserSendingFile();
+                    messageEvent.EventType = MessageEvent.EndSendingFile;
                     break;
             }
+            messageEvent.ArriveDate = DateTime.Now;
+            messageEvent.SenderPeer = e.Notification.SenderToken;
+
+            IoCContainer.Get<MessageProcessingEventManager>().ProcessMessageEvent(messageEvent);
         }
 
         public static void Stop()
@@ -290,6 +294,8 @@ namespace Khernet.UI
                 IoCContainer.UnConfigure<UserManager>();
 
                 IoCContainer.UnConfigure<UserListViewModel>();
+                IoCContainer.UnConfigure<MessageProcessingEventManager>();
+                IoCContainer.UnConfigure<MessageWritingChecker>();
 
                 IoCContainer.UnBind<IChatList>();
                 IoCContainer.UnBind<IIdentity>();

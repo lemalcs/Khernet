@@ -1,14 +1,13 @@
 ﻿using Khernet.UI.IoC;
+using Khernet.UI.Managers;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class UserItemViewModel : BaseModel, IIdentity
+    public class UserItemViewModel : BaseModel, IIdentity, IMessageEventObserver
     {
         #region Properties
         /// <summary>
@@ -187,14 +186,7 @@ namespace Khernet.UI
             }
         }
 
-        /// <summary>
-        /// The token of user.
-        /// </summary>
-        public string Token
-        {
-            get;
-            set;
-        }
+        
 
         /// <summary>
         /// The custom name to display for this user.
@@ -208,19 +200,6 @@ namespace Khernet.UI
                 {
                     displayName = value;
                     OnPropertyChanged(nameof(DisplayName));
-                }
-            }
-        }
-
-        public string Username
-        {
-            get => username;
-            set
-            {
-                if (username != value)
-                {
-                    username = value;
-                    OnPropertyChanged(nameof(Username));
                 }
             }
         }
@@ -277,11 +256,6 @@ namespace Khernet.UI
             }
         }
 
-        /// <summary>
-        /// Stores the time when last writing message was received.
-        /// </summary>
-        private DateTime lastWritingTime = DateTime.Now;
-
         public string SourceFullName
         {
             get => sourceFullName;
@@ -309,6 +283,32 @@ namespace Khernet.UI
         }
         #endregion
 
+        #region IIdentity members
+
+        /// <summary>
+        /// The token of user.
+        /// </summary>
+        public string Token
+        {
+            get;
+            set;
+        }
+
+        public string Username
+        {
+            get => username;
+            set
+            {
+                if (username != value)
+                {
+                    username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Opens a chat for selected user.
         /// </summary>
@@ -318,6 +318,8 @@ namespace Khernet.UI
         {
             OpenChatCommand = new RelayCommand(OpenChat);
         }
+
+        #region Methods
 
         private void OpenChat()
         {
@@ -426,50 +428,11 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Indicate that this user is writing a message.
-        /// </summary>
-        public async void ShowUserWriting()
-        {
-            lastWritingTime = DateTime.Now;
-
-            IsWritingMessage = true;
-
-            await TaskEx.Run(() =>
-            {
-                do
-                {
-                    Thread.Sleep(1000);
-
-                    //If writing message has not been received after 3 seconds then hide animation
-                    if ((DateTime.Now - lastWritingTime).TotalSeconds > 3)
-                        IsWritingMessage = false;
-
-                } while (IsWritingMessage);
-            }).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Indicate that this user stopped writing a message.
         /// </summary>
         public void HideUserWriting()
         {
             IsWritingMessage = false;
-        }
-
-        /// <summary>
-        /// Indicate that user is sending file.
-        /// </summary>
-        public void ShowUserSendingFile()
-        {
-            IsSendingFile = true;
-        }
-
-        /// <summary>
-        /// Indicate that user is not sending file
-        /// </summary>
-        public void HideUserSendingFile()
-        {
-            IsSendingFile = false;
         }
 
         /// <summary>
@@ -486,5 +449,20 @@ namespace Khernet.UI
             if (DisplayName == null && !string.IsNullOrEmpty(Username))
                 SetDisplayName(Encoding.UTF8.GetBytes(Username));
         }
+
+        #endregion
+
+        #region IMessageEventObserver members
+
+        public void OnUpdate(MessageEventData info)
+        {
+            if (info.EventType == MessageEvent.BeginWriting || info.EventType == MessageEvent.EndWriting)
+                IsWritingMessage = info.EventType == MessageEvent.BeginWriting;
+
+            if (info.EventType == MessageEvent.BeginSendingFile || info.EventType == MessageEvent.EndSendingFile)
+                IsSendingFile = info.EventType == MessageEvent.BeginSendingFile;
+        }
+
+        #endregion
     }
 }
