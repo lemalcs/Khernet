@@ -515,10 +515,15 @@ namespace Khernet.Core.Processor
             commData.ClearPeersState();
         }
 
-        public List<PeerAddress> GetConnectedPeers(string serviceType)
+        /// <summary>
+        /// Gets a specified type of service addresses of all peers.
+        /// </summary>
+        /// <param name="serviceType">The service type to get addresses to.</param>
+        /// <returns>The list of addresses.</returns>
+        public List<PeerAddress> GetServiceAdresses(string serviceType)
         {
             CommunicatorData commData = new CommunicatorData();
-            DataTable data = commData.GetConnectedPeers(serviceType);
+            DataTable data = commData.GetServiceAdresses(serviceType);
 
             List<PeerAddress> addressList = new List<PeerAddress>();
             for (int i = 0; i < data.Rows.Count; i++)

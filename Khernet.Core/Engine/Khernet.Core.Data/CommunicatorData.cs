@@ -1166,13 +1166,18 @@ namespace Khernet.Core.Data
             }
         }
 
-        public DataTable GetConnectedPeers(string serviceType)
+        /// <summary>
+        /// Gets a specified type of service addresses of all peers.
+        /// </summary>
+        /// <param name="serviceType">The service type to get addresses to.</param>
+        /// <returns>The list of addresses.</returns>
+        public DataTable GetServiceAdresses(string serviceType)
         {
             try
             {
                 DataTable table = new DataTable();
 
-                FbCommand cmd = new FbCommand("GET_CONNECTED_PEERS");
+                FbCommand cmd = new FbCommand("GET_SERVICE_ADDRESSES");
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);

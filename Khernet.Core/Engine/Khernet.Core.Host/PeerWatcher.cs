@@ -97,6 +97,8 @@ namespace Khernet.Core.Host
 
                 if (comm.GetPeerAdress(foundToken, Constants.FileService) == null)
                     SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+
+                IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(foundToken);
             });
         }
 
@@ -152,8 +154,6 @@ namespace Khernet.Core.Host
                         tempAddress,//Address of service
                         metadata.Extensions.Elements(Constants.ServiceIDTag).FirstOrDefault().Value//Type of service
                         );
-
-                        IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(token);
                     }
                 }
             }
@@ -404,7 +404,7 @@ namespace Khernet.Core.Host
             {
                 try
                 {
-                    List<PeerAddress> tokenList = communicator.GetConnectedPeers(Constants.CommunicatorService);
+                    List<PeerAddress> tokenList = communicator.GetServiceAdresses(Constants.CommunicatorService);
 
                     bool existsDisconnected = false;
                     for (int i = 0; i < tokenList.Count; i++)
@@ -413,7 +413,7 @@ namespace Khernet.Core.Host
                         if (!Uri.TryCreate(tokenList[i].Address, UriKind.Absolute, out addr))
                         {
                             existsDisconnected = true;
-                            continue;
+                            break;
                         }
 
                         if (NetworkHelper.IsIPAddress(addr.Host))
@@ -421,6 +421,7 @@ namespace Khernet.Core.Host
                             if (!NetworkHelper.TryConnectToIP(addr.Host, addr.Port))
                             {
                                 existsDisconnected = true;
+                                break;
                             }
                             else
                             {
@@ -433,6 +434,7 @@ namespace Khernet.Core.Host
                         else if (!NetworkHelper.TryConnectToHost(addr.Host, addr.Port))
                         {
                             existsDisconnected = true;
+                            break;
                         }
                         else
                         {
@@ -480,6 +482,8 @@ namespace Khernet.Core.Host
                     {
                         //Save peer on database
                         SavePeerAddress(e.EndpointDiscoveryMetadata, identity);
+
+                        IoCContainer.Get<PendingMessageManager>().ProcessPendingMessagesOf(GetToken(e.EndpointDiscoveryMetadata));
                     }
                 }
                 catch (Exception exception)

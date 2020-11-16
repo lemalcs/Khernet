@@ -1,20 +1,20 @@
-/* Definition for the GET_CONNECTED_PEERS procedure :  */
+/* Definition for the GET_SERVICE_ADDRESSES procedure :  */
 
 ------------------------------------------------------------------------------
--- Create date: 2020-02-15
+-- Create date: 2020-11-15
 -- Autor: Luis Lema
 --
 -- Description: 
--- Get the list of peers that are online.
+-- Get the list of address of a type of service.
 --
 -- Parameters:
--- SERVICE_TYPE - The type of service each peer publish
+-- SERVICE_TYPE - The type of service each peer publish.
 --
 -- Returns:
 -- The list of service addresses.
 ------------------------------------------------------------------------------
 
-CREATE OR ALTER PROCEDURE GET_CONNECTED_PEERS
+CREATE OR ALTER PROCEDURE GET_SERVICE_ADDRESSES
 (
   SERVICE_TYPE TYPE OF COLUMN PEER_ADDRESS.SERV_TYPE
 )
