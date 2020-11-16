@@ -14,7 +14,7 @@
         <selec:ChatMessageDataTemplateSelector x:Key="ChatTemplateSelector"/>
     </UserControl.Resources>
     <Grid d:DataContext="{d:DesignInstance vm:ChatMessageListDesignModel,IsDesignTimeCreatable=True}"
-          Background="White"
+          Background="{StaticResource AlmostWhiteGrayBrush}"
           Name="messageContainer">
 
         <!--List of messages-->
@@ -34,7 +34,8 @@
                   SelectedItemChanged="container_SelectedItemChanged"
                   SelectedValuePath="Id"
                   Thumb.DragCompleted="container_DragCompleted"
-                  Focusable="False">
+                  Focusable="False"
+                  Padding="0">
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
