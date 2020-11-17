@@ -9,23 +9,23 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border x:Name="rectangle"
                             SnapsToDevicePixels="True"
-                            Background="{StaticResource BlueBrush}"
+                            Background="{StaticResource DarkGrayBrush}"
                             CornerRadius="3"
-                            Opacity="1"
+                            Opacity="0.5"
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"/>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="1" Duration="0:0:0.2" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
+                                    <DoubleAnimation To="0.7" Duration="0:0:0.2" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="0.9" Duration="0:0:0.2" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
+                                    <DoubleAnimation To="0.5" Duration="0:0:0.2" Storyboard.TargetName="rectangle" Storyboard.TargetProperty="Opacity"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -39,23 +39,25 @@
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
         <Setter Property="Width" Value="10"/>
-        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Margin" Value="-10 0 0 0"/>
         <Setter Property="MinWidth" Value="{Binding Height, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="Bg" SnapsToDevicePixels="true"
-                          Background="Transparent"
-                          >
-                        <Border Padding="0 5"
+                    <Grid x:Name="Bg" 
+                          SnapsToDevicePixels="true"
+                          Background="Transparent">
+
+                        <Border Padding="0 2 2 2"
                                 Background="Transparent"
                                 BorderThickness="0">
                             <Track x:Name="PART_Track"
-                            IsDirectionReversed="true"
-                            IsEnabled="{TemplateBinding IsMouseOver}"
-                               Width="6"
-                               HorizontalAlignment="Center"
-                            Grid.Row="1">
+                                   IsDirectionReversed="true"
+                                   IsEnabled="{TemplateBinding IsMouseOver}"
+                                   Width="5"
+                                   HorizontalAlignment="Center"
+                                   Grid.Row="1">
+
                                 <Track.DecreaseRepeatButton>
                                     <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}"/>
                                 </Track.DecreaseRepeatButton>
@@ -68,8 +70,6 @@
                             </Track>
                         </Border>
                     </Grid>
-
-                 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -83,11 +83,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                            <Grid x:Name="Bg" 
+                                  SnapsToDevicePixels="true">
                                 <Track x:Name="PART_Track"
-                                    Grid.Column="1"
-                                    IsEnabled="{TemplateBinding IsMouseOver}"
+                                       Grid.Column="1"
+                                       IsEnabled="{TemplateBinding IsMouseOver}"
                                        Height="6">
+
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageLeftCommand}"/>
                                     </Track.DecreaseRepeatButton>
@@ -103,8 +105,6 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-
-            
         </Style.Triggers>
     </Style>
 </ResourceDictionary>
