@@ -21,12 +21,11 @@
         </Grid.RowDefinitions>
 
         <!--Reply Message-->
-        <Border Background="{StaticResource SectionBackgroundBrush}"
-                Margin="0 0 0 5"
-                Visibility="{Binding ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}">
-            <ucontrols:PopupContent Grid.Row="0"
-                                    ViewModel="{Binding ReplyMessage}"/>
-        </Border>
+        <ucontrols:PopupContent Grid.Row="0"
+                                Margin="0 0 0 5"
+                                Visibility="{Binding ReplyMessage,Converter={conv:NullToVisibilityGoneConverter}}"
+                                ViewModel="{Binding ReplyMessage}"/>
+        
         <!--Chat message-->
         <RichTextBox depend:FormatedDocumentSourceProperty.Value="{Binding TextContent,Converter={conv:ByteToDocumentConverter}}"
                      HorizontalAlignment="Stretch"

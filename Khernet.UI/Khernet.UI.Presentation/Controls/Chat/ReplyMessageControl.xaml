@@ -92,11 +92,18 @@
                                                     Margin="9 0 10 0"/>
 
                         <!--Text message-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="1"
-                                   depend:InlineSourceProperty.Value="{Binding TextContent}"
-                                   Margin="8 5 0 5"
-                                   Style="{StaticResource TextblockItemStyle}"/>
+                        <RichTextBox Grid.Column="1"
+								     Grid.Row="1"
+                                     IsEnabled="False"
+								     depend:DocumentSourceProperty.Value="{Binding TextContent}"
+								     Margin="8 5 0 0"
+									 Background="Transparent"
+					                 BorderThickness="0"
+					                 IsReadOnly="True"
+                                     MaxHeight="28"
+					                 IsReadOnlyCaretVisible="False"
+                                     VerticalScrollBarVisibility="Disabled"
+                                     HorizontalScrollBarVisibility="Disabled"/>
 
                         <!--File name-->
                         <TextBlock Grid.Column="1"
