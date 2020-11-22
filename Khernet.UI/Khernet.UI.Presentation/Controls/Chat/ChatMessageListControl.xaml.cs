@@ -202,7 +202,6 @@ namespace Khernet.UI.Controls
             {
                 TreeViewItem item = GetTreeViewItem(container, chatModel, index);
                 item.IsSelected = true;
-                item.Focus();
             }
             else
             {
