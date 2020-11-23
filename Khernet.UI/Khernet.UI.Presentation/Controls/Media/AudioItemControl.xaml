@@ -15,18 +15,17 @@
              Unloaded="UserControl_Unloaded">
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="55"/>
+            <ColumnDefinition Width="45"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Play button border -->
+        <!-- Play button background -->
         <Border Grid.Column="0"
-                BorderBrush="{StaticResource BlueBrush}"
-                Height="55"
+                Background="{StaticResource BlueBrush}"
+                Height="45"
                 HorizontalAlignment="Center"
                 Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                 CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                BorderThickness="1"
                 ClipToBounds="True">
         </Border>
 
@@ -34,8 +33,8 @@
         <Button Grid.Column="0" 
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Height="55"
-                Style="{DynamicResource EllipticalButton}"
+                Height="45"
+                Style="{StaticResource EllipticalButton}"
                 Command="{Binding OpenMediaCommand}"
                 Visibility="{Binding IsFileLoaded,Converter={conv:BoolToVisibilityGoneConverter}}">
 
@@ -50,7 +49,8 @@
                                                              ConverterParameter=Audio}"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource LightBrush}"/>
 
         </Button>
 
@@ -63,7 +63,7 @@
                 CommandParameter="{Binding}"
                 Click="Button_Click"
                 Cursor="Hand"
-                Height="55"
+                Height="45"
                 Style="{DynamicResource EllipticalButton}">
 
 
@@ -81,19 +81,20 @@
                                                            FallbackValue=Play, 
                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}}, 
                                                            TargetNullValue=Play}"
+                                            Foreground="{StaticResource LightBrush}"
                                             Width="15"/>
             </Grid>
         </Button>
 
         <!--Animation to show load progress-->
-        <Controls:ProgressRing Height="40" 
-                               Width="40"
+        <Controls:ProgressRing Height="30" 
+                               Width="30"
                                Grid.Column="0"
-                               Foreground="{StaticResource BlueBrush}"
+                               Foreground="{StaticResource LightBrush}"
                                Visibility="{Binding IsLoading, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}"/>
 
         <!--Progress circle indicator-->
-        <ucontrols:ProgressCircleControl Radius="20"
+        <ucontrols:ProgressCircleControl Radius="15"
                                          Grid.Column="0"
                                          Minimum="0"
                                          Maximum="{Binding FileSize}"
@@ -101,7 +102,7 @@
                                          Value="{Binding CurrentReadBytes}"
                                          Panel.ZIndex="2"
                                          StrokeBackground="White"
-                                         StrokeBrush="{StaticResource BlueBrush}"
+                                         StrokeBrush="{StaticResource LightBrush}"
                                          Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
         <!-- Audio file information-->

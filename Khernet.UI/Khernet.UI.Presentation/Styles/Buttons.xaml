@@ -81,9 +81,7 @@
     </Style>
 
     <Style x:Key="EllipticalButton" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{StaticResource LightBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource GrayBrush3}"/>
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>

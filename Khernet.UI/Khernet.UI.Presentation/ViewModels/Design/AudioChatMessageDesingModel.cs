@@ -11,6 +11,7 @@ namespace Khernet.UI
         {
             FileName = "some_music.mp3";
             IsReadingFile = false;
+            IsLoading = false;
             IsFileLoaded = true;
         }
     }
