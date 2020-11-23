@@ -799,7 +799,8 @@ namespace Khernet.UI
                 //Scroll to current sent message
                 if (Items.Count > 1 && (Items[Items.Count - 2] == UserContext.CurrentChatModel && UserContext.CurrentChatModel.IsSentByMe))
                 {
-                    ScrollToCurrentContent?.Invoke();
+                    if (IoCContainer.UI.IsMainWindowActive())
+                        ScrollToCurrentContent?.Invoke();
                 }
             }
         }
