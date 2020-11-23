@@ -50,6 +50,67 @@ namespace Khernet.UI.Resources
         /// </returns>
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        /// <summary>
+        /// Flashes the specified window. It does not change the active state of the window.
+        /// </summary>
+        /// <param name="pwfi">A pointer to a <see cref="FLASHWINFO"/> structure.</param>
+        /// <returns>The return value specifies the window's state before the call to the FlashWindowEx function. 
+        /// If the window caption was drawn as active before the call, the return value is nonzero. Otherwise, the return value is zero.</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct FLASHWINFO
+    {
+        /// <summary>
+        /// The size of the structure, in bytes.
+        /// </summary>
+        public uint cbSize;
+
+        /// <summary>
+        /// A handle to the window to be flashed. The window can be either opened or minimized.
+        /// </summary>
+        public IntPtr hwnd;
+
+        /// <summary>
+        /// The flash status based on <see cref="FlashWindow"/>.
+        /// </summary>
+        public uint dwFlags;
+
+        /// <summary>
+        /// The number of times to flash the window.
+        /// </summary>
+        public uint uCount;
+
+        /// <summary>
+        /// The rate at which the window is to be flashed, in milliseconds. If dwTimeout is zero, the function uses the default cursor blink rate.
+        /// </summary>
+        public uint dwTimeout;
+    }
+
+    public enum FlashWindow : uint
+    {
+        //Stop flashing. The system restores the window to its original state.
+        FLASHW_STOP = 0,
+        
+        //Flash the window caption.
+        FLASHW_CAPTION = 1,
+
+        //Flash the taskbar button.
+        FLASHW_TRAY = 2,
+
+        //Flash both the window caption and taskbar button.
+        //This is equivalent to setting the FLASHW_CAPTION | FLASHW_TRAY flags.
+        FLASHW_ALL = 3,
+
+        //Flash continuously, until the FLASHW_STOP flag is set.
+        FLASHW_TIMER = 4,
+
+        //Flash continuously until the window comes to the foreground.        
+        FLASHW_TIMERNOFG = 12,
     }
 
     /// <summary>

@@ -2,15 +2,18 @@
 using Khernet.UI.Controls;
 using Khernet.UI.Converters;
 using Khernet.UI.IoC;
+using Khernet.UI.Resources;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -173,9 +176,23 @@ namespace Khernet.UI
                 //Show application on taskbar if it is hidden
                 if (!App.Current.MainWindow.IsVisible)
                 {
-                    Application.Current.MainWindow.Activate();
                     Application.Current.MainWindow.Show();
                     App.Current.MainWindow.WindowState = WindowState.Minimized;
+                }
+
+                //Flash window in task bar when no one is at foreground
+                if (!IsMainWindowActive())
+                {
+                    IntPtr hWnd = new WindowInteropHelper(Application.Current.MainWindow).Handle;
+
+                    FLASHWINFO fInfo = new FLASHWINFO();
+                    fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
+                    fInfo.hwnd = hWnd;
+                    fInfo.dwFlags = (uint)(FlashWindow.FLASHW_ALL | FlashWindow.FLASHW_TIMERNOFG);
+                    fInfo.uCount = 10;
+                    fInfo.dwTimeout = 0;
+
+                    NativeMethods.FlashWindowEx(ref fInfo);
                 }
             }));
         }
