@@ -104,6 +104,6 @@
     <Color x:Key="CodeColor">#2b90ff</Color>
     <SolidColorBrush x:Key="CodeBrush" Color="{StaticResource CodeColor}"/>
 
-    <Color x:Key="SectionBackgroundColor">#FAFAFA</Color>
+    <Color x:Key="SectionBackgroundColor">#ebf3ff</Color>
     <SolidColorBrush x:Key="SectionBackgroundBrush" Color="{StaticResource SectionBackgroundColor}"/>
 </ResourceDictionary>

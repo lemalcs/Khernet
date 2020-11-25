@@ -33,10 +33,8 @@
     </Style>
 
     <Style TargetType="{x:Type Section}" x:Key="{x:Static markdig:Styles.QuoteBlockStyleKey}">
-        <Setter Property="BorderBrush" Value="LightGray" />
         <Setter Property="Background" Value="{StaticResource SectionBackgroundBrush}"/>
-        <Setter Property="BorderThickness" Value="4,0,0,0" />
-        <Setter Property="Foreground" Value="{StaticResource OverTextboxBorderBrush}" />
         <Setter Property="Padding" Value="15,10,5,1" />
+        <Setter Property="Foreground" Value="{StaticResource VaryDarkGrayBrush}"/>
     </Style>
 </ResourceDictionary>
