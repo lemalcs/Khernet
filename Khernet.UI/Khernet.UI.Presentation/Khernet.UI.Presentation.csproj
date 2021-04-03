@@ -869,7 +869,7 @@
     <Error Condition="!Exists('..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>set bin_directory=..\..\..\..\..\..\bin\Khernet.UI
+    <PostBuildEvent>set bin_directory=..\..\..\..\..\bin\Khernet.UI
 IF not exist %25lib_directory%25 mkdir %25bin_directory%25
 
 copy /Y $(TargetPath) %25bin_directory%25</PostBuildEvent>
