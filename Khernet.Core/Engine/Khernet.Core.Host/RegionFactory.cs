@@ -38,27 +38,11 @@ namespace Khernet.Core.Host
         {
             if (!ValidateDatabase())
             {
-                InstallDatabaseEngine();
-            }
-            if (!ValidateDatabase())
-            {
                 CreateDatabases();
             }
             Storage storage = new Storage();
             if (!Directory.Exists(storage.CacheAddress))
                 Directory.CreateDirectory(storage.CacheAddress);
-
-            if (!Directory.Exists(storage.MediaToolsAddress))
-            {
-                Directory.CreateDirectory(storage.MediaToolsAddress);
-                UnPackMediaTools();
-            }
-
-            if (!Directory.Exists(storage.VLCLibX86Address))
-            {
-                Directory.CreateDirectory(storage.VLCLibX86Address);
-                UnPackVLCLib();
-            }
         }
 
         public bool IsInitialized()
@@ -68,34 +52,6 @@ namespace Khernet.Core.Host
             return storage.VerifyInitialization();
         }
 
-        private void InstallDatabaseEngine()
-        {
-            try
-            {
-                //Create folder to store FIREBIRD database engine files
-                Storage storage = new Storage();
-                string firebirdEnginePath = Path.GetDirectoryName(storage.EngineAddress);
-
-                if (!Directory.Exists(firebirdEnginePath))
-                {
-                    Directory.CreateDirectory(firebirdEnginePath);
-                }
-
-                ResourceContainer rc = new ResourceContainer();
-
-                using (MemoryStream memStream = new MemoryStream(rc.GetDataBaseEngine()))
-                {
-                    Compressor compressor = new Compressor();
-                    compressor.UnZipFile(memStream, firebirdEnginePath);
-                }
-            }
-            catch (Exception exception)
-            {
-                LogDumper.WriteLog(exception);
-                throw;
-            }
-        }
-
         private void CreateDatabases()
         {
             try
@@ -103,66 +59,40 @@ namespace Khernet.Core.Host
                 //Create database for configurations and a database to store data of application
                 Storage storage = new Storage();
                 string repositoryPath = Path.GetDirectoryName(storage.RepoAddress);
-
+                
                 if (!Directory.Exists(repositoryPath))
                 {
                     Directory.CreateDirectory(repositoryPath);
                 }
-
+                
                 //Rename the existing file if someone is found
                 RenameExistingFile(storage.ConfigAddress);
 
                 ResourceContainer rc = new ResourceContainer();
 
                 //Decompress ZIP file with configuration database
-                using (MemoryStream memStream = new MemoryStream(rc.GetConfigurationFile()))
+                using (MemoryStream memStream = new MemoryStream(rc.GetResource(Storage.CONFIGURATION_FILE)))
                 {
                     Compressor compressor = new Compressor();
                     compressor.UnZipFile(memStream, Path.GetDirectoryName(storage.ConfigAddress));
-
-                    File.Move(Path.Combine(Path.GetDirectoryName(storage.ConfigAddress), "CONFIG"), storage.ConfigAddress);
+                    File.Move(Path.Combine(Path.GetDirectoryName(storage.ConfigAddress), Storage.CONFIGURATION_FILE), storage.ConfigAddress);
                 }
 
                 //Rename the existing file if someone is found
                 RenameExistingFile(storage.RepoAddress);
 
                 //Decompress ZIP file with application database
-                using (MemoryStream memStream = new MemoryStream(rc.GetApplicationDataBase()))
+                using (MemoryStream memStream2 = new MemoryStream(rc.GetResource(Storage.MESSAGE_DB)))
                 {
-                    Compressor compressor = new Compressor();
-                    compressor.UnZipFile(memStream, Path.GetDirectoryName(storage.RepoAddress));
-
-                    File.Move(Path.Combine(Path.GetDirectoryName(storage.RepoAddress), "KH"), storage.RepoAddress);
+                    Compressor compressor2 = new Compressor();
+                    compressor2.UnZipFile(memStream2, Path.GetDirectoryName(storage.RepoAddress));
+                    File.Move(Path.Combine(Path.GetDirectoryName(storage.RepoAddress), Storage.MESSAGE_DB), storage.RepoAddress);
                 }
             }
             catch (Exception exception)
             {
                 LogDumper.WriteLog(exception);
                 throw;
-            }
-        }
-
-        private void UnPackMediaTools()
-        {
-            ResourceContainer rc = new ResourceContainer();
-            using (MemoryStream memStream = new MemoryStream(rc.GetMediaTools()))
-            {
-                Compressor compressor = new Compressor();
-                Storage storage = new Storage();
-
-                compressor.UnZipFile(memStream, storage.MediaToolsAddress);
-            }
-        }
-
-        private void UnPackVLCLib()
-        {
-            ResourceContainer rc = new ResourceContainer();
-            using (MemoryStream memStream = new MemoryStream(rc.GetVLCLibrary()))
-            {
-                Compressor compressor = new Compressor();
-                Storage storage = new Storage();
-
-                compressor.UnZipFile(memStream, storage.VLCLibX86Address);
             }
         }
 

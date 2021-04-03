@@ -135,7 +135,7 @@ namespace Khernet.UI.Media
             var currentAssembly = Assembly.GetEntryAssembly();
             var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
 
-            string ffmpegFilePath = Path.Combine(currentDirectory, "tls", "ffmpeg.exe");
+            string ffmpegFilePath = Path.Combine(currentDirectory, "media", "ffmpeg.exe");
 
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.FileName = ffmpegFilePath;

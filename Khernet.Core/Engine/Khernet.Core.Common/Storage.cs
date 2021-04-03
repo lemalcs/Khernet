@@ -21,6 +21,16 @@ namespace Khernet.Core.Common
 
     public class Storage
     {
+        public const string CONFIGURATION_FILE = "config";
+
+        public const string FIREBIRD_LIBRARY = "fbclient.dll";
+
+        public const string MESSAGE_DB = "msgdb";
+
+        public const string FILE_DB = "stgdb";
+
+        private readonly string dataFolder = "data";
+
         /// <summary>
         /// The path of file system where FIREBIRD engine is located.
         /// </summary>
@@ -29,7 +39,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "dbin\\fbclient.dll");
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), "firebird", "fbclient.dll");
             }
         }
 
@@ -57,7 +67,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "kdata\\E7FE8601FEAE.KND");
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), this.dataFolder, MESSAGE_DB);
             }
         }
 
@@ -69,7 +79,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "kdata\\KL732418.KND");
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), this.dataFolder, FILE_DB);
             }
         }
 
@@ -82,30 +92,6 @@ namespace Khernet.Core.Common
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
                 return Path.Combine(Path.GetDirectoryName(assembly.Location), "cache");
-            }
-        }
-
-        /// <summary>
-        /// The path of file system where FFMPEG library is located.
-        /// </summary>
-        public string MediaToolsAddress
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "tls");
-            }
-        }
-
-        /// <summary>
-        /// The path of file system where VLC library is located.
-        /// </summary>
-        public string VLCLibX86Address
-        {
-            get
-            {
-                var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "libvlc", "win-x86");
             }
         }
 
