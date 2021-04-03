@@ -295,7 +295,6 @@ namespace Khernet.UI.Managers
                     receiverAutoReset.Close();
 
                 eventReceiverList = null;
-                subscribersList.Clear();
                 subscribersList = null;
             }
         }
