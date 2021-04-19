@@ -28,7 +28,7 @@ Khernet is a standalone chat application for LAN, just clic the application and 
 - .NET Framework 4.0
 
 ## Supported systems
-Windows XP - Windows 10 (not RT)
+Windows Vista SP2 (KB2533623) - Windows 10 (not RT)
 
 ## Contributions
 
