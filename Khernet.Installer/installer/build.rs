@@ -18,6 +18,7 @@ fn main()
     let source_native_launcher_path=String::from(format!("{}\\{}","..\\..\\bin\\Khernet.Installer",&native_launcher));
     let source_updater_path=String::from(format!("{}\\{}","..\\..\\bin\\Khernet.Installer",&updater));
     let source_dotnet_installer_path=String::from(format!("{}\\{}","..\\..\\bin\\Khernet.Installer",&dotnet_installer));
+    let source_icon_path=String::from("..\\..\\Khernet.UI\\Khernet.UI.Presentation\\LogoIcon.ico");
 
     // Download again files when there is a changed in some of the following paths
     println!("cargo:rerun-if-changed={0}",source_dotnet_launcher_path);
@@ -25,6 +26,7 @@ fn main()
     println!("cargo:rerun-if-changed={0}",source_native_launcher_path);
     println!("cargo:rerun-if-changed={0}",source_updater_path);
     println!("cargo:rerun-if-changed={0}",source_dotnet_installer_path);
+    println!("cargo:rerun-if-changed={0}",source_icon_path);
 
     // Folder for files that will be embedded into main executable
     let assets_folder ="bag";
@@ -51,6 +53,15 @@ fn main()
                           format!("{}\\{}", &assets_folder, "media.zip").as_str());
     download_and_zip_file("..\\..\\Khernet.UI\\packages\\Khernet.UI.Lib.1.0.0\\build\\firebird\\*",
                           format!("{}\\{}", &assets_folder, "firebird.zip").as_str());
+
+    // Compile resources file for icon of application
+    match Command::new(&"..\\..\\tools\\rc.exe")
+        .args(&["resources.rc"])
+        .output()
+    {
+        Ok(_)=>println!("resources.res file created successfully"),
+        Err(reason)=> panic!("Error creating resources file for \"{}\" : {}", source_icon_path,reason),
+    }
 }
 
 /// Downloads a file from a remote location to a local path.
