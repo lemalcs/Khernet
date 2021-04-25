@@ -68,9 +68,7 @@
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <StartupObject>Khernet.UI.Program</StartupObject>
   </PropertyGroup>
@@ -97,6 +95,12 @@
   <PropertyGroup>
     <ApplicationIcon>LogoIcon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <Choose>
     <When Condition=" '$(Configuration)'=='Debug' " />
     <Otherwise>
@@ -239,7 +243,6 @@
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
     <Compile Include="Converters\VolumeToStringConverter.cs" />
-    <Compile Include="Converters\NullToStretchImageConverter.cs" />
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\NullToVisibilityGoneConverter.cs" />
     <Compile Include="Converters\Emojis\EmojiConverter.cs" />

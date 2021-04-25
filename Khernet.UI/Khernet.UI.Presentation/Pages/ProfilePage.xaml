@@ -61,7 +61,7 @@
                                         Margin="10 10 10 10"
                                         Cursor="Hand">
                                     <Border.Background>
-                                        <ImageBrush Stretch="{Binding User.Avatar,Converter={conv:NullToStretchImageConverter}}"
+                                        <ImageBrush Stretch="UniformToFill"
                                                     ImageSource="{Binding User.Avatar,
                                                                     Converter={conv:BytesToImageConverter},
                                                                     FallbackValue={StaticResource DefaultAvatar},

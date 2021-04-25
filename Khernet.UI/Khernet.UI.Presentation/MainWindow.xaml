@@ -10,7 +10,6 @@
                       x:Class="Khernet.UI.MainWindow"
                       mc:Ignorable="d"
                       x:Name="MainWin"
-                      Title="(RC)"
                       ShowIconOnTitleBar="True"
                       WindowTransitionsEnabled="False"
                       WindowStartupLocation="CenterScreen"
@@ -30,7 +29,7 @@
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Image Source="{StaticResource HeaderLogo}"
-                   Height="12.5"
+                   Height="9"
                    Margin="10 0 0 0"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>

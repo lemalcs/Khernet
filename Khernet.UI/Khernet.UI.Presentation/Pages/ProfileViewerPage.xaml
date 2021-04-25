@@ -46,12 +46,12 @@
                         <Border CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                 Grid.Column="0"
                                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                Height="120"
-                                Margin="20 20 20 20"
+                                Height="100"
+                                Margin="20"
                                 Cursor="Hand"
                                 >
                             <Border.Background>
-                                <ImageBrush Stretch="{Binding User.Avatar,Converter={conv:NullToStretchImageConverter}}"
+                                <ImageBrush Stretch="UniformToFill"
                                             ImageSource="{Binding User.Avatar, 
                                                             Converter={conv:BytesToImageConverter}, 
                                                             FallbackValue={StaticResource DefaultAvatar},
