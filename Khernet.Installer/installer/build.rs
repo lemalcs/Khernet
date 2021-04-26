@@ -55,12 +55,16 @@ fn main()
                           format!("{}\\{}", &assets_folder, "firebird.zip").as_str());
 
     // Compile resources file for icon of application
-    match Command::new(&"..\\..\\tools\\rc.exe")
-        .args(&["resources.rc"])
-        .output()
+    let mut res = winres::WindowsResource::new();
+    res.set_icon(&source_icon_path);
+
+    // Version must be equals to APP_VERSION variable located in main.rs
+    res.set_version_info(winres::VersionInfo::FILEVERSION, 0x0000000F00030000);
+
+    match res.compile()
     {
-        Ok(_)=>println!("resources.res file created successfully"),
-        Err(reason)=> panic!("Error creating resources file for \"{}\" : {}", source_icon_path,reason),
+        Ok(_)=> println!("Icon added successfully."),
+        Err(reason)=> panic!("Error while adding icon {} : {}",source_icon_path,reason),
     }
 }
 

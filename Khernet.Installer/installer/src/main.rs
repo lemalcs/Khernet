@@ -40,7 +40,7 @@ fn init_log()->Logger
 /// cargo rustc --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup resources.res"
 ///
 /// Compile for release
-/// cargo rustc --release --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup resources.res"
+/// cargo rustc --release --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
 fn main() 
 {
     let args:Vec<String>=env::args().collect();
