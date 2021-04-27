@@ -11,56 +11,61 @@
                 xmlns:Cache="clr-namespace:Khernet.UI.Cache"
                 x:Class="Khernet.UI.Pages.LoginPage"
                 mc:Ignorable="d" 
-                d:DesignHeight="300" d:DesignWidth="300"
+                d:DesignHeight="350" d:DesignWidth="300"
                 Style="{DynamicResource MetroPage}"
                 x:Name="Login"
                 Title="LoginPage">
     <Grid>
         <StackPanel Orientation="Vertical" 
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Width="280"
-                Height="256"
-                IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="280"
+                    IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}">
+
+            <!-- Application logo -->
+            <Image Source="{StaticResource AppLogo}"
+                   Height="70"/>
 
             <!-- Title -->
-            <TextBlock Text="Sign in" 
-                   Style="{StaticResource TitleText}"
-                   Margin="0 0 0 15"/>
+            <TextBlock Text="Sign in to Khernet" 
+                       Style="{StaticResource TitleText}"
+                       FontSize="{StaticResource LargeFontSize}"
+                       HorizontalAlignment="Center"
+                       Margin="0 10 0 15"/>
 
-            <TextBlock Text="User-name" 
-                   Style="{StaticResource TextblockHeader}"
-                   Margin="0 15 0 5"/>
+            <TextBlock Text="Username" 
+                       Style="{StaticResource TextblockHeader}"
+                       Margin="0 15 0 5"/>
 
             <!--User-name -->
             <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
-                 Style="{StaticResource EditTextBox}"
-                 depend:IsFocusedProperty.Value="True"
-                 MaxLength="20" 
-                 Height="28"
-                 VerticalContentAlignment="Center"/>
+                     Style="{StaticResource EditTextBox}"
+                     depend:IsFocusedProperty.Value="True"
+                     MaxLength="20" 
+                     Height="28"
+                     VerticalContentAlignment="Center"/>
 
             <TextBlock Text="Password" 
-                   Style="{StaticResource TextblockHeader}"
-                   Margin="0 15 0 5"/>
+                       Style="{StaticResource TextblockHeader}"
+                       Margin="0 15 0 5"/>
 
             <!--Password -->
             <PasswordBox Name="pass1"
-                     Style="{StaticResource EditPasswordBox}" 
-                     VerticalContentAlignment="Center"
-                     Height="28"/>
+                         Style="{StaticResource EditPasswordBox}" 
+                         VerticalContentAlignment="Center"
+                         Height="28"/>
 
             <!--Login button-->
             <Button x:Name="button" 
-                IsDefault="True"
-                Content="LOG IN" 
-                Width="120"
-                Margin="15"
-                IsEnabled="{Binding CanLogin}"
-                depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
-                Command="{Binding LoginCommand}"
-                CommandParameter="{Binding ElementName=Login}"
-                Style="{DynamicResource HexagonalButtonStyle}"/>
+                    IsDefault="True"
+                    Content="LOG IN" 
+                    Width="120"
+                    Margin="15"
+                    IsEnabled="{Binding CanLogin}"
+                    depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
+                    Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding ElementName=Login}"
+                    Style="{DynamicResource HexagonalButtonStyle}"/>
 
             <!--Remove Style="{StaticResource HexagonalButtonStyle}" this to clear issue with generics-->
         </StackPanel>
