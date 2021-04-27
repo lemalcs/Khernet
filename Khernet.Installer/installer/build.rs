@@ -59,7 +59,7 @@ fn main()
     res.set_icon(&source_icon_path);
 
     // Version must be equals to APP_VERSION variable located in main.rs
-    res.set_version_info(winres::VersionInfo::FILEVERSION, 0x0000000F00040000);
+    res.set_version_info(winres::VersionInfo::FILEVERSION, 0x0000000F00050000);
 
     match res.compile()
     {
