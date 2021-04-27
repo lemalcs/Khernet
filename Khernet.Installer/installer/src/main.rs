@@ -34,10 +34,10 @@ fn init_log()->Logger
 }
 
 /// Compile with these command to hide console window
-/// cargo rustc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup resources.res"
+/// cargo rustc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
 ///
 /// Compile for windows x86:
-/// cargo rustc --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup resources.res"
+/// cargo rustc --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
 ///
 /// Compile for release
 /// cargo rustc --release --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Khernet.Installer.Launcher.Logger
 {
@@ -24,7 +20,7 @@ namespace Khernet.Installer.Launcher.Logger
         /// <param name="message">The message to write to.</param>
         public void Log(string message)
         {
-            using(StreamWriter streamWriter=new StreamWriter(logPath,true))
+            using (StreamWriter streamWriter = new StreamWriter(logPath, true))
             {
                 streamWriter.WriteLine($"{DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()} > {message}");
             }
@@ -41,12 +37,12 @@ namespace Khernet.Installer.Launcher.Logger
             {
                 streamWriter.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd")} {DateTime.Now.ToLongTimeString()} > {message}");
 
-                if(exception!=null)
+                if (exception != null)
                 {
                     WriteLogLines(streamWriter, exception);
                 }
 
-                if(exception!=null&&exception.InnerException!=null)
+                if (exception != null && exception.InnerException != null)
                 {
                     WriteLogLines(streamWriter, exception.InnerException);
 
@@ -59,7 +55,7 @@ namespace Khernet.Installer.Launcher.Logger
         /// </summary>
         /// <param name="stream">The <see cref="TextWriter"/> to write to.</param>
         /// <param name="exception">The exception that needs to be written to log.</param>
-        private void WriteLogLines(TextWriter stream,Exception exception)
+        private void WriteLogLines(TextWriter stream, Exception exception)
         {
             if (exception == null)
                 return;
@@ -71,7 +67,7 @@ namespace Khernet.Installer.Launcher.Logger
                 stream.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd")} {DateTime.Now.ToLongTimeString()} > {lines[i]}");
             }
 
-            lines = exception.StackTrace.Split(new char[] { '\r', '\n' },StringSplitOptions.RemoveEmptyEntries);
+            lines = exception.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
                 stream.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd")} {DateTime.Now.ToLongTimeString()} > {lines[i]}");

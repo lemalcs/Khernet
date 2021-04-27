@@ -1,15 +1,11 @@
 ﻿using Khernet.Installer.Launcher.Logger;
 using Squirrel;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Khernet.Installer.Launcher
 {
     public enum UpdateResult
-    { 
+    {
         /// <summary>
         /// Update was downloaded successfully.
         /// </summary>
@@ -38,7 +34,7 @@ namespace Khernet.Installer.Launcher
 
         readonly ILogger logger;
 
-        public SquirrelApplicationsUpdater(string[] updateSources,ILogger logger)
+        public SquirrelApplicationsUpdater(string[] updateSources, ILogger logger)
         {
             if (updateSources == null)
                 throw new ArgumentNullException($"Parameter {nameof(updateSources)} cannot be null");
@@ -59,7 +55,7 @@ namespace Khernet.Installer.Launcher
             if (updateSources.Length == 0)
                 return UpdateResult.NotUpdates;
 
-            for(int i=0;i<updateSources.Length;i++)
+            for (int i = 0; i < updateSources.Length; i++)
             {
                 if (updateSources[i] == null)
                     continue;

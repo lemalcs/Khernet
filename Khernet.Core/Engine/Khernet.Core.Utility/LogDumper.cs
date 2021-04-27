@@ -92,7 +92,7 @@ namespace Khernet.Core.Utility
             if (string.IsNullOrEmpty(text))
                 return;
 
-            string[]lines = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
                 logger.Log(LogLevel.Info, lines[i]);

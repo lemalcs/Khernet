@@ -95,7 +95,7 @@ namespace Khernet.UI.Resources
     {
         //Stop flashing. The system restores the window to its original state.
         FLASHW_STOP = 0,
-        
+
         //Flash the window caption.
         FLASHW_CAPTION = 1,
 

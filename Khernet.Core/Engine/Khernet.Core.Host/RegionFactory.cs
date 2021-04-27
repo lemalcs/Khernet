@@ -59,12 +59,12 @@ namespace Khernet.Core.Host
                 //Create database for configurations and a database to store data of application
                 Storage storage = new Storage();
                 string repositoryPath = Path.GetDirectoryName(storage.RepoAddress);
-                
+
                 if (!Directory.Exists(repositoryPath))
                 {
                     Directory.CreateDirectory(repositoryPath);
                 }
-                
+
                 //Rename the existing file if someone is found
                 RenameExistingFile(storage.ConfigAddress);
 

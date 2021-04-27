@@ -1,9 +1,5 @@
-﻿using Khernet.Installer.Launcher.Logger;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Khernet.Installer.Launcher
 {
@@ -20,12 +16,12 @@ namespace Khernet.Installer.Launcher
 
         // The current action that is being performed by installer.
         private string currentAction;
-        public string CurrentAction 
+        public string CurrentAction
         {
             get => currentAction;
             set
-            { 
-                if(currentAction != value)
+            {
+                if (currentAction != value)
                 {
                     currentAction = value;
                     OnPropertyChanged(nameof(CurrentAction));
@@ -33,12 +29,12 @@ namespace Khernet.Installer.Launcher
             }
         }
 
-        public int PercentageDone 
-        { 
+        public int PercentageDone
+        {
             get => percentageDone;
-            set 
+            set
             {
-                if(percentageDone!=value)
+                if (percentageDone != value)
                 {
                     percentageDone = value;
                     OnPropertyChanged(nameof(PercentageDone));
@@ -48,7 +44,7 @@ namespace Khernet.Installer.Launcher
 
         public string InstallerPath { get => installerPath; }
 
-        public InstallerViewModel(IFileDownloader fileDownloader,IApplicationUpdater applicationUpdater, string installerPath)
+        public InstallerViewModel(IFileDownloader fileDownloader, IApplicationUpdater applicationUpdater, string installerPath)
         {
             if (fileDownloader == null)
                 throw new ArgumentNullException($"Parameter {nameof(fileDownloader)} cannot be null");
@@ -132,7 +128,7 @@ namespace Khernet.Installer.Launcher
             CurrentAction = "Updating...";
             PercentageDone = 50;
 
-            if(applicationUpdater.Update()== UpdateResult.Success)
+            if (applicationUpdater.Update() == UpdateResult.Success)
             {
                 return true;
             }

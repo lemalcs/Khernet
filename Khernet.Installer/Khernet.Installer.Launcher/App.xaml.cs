@@ -52,7 +52,7 @@ namespace Khernet.Installer.Launcher
             await Task.Delay(TimeSpan.FromSeconds(3));
 
             // If installation process is currently executing then show window
-            if(isBusy)
+            if (isBusy)
             {
                 Current.MainWindow = new MainWindow();
                 Current.MainWindow.DataContext = installerModel;
@@ -77,7 +77,7 @@ namespace Khernet.Installer.Launcher
             }
             catch (Exception error)
             {
-                logger.Log("Error while installing application.",error);
+                logger.Log("Error while installing application.", error);
             }
 
             bool updateResult = false;
@@ -96,7 +96,8 @@ namespace Khernet.Installer.Launcher
 
             isBusy = false;
 
-            Current.Dispatcher.Invoke(() => {
+            Current.Dispatcher.Invoke(() =>
+            {
 
                 if (Current.MainWindow != null)
                     Current.MainWindow.Close();
