@@ -11,47 +11,46 @@
                 d:DesignHeight="300" d:DesignWidth="300"
                 x:Name="Login"
                 Title="LoginPage"
-                Width="400"
+                Width="250"
                 d:DataContext="{d:DesignInstance vm:AboutViewModel,IsDesignTimeCreatable=True}">
 
-    <Grid Margin="24">
-        <Grid.RowDefinitions>
-            
-            <!-- Application logo -->
-            <RowDefinition Height="*"/>
-            
-            <!-- Name of application -->
-            <RowDefinition Height="Auto"/>
-            
-            <!-- Version information -->
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <StackPanel VerticalAlignment="Center">
 
+        <!-- Application logo -->
         <Image Grid.Row="0" 
                Source="{StaticResource AppLogo}"/>
 
+        <!-- Application name image -->
         <Image Grid.Row="1" 
                Source="{StaticResource TitleLogo}"
                Width="200"
-               Margin="0 10 0 0"/>
+               Margin="0 30 0 0"/>
 
-        <FlowDocumentScrollViewer Grid.Row="2"
-                                  Margin="0 10 0 0">
+        <FlowDocumentScrollViewer Margin="-20 20 0 0">
             
             <FlowDocument>
                 <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
                            FontSize="{StaticResource RegularFontSize}">
 
-                    <Run Text="Version "/>
+                    <Run Text="Version: "/>
                     <Run Text="{x:Static Cache:Configurations.AppVerion}"/>
                     <LineBreak/>
+                    <Run Text="Report an issue: "/>
                     <Hyperlink Command="{Binding OpenIssueCommand}" >
-                        <Run Text="Report an issue"/>
+                        <Run Text="here"/>
                     </Hyperlink>
-                
+                    <LineBreak/>
+                    <Run Text="Installation path: "/>
+                    <Hyperlink Command="{Binding OpenInstallationPathCommand}" >
+                        <Run Text="click here"/>
+                    </Hyperlink>
+                    <LineBreak/>
+                    <Hyperlink Command="{Binding OpenSourceCodeCommand}" >
+                        <Run Text="Source code"/>
+                    </Hyperlink>
                 </Paragraph>
             </FlowDocument>
         </FlowDocumentScrollViewer>
 
-    </Grid>
+    </StackPanel>
 </local:BasePage>
