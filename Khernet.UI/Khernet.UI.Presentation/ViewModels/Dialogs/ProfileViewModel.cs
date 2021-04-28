@@ -201,7 +201,7 @@ namespace Khernet.UI
             this.messageManager = messageManager ?? throw new ArgumentNullException($"{nameof(IMessageManager)} cannot be null");
         }
 
-        private void OpenEmojiGallery(object obj)
+        private void OpenEmojiGallery()
         {
             IsEmojiGalleryOpen = true;
         }
@@ -209,8 +209,7 @@ namespace Khernet.UI
         /// <summary>
         /// Edits user name to show on this application only.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private async void EditName(object obj)
+        private async void EditName()
         {
             try
             {
@@ -237,7 +236,7 @@ namespace Khernet.UI
             }
         }
 
-        private async void UpdateProfileImage(object obj)
+        private async void UpdateProfileImage()
         {
             //Open file dialog
             string[] imagePath = IoCContainer.UI.ShowOpenFileDialog();
@@ -280,8 +279,8 @@ namespace Khernet.UI
         /// <summary>
         /// Saves profile details of current logged user.
         /// </summary>
-        /// <param name="obj">The container for full name.</param>
-        private async void SaveProfile(object obj)
+        /// <param name="valueContainer">The container for full name.</param>
+        private async void SaveProfile(object valueContainer)
         {
             try
             {
@@ -298,7 +297,7 @@ namespace Khernet.UI
                     return;
                 }
 
-                IDocumentContainer document = (IDocumentContainer)obj;
+                IDocumentContainer document = (IDocumentContainer)valueContainer;
                 IoCContainer.Get<Messenger>().SaveProfile(new Services.Messages.Peer
                 {
                     UserName = User.Username,

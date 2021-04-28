@@ -112,8 +112,8 @@ namespace Khernet.UI
         /// <summary>
         /// Performs login for application.
         /// </summary>
-        /// <param name="parameter">The password for user.</param>
-        public async void Login(object parameter)
+        /// <param name="passwordInfo">The password for user.</param>
+        public async void Login(object passwordInfo)
         {
             //Show progress animation
             IsAttemptingLogin = true;
@@ -121,7 +121,7 @@ namespace Khernet.UI
             //Disable button
             CanLogin = false;
 
-            var t = parameter as IPasswordContainer;
+            var t = passwordInfo as IPasswordContainer;
 
             try
             {
@@ -177,9 +177,8 @@ namespace Khernet.UI
         /// <summary>
         /// Validates whether user-name and password are not empty.
         /// </summary>
-        /// <param name="parameter">The parameter for command.</param>
-        /// <returns></returns>
-        public bool VerifyCredentials(object parameter)
+        /// <returns>True if credentials are right otherwise false.</returns>
+        public bool VerifyCredentials()
         {
             return !string.IsNullOrEmpty(username) && !string.IsNullOrWhiteSpace(username);
         }

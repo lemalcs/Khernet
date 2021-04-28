@@ -99,10 +99,10 @@ namespace Khernet.UI
             GetCacheSizeCommand = new UI.RelayCommand(GetCacheSize);
             OpenCacheFolderCommand = new RelayCommand(OpenCache);
 
-            GetCacheSize(null);
+            GetCacheSize();
         }
 
-        private void OpenCache(object obj)
+        private void OpenCache()
         {
             Process.Start(Configurations.CacheDirectory.FullName);
         }
@@ -115,8 +115,7 @@ namespace Khernet.UI
         /// <summary>
         /// Get total size of file in cache directory.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private void GetCacheSize(object obj)
+        private void GetCacheSize()
         {
             string[] files = Directory.GetFiles(Configurations.CacheDirectory.FullName);
 
@@ -133,8 +132,7 @@ namespace Khernet.UI
         /// <summary>
         /// Delete files in cache directory.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private async void ClearCache(object obj)
+        private async void ClearCache()
         {
             try
             {
@@ -154,7 +152,7 @@ namespace Khernet.UI
                 IsCleaning = false;
                 TextProgress = "Cache cleared successfully";
 
-                GetCacheSize(null);
+                GetCacheSize();
             }
         }
 

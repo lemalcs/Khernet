@@ -99,7 +99,7 @@ namespace Khernet.UI
             userProfile = profileModel;
         }
 
-        private void OpenMediaGallery(object obj)
+        private void OpenMediaGallery()
         {
             IsMediaGalleryOpen = true;
         }

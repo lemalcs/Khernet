@@ -141,12 +141,12 @@ namespace Khernet.UI
             CancelCommand = new RelayCommand(Cancel);
         }
 
-        private void Cancel(object obj)
+        private void Cancel()
         {
             Result = MessageBoxResponse.Cancel;
         }
 
-        private void Accept(object obj)
+        private void Accept()
         {
             Result = MessageBoxResponse.Accept;
         }

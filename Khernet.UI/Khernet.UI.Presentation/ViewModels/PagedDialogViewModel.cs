@@ -160,7 +160,7 @@ namespace Khernet.UI
             IsChildDialogVisible = true;
         }
 
-        private void GoToPage(object obj)
+        private void GoToPage()
         {
             //Title for page
             Category = homeCategory;

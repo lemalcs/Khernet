@@ -387,8 +387,7 @@ namespace Khernet.UI
         /// <summary>
         /// Opens settings dialog.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private void ViewSettings(object obj)
+        private void ViewSettings()
         {
             //Set settings list as first page
             var pagedVM = new PagedDialogViewModel();

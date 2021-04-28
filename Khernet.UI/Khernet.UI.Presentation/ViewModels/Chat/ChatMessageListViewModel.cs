@@ -305,14 +305,14 @@ namespace Khernet.UI
 
         #region Methods
 
-        private void GoToBottom(object parameter)
+        private void GoToBottom(object document)
         {
             MarkAsReadMessages();
 
             CanShowUnreadPopup = false;
             UserContext.User.ClearUnreadMessages();
 
-            IDocumentContainer container = parameter as IDocumentContainer;
+            IDocumentContainer container = document as IDocumentContainer;
 
             UserContext.CurrentChatModel = Items[Items.Count - 1];
 
@@ -336,7 +336,7 @@ namespace Khernet.UI
                 IoCContainer.Get<Messenger>().BulkMarkAsReadMessage(userContext.User.Token, Items[Items.Count - 1].TimeId);
         }
 
-        private void OpenGIFGallery(object obj)
+        private void OpenGIFGallery()
         {
             if (MediaVM == null)
             {
@@ -346,7 +346,7 @@ namespace Khernet.UI
             IsGIFGalleryOpen = true;
         }
 
-        private void CloseReply(object obj)
+        private void CloseReply()
         {
             UserContext.ReplyMessage = null;
             UserContext.ResendMessage = null;
@@ -354,12 +354,12 @@ namespace Khernet.UI
             OnPropertyChanged(nameof(CanSendMessage));
         }
 
-        private void OpenEmojiGallery(object obj)
+        private void OpenEmojiGallery()
         {
             IsMediaGalleryOpen = true;
         }
 
-        private bool CanSend(object obj)
+        private bool CanSend()
         {
             return HasMessage || (UserContext != null && UserContext.ResendMessage != null);
         }
@@ -367,8 +367,8 @@ namespace Khernet.UI
         /// <summary>
         /// Opens a dialog to select files.
         /// </summary>
-        /// <param name="obj">A <see cref="IDocumentContainer"/> object.</param>
-        private void OpenFile(object parameter)
+        /// <param name="fileInfo">A <see cref="IDocumentContainer"/> object.</param>
+        private void OpenFile(object fileInfo)
         {
             //Get file paths
             string[] files = IoCContainer.Get<IUIManager>().ShowOpenFileDialog();
@@ -379,7 +379,7 @@ namespace Khernet.UI
             //Send all selected files
             Send(files);
 
-            IDocumentContainer container = parameter as IDocumentContainer;
+            IDocumentContainer container = fileInfo as IDocumentContainer;
 
             AddCurrentChatModel(Items[Items.Count - 1]);
             container.ScrollToCurrentContent();
@@ -481,8 +481,7 @@ namespace Khernet.UI
         /// <summary>
         /// View current profile.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private void ViewProfile(object obj)
+        private void ViewProfile()
         {
             ProfileViewModel profile = new ProfileViewModel(this)
             {
@@ -494,14 +493,14 @@ namespace Khernet.UI
         /// <summary>
         /// Sends text message.
         /// </summary>
-        /// <param name="parameter">An <see cref="IDocumentContainer"/> object.</param>
-        public void Send(object parameter)
+        /// <param name="messageContainer">An <see cref="IDocumentContainer"/> object.</param>
+        public void Send(object messageContainer)
         {
-            if (parameter == null)
+            if (messageContainer == null)
                 return;
 
             //Check if there is a text message
-            IDocumentContainer container = parameter as IDocumentContainer;
+            IDocumentContainer container = messageContainer as IDocumentContainer;
 
             if (HasMessage)
             {
@@ -524,7 +523,7 @@ namespace Khernet.UI
         /// <summary>
         /// Sends message to receiver.
         /// </summary>
-        /// <param name="parameter">The message to send to.</param>
+        /// <param name="message">The message to send to.</param>
         public async void Send(byte[] message)
         {
             try

@@ -24,7 +24,7 @@ namespace Khernet.UI
     }
 
     /// <summary>
-    /// View model for image messages.
+    /// View model for replied messages.
     /// </summary>
     public class ReplyMessageViewModel : BaseModel
     {
@@ -202,7 +202,7 @@ namespace Khernet.UI
             OpenMessageCommand = new RelayCommand(OpenMessage);
         }
 
-        private void OpenMessage(object obj)
+        private void OpenMessage()
         {
 
         }

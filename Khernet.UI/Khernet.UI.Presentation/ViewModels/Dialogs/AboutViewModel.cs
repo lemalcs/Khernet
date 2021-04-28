@@ -1,6 +1,4 @@
-﻿using Khernet.Core.Utility;
-using Khernet.UI.Cache;
-using System;
+﻿using Khernet.UI.Cache;
 using System.Diagnostics;
 using System.Windows.Input;
 

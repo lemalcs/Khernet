@@ -40,8 +40,7 @@ namespace Khernet.UI
         /// <summary>
         /// Shutdowns the application.
         /// </summary>
-        /// <param name="parameter">The parameter for command.</param>
-        private async void ExitApplication(object parameter)
+        private async void ExitApplication()
         {
             IsRunning = false;
             Application.Current.MainWindow.Hide();
@@ -65,10 +64,9 @@ namespace Khernet.UI
         /// <summary>
         /// Verifies if application is running.
         /// </summary>
-        /// <param name="parameter">The parameter for command.</param>
         /// <returns>True if application is running otherwise false.</returns>
         [DebuggerStepThrough]
-        private bool VerifyRunning(object parameter)
+        private bool VerifyRunning()
         {
             return IsRunning;
         }
@@ -76,8 +74,7 @@ namespace Khernet.UI
         /// <summary>
         /// Shows the main window.
         /// </summary>
-        /// <param name="parameter">The parameter for command.</param>
-        private void ShowWindow(object parameter)
+        private void ShowWindow()
         {
             IoCContainer.UI.ShowWindow();
         }
@@ -85,8 +82,7 @@ namespace Khernet.UI
         /// <summary>
         /// Hides the main window.
         /// </summary>
-        /// <param name="parameter">The parameter for command.</param>
-        private void HideWindow(object parameter)
+        private void HideWindow()
         {
             Application.Current.MainWindow.Hide();
             IoCContainer.Get<ApplicationViewModel>().ClearChatPage();

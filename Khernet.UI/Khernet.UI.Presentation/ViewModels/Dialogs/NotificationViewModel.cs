@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for user profile.
+    /// View model for notifications.
     /// </summary>
     public class NotificationViewModel : BaseModel
     {
@@ -109,7 +109,7 @@ namespace Khernet.UI
             IsVisible = true;
         }
 
-        private void Close(object obj)
+        private void Close()
         {
             IsVisible = false;
         }
@@ -117,8 +117,7 @@ namespace Khernet.UI
         /// <summary>
         /// Open the chat list of user whom sent the message.
         /// </summary>
-        /// <param name="obj">The parameter for command.</param>
-        private void OpenChat(object obj)
+        private void OpenChat()
         {
             IoCContainer.Get<UserListViewModel>().SelectUser(User.Token);
             IsVisible = false;
