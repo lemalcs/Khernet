@@ -45,6 +45,12 @@
                         <Run Text="click here"/>
                     </Hyperlink>
                     <LineBreak/>
+
+                    <Run Text="Working directory: "/>
+                    <Hyperlink Command="{Binding OpenWorkingDirectoryCommand}" >
+                        <Run Text="click here"/>
+                    </Hyperlink>
+                    <LineBreak/>
                     <Hyperlink Command="{Binding OpenSourceCodeCommand}" >
                         <Run Text="Source code"/>
                     </Hyperlink>

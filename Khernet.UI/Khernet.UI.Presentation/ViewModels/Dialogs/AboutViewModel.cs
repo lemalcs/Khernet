@@ -1,5 +1,8 @@
 ﻿using Khernet.UI.Cache;
+using Khernet.UI.IoC;
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -23,9 +26,14 @@ namespace Khernet.UI
         public ICommand OpenSourceCodeCommand { get; private set; }
 
         /// <summary>
-        /// Opens the directory where this application is installed. 
+        /// Opens the directory where this installer (the executable that installs the whole application) is located. 
         /// </summary>
         public ICommand OpenInstallationPathCommand { get; private set; }
+
+        /// <summary>
+        /// Opens the working directory where this application is located. 
+        /// </summary>
+        public ICommand OpenWorkingDirectoryCommand { get; private set; }
 
         #endregion
 
@@ -34,6 +42,12 @@ namespace Khernet.UI
             OpenIssueCommand = new RelayCommand(OpenIssue);
             OpenSourceCodeCommand = new RelayCommand(OpenSourceCode);
             OpenInstallationPathCommand = new RelayCommand(OpenInstallationPath);
+            OpenWorkingDirectoryCommand = new RelayCommand(OpenWorkingDirectory);
+        }
+
+        private void OpenWorkingDirectory()
+        {
+            Process.Start(Configurations.HomeDirectory);
         }
 
         private void OpenSourceCode()
@@ -46,11 +60,23 @@ namespace Khernet.UI
             Process.Start("https://github.com/lemalcs/Khernet-issues/issues");
         }
 
-        private void OpenInstallationPath()
+        private async void OpenInstallationPath()
         {
-            Process.Start(Configurations.HomeDirectory);
-
+            DirectoryInfo dirInfo = new DirectoryInfo(Configurations.HomeDirectory);
+            string installerPath = dirInfo.Parent.Parent.FullName;
+            if (Directory.Exists(installerPath))
+                Process.Start(installerPath);
+            else
+                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = $"Installer not found, place the installer at the following path and try again: {installerPath}",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                });
         }
 
+        
     }
 }
