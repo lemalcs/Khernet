@@ -401,7 +401,7 @@ namespace Khernet.UI
             //Send Files
             foreach (string f in files)
             {
-                if (FileHelper.GetFileSize(f) > FileHelper.GIGABYTE)
+                if (FileHelper.GetFileSize(f) > FileHelper.GIGABYTE*2)
                 {
                     await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                     {
