@@ -267,3 +267,7 @@ bag/
 .history/
 .idea/
 .vscode/
+
+# Folder for nuget packages
+temp/
+lib/
