@@ -74,8 +74,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set bin_directory=..\..\..\..\..\..\bin\Khernet.Core
-IF not exist %25lib_directory%25 mkdir %25bin_directory%25
+    <PostBuildEvent>set bin_directory=..\..\..\..\..\..\bin\Khernet.Core\
+IF not exist %25bin_directory%25 mkdir %25bin_directory%25
 
 copy /Y $(TargetDir) %25bin_directory%25</PostBuildEvent>
   </PropertyGroup>
