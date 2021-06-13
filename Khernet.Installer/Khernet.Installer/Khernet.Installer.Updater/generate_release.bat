@@ -20,7 +20,7 @@ set release_directory=..\\..\\..\\bin\\Releases
 IF not exist %release_directory% mkdir %release_directory%
 
 rem Create squirrel installer (nuget package) 
-set package_version=0.15.10
+set package_version=0.15.11
 set package_name=Khernet
 %~dp0..\..\..\tools\squirrel.exe --releasify %package_name%.%package_version%.nupkg --releaseDir=%release_directory% --no-msi
 

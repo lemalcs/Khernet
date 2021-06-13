@@ -17,9 +17,6 @@ namespace Khernet.Installer.Launcher
         // The installation progress
         private Thread installerProcess;
 
-        // Indicates whether a installation is in progress.
-        private volatile bool isBusy = true;
-
         public ILogger logger;
 
         protected override void OnStartup(StartupEventArgs e)
@@ -34,7 +31,11 @@ namespace Khernet.Installer.Launcher
                 "https://github.com/lemalcs/Khernet/releases/latest/download",
                     "..\\..\\khernetupgrade"},
                     logger),
-                Assembly.GetExecutingAssembly().Location); ;
+                Assembly.GetExecutingAssembly().Location);
+
+            Current.MainWindow = new MainWindow();
+            Current.MainWindow.DataContext = installerModel;
+            Current.MainWindow.Show();
 
             StartInstaller(installerModel);
         }
@@ -43,30 +44,18 @@ namespace Khernet.Installer.Launcher
         /// Initialize the installation process.
         /// </summary>
         /// <param name="installerModel">The model of installer.</param>
-        private async void StartInstaller(BaseModel installerModel)
+        private void StartInstaller(BaseModel installerModel)
         {
-            installerProcess = new Thread(new ParameterizedThreadStart(installApplication));
+            installerProcess = new Thread(new ParameterizedThreadStart(InstallApplication));
             installerProcess.Start(installerModel);
-
-            // Wait 3 seconds before show window with current progress
-            await Task.Delay(TimeSpan.FromSeconds(3));
-
-            // If installation process is currently executing then show window
-            if (isBusy)
-            {
-                Current.MainWindow = new MainWindow();
-                Current.MainWindow.DataContext = installerModel;
-                Current.MainWindow.Show();
-            }
         }
 
         /// <summary>
         /// Installs and updates the main application.
         /// </summary>
         /// <param name="installerModel">The model of installer.</param>
-        private void installApplication(object installerModel)
+        private void InstallApplication(object installerModel)
         {
-            isBusy = true;
             InstallerViewModel installer = (InstallerViewModel)installerModel;
             bool isInstalled = false;
             string appPath = null;
@@ -94,8 +83,6 @@ namespace Khernet.Installer.Launcher
 
             }
 
-            isBusy = false;
-
             Current.Dispatcher.Invoke(() =>
             {
 
@@ -103,8 +90,10 @@ namespace Khernet.Installer.Launcher
                     Current.MainWindow.Close();
 
                 if (!updateResult)
+                    // Start main application, no updates were installed
                     Process.Start(appPath);
                 else
+                    // Start again launcher because application was updated
                     Process.Start(Path.Combine("..\\", Path.GetFileName(installer.InstallerPath)));
 
                 Application.Current.Shutdown();
