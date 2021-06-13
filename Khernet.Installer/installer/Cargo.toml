@@ -1,6 +1,6 @@
 [package]
 name = "installer"
-version = "0.15.11"
+version = "0.15.12"
 authors = ["Luis <info@lemaluis.com>"]
 edition = "2018"
 
@@ -11,6 +11,7 @@ winreg = "0.8"
 rust-embed="5.9.0"
 lazy_static = "1.4.0"
 chrono = "0.4.19"
+wildmatch = "2.1.0"
 
 [[bin]]
 name="Khernet"
@@ -24,5 +25,5 @@ LegalCopyright = "Copyright © 2021"
 InternalName = "Khernet"
 OriginalFilename = "Khernet"
 ProductName = "Khernet"
-ProductVersion = "0.15.11.0"
+ProductVersion = "0.15.12.0"
 FileDescription = "Standalone chat application for LAN"
