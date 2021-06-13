@@ -12,16 +12,12 @@ tools\nuget.exe restore Khernet.UI\Khernet.UI.sln
 msbuild Khernet.UI\Khernet.UI.sln -p:Platform=x86 /property:Configuration=%dotnetConfiguration%
 
 rem Build launcher
-tools\nuget.exe restore Khernet.Installer\Khernet.Installer.Launcher\Khernet.Installer.Launcher.sln
-msbuild Khernet.Installer\Khernet.Installer.Launcher\Khernet.Installer.Launcher.sln -p:Platform=x86 /property:Configuration=%dotnetConfiguration%
+tools\nuget.exe restore Khernet.Installer\Khernet.Installer\Khernet.Installer.sln
+msbuild Khernet.Installer\Khernet.Installer\Khernet.Installer.sln -p:Platform=x86 /property:Configuration=%dotnetConfiguration%
 
 rem Create dotnet installer
 cd Khernet.Installer\dotnetInstaller
 call create_dotnet_installer.bat
-
-rem Create native launcher
-cd ..\nativeLauncher
-call generate_native_launcher.bat
 
 rem Build installer
 cd ..\..\Khernet.Installer\installer
