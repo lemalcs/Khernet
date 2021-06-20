@@ -1,5 +1,9 @@
 @echo off
 
+echo -------------------------------------------------------------
+echo  Starting build...
+echo -------------------------------------------------------------
+
 rem Set this to Release or Debug values
 set dotnetConfiguration=Debug
 
@@ -26,3 +30,7 @@ cargo rustc --release --target=i686-pc-windows-msvc -- -Clink-args="/SUBSYSTEM:W
 rem Copy final installer to bin directory
 set mainApp_path=target\i686-pc-windows-msvc\release\Khernet.exe
 if exist %mainApp_path% copy %mainApp_path% ..\..\bin\
+
+echo -------------------------------------------------------------
+echo  Build finished.
+echo -------------------------------------------------------------
