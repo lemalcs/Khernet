@@ -1,0 +1,33 @@
+# main links
+main:
+  - title: "Docs"
+    url: /docs/installation/
+  - title: "About"
+    url: /about/
+
+
+# documentation links
+docs:
+  - title: Getting Started
+    children:
+      - title: "Installation"
+        url: /docs/installation/
+      - title: "Upgrading"
+        url: /docs/upgrading/
+  - title: Chatting
+    children:
+      - title: "Text"
+        url: /docs/text-message/
+      - title: "File"
+        url: /docs/file-message/
+      - title: "Markdown"
+        url: /docs/markdown-message/
+  - title: Contributing
+    children:
+      - title: "Development"
+        url: /docs/development/
+      - title: "Issues"
+        url: /docs/issues/
+      - title: Licence
+        url: /docs/license  
+
