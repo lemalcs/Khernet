@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -42,11 +41,6 @@ namespace Khernet.UI.Controls
 
             //Allow this control to capture focus, this is necessary if there are more focusable controls
             Focusable = true;
-        }
-
-        private void Cmm_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)

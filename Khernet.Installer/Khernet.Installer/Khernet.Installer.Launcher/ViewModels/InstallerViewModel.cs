@@ -55,7 +55,6 @@ namespace Khernet.Installer.Launcher
             this.fileDownloader = fileDownloader;
             this.applicationUpdater = applicationUpdater;
             this.installerPath = installerPath;
-            //this.logger = logger;
 
             CurrentAction = "Starting...";
         }

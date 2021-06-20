@@ -35,7 +35,7 @@ namespace Khernet.UI
         /// Shows a message box.
         /// </summary>
         /// <param name="dialogModel">The view model.</param>
-        /// <returns></returns>
+        /// <returns><see cref="Task"/> for dialog.</returns>
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
         {
             await new MessageBoxUserControl().ShowMessageBox(dialogModel);
@@ -46,7 +46,7 @@ namespace Khernet.UI
         /// </summary>
         /// <param name="dialogModel">View model for message dialog.</param>
         /// <param name="newWindow">True to show message in a new windows, false to show message into main window.</param>
-        /// <returns></returns>
+        /// <returns><see cref="Task"/> for dialog.</returns>
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel, bool newWindow)
         {
             if (newWindow)
@@ -60,7 +60,7 @@ namespace Khernet.UI
         /// </summary>
         /// <typeparam name="T">View model type.</typeparam>
         /// <param name="viewModel">the view model.</param>
-        /// <returns></returns>
+        /// <returns><see cref="Task"/> for dialog.</returns>
         public async Task ShowDialog<T>(T viewModel) where T : BaseModel
         {
             if (viewModel is PagedDialogViewModel)

@@ -24,7 +24,6 @@ namespace Khernet.UI.IoC
         /// </summary>
         /// <param name="token">The token of user.</param>
         /// <returns>An object <see cref="ObservableCollection{ChatMessageItemViewModel}"/> containing chat list.</returns>
-        /*ObservableCollection<ChatMessageItemViewModel>*/
         ObservableCollection<ChatMessageItemViewModel> GetChat(string token);
 
         /// <summary>

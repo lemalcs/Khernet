@@ -69,8 +69,6 @@ namespace Khernet.UI
         #region Commands
         public ICommand OpenImageCommand { get; private set; }
 
-
-
         #endregion
 
         public ImageChatMessageViewModel(IMessageManager messageManager, IApplicationDialog applicationDialog) : base(applicationDialog)

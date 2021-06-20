@@ -1,7 +1,6 @@
 ﻿using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
-//using Umbreon.WCFServices.Messages;
 
 namespace Khernet.Services.Client
 {

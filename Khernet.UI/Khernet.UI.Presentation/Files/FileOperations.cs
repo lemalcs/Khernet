@@ -23,8 +23,6 @@ namespace Khernet.UI.Files
             {
                 if (observer.Media.OperationRequest == MessageOperation.Upload)
                 {
-                    //System.Threading.Thread.Sleep(20000);
-
                     //Stores the file name located in cache directory
                     string outFile = null;
 

@@ -401,7 +401,7 @@ namespace Khernet.UI
             //Send Files
             foreach (string f in files)
             {
-                if (FileHelper.GetFileSize(f) > FileHelper.GIGABYTE*2)
+                if (FileHelper.GetFileSize(f) > FileHelper.GIGABYTE * 2)
                 {
                     await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                     {
@@ -971,7 +971,6 @@ namespace Khernet.UI
             SaveDraftMessage();
 
             //Retrieve chat list from cache, add if it does not exist
-            /*ObservableCollection<ChatMessageItemViewModel>*/
             ObservableCollection<ChatMessageItemViewModel> chatList = IoCContainer.Chat.GetChat(user);
             if (chatList == null)
             {

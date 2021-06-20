@@ -21,14 +21,29 @@ namespace Khernet.Core.Common
 
     public class Storage
     {
+        /// <summary>
+        /// Database name for configurations of application.
+        /// </summary>
         public const string CONFIGURATION_FILE = "config";
 
+        /// <summary>
+        /// Firebird databse native library file.
+        /// </summary>
         public const string FIREBIRD_LIBRARY = "fbclient.dll";
 
+        /// <summary>
+        /// Database name for chat messages.
+        /// </summary>
         public const string MESSAGE_DB = "msgdb";
 
+        /// <summary>
+        /// Database name for file chat messages.
+        /// </summary>
         public const string FILE_DB = "stgdb";
 
+        /// <summary>
+        /// Directory where databases are located.
+        /// </summary>
         private readonly string dataFolder = "data";
 
         /// <summary>

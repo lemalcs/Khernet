@@ -100,12 +100,6 @@ namespace Khernet.Core.Host
             }
         }
 
-        public Peer GetSelfProfile(string token)
-        {
-            Communicator communicator = new Communicator();
-            return communicator.GetSelfProfile();
-        }
-
         public Peer GetPeerProfile(string token)
         {
             try

@@ -77,7 +77,7 @@
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioPlayerControl}},
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource SliderStyle1}"
+                        Style="{StaticResource SliderStyle}"
                         SmallChange="1"
                         LargeChange="1"
                         Minimum="0"/>
@@ -142,7 +142,7 @@
                                                             FallbackValue=60}"
                                             Maximum="125"
                                             Height="125"
-                                            Style="{StaticResource SliderStyle1}"/>
+                                            Style="{StaticResource SliderStyle}"/>
                                 </Border>
                             </Popup>
                         </Grid>

@@ -94,7 +94,7 @@
                         VerticalAlignment="Center"
                         IsMoveToPointEnabled="True"
                         Value="{Binding ElementName=vlcControl,Path=Time,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource SliderStyle1}"
+                        Style="{StaticResource SliderStyle}"
                         SmallChange="1"
                         LargeChange="1"
                         Minimum="0"/>
@@ -156,7 +156,7 @@
                             LargeChange="1"
                             Value="{Binding ElementName=vlcControl,Path=Volume}"
                             IsMoveToPointEnabled="True"
-                            Style="{StaticResource SliderStyle1}"
+                            Style="{StaticResource SliderStyle}"
                             VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>

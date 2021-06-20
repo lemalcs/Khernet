@@ -88,7 +88,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="SliderStyle1" TargetType="{x:Type Slider}">
+    <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
         <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="mah:SliderHelper.ThumbFillBrush" Value="{DynamicResource BlueBrush}"/>

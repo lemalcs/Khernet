@@ -359,8 +359,9 @@ namespace Khernet.Core.Host
 
                 //Announcement service will send messages every 20 seconds when there were error on received messages
                 //Error message:
-                //El mensaje con To '' no se puede procesar en el destinatario debido a una falta de coincidencia de AddressFilter en EndpointDispatcher.
-                //Compruebe que los valores de EndpointAddresses concuerdan en el remitente y el destinatario.
+
+                //The message with To '' cannot be processed at the receiver, due to an AddressFilter mismatch at the EndpointDispatcher.
+                //Check that the sender and receiver's EndpointAddresses agree.
 
                 //This happens when for example the remote application connects to local service with a IP address through NAT
                 //Sometime it happens randomly for example when receiver and sender are executing on same machine

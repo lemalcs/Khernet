@@ -116,12 +116,6 @@ namespace Khernet.UI.Controls
             {
                 //Set margin to 20 (up margin + down margin)
                 currentMargin = defaultMargin;
-
-                //Set width of this control
-                if (modalModel != null)
-                {
-                    //Width = modalModel.Content.Width;
-                }
             }
 
             //Set new MinHeight value

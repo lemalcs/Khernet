@@ -11,7 +11,7 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //Change background color for chat bubble anchor
+            //Change background color for chat message
             if ((bool)value)
             {
                 return Application.Current.FindResource("AlmostWhiteGrayBrush");

@@ -178,7 +178,6 @@ namespace Khernet.UI.Controls
 
                     //Set new control
                     ReplyMessageControl reply = new ReplyMessageControl(vm);
-                    //reply.DataContext = baseValue;
                     popUp.control.Content = reply;
 
                 }

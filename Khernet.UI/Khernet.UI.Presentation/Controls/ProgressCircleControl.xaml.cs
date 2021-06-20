@@ -392,7 +392,6 @@ namespace Khernet.UI.Controls
         private void SetArcFinalPoint(PathGeometry path, Point finalPoint)
         {
             var figures = path.Figures;
-            var rightArc = figures[0];
 
             ArcSegment segment = (ArcSegment)figures[0].Segments[0];
             segment.Point = finalPoint;
@@ -406,7 +405,6 @@ namespace Khernet.UI.Controls
         private void SetArcRadius(PathGeometry path, double radius)
         {
             var figures = path.Figures;
-            var rightArc = figures[0];
 
             ArcSegment segment = (ArcSegment)figures[0].Segments[0];
             segment.Size = new Size(radius, radius);

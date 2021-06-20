@@ -231,7 +231,6 @@ namespace Khernet.UI
                 //Get file size in bytes
                 FileSize = info.Size;
 
-                //if (!IsSentByMe)
                 SendDate = info.SendDate;
             }
 

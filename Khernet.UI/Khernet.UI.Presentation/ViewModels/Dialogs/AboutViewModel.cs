@@ -1,6 +1,5 @@
 ﻿using Khernet.UI.Cache;
 using Khernet.UI.IoC;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
@@ -77,6 +76,6 @@ namespace Khernet.UI
                 });
         }
 
-        
+
     }
 }
