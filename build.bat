@@ -5,7 +5,7 @@ echo  Starting build...
 echo -------------------------------------------------------------
 
 rem Set this to Release or Debug values
-set dotnetConfiguration=Debug
+set dotnetConfiguration=Release
 
 rem Build core
 tools\nuget restore Khernet.Core\Khernet.Core.sln

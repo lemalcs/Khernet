@@ -15,7 +15,7 @@ mod logger;
 mod dotnet_installer;
 mod repository;
 
-const APP_VERSION:&str="0.15.12";
+const APP_VERSION:&str="0.16.0";
 const APP_DIR:&str="khernet-app";
 const INNER_APP_DIR_PREFIX:&str="app-";
 const LAUNCHER_FILE:&str="khernetlauncher.exe";

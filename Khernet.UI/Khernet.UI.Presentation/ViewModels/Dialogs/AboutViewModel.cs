@@ -20,9 +20,9 @@ namespace Khernet.UI
         public ICommand OpenIssueCommand { get; private set; }
 
         /// <summary>
-        /// Opens the source code page on browser.
+        /// Opens the home page on browser.
         /// </summary>
-        public ICommand OpenSourceCodeCommand { get; private set; }
+        public ICommand OpenHomePageCommand { get; private set; }
 
         /// <summary>
         /// Opens the directory where this installer (the executable that installs the whole application) is located. 
@@ -39,7 +39,7 @@ namespace Khernet.UI
         public AboutViewModel()
         {
             OpenIssueCommand = new RelayCommand(OpenIssue);
-            OpenSourceCodeCommand = new RelayCommand(OpenSourceCode);
+            OpenHomePageCommand = new RelayCommand(OpenHomePage);
             OpenInstallationPathCommand = new RelayCommand(OpenInstallationPath);
             OpenWorkingDirectoryCommand = new RelayCommand(OpenWorkingDirectory);
         }
@@ -49,14 +49,14 @@ namespace Khernet.UI
             Process.Start(Configurations.HomeDirectory);
         }
 
-        private void OpenSourceCode()
+        private void OpenHomePage()
         {
-            Process.Start("https://github.com/lemalcs/Khernet");
+            Process.Start("https://khernet.app");
         }
 
         private void OpenIssue()
         {
-            Process.Start("https://github.com/lemalcs/Khernet-issues/issues");
+            Process.Start("https://github.com/lemalcs/Khernet/issues");
         }
 
         private async void OpenInstallationPath()

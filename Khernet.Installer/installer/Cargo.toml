@@ -1,6 +1,6 @@
 [package]
 name = "installer"
-version = "0.15.12"
+version = "0.16.0"
 authors = ["Luis <info@lemaluis.com>"]
 edition = "2018"
 
@@ -25,5 +25,5 @@ LegalCopyright = "Copyright © 2021"
 InternalName = "Khernet"
 OriginalFilename = "Khernet"
 ProductName = "Khernet"
-ProductVersion = "0.15.12.0"
+ProductVersion = "0.16.0.0"
 FileDescription = "Standalone chat application for LAN"

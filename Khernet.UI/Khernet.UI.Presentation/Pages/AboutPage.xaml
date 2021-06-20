@@ -35,11 +35,6 @@
                     <Run Text="Version: "/>
                     <Run Text="{x:Static Cache:Configurations.AppVerion}"/>
                     <LineBreak/>
-                    <Run Text="Report an issue: "/>
-                    <Hyperlink Command="{Binding OpenIssueCommand}" >
-                        <Run Text="here"/>
-                    </Hyperlink>
-                    <LineBreak/>
                     <Run Text="Installation path: "/>
                     <Hyperlink Command="{Binding OpenInstallationPathCommand}" >
                         <Run Text="click here"/>
@@ -51,8 +46,15 @@
                         <Run Text="click here"/>
                     </Hyperlink>
                     <LineBreak/>
-                    <Hyperlink Command="{Binding OpenSourceCodeCommand}" >
-                        <Run Text="Source code"/>
+                    <LineBreak/>
+                    <Run Text="Home: "/>
+                    <Hyperlink Command="{Binding OpenHomePageCommand}" >
+                        <Run Text="https://khernet.app"/>
+                    </Hyperlink>
+                    <LineBreak/>
+                    <Run Text="Report an issue: "/>
+                    <Hyperlink Command="{Binding OpenIssueCommand}" >
+                        <Run Text="here"/>
                     </Hyperlink>
                 </Paragraph>
             </FlowDocument>
