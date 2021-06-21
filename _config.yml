@@ -15,8 +15,8 @@ title                    : ""
 title_separator          : "| Khernet"
 name                     : &name "Luis Lema"
 description              : &description "The standalone chat application made for LAN."
-url                      : https://lemalcs.github.io # the base hostname & protocol for this site
-baseurl                  : "/Khernet" # the subpath of this site
+url                      : https://www.khernet.app # the base hostname & protocol for this site
+baseurl                  : "" # the subpath of this site
 repository               : "lemalcs/Khernet"
 logo                     : /assets/images/thumb-logo.png # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : " " # overrides the website title displayed in the masthead, use " " for no title
