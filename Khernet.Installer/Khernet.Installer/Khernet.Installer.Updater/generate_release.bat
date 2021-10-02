@@ -5,23 +5,24 @@ echo Starting to create release...
 set current_script_path=%~dp0
 cd %current_script_path%
 
-rem Create directory for .Net 4.5 used for nuget package
-set lib_directory=%current_script_path%src\lib\net45
-IF not exist %lib_directory% mkdir %lib_directory%
 
-rem Create nuget package
-%~dp0..\..\..\tools\nuget.exe pack src\Khernet.nuspec
 
 rem Create release directory
 set release_directory=..\\..\\..\\bin\\Releases
 IF not exist %release_directory% mkdir %release_directory%
 
+rem Create directory for .Net 4.5 used for nuget package
+set lib_directory=%current_script_path%src\lib\net45
+IF not exist %lib_directory% mkdir %lib_directory%
 
 rem Copy to lib_directory any other files needed to update the application
 rem Add copy command here
 set installerDirectory=..\..\..\bin\Khernet.Installer
 
 copy %installerDirectory%\_khernetlauncher.exe %lib_directory%\khernetlauncher.exe
+
+rem Create nuget package
+%~dp0..\..\..\tools\nuget.exe pack src\Khernet.nuspec
 
 rem Create squirrel installer (nuget package) 
 set package_version=0.16.0
