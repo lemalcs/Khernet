@@ -53,12 +53,6 @@
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=5.8.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FirebirdSql.Data.FirebirdClient.5.8.1\lib\net40-client\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
-    <Reference Include="Khernet.Core.Common">
-      <HintPath>..\Khernet.Core.Common\bin\x86\Debug\Khernet.Core.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Core.Entity">
-      <HintPath>..\Khernet.Core.Entity\bin\x86\Debug\Khernet.Core.Entity.dll</HintPath>
-    </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
@@ -79,6 +73,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Khernet.Core.Common\Khernet.Core.Common.csproj">
+      <Project>{5b05f570-d3fb-4dfb-84ba-bcf0cbdfc1ad}</Project>
+      <Name>Khernet.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Khernet.Core.Utility\Khernet.Core.Utility.csproj">
       <Project>{a3929eea-4357-4e52-a21d-57b87aa01f45}</Project>
       <Name>Khernet.Core.Utility</Name>

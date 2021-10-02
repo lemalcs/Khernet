@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
-    <description>Packege to store native launcher for Khernet application.</description>
+    <description>Package to store native launcher for Khernet application.</description>
 	<copyright>Copyright 2021</copyright>
     <tags>khernet</tags>
   </metadata>

@@ -53,26 +53,6 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="Khernet.Core.Common">
-      <HintPath>..\Khernet.Core.Common\bin\x86\Debug\Khernet.Core.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Core.Entity">
-      <HintPath>..\Khernet.Core.Entity\bin\x86\Debug\Khernet.Core.Entity.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Core.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Khernet.Core.Utility\bin\x86\Debug\Khernet.Core.Utility.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Services.Client">
-      <HintPath>..\..\Services\Khernet.Services.Client\bin\x86\Debug\Khernet.Services.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Services.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Services\Khernet.Services.Contracts\bin\x86\Debug\Khernet.Services.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Khernet.Services.Messages">
-      <HintPath>..\..\Services\Khernet.Services.Messages\bin\x86\Debug\Khernet.Services.Messages.dll</HintPath>
-    </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Ninject.3.2.0.0\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -101,9 +81,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\Khernet.Services.Client\Khernet.Services.Client.csproj">
+      <Project>{f81f5563-dbcd-4c69-9154-e4c4b0931f24}</Project>
+      <Name>Khernet.Services.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Khernet.Services.Contracts\Khernet.Services.Contracts.csproj">
+      <Project>{d1cef3a2-00d0-4fc9-8062-51b31fa08134}</Project>
+      <Name>Khernet.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\Khernet.Services.Messages\Khernet.Services.Messages.csproj">
+      <Project>{89e3cf8d-cec4-4fa2-8afd-a8d81593b30b}</Project>
+      <Name>Khernet.Services.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Khernet.Core.Common\Khernet.Core.Common.csproj">
+      <Project>{5b05f570-d3fb-4dfb-84ba-bcf0cbdfc1ad}</Project>
+      <Name>Khernet.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Khernet.Core.Data\Khernet.Core.Data.csproj">
       <Project>{17d0f7bf-471f-431c-b616-6269b5bc04dc}</Project>
       <Name>Khernet.Core.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Khernet.Core.Entity\Khernet.Core.Entity.csproj">
+      <Project>{ed587f5e-4f8c-496b-93bd-5ef9f8af5e56}</Project>
+      <Name>Khernet.Core.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Khernet.Core.Utility\Khernet.Core.Utility.csproj">
+      <Project>{a3929eea-4357-4e52-a21d-57b87aa01f45}</Project>
+      <Name>Khernet.Core.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
