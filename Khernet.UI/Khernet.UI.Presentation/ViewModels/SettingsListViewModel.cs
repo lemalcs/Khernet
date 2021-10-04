@@ -28,7 +28,12 @@ namespace Khernet.UI
         /// <summary>
         /// Opens the about page.
         /// </summary>
-        About = 3
+        About = 3,
+
+        /// <summary>
+        /// View informacion about services used to connect network.
+        /// </summary>
+        Connection = 4,
     }
 
 
@@ -53,6 +58,12 @@ namespace Khernet.UI
                 Setting = AppOptions.Profile,
                 IconName = "AccountCircle",
             });
+            Items.Add(new SettingItemViewModel(OpenConnectionPage)
+            {
+                Name = "Connection",
+                Setting = AppOptions.Connection,
+                IconName = "Archive",
+            });
             Items.Add(new SettingItemViewModel(OpenCacheSetting)
             {
                 Name = "Cache",
@@ -73,6 +84,36 @@ namespace Khernet.UI
                 Setting = AppOptions.About,
                 IconName = "InformationOutline",
             });
+        }
+
+        private void OpenConnectionPage()
+        {
+            ConnectionViewModel connectionViewModel = new ConnectionViewModel();
+            
+            string gatewayAddress = IoCContainer.Get<Messenger>().GetGatewayAddress();
+            if (!string.IsNullOrEmpty(gatewayAddress))
+            {
+                Uri gateway = new Uri(IoCContainer.Get<Messenger>().GetGatewayAddress());
+
+                connectionViewModel.Hostname = gateway.Host;
+                connectionViewModel.Port = gateway.Port;
+                string adressses = null;
+                foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetwork))
+                {
+                    adressses += $"{address};";
+                }
+
+                foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetworkV6))
+                {
+                    adressses += $"{address};";
+                }
+
+                if (adressses.EndsWith(";"))
+                    adressses = adressses.Remove(adressses.Length - 1);
+                connectionViewModel.IPAddress = adressses;
+            }
+
+            pagedDialog.GoToPage(Converters.ApplicationPage.Connection, connectionViewModel, "Connection");
         }
 
         public SettingControllerViewModel(IPagedDialog pagedDialog) : this()

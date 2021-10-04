@@ -323,6 +323,7 @@ namespace Khernet.UI
         #endregion
 
         public ICommand ViewSettingsCommand { get; private set; }
+        public ICommand AddContactCommand { get; private set; }
 
         public ApplicationViewModel()
         {
@@ -333,6 +334,7 @@ namespace Khernet.UI
             IsPlayerVisible = false;
 
             ViewSettingsCommand = new RelayCommand(ViewSettings);
+            AddContactCommand = new RelayCommand(AddContact);
 
             IsSidePanelVisible = CurrentPage == ApplicationPage.Session || CurrentPage == ApplicationPage.Chat;
 
@@ -341,6 +343,26 @@ namespace Khernet.UI
             {
                 GoToPage(ApplicationPage.Load);
             }
+        }
+
+        private void AddContact()
+        {
+            // Create paged dialog
+            PagedDialogViewModel pagedVM = new PagedDialogViewModel();
+
+            // Set first page
+            pagedVM.CurrentPage = ApplicationPage.AddContact;
+
+            // Title for page
+            pagedVM.Category = "Add Contact";
+
+            // Set the view model for add contact dialog
+            pagedVM.CurrentViewModel = new AddContactViewModel(pagedVM);
+
+            pagedVM.SetHomePage(pagedVM.CurrentPage, pagedVM.Category, pagedVM.CurrentViewModel);
+
+            //Open a modal dialog
+            IoCContainer.UI.ShowDialog(pagedVM);
         }
 
         public async void SignOut()

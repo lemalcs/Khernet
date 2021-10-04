@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="CommunicatorService.cs" />
     <Compile Include="EventListenerService.cs" />
+    <Compile Include="GatewayService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

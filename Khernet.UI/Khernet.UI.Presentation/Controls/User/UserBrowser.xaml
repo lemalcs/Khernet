@@ -32,6 +32,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
@@ -43,9 +44,17 @@
                                 <iconPacks:PackIconMaterial Width="15" Kind="Settings" />
                             </Button>
 
+                            <Button ToolTip="Add contact" 
+                                    Grid.Column="1"
+                                    Command="{Binding ApplicationViewModel.AddContactCommand,Source={x:Static app:ViewModelLocator.Instance}}"
+                                    Style="{DynamicResource GlowButtonStyle}"
+                                    Foreground="{StaticResource OverTextboxBorderBrush}">
+                                <iconPacks:PackIconMaterial Width="15" Kind="Plus" />
+                            </Button>
+
                             <!-- Update button -->
                             <Button 
-                                Grid.Column="1" 
+                                Grid.Column="2" 
                                 Style="{DynamicResource GlowButtonStyle}"
                                 Visibility="Hidden">
                                 <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>

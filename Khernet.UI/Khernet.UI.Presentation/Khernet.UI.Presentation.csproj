@@ -415,6 +415,12 @@
     <Compile Include="Files\FileHelper.cs" />
     <Compile Include="Files\ImageHelper.cs" />
     <Compile Include="Files\MediaHelper.cs" />
+    <Compile Include="Pages\AddContactPage.xaml.cs">
+      <DependentUpon>AddContactPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ConnectionPage.xaml.cs">
+      <DependentUpon>ConnectionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\NativeMethods.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Pages\BasePage.cs" />
@@ -466,6 +472,7 @@
     <Compile Include="Managers\UIManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\Constants.cs" />
+    <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
     <Compile Include="ViewModels\Chat\TextMessageItemViewModel.cs" />
@@ -474,13 +481,15 @@
     <Compile Include="ViewModels\Chat\MarkdownChatMessageViewModel.cs" />
     <Compile Include="ViewModels\Chat\HtmlChatMessageViewModel.cs" />
     <Compile Include="ViewModels\Chat\UserChatContext.cs" />
+    <Compile Include="ViewModels\Design\ConnectionDesignModel.cs" />
+    <Compile Include="ViewModels\Design\CacheDesingModel.cs" />
     <Compile Include="ViewModels\Design\ResendDesignModel.cs" />
     <Compile Include="ViewModels\Chat\ResendViewModel.cs" />
     <Compile Include="ViewModels\Design\ReplyMessageDesignModel.cs" />
     <Compile Include="ViewModels\Chat\ReplyMessageViewModel.cs" />
     <Compile Include="ViewModels\Design\NotificationDesignModel.cs" />
     <Compile Include="ViewModels\Design\FieldEditorDesignModel.cs" />
-    <Compile Include="ViewModels\Design\CacheDesingModel.cs" />
+    <Compile Include="ViewModels\Design\AddContactDesingModel.cs" />
     <Compile Include="ViewModels\Design\MessageBoxDesignModel.cs" />
     <Compile Include="ViewModels\Dialogs\LoadViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AboutViewModel.cs" />
@@ -516,6 +525,7 @@
     <Compile Include="ViewModels\Media\AudioPlayerViewModel.cs" />
     <Compile Include="ViewModels\FileListViewModel.cs" />
     <Compile Include="ViewModels\FileItemListViewModel.cs" />
+    <Compile Include="ViewModels\AddContactViewModel.cs" />
     <Compile Include="ViewModels\TaskbarIconViewModel.cs" />
     <Compile Include="ViewModels\PagedDialogViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
@@ -667,6 +677,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddContactPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ConnectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
