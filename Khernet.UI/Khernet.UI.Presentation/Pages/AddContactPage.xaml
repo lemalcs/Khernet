@@ -6,9 +6,10 @@
                 xmlns:local="clr-namespace:Khernet.UI.Pages"
                 xmlns:vm="clr-namespace:Khernet.UI"
                 x:Class="Khernet.UI.Pages.AddContactPage"
+                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 mc:Ignorable="d" 
                 d:DesignHeight="300" d:DesignWidth="300"
-                xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 x:Name="Login"
                 Title="AddContactPage"
                 Width="400"
@@ -29,7 +30,7 @@
         <StackPanel Grid.Row="0">
             
             <!-- IP address or host name -->
-            <TextBlock Text="IP or hostname"
+            <TextBlock Text="Hostname or IP address"
                        Margin="0 20 0 5"
                        Style="{StaticResource TextblockHeader}" />
             <TextBox Text="{Binding HostNameIp}"
@@ -51,6 +52,7 @@
                 Width="150"
                 Style="{StaticResource HexagonalButtonStyle}"
                 Command="{Binding AddContactCommand}"
-                Click="Button_Click" />
+                IsEnabled="{Binding IsAttemptingAddContact,Converter={conv:InverseBoolConverter}}"
+                depend:IsBusyProperty.Value="{Binding IsAttemptingAddContact}" />
     </Grid>
 </local:BasePage>

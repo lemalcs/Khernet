@@ -8,6 +8,11 @@
         <Setter Property="Background" Value="{StaticResource LightBrush}"/>
     </Style>
 
+    <Style  x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
+    </Style>
+
     <Style x:Key="TextblockStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource VaryDarkGrayBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>

@@ -207,6 +207,17 @@ namespace Khernet.UI.Controls
 
                     popUp.control.Content = cache;
                 }
+                else if (baseValue is AddContactViewModel)
+                {
+                    var vm = baseValue as AddContactViewModel;
+
+                    popUp.control.Content = null;
+
+                    AddContactProgressControl cache = new AddContactProgressControl(vm);
+                    cache.Commited += (d as PopupContent).PopUp_Commited;
+
+                    popUp.control.Content = cache;
+                }
             }
 
             return baseValue;

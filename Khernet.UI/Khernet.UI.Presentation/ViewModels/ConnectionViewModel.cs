@@ -24,6 +24,11 @@ namespace Khernet.UI
         private int port;
 
         /// <summary>
+        /// Indicates whether gateway service is online or offline.
+        /// </summary>
+        private string status;
+
+        /// <summary>
         /// The dialog where settings are shown.
         /// </summary>
         private readonly IPagedDialog pagedDialog;
@@ -66,6 +71,18 @@ namespace Khernet.UI
                 }
             }
         }
+        public string Status
+        {
+            get => status;
+            set 
+            { 
+                if(status != value)
+                {
+                    status = value;
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+        }
 
         /// <summary>
         /// Command to open setting.
@@ -75,6 +92,7 @@ namespace Khernet.UI
         public ConnectionViewModel()
         {
             RefreshStateCommand = new RelayCommand(RefreshState);
+            Status = "Offline";
         }
 
         public ConnectionViewModel(IPagedDialog pagedDialog)
@@ -97,20 +115,9 @@ namespace Khernet.UI
 
                     Hostname = gateway.Host;
                     Port = gateway.Port;
-                    string adressses = null;
-                    foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetwork))
-                    {
-                        adressses += $"{address};";
-                    }
 
-                    foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetworkV6))
-                    {
-                        adressses += $"{address};";
-                    }
-
-                    if (adressses.EndsWith(";"))
-                        adressses = adressses.Remove(adressses.Length - 1);
-                    IPAddress = adressses;
+                    if (Port > 0)
+                        Status = "Online";
                 }
             }
             catch (Exception error)

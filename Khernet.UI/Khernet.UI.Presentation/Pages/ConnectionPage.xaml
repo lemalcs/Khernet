@@ -38,18 +38,14 @@
                        HorizontalAlignment="Left"
                        Grid.Column="0"
                        Style="{StaticResource GroupText}" />
-                <TextBlock Text="Status"
-                       Grid.Row="0"
-                       Grid.Column="1"
-                       Width="60"
-                       Margin="0"                       
-                       Style="{StaticResource TextblockHeader}" />
+            
             </StackPanel>
             
-            <TextBlock Text="Information about gateway service used to connect to users located on other network."
+            <TextBlock Text="Use this information to make users able to locate you when they are on other LAN networks."
                        Grid.Row="1"
                        Grid.RowSpan="2"
                        Grid.Column="0"
+                       Margin="0 10 0 0"
                        TextWrapping="Wrap"/>
 
             <!-- Host name -->
@@ -61,18 +57,6 @@
                                            FocusVisualStyle="{x:Null}"
                                            Style="{StaticResource TextblockItemStyle}"/>
 
-            <!-- IP address -->
-            <TextBlock Text="IP address"
-                       Margin="0 20 0 0"
-                       Style="{StaticResource TextblockHeader}" />
-            <TextBox Text="{Binding IPAddress}"
-                     IsReadOnly="True"
-                     Margin="0 10 0 0"
-                     Height="40"
-                     TextWrapping="Wrap"
-                     IsReadOnlyCaretVisible="True"
-                     FocusVisualStyle="{x:Null}"/>
-            
             <!-- Port number -->
             <TextBlock Text="Port"
                        Margin="0 20 0 0"                       
@@ -81,8 +65,13 @@
                                            Margin="0 10 0 0"
                                            FocusVisualStyle="{x:Null}"
                                            Style="{StaticResource TextblockItemStyle}"/>
+            <!-- Status of gateway-->
+            <TextBlock Text="Status"
+                       Margin="0 20 0 0"                       
+                       Style="{StaticResource TextblockHeader}" />
 
-           
+            <TextBlock Text="{Binding Status}"
+                       Margin="0 10 0 0"/>
         </StackPanel>
 
         <!-- Refresh button -->

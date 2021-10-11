@@ -2,6 +2,7 @@
 using Khernet.Core.Utility;
 using Khernet.UI.IoC;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -22,6 +23,21 @@ namespace Khernet.UI
         /// The dialog where this page will be shown.
         /// </summary>
         private readonly IPagedDialog pagedDialog;
+
+        /// <summary>
+        /// Indicates whether a peer is being added to users list.
+        /// </summary>
+        private bool isAttemptingAddContact;
+
+        /// <summary>
+        /// The description of current operation performed.
+        /// </summary>
+        private string progressDescription;
+
+        /// <summary>
+        /// Indicates whether a contact has been found or not.
+        /// </summary>
+        private bool foundContact;
 
 
         public string HostNameIp
@@ -49,6 +65,42 @@ namespace Khernet.UI
                 }
             }
         }
+        public bool IsAttemptingAddContact 
+        { 
+            get => isAttemptingAddContact;
+            set 
+            {
+                if(isAttemptingAddContact != value) 
+                {
+                    isAttemptingAddContact = value;
+                    OnPropertyChanged(nameof(IsAttemptingAddContact));
+                }
+            }
+        }
+        public string ProgressDescription 
+        { 
+            get => progressDescription;
+            set 
+            { 
+                if (progressDescription != value)
+                {
+                    progressDescription = value;
+                    OnPropertyChanged(nameof(ProgressDescription));
+                }
+            }
+        }
+        public bool FoundContact 
+        { 
+            get => foundContact;
+            set 
+            { 
+                if(foundContact != value)
+                {
+                    foundContact = value;
+                    OnPropertyChanged(nameof(FoundContact));
+                }
+            }
+        }
 
         /// <summary>
         /// Command to add contact.
@@ -73,20 +125,39 @@ namespace Khernet.UI
         {
             try
             {
-                IoCContainer.Get<Messenger>().AddContact(HostNameIp,Port);
+                FoundContact = false;
+                IsAttemptingAddContact = true;
+                ProgressDescription = "Searching contact...";
+                pagedDialog.ShowChildDialog(this);
+
+                await TryAddContact();
+                FoundContact = true;
             }
             catch (Exception error)
             {
                 LogDumper.WriteLog(error);
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
-                {
-                    Message = "Cannot add contact, verify if hostname or IP and port are correct.",
-                    Title = "Khernet",
-                    ShowAcceptOption = true,
-                    AcceptOptionLabel = "OK",
-                    ShowCancelOption = false,
-                });
+                ProgressDescription = "Cannot add contact, verify if hostname or IP and port are correct.";
             }
+            finally
+            {
+                IsAttemptingAddContact = false;
+            }
+        }
+
+        public Task TryAddContact()
+        {
+
+            return TaskEx.Run(() =>
+            {
+                try
+                {
+                    IoCContainer.Get<Messenger>().AddContact(HostNameIp, Port);
+                }
+                catch (Exception error)
+                {
+                    throw error;
+                }
+            });
         }
     }
 }

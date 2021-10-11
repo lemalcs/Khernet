@@ -227,6 +227,9 @@
     <Compile Include="Animations\FrameworkElementAnimations.cs" />
     <Compile Include="Cache\ChatCache.cs" />
     <Compile Include="Cache\Configurations.cs" />
+    <Compile Include="Controls\Dialogs\AddContactProgressControl.xaml.cs">
+      <DependentUpon>AddContactProgressControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Media\AnimationViewerControl.xaml.cs">
       <DependentUpon>AnimationViewerControl.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,7 @@
     <Compile Include="Converters\ButtonShineMultiConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\BoolToHeightConverter.cs" />
+    <Compile Include="Converters\StatusToIconConverter.cs" />
     <Compile Include="Converters\VolumeToStringConverter.cs" />
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\NullToVisibilityGoneConverter.cs" />
@@ -560,6 +564,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\HtmlMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\AddContactProgressControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

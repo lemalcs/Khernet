@@ -62,7 +62,7 @@ namespace Khernet.UI
             {
                 Name = "Connection",
                 Setting = AppOptions.Connection,
-                IconName = "Archive",
+                IconName = "LanConnect",
             });
             Items.Add(new SettingItemViewModel(OpenCacheSetting)
             {
@@ -89,29 +89,7 @@ namespace Khernet.UI
         private void OpenConnectionPage()
         {
             ConnectionViewModel connectionViewModel = new ConnectionViewModel();
-            
-            string gatewayAddress = IoCContainer.Get<Messenger>().GetGatewayAddress();
-            if (!string.IsNullOrEmpty(gatewayAddress))
-            {
-                Uri gateway = new Uri(IoCContainer.Get<Messenger>().GetGatewayAddress());
-
-                connectionViewModel.Hostname = gateway.Host;
-                connectionViewModel.Port = gateway.Port;
-                string adressses = null;
-                foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetwork))
-                {
-                    adressses += $"{address};";
-                }
-
-                foreach (string address in NetworkHelper.GetIPAddresses(gateway.Host, System.Net.Sockets.ProtocolFamily.InterNetworkV6))
-                {
-                    adressses += $"{address};";
-                }
-
-                if (adressses.EndsWith(";"))
-                    adressses = adressses.Remove(adressses.Length - 1);
-                connectionViewModel.IPAddress = adressses;
-            }
+            connectionViewModel.RefreshStateCommand.Execute(null);
 
             pagedDialog.GoToPage(Converters.ApplicationPage.Connection, connectionViewModel, "Connection");
         }
