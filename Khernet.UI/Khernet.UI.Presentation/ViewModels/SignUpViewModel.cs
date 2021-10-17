@@ -232,7 +232,7 @@ namespace Khernet.UI
         {
             TaskCompletionSource<PeerIdentity> result = new TaskCompletionSource<PeerIdentity>();
 
-            var t = TaskEx.Run(() =>
+            var t = Task.Run(() =>
              {
                  //Create user
                  Authenticator auth = new Authenticator();

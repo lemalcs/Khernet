@@ -31,7 +31,7 @@ namespace Khernet.UI.Animations
             page.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Khernet.UI.Animations
             page.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
     }
 }

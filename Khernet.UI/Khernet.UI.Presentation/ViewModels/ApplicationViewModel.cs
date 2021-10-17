@@ -363,7 +363,7 @@ namespace Khernet.UI
 
                 IoCContainer.Chat.Clear();
 
-                await TaskEx.Run(() =>
+                await Task.Run(() =>
                 {
                     IoCContainer.Media.Dispose();
                     IoCContainer.Text.Dispose();

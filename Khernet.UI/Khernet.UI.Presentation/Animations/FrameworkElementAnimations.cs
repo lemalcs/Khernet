@@ -30,7 +30,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
 
@@ -112,7 +112,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
 
@@ -164,7 +164,7 @@ namespace Khernet.UI.Animations
             element.Visibility = Visibility.Visible;
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Khernet.UI.Animations
             storyborad.Begin(element);
 
             //Wait seconds to finish
-            await TaskEx.Delay((int)(seconds * 1000));
+            await Task.Delay((int)(seconds * 1000));
 
             //Hide and collapse the element
             element.Visibility = Visibility.Collapsed;

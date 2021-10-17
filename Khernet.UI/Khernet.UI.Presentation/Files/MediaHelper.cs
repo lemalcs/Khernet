@@ -195,7 +195,7 @@ namespace Khernet.UI.Media
         /// <returns>The duration of video.</returns>
         public static async Task<TimeSpan> GetVideoDuration(string fileName)
         {
-            return await TaskEx.Run(() =>
+            return await Task.Run(() =>
             {
                 TimeSpan duration = TimeSpan.Zero;
                 AutoResetEvent reset = new AutoResetEvent(false);
@@ -244,7 +244,7 @@ namespace Khernet.UI.Media
         /// <returns>The duration of video.</returns>
         public static async Task<Size> GetVideoSize(string fileName)
         {
-            return await TaskEx.Run(() =>
+            return await Task.Run(() =>
             {
                 Size videoSize = new Size();
                 AutoResetEvent reset = new AutoResetEvent(false);
@@ -305,7 +305,7 @@ namespace Khernet.UI.Media
         /// <returns></returns>
         public static async Task<bool> HasVideo(string fileName)
         {
-            return await TaskEx.Run(() =>
+            return await Task.Run(() =>
             {
                 bool hasVideo = false;
                 AutoResetEvent reset = new AutoResetEvent(false);

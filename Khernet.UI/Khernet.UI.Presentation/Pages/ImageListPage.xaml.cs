@@ -24,7 +24,7 @@ namespace Khernet.UI.Pages
         private void BasePage_Loaded(object sender, RoutedEventArgs e)
         {
             //Load files when this control finishes loading
-            TaskEx.Run(() => SpecificViewModel.LoadFiles(Media.MessageType.Image));
+            Task.Run(() => SpecificViewModel.LoadFiles(Media.MessageType.Image));
         }
 
         private void Close()

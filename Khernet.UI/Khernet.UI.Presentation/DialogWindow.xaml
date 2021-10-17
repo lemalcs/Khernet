@@ -13,7 +13,6 @@
                       ShowMinButton="False"
                       ShowInTaskbar="False"
                       ShowTitleBar="False"
-                      TitlebarHeight="0"
                       SizeToContent="WidthAndHeight"
                       ResizeMode="NoResize">
     

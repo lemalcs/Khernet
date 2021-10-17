@@ -127,7 +127,7 @@ namespace Khernet.UI.Controls
         {
             var result = new TaskCompletionSource<bool>();
 
-            var t = TaskEx.Run(() =>
+            var t = Task.Run(() =>
             {
                 //Run on UI thread
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -198,7 +198,7 @@ namespace Khernet.UI.Controls
 
         public Task<bool> ShowModalDialog<T>(T viewModel, bool fullScreen = false) where T : BaseModel
         {
-            var t = TaskEx.Run(() =>
+            var t = Task.Run(() =>
             {
                 //Run on UI thread
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -230,7 +230,7 @@ namespace Khernet.UI.Controls
 
         public Task<bool> ShowChildModalDialog<T>(T viewModel, bool fullScreen = false) where T : BaseModel
         {
-            var t = TaskEx.Run(() =>
+            var t = Task.Run(() =>
             {
                 //Run on UI thread
                 Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -264,7 +264,7 @@ namespace Khernet.UI.Controls
 
         public Task<bool> ShowMessageBox<T>(T viewModel) where T : BaseModel
         {
-            var t = TaskEx.Run(() =>
+            var t = Task.Run(() =>
             {
                 //Run on UI thread
                 Application.Current.Dispatcher.Invoke(new Action(() =>

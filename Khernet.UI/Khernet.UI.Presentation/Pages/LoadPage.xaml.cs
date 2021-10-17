@@ -104,7 +104,7 @@ namespace Khernet.UI.Pages
         {
             TaskCompletionSource<sbyte> result = new TaskCompletionSource<sbyte>();
 
-            TaskEx.Run(() =>
+            Task.Run(() =>
             {
                 try
                 {

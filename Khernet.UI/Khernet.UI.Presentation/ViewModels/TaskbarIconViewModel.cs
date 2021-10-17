@@ -45,7 +45,7 @@ namespace Khernet.UI
             IsRunning = false;
             Application.Current.MainWindow.Hide();
 
-            await TaskEx.Run(() =>
+            await Task.Run(() =>
             {
                 if (Engine.State == EngineState.Executing)
                 {

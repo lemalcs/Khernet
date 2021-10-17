@@ -45,7 +45,7 @@ namespace Khernet.UI
         /// <param name="currentUser">The identity for this server.</param>
         public static Task Start(PeerIdentity currentUser)
         {
-            return TaskEx.Run(() =>
+            return Task.Run(() =>
             {
                 try
                 {
