@@ -20,6 +20,17 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
+        /// The directory where libraries and data of application is located.
+        /// </summary>
+        public static string AppDirectory
+        {
+            get
+            {
+                return Path.Combine(HomeDirectory,"khernet-app");
+            }
+        }
+
+        /// <summary>
         /// The complete path of entry executable.
         /// </summary>
         public static string MainApplicationAssembly
@@ -50,11 +61,11 @@ namespace Khernet.UI.Cache
         /// <summary>
         /// The directory where VLC library is stored.
         /// </summary>
-        public static DirectoryInfo VlcDirectory => new DirectoryInfo(Path.Combine(HomeDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
+        public static DirectoryInfo VlcDirectory => new DirectoryInfo(Path.Combine(AppDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
 
         /// <summary>
         /// The directory that serves as temporal repository for files.
         /// </summary>
-        public static DirectoryInfo CacheDirectory => new DirectoryInfo(System.IO.Path.Combine(HomeDirectory, "cache"));
+        public static DirectoryInfo CacheDirectory => new DirectoryInfo(System.IO.Path.Combine(AppDirectory, "cache"));
     }
 }

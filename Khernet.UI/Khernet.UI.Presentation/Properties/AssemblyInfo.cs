@@ -3,8 +3,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 
 
-[assembly: AssemblyTitle("Standalone chat application for LAN")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Khernet")]
+[assembly: AssemblyDescription("Standalone chat application for LAN")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Khernet")]
@@ -19,5 +19,5 @@ using System.Windows;
     ResourceDictionaryLocation.SourceAssembly
 )]
 
-[assembly: AssemblyVersion("0.16.0.0")]
-[assembly: AssemblyFileVersion("0.16.0.0")]
+[assembly: AssemblyVersion("0.17.0.0")]
+[assembly: AssemblyFileVersion("0.17.0.0")]

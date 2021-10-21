@@ -22,6 +22,11 @@ namespace Khernet.Core.Common
     public class Storage
     {
         /// <summary>
+        /// The main directory of application where libraries and databases are stored.
+        /// </summary>
+        public const string APP_DIRECTORY = "khernet-app";
+
+        /// <summary>
         /// Database name for configurations of application.
         /// </summary>
         public const string CONFIGURATION_FILE = "config";
@@ -45,6 +50,11 @@ namespace Khernet.Core.Common
         /// Directory where databases are located.
         /// </summary>
         private readonly string dataFolder = "data";
+        
+        /// <summary>
+        /// The zip file that containt the firebird database engine.
+        /// </summary>
+        public const string ENGINE_FILE = "firebird.zip";
 
         /// <summary>
         /// The path of file system where FIREBIRD engine is located.
@@ -54,7 +64,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "firebird", "fbclient.dll");
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, "firebird", "fbclient.dll");
             }
         }
 
@@ -69,7 +79,7 @@ namespace Khernet.Core.Common
 
                 //Full path to database that contains application configurations
                 return string.Format("{0}.{1}",
-                    Path.Combine(Path.GetDirectoryName(assembly.Location), Path.GetFileNameWithoutExtension(assembly.Location)),
+                    Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, Path.GetFileNameWithoutExtension(assembly.Location)),
                     "dat");
             }
         }
@@ -82,7 +92,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), this.dataFolder, MESSAGE_DB);
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, this.dataFolder, MESSAGE_DB);
             }
         }
 
@@ -94,7 +104,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), this.dataFolder, FILE_DB);
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, this.dataFolder, FILE_DB);
             }
         }
 
@@ -106,7 +116,7 @@ namespace Khernet.Core.Common
             get
             {
                 var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), "cache");
+                return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, "cache");
             }
         }
 

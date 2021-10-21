@@ -74,17 +74,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Khernet.App.Container.1.1.0\build\Khernet.App.Container.targets" Condition="Exists('..\..\packages\Khernet.App.Container.1.1.0\build\Khernet.App.Container.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Khernet.App.Container.1.1.0\build\Khernet.App.Container.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Khernet.App.Container.1.1.0\build\Khernet.App.Container.targets'))" />
-  </Target>
   <PropertyGroup>
     <PostBuildEvent>set bin_directory=..\..\..\..\..\..\bin\Khernet.Core
 IF not exist %25bin_directory%25 mkdir %25bin_directory%25
 
 copy /Y $(TargetDir) %25bin_directory%25</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\packages\Khernet.App.Container.1.2.0\build\Khernet.App.Container.targets" Condition="Exists('..\..\packages\Khernet.App.Container.1.2.0\build\Khernet.App.Container.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Khernet.App.Container.1.2.0\build\Khernet.App.Container.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Khernet.App.Container.1.2.0\build\Khernet.App.Container.targets'))" />
+  </Target>
 </Project>
