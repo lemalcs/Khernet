@@ -56,26 +56,9 @@ namespace Khernet.UI
             if (assemblyList == null)
                 assemblyList = new ConcurrentDictionary<string, Assembly>();
 
-            Assembly executingAssembly = Assembly.GetExecutingAssembly();
-
-            AssemblyName assemblyName;
-
-            //Load System.Core library for .Net Framework 4.0 if a previous version is requested
-            if (args.Name == "System.Core, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e, Retargetable=Yes")
-            {
-                assemblyName = new AssemblyName("System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-
-                if (assemblyList.ContainsKey(assemblyName.FullName))
-                    return assemblyList[assemblyName.FullName];
-
-                assemblyList.TryAdd(assemblyName.FullName, Assembly.Load(assemblyName));
-                return assemblyList[assemblyName.FullName];
-            }
-            else
-                assemblyName = new AssemblyName(args.Name);
-
+            AssemblyName assemblyName = new AssemblyName(args.Name);
             string dllPath;
-            Assembly parentAssembly = executingAssembly;
+            Assembly parentAssembly = Assembly.GetExecutingAssembly(); ;
 
             if (assemblyName.Name == "Khernet.resources")
             {
