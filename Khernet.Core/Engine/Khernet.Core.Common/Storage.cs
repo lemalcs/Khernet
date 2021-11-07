@@ -50,7 +50,7 @@ namespace Khernet.Core.Common
         /// Directory where databases are located.
         /// </summary>
         private readonly string dataFolder = "data";
-        
+
         /// <summary>
         /// The zip file that containt the firebird database engine.
         /// </summary>

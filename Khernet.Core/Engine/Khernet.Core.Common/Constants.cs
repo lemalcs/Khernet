@@ -25,5 +25,12 @@
 
         public const int IPv4Address = 1;
         public const int IPv6Address = 2;
+
+        /// <summary>
+        /// The mode of to get updates for application. Values allowed:
+        /// True: get updates online.
+        /// False: get updates from a local file.
+        /// </summary>
+        public const string UpdateSource = "UpdateSource";
     }
 }

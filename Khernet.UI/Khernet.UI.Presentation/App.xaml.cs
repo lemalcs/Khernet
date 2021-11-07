@@ -1,4 +1,5 @@
-﻿using Khernet.Core.Utility;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using Khernet.Core.Utility;
 using Khernet.UI.IoC;
 using Khernet.UI.Resources;
 using System.Windows;
@@ -23,7 +24,6 @@ namespace Khernet.UI
             //Show main window
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
-
             Dispatcher.UnhandledException += Dispatcher_UnhandledException;
         }
 
@@ -46,6 +46,11 @@ namespace Khernet.UI
         private void Setup()
         {
             IoCContainer.Configure<IUIManager, UIManager>(new UIManager());
+            IoCContainer.Configure<IUpdater, ApplicationUpdater>(new ApplicationUpdater());
+
+            IoCContainer.Configure<IApplicationManager, TaskbarIconViewModel>(new TaskbarIconViewModel());
+            TaskbarIcon notificationIcon = App.Current.Resources["notificationIcon"] as TaskbarIcon;
+            notificationIcon.DataContext = IoCContainer.Get<IApplicationManager>();
 
             IoCContainer.Configure<ApplicationViewModel>();
         }

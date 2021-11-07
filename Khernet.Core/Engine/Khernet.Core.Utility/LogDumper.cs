@@ -76,6 +76,9 @@ namespace Khernet.Core.Utility
                 logger.Log(LogLevel.Error, lines[i]);
             }
 
+            if (exception.StackTrace == null)
+                return;
+
             lines = exception.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {

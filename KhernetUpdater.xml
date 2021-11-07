@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>0.17.0.0</version>
+    <url>https://github.com/lemalcs/Khernet/releases/download/v0.17.0.0/KhernetUpdate-0.17.0.0.exe</url>
+    <args>/SP- /silent /noicons /NOCANCEL /dir="%path%"</args>
+    <changelog>https://github.com/lemalcs/Khernet/releases/latest</changelog>
+    <mandatory>true</mandatory>
+</item>

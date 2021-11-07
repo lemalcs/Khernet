@@ -126,6 +126,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Reference Include="AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
@@ -173,6 +176,7 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
@@ -189,9 +193,11 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -226,6 +232,9 @@
     <Compile Include="Animations\FrameworkElementAnimations.cs" />
     <Compile Include="Cache\ChatCache.cs" />
     <Compile Include="Cache\Configurations.cs" />
+    <Compile Include="Controls\Dialogs\ProgressDialogControl.xaml.cs">
+      <DependentUpon>ProgressDialogControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Media\AnimationViewerControl.xaml.cs">
       <DependentUpon>AnimationViewerControl.xaml</DependentUpon>
     </Compile>
@@ -236,6 +245,7 @@
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BaseValueMultiConverter.cs" />
+    <Compile Include="Converters\UpdateOnlineConverter.cs" />
     <Compile Include="Converters\ImageHeightConverter.cs" />
     <Compile Include="Converters\ButtonShapeMultiConverter.cs" />
     <Compile Include="Converters\ButtonShineMultiConverter.cs" />
@@ -385,9 +395,12 @@
     <Compile Include="DependencyProperties\ScrollToBottomOnLoadProperty.cs" />
     <Compile Include="Engine\AccountIdentity.cs" />
     <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Engine\IUpdater.cs" />
+    <Compile Include="Engine\ApplicationUpdater.cs" />
     <Compile Include="Files\FileOperations.cs" />
     <Compile Include="IoC\IApplicationContext.cs" />
     <Compile Include="IoC\IApplicationDialog.cs" />
+    <Compile Include="IoC\IApplicationManager.cs" />
     <Compile Include="IoC\IIdentity.cs" />
     <Compile Include="IoC\IChatList.cs" />
     <Compile Include="IoC\IMessageManager.cs" />
@@ -414,6 +427,12 @@
     <Compile Include="Files\FileHelper.cs" />
     <Compile Include="Files\ImageHelper.cs" />
     <Compile Include="Files\MediaHelper.cs" />
+    <Compile Include="Pages\UpdateProgressPage.xaml.cs">
+      <DependentUpon>UpdateProgressPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UpdatePage.xaml.cs">
+      <DependentUpon>UpdatePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\NativeMethods.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Pages\BasePage.cs" />
@@ -481,6 +500,8 @@
     <Compile Include="ViewModels\Design\FieldEditorDesignModel.cs" />
     <Compile Include="ViewModels\Design\CacheDesingModel.cs" />
     <Compile Include="ViewModels\Design\MessageBoxDesignModel.cs" />
+    <Compile Include="ViewModels\Dialogs\ProgressDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\UpdateViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\LoadViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AboutViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\FieldEditorViewModel.cs" />
@@ -549,6 +570,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\HtmlMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\ProgressDialogControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -665,6 +690,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\UpdateProgressPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UpdatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\AboutPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

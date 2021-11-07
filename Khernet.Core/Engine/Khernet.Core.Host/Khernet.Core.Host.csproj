@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticator.cs" />
+    <Compile Include="ApplicationConfigurations.cs" />
     <Compile Include="EventListenerClient.cs" />
     <Compile Include="EventListenerDelegates.cs" />
     <Compile Include="Initializer.cs" />

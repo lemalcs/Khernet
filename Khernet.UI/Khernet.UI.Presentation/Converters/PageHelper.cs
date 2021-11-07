@@ -20,7 +20,9 @@ namespace Khernet.UI.Converters
         FileList = 13,
         AudioList = 14,
         About = 15,
-        Load = 16
+        Load = 16,
+        Updates = 17,
+        UpdatesProgress = 18,
     }
 
     /// <summary>
@@ -71,6 +73,10 @@ namespace Khernet.UI.Converters
                     return new AboutPage(viewModel as AboutViewModel);
                 case ApplicationPage.Load:
                     return new LoadPage();
+                case ApplicationPage.Updates:
+                    return new UpdatePage(viewModel as UpdateViewModel);
+                case ApplicationPage.UpdatesProgress:
+                    return new UpdateProgressPage();
                 default:
                     System.Diagnostics.Debugger.Break();
                     return null;

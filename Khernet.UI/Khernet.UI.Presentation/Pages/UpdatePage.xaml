@@ -1,0 +1,185 @@
+﻿<local:BasePage x:TypeArguments="vm:UpdateViewModel"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:Khernet.UI.Pages"
+                xmlns:vm="clr-namespace:Khernet.UI"
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                xmlns:Cache="clr-namespace:Khernet.UI.Cache"
+                x:Class="Khernet.UI.Pages.UpdatePage"
+                mc:Ignorable="d" 
+                d:DesignHeight="300" d:DesignWidth="300"
+                x:Name="Update"
+                Title="UpdatePage"
+                Width="300"
+                d:DataContext="{d:DesignInstance vm:UpdateViewModel,IsDesignTimeCreatable=True}">
+    <Grid>
+        <Grid.RowDefinitions>
+            
+            <!-- Get updates mode -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- Source of updates indicator -->
+            <RowDefinition Height="Auto"/>
+
+            <!-- Panel for update details -->
+            <RowDefinition Height="*"/>
+            
+            <!-- Update button -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Get updates mode -->
+        <TextBlock Grid.Row="0"
+                   Text="Get updates online:"
+                   Style="{StaticResource TextblockHeader}"/>
+
+        <!-- Source of updates indicator -->
+        <Controls:ToggleSwitch Grid.Row="1"
+                               Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" 
+                               Content="{Binding GetUpdateOnline,Converter={conv:UpdateOnlineConverter}}"
+                               Name="toggleUpdateMode"
+                               Margin="0 0 0 0" 
+                               IsChecked="{Binding GetUpdateOnline,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!-- Panel for online update -->
+        <Grid Grid.Row="2"
+              Visibility="{Binding GetUpdateOnline,Converter={conv:BoolToVisibilityGoneConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Current version of application -->
+            <TextBlock Grid.Row="0"
+                       Margin="0 30 0 0">
+                <Run Text="Current version: "/>
+                <Run Text="{x:Static Cache:Configurations.AppVerion}"/>
+            </TextBlock>
+
+            <!-- New version of application -->
+            <TextBlock Grid.Row="1"
+                       Margin="0 5 0 0"
+                       TextWrapping="Wrap"
+                       Text="{Binding TextProgress}"
+                       Style="{StaticResource TextblockHeader}"/>
+
+            <!-- Check updates link -->
+            <FlowDocumentScrollViewer Grid.Row="2"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      Padding="-5 0 0 0">
+                <FlowDocument PageHeight="5"
+                              LineHeight="5">
+                    <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
+                               FontSize="{StaticResource RegularFontSize}"
+                               LineHeight="5">
+                        <Hyperlink Command="{Binding CheckUpdatesPageCommand}"
+                                   TextDecorations="None">
+                            <Run Text="Check for updates"/>
+                        </Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+        </Grid>
+
+        <!-- Panel for local file update -->
+        <Grid Grid.Row="2" 
+              Visibility="{Binding GetUpdateOnline,Converter={conv:InverseBoolToVisibilityGoneConverter}}">
+        
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+     
+            <!-- Warning message -->
+            <TextBlock Grid.Row="0"
+                       Margin="0 20 0 0"
+                       TextWrapping="Wrap">
+                <Run Text="IMPORTANT:"
+                     Foreground="{StaticResource LightRedBrush}"
+                     FontFamily="{StaticResource RobotoBoldFont}"/>
+                <LineBreak/>
+                <Run Text="For security reasons only update application from a trusted source."/>
+                <LineBreak/>
+                <Run Text="To get update files click on the following link:"/>
+            </TextBlock>
+
+            <!-- Updates url -->
+            <FlowDocumentScrollViewer Grid.Row="1"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      Padding="-18 0 0 0">
+                <FlowDocument>
+                <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
+                               FontSize="{StaticResource RegularFontSize}"
+                               LineHeight="10">
+                        <Hyperlink Command="{Binding OpenUpdatesPageCommand}">
+                            <Run Text="https://github.com/lemalcs/Khernet/releases/latest"/>
+                        </Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+            
+            <TextBlock Text="Path of update file:"
+                       Margin="0 15 0 5"
+                       Style="{StaticResource TextblockHeader}"
+                       Grid.Row="2" />
+            
+            <!-- Path of update file -->
+            <TextBox Width="295"
+                     Text="{Binding UpdateFilePath, UpdateSourceTrigger=PropertyChanged}"
+                     Height="10"
+                     Grid.Row="3"/>
+
+            <!-- Browse button -->
+            <Button Grid.Row="4" 
+                    Content="Browse"
+                    Visibility="Collapsed"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Margin="0 5 0 0"
+                    Command="{Binding OpenFileCommand}"
+                    Style="{StaticResource LightHexagonalButtonStyle}" />
+
+            <!-- Browse file link -->
+            <FlowDocumentScrollViewer Grid.Row="4"
+                                      Background="Transparent"
+                                      HorizontalAlignment="Right"
+                                      Width="80"
+                                      BorderThickness="0"
+                                      Height="30"
+                                      Padding="0">
+                <FlowDocument PageHeight="5"
+                              LineHeight="5">
+                    <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
+                               FontSize="{StaticResource RegularFontSize}"
+                               LineHeight="5">
+                        <Hyperlink Command="{Binding OpenFileCommand}" 
+                                   TextDecorations="None">
+                            <Run Text="Browse file"/>
+                        </Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+
+        </Grid>
+        
+        <!-- Update application button -->
+        <Button Grid.Row="3" 
+                Content="UPDATE"
+                Margin="0 10 0 30"
+                Width="100"
+                VerticalAlignment="Bottom"
+                Visibility="{Binding ShowUpdateCommand,Converter={conv:BoolToVisibilityGoneConverter}}"
+                Command="{Binding UpdateCommand}"
+                Style="{StaticResource HexagonalButtonStyle}"/>
+    </Grid>
+</local:BasePage>

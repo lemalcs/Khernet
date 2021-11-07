@@ -133,7 +133,7 @@ namespace Khernet.UI
                 {
                     await Engine.Start(peer);
 
-                    //Go to session page to start chat
+                    //Go to sggession page to start chat
                     IoCContainer.Get<ApplicationViewModel>().GoToPage(Converters.ApplicationPage.Session);
                 }
                 else

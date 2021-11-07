@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Khernet.UI
 {
     /// <summary>
-    /// View model for about information.
+    /// View model to show information about this application.
     /// </summary>
     public class AboutViewModel : BaseModel
     {
@@ -25,14 +25,9 @@ namespace Khernet.UI
         public ICommand OpenHomePageCommand { get; private set; }
 
         /// <summary>
-        /// Opens the directory where this installer (the executable that installs the whole application) is located. 
+        /// Opens the directory where the main executable (Khernet.exe) is located.
         /// </summary>
         public ICommand OpenInstallationPathCommand { get; private set; }
-
-        /// <summary>
-        /// Opens the working directory where this application is located. 
-        /// </summary>
-        public ICommand OpenWorkingDirectoryCommand { get; private set; }
 
         #endregion
 
@@ -41,12 +36,6 @@ namespace Khernet.UI
             OpenIssueCommand = new RelayCommand(OpenIssue);
             OpenHomePageCommand = new RelayCommand(OpenHomePage);
             OpenInstallationPathCommand = new RelayCommand(OpenInstallationPath);
-            OpenWorkingDirectoryCommand = new RelayCommand(OpenWorkingDirectory);
-        }
-
-        private void OpenWorkingDirectory()
-        {
-            Process.Start(Configurations.HomeDirectory);
         }
 
         private void OpenHomePage()
@@ -61,14 +50,12 @@ namespace Khernet.UI
 
         private async void OpenInstallationPath()
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(Configurations.HomeDirectory);
-            string installerPath = dirInfo.Parent.Parent.FullName;
-            if (Directory.Exists(installerPath))
-                Process.Start(installerPath);
+            if (Directory.Exists(Configurations.HomeDirectory))
+                Process.Start(Configurations.HomeDirectory);
             else
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = $"Installer not found, place the installer at the following path and try again: {installerPath}",
+                    Message = $"Error while opening path, please try again: {Configurations.HomeDirectory}",
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",

@@ -39,12 +39,7 @@
                     <Hyperlink Command="{Binding OpenInstallationPathCommand}" >
                         <Run Text="click here"/>
                     </Hyperlink>
-                    <LineBreak/>
-
-                    <Run Text="Working directory: "/>
-                    <Hyperlink Command="{Binding OpenWorkingDirectoryCommand}" >
-                        <Run Text="click here"/>
-                    </Hyperlink>
+                    
                     <LineBreak/>
                     <LineBreak/>
                     <Run Text="Home: "/>

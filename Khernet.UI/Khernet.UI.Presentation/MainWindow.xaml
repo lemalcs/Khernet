@@ -33,7 +33,16 @@
                    Margin="10 0 0 0"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-        
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="Update"
+                    Style="{StaticResource HexagonalButtonStyle}"
+                    Width="100"
+                    Visibility="{Binding ApplicationViewModel.ShowUpdateCommand,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
+                    Command="{Binding ApplicationViewModel.UpdateCommand, Source={x:Static local:ViewModelLocator.Instance}}" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 
     <Grid>
         <Grid.ColumnDefinitions>

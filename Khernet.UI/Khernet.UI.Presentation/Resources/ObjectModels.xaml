@@ -42,14 +42,7 @@
                     IconSource="/Khernet;component/LogoIcon.ico"
                     ToolTipText="Double-click for window, right-click for menu"
                     DoubleClickCommand="{Binding ShowWindowCommand}"
-                    ContextMenu="{StaticResource SysTrayMenu}">
-
-        <!-- Assign data context-->
-        <tb:TaskbarIcon.DataContext>
-            <local:TaskbarIconViewModel />
-        </tb:TaskbarIcon.DataContext>
-
-    </tb:TaskbarIcon>
+                    ContextMenu="{StaticResource SysTrayMenu}"/>
 
     <ContextMenu x:Key="textboxContextMenu" >
         <MenuItem Command="ApplicationCommands.Cut"/>

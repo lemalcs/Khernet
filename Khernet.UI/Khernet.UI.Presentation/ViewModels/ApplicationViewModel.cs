@@ -84,6 +84,11 @@ namespace Khernet.UI
         private int previousOverlayLevel;
 
         /// <summary>
+        /// Indicates whether the update command is visible due to an update found for application.
+        /// </summary>
+        private bool showUpdateCommand;
+
+        /// <summary>
         /// The current Page application shows.
         /// </summary>
         public ApplicationPage CurrentPage
@@ -320,9 +325,27 @@ namespace Khernet.UI
             }
         }
 
+        public bool ShowUpdateCommand
+        {
+            get => showUpdateCommand;
+            set
+            {
+                if (showUpdateCommand != value)
+                {
+                    showUpdateCommand = value;
+                    OnPropertyChanged(nameof(ShowUpdateCommand));
+                }
+            }
+        }
+
         #endregion
 
+        #region Commands
+
         public ICommand ViewSettingsCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
+
+        #endregion
 
         public ApplicationViewModel()
         {
@@ -333,6 +356,7 @@ namespace Khernet.UI
             IsPlayerVisible = false;
 
             ViewSettingsCommand = new RelayCommand(ViewSettings);
+            UpdateCommand = new RelayCommand(UpdateApplication);
 
             IsSidePanelVisible = CurrentPage == ApplicationPage.Session || CurrentPage == ApplicationPage.Chat;
 
@@ -343,28 +367,54 @@ namespace Khernet.UI
             }
         }
 
-        public async void SignOut()
+        /// <summary>
+        /// Update the application from main window.
+        /// </summary>
+        private async void UpdateApplication()
         {
             try
             {
-                GoToPage(ApplicationPage.SignOut);
-
-                IsSidePanelVisible = false;
-                IsOverlayVisible = false;
-                CurrentViewModel = null;
-                IsPlayerVisible = false;
-
-                ModalDialogViewModel = null;
-                IsModalDialogVisible = false;
-                PlayerViewModel = null;
-                MessageViewModel = null;
-                IsOverlayVisible = false;
-                UserViewModel = null;
-
-                IoCContainer.Chat.Clear();
-
-                await Task.Run(() =>
+                GoToPage(ApplicationPage.UpdatesProgress);
+                await SignOut();
+                IoCContainer.Get<IUpdater>().Update();
+            }
+            catch (Exception error)
+            {
+                MessageBoxViewModel messageModel = new MessageBoxViewModel
                 {
+                    Message = $"Error, {error.Message}",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                };
+                await IoCContainer.UI.ShowMessageBox(messageModel, true);
+                GoToPage(ApplicationPage.Login);
+            }
+        }
+
+        public async Task SignOut()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    ShowUpdateCommand = false;
+
+                    IsSidePanelVisible = false;
+                    IsOverlayVisible = false;
+                    CurrentViewModel = null;
+                    IsPlayerVisible = false;
+
+                    ModalDialogViewModel = null;
+                    IsModalDialogVisible = false;
+                    PlayerViewModel = null;
+                    MessageViewModel = null;
+                    IsOverlayVisible = false;
+                    UserViewModel = null;
+
+                    IoCContainer.Chat.Clear();
+
                     IoCContainer.Media.Dispose();
                     IoCContainer.Text.Dispose();
                     IoCContainer.Get<IAudioObservable>().StopPlayer();
@@ -373,15 +423,13 @@ namespace Khernet.UI
                     IoCContainer.Get<MessageWritingChecker>().StopProcessor();
                     IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
                     Engine.Stop();
-                });
-
-                GoToPage(ApplicationPage.Login);
-            }
-            catch (Exception error)
-            {
-                Debug.WriteLine(error.Message);
-                Debugger.Break();
-            }
+                }
+                catch (Exception error)
+                {
+                    Debug.WriteLine(error.Message);
+                    Debugger.Break();
+                }
+            });
         }
 
         /// <summary>
@@ -430,8 +478,28 @@ namespace Khernet.UI
                 UserViewModel == null)
             {
                 LoadUsers();
+                CheckForUpdates();
             }
         }
+
+        /// <summary>
+        /// Check if an update is available for this application.
+        /// </summary>
+        private void CheckForUpdates()
+        {
+            IoCContainer.Get<IUIManager>().ExecuteAsync(() =>
+            {
+                ApplicationConfigurations appConfigurations = new ApplicationConfigurations();
+                if (!appConfigurations.GetUpdateSource())
+                    return;
+
+                if (!string.IsNullOrEmpty(IoCContainer.Get<IUpdater>().CheckUpdate()))
+                {
+                    ShowUpdateCommand = true;
+                }
+            });
+        }
+
 
         /// <summary>
         /// Get users from data source.
