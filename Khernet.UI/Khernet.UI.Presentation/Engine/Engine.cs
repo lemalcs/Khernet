@@ -1,5 +1,6 @@
 ﻿using Khernet.Core.Entity;
 using Khernet.Core.Host;
+using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Cache;
 using Khernet.UI.IoC;
@@ -311,7 +312,14 @@ namespace Khernet.UI
             }
             finally
             {
-                IoCContainer.UI.ClearNotificationNewMessageIcon();
+                try
+                {
+                    IoCContainer.UI.ClearNotificationNewMessageIcon();
+                }
+                catch (Exception error)
+                {
+                    LogDumper.WriteLog(error);
+                }
             }
         }
     }

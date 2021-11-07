@@ -1,6 +1,7 @@
 ﻿using Khernet.Core.Host;
 using Khernet.Core.Utility;
 using Khernet.Services.Messages;
+using Khernet.UI.Converters;
 using Khernet.UI.IoC;
 using Khernet.UI.Resources;
 using System;
@@ -28,7 +29,12 @@ namespace Khernet.UI
         /// <summary>
         /// Opens the about page.
         /// </summary>
-        About = 3
+        About = 3,
+
+        /// <summary>
+        /// Open page to manage updates for this application.
+        /// </summary>
+        Updates = 4,
     }
 
 
@@ -60,6 +66,13 @@ namespace Khernet.UI
                 IconName = "Archive",
             });
 
+            Items.Add(new SettingItemViewModel(OpenUpdates)
+            {
+                Name = "Updates",
+                Setting = AppOptions.Updates,
+                IconName = "ArrowCollapseDown",
+            });
+
             Items.Add(new SettingItemViewModel(OpenSessionSetting)
             {
                 Name = "Close session",
@@ -73,6 +86,11 @@ namespace Khernet.UI
                 Setting = AppOptions.About,
                 IconName = "InformationOutline",
             });
+        }
+
+        private void OpenUpdates()
+        {
+            pagedDialog.GoToPage(Converters.ApplicationPage.Updates, new UpdateViewModel(pagedDialog), "Updates");
         }
 
         public SettingControllerViewModel(IPagedDialog pagedDialog) : this()
@@ -129,7 +147,9 @@ namespace Khernet.UI
 
                 if (messageBox.Result == MessageBoxResponse.Accept)
                 {
-                    IoCContainer.Get<ApplicationViewModel>().SignOut();
+                    IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.SignOut);
+                    await IoCContainer.Get<ApplicationViewModel>().SignOut();
+                    IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
                 }
 
             }

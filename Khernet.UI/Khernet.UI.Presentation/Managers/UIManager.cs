@@ -257,6 +257,9 @@ namespace Khernet.UI
         /// </summary>
         public void Execute(Action action)
         {
+            if (Application.Current == null)
+                return;
+
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 action();
@@ -358,13 +361,16 @@ namespace Khernet.UI
         /// </summary>
         public void ClearNotificationNewMessageIcon()
         {
+            if (Application.Current == null)
+                return;
+
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 if (notificationIcon != null)
                 {
                     notificationIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/LogoIcon.ico", UriKind.RelativeOrAbsolute));
 
-                    if (App.Current.MainWindow.TaskbarItemInfo != null)
+                    if (App.Current != null && App.Current.MainWindow.TaskbarItemInfo != null)
                         App.Current.MainWindow.TaskbarItemInfo = null;
                 }
             }));

@@ -44,8 +44,8 @@ namespace Khernet.Core.Host
                 Directory.CreateDirectory(enginePath);
             }
 
-            DirectoryInfo directoryInfo= new DirectoryInfo(enginePath);
-            if(directoryInfo.GetFiles().Length!=0)
+            DirectoryInfo directoryInfo = new DirectoryInfo(enginePath);
+            if (directoryInfo.GetFiles().Length != 0)
             {
                 return;
             }

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class TaskbarIconViewModel : BaseModel
+    public class TaskbarIconViewModel : BaseModel, IApplicationManager
     {
         /// <summary>
         /// Indicates whether application is running.
@@ -42,23 +42,7 @@ namespace Khernet.UI
         /// </summary>
         private async void ExitApplication()
         {
-            IsRunning = false;
-            Application.Current.MainWindow.Hide();
-
-            await Task.Run(() =>
-            {
-                if (Engine.State == EngineState.Executing)
-                {
-                    IoCContainer.Media.Dispose();
-                    IoCContainer.Text.Dispose();
-                    IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
-                    IoCContainer.Get<UserManager>().StopProcessor();
-                    IoCContainer.Get<MessageWritingChecker>().StopProcessor();
-                    IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
-                    Engine.Stop();
-                }
-            });
-            Application.Current.Shutdown(0);
+            Shutdown();
         }
 
         /// <summary>
@@ -84,8 +68,35 @@ namespace Khernet.UI
         /// </summary>
         private void HideWindow()
         {
-            Application.Current.MainWindow.Hide();
+            HideMainWindow();
             IoCContainer.Get<ApplicationViewModel>().ClearChatPage();
+        }
+
+        public async void Shutdown()
+        {
+            IsRunning = false;
+            IoCContainer.UI.Execute(() => Application.Current.MainWindow.Hide());
+
+            await Task.Run(() =>
+            {
+                if (Engine.State == EngineState.Executing)
+                {
+                    IoCContainer.Media.Dispose();
+                    IoCContainer.Text.Dispose();
+                    IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
+                    IoCContainer.Get<UserManager>().StopProcessor();
+                    IoCContainer.Get<MessageWritingChecker>().StopProcessor();
+                    IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
+                    Engine.Stop();
+                }
+            });
+
+            System.Environment.Exit(0);
+        }
+
+        public void HideMainWindow()
+        {
+            IoCContainer.UI.Execute(() => Application.Current.MainWindow.Hide());
         }
     }
 }

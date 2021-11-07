@@ -85,7 +85,7 @@ namespace Khernet.UI.Pages
                 regionFactory.Build();
 
                 string ffmpegPath = Path.Combine(Configurations.AppDirectory, "media");
-                if(!Directory.Exists(ffmpegPath))
+                if (!Directory.Exists(ffmpegPath))
                 {
                     Directory.CreateDirectory(ffmpegPath);
                 }

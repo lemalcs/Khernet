@@ -207,6 +207,17 @@ namespace Khernet.UI.Controls
 
                     popUp.control.Content = cache;
                 }
+                else if (baseValue is ProgressDialogViewModel)
+                {
+                    var vm = baseValue as ProgressDialogViewModel;
+
+                    popUp.control.Content = null;
+
+                    ProgressDialogControl cache = new ProgressDialogControl(vm);
+                    cache.Commited += (d as PopupContent).PopUp_Commited;
+
+                    popUp.control.Content = cache;
+                }
             }
 
             return baseValue;

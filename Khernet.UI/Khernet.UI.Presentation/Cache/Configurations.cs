@@ -26,7 +26,7 @@ namespace Khernet.UI.Cache
         {
             get
             {
-                return Path.Combine(HomeDirectory,"khernet-app");
+                return Path.Combine(HomeDirectory, "khernet-app");
             }
         }
 
@@ -50,11 +50,10 @@ namespace Khernet.UI.Cache
         {
             get
             {
-                string currentVersion = Assembly.GetEntryAssembly().FullName.Split(',')[1].Trim().Replace("Version=", "");
+                Version currentVersion = typeof(Configurations).Assembly.GetName().Version;
+                string version = currentVersion.ToString();
 
-                //Take the first 3 numbers from application version
-                currentVersion = currentVersion.Substring(0, currentVersion.Length - 2);
-                return currentVersion;
+                return version;
             }
         }
 
