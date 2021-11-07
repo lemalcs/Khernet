@@ -132,13 +132,8 @@ namespace Khernet.UI.Media
         /// <param name="arguments">The arguments for FFMEPG tool.</param>
         private static void StartProcess(string arguments)
         {
-            var currentAssembly = Assembly.GetEntryAssembly();
-            var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
-
-            string ffmpegFilePath = Path.Combine(currentDirectory, "media", "ffmpeg.exe");
-
             ProcessStartInfo processInfo = new ProcessStartInfo();
-            processInfo.FileName = ffmpegFilePath;
+            processInfo.FileName = Path.Combine(Configurations.AppDirectory, "media", "ffmpeg.exe");
             processInfo.Arguments = arguments;
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Khernet.App.VLC</id>
+    <version>1.0.1</version>
+    <authors>Luis Lema</authors>
+    <owners>Luis Lema</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Logo.png</icon>
+    <projectUrl>https://github.com/lemalcs/Vlc.DotNet</projectUrl>
+    <description>VLC library adapted to Khernet. 
+    The VLC is a project of VideoLan non-profit organization see more information in http://www.videolan.org/videolan/
+Khernet is a standalone chat application, more information in https://khernet.app</description>
+    <copyright>Copyright 2021</copyright>
+    <tags>khernet</tags>
+  </metadata>
+</package>

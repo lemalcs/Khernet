@@ -851,7 +851,6 @@
       </EmbeddedResource>
     </ItemGroup>
   </Target>
-  <Import Project="..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>

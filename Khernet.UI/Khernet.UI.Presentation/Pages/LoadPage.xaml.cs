@@ -5,6 +5,7 @@ using Khernet.UI.Converters;
 using Khernet.UI.IoC;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -82,7 +83,50 @@ namespace Khernet.UI.Pages
             {
                 RegionFactory regionFactory = new RegionFactory();
                 regionFactory.Build();
+
+                string ffmpegPath = Path.Combine(Configurations.AppDirectory, "media");
+                if(!Directory.Exists(ffmpegPath))
+                {
+                    Directory.CreateDirectory(ffmpegPath);
+                }
+
+                string libvlcPath = Path.Combine(Configurations.AppDirectory, "libvlc", "win-x86");
+                if (!Directory.Exists(libvlcPath))
+                {
+                    Directory.CreateDirectory(libvlcPath);
+                }
+
+                if (Directory.GetFiles(ffmpegPath).Length == 0)
+                    ExtractFile("ffmpeg.zip", ffmpegPath);
+
+                if (Directory.GetFiles(libvlcPath).Length == 0)
+                    ExtractFile("libvlc-win-x86.zip", libvlcPath);
+
             });
+        }
+
+        private void ExtractFile(string file, string destinationPath)
+        {
+
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Khernet.g.resources"))
+            {
+                using (System.Resources.ResourceReader r = new System.Resources.ResourceReader(stream))
+                {
+                    r.GetResourceData(file, out string resourceType, out byte[] resourceBytes);
+
+                    using (MemoryStream mem = new MemoryStream(resourceBytes))
+                    {
+                        // File is located from 5 position in array `resourceBytes`
+                        mem.Position = 4;
+
+                        Compressor c = new Compressor();
+                        c.UnZipFile(mem,
+                            destinationPath
+                            );
+
+                    }
+                }
+            }
         }
 
         /// <summary>

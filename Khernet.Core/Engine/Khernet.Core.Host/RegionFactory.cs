@@ -34,8 +34,36 @@ namespace Khernet.Core.Host
             }
         }
 
+        private void InstallDataBaseEngine()
+        {
+            Storage storage = new Storage();
+            string enginePath = Path.GetDirectoryName(storage.EngineAddress);
+
+            if (!Directory.Exists(enginePath))
+            {
+                Directory.CreateDirectory(enginePath);
+            }
+
+            DirectoryInfo directoryInfo= new DirectoryInfo(enginePath);
+            if(directoryInfo.GetFiles().Length!=0)
+            {
+                return;
+            }
+
+            ResourceContainer rc = new ResourceContainer();
+
+            //Decompress ZIP file with database engine
+            using (MemoryStream memStream = new MemoryStream(rc.GetResource(Storage.ENGINE_FILE)))
+            {
+                Compressor compressor = new Compressor();
+                compressor.UnZipFile(memStream, Path.GetDirectoryName(storage.EngineAddress));
+            }
+        }
+
         public void Build()
         {
+            InstallDataBaseEngine();
+
             if (!ValidateDatabase())
             {
                 CreateDatabases();
