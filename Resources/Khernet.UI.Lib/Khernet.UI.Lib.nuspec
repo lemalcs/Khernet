@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Khernet.UI.Lib</id>
+    <version>1.1.0</version>
+    <authors>Luis Lema</authors>
+    <owners>Luis Lema</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>Logo.png</icon>
+    <projectUrl>https://github.com/lemalcs/Khernet</projectUrl>
+    <description>Extern libraries for khernet:
+    - Ffmpeg cross-platform solution to record, convert and stream audio and video, more information on https://www.ffmpeg.org/.
+    - VLC framework on which VLC Media Player is based, more information on http://www.videolan.org/vlc/libvlc.html </description>
+    <releaseNotes>Version for Khernet application</releaseNotes>
+    <copyright>Copyright 2021</copyright>
+    <tags>khernet</tags>
+  </metadata>
+</package>
