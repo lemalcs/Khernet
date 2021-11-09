@@ -888,7 +888,7 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.1.0.0\build\Khernet.UI.Lib.targets'))" />
+    <Error Condition="!Exists('..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets'))" />
   </Target>
@@ -899,4 +899,5 @@ IF not exist %25bin_directory%25 mkdir %25bin_directory%25
 copy /Y $(TargetPath) %25bin_directory%25</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" />
+  <Import Project="..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets')" />
 </Project>
