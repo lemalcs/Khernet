@@ -40,7 +40,7 @@ namespace Khernet.UI
         /// <summary>
         /// Shutdowns the application.
         /// </summary>
-        private async void ExitApplication()
+        private void ExitApplication()
         {
             Shutdown();
         }
