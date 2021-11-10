@@ -12,7 +12,7 @@
                 xmlns:Cache="clr-namespace:Khernet.UI.Cache"
                 mc:Ignorable="d" 
                 d:DesignHeight="380" d:DesignWidth="300"
-                Style="{DynamicResource MetroPage}"
+                Style="{DynamicResource Controls.MetroPage}"
                 x:Name="Login"
                 Title="SignUpPage">
     <Grid>
@@ -22,59 +22,46 @@
                     Width="280"
                     IsEnabled="{Binding IsAttemptingLogin,Converter={conv:InverseBoolConverter}}" Margin="10,-36,10,-42">
 
-            <!-- Application logo -->
-            <Image Source="{StaticResource AppLogo}"
-                   Height="70"/>
-
             <!-- Title -->
             <TextBlock Text="Create your account" 
                        Style="{StaticResource TitleText}"
                        Margin="0 10 0 15"
-                       FontSize="{StaticResource LargeFontSize}"
-                       HorizontalAlignment="Center"/>
+                       FontSize="{StaticResource VeryLargeFontSize}"
+                       HorizontalAlignment="Left"/>
 
             <TextBlock Text="Username" 
                        Style="{StaticResource TextblockHeader}"
                        Margin="0 15 0 5"/>
 
             <!--User-name -->
-            <TextBox Height="28"
-                     Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
-                     Style="{StaticResource EditTextBox}"
-                     depend:IsFocusedProperty.Value="True"
-                     VerticalContentAlignment="Center"/>
+            <TextBox Text="{Binding Username,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}"
+                     depend:IsFocusedProperty.Value="True"/>
 
             <TextBlock Text="Password" 
                        Style="{StaticResource TextblockHeader}"
                        Margin="0 15 0 5"/>
 
             <!--Password 1 -->
-            <PasswordBox Name="pass1"
-                         Height="28"
-                         VerticalContentAlignment="Center"
-                         Style="{StaticResource EditPasswordBox}"/>
+            <PasswordBox Name="pass1"/>
 
             <TextBlock Text="Confirm password" 
                        Style="{StaticResource TextblockHeader}"
                        Margin="0 15 0 5"/>
 
             <!--Password 2 -->
-            <PasswordBox Name="pass2"
-                         Height="28" 
-                         VerticalContentAlignment="Center"
-                         Style="{StaticResource EditPasswordBox}"/>
+            <PasswordBox Name="pass2"/>
 
             <!--Creation account/Login button-->
             <Button x:Name="button" 
                     IsDefault="True"
                     Content="CREATE" 
                     Width="120"
-                    Margin="15"
+                    Margin="20"
                     IsEnabled="{Binding CanLogin}"
                     depend:IsBusyProperty.Value="{Binding IsAttemptingLogin}"
                     Command="{Binding SignUpCommand}"
                     CommandParameter="{Binding ElementName=Login}"
-                    Style="{StaticResource HexagonalButtonStyle}"/>
+                    Style="{StaticResource MainButtonStyle}"/>
 
         </StackPanel>
         

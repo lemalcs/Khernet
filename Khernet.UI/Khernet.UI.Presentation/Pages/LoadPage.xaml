@@ -13,22 +13,26 @@
                 d:DataContext="{d:DesignInstance vm:LoadViewModel,IsDesignTimeCreatable=True}"
                 Title="LoadPage"
                 Loaded="Login_Loaded">
-    
-    <Grid>
-        <StackPanel VerticalAlignment="Center"
-                    Margin="10 0 10 0">
+
+    <StackPanel VerticalAlignment="Center">
+
+        <!-- Application logo -->
+        <Image Source="{StaticResource AppLogo}"
+                VerticalAlignment="Center"
+                Height="70"
+                Margin="0 -30 0 40"/>
+
+        <!-- Progress animation -->
+        <Controls:MetroProgressBar IsIndeterminate="True"
+                                    Visibility="{Binding ShowProgress,Converter={conv:BoolToVisibilityGoneConverter}}"
+                                    VerticalAlignment="Center"/>
             
-            <!-- Progress animation -->
-            <Controls:MetroProgressBar IsIndeterminate="True"
-                                       Visibility="{Binding ShowProgress,Converter={conv:BoolToVisibilityGoneConverter}}"/>
-            
-            <!-- Action description -->
-            <TextBlock Text="{Binding MessageText}"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   TextAlignment="Center"
-                   FocusVisualStyle="{x:Null}"
-                   Style="{StaticResource TextblockStyle}"/>
-        </StackPanel>
-    </Grid>
+        <!-- Action description -->
+        <TextBlock Text="{Binding MessageText}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    FocusVisualStyle="{x:Null}"
+                    Style="{StaticResource TextblockStyle}"/>
+    </StackPanel>
 </local:BasePage>

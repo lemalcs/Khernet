@@ -18,6 +18,7 @@
     <Border Background="{StaticResource LightBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       Focusable="False">
+            
             <Grid FocusManager.IsFocusScope="True">
                 <Grid.RowDefinitions>
 
@@ -81,7 +82,7 @@
                                     Margin="0 10 0 0"
                                     Width="100"
                                     Command="{Binding OpenEditNameCommand}"
-                                    Style="{StaticResource LightHexagonalButtonStyle}"
+                                    Style="{StaticResource SecondaryButtonStyle}"
                                     HorizontalAlignment="Left"/>
 
                         </StackPanel>

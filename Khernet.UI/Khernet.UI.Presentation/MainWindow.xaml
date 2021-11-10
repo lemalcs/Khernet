@@ -24,20 +24,15 @@
                       MinWidth="700"
                       UseLayoutRounding="True"
                       TitleAlignment="Left"
+                      Title="Khernet"
+                      FontFamily="{StaticResource RobotoRegularFont}"
+                      TitleCaps="False"
                       PreviewKeyDown="MainWin_PreviewKeyDown">
-
-    <Controls:MetroWindow.LeftWindowCommands>
-        <Controls:WindowCommands>
-            <Image Source="{StaticResource HeaderLogo}"
-                   Height="9"
-                   Margin="10 0 0 0"/>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.LeftWindowCommands>
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="Update"
-                    Style="{StaticResource HexagonalButtonStyle}"
+                    Style="{StaticResource MainButtonStyle}"
                     Width="100"
                     Visibility="{Binding ApplicationViewModel.ShowUpdateCommand,Source={x:Static local:ViewModelLocator.Instance},Converter={conv:BoolToVisibilityGoneConverter}}"
                     Command="{Binding ApplicationViewModel.UpdateCommand, Source={x:Static local:ViewModelLocator.Instance}}" />

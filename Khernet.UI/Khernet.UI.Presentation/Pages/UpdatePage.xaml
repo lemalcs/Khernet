@@ -13,7 +13,7 @@
                 d:DesignHeight="300" d:DesignWidth="300"
                 x:Name="Update"
                 Title="UpdatePage"
-                Width="300"
+                Width="350"
                 d:DataContext="{d:DesignInstance vm:UpdateViewModel,IsDesignTimeCreatable=True}">
     <Grid>
         <Grid.RowDefinitions>
@@ -134,20 +134,8 @@
                        Grid.Row="2" />
             
             <!-- Path of update file -->
-            <TextBox Width="295"
-                     Text="{Binding UpdateFilePath, UpdateSourceTrigger=PropertyChanged}"
-                     Height="10"
+            <TextBox Text="{Binding UpdateFilePath, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3"/>
-
-            <!-- Browse button -->
-            <Button Grid.Row="4" 
-                    Content="Browse"
-                    Visibility="Collapsed"
-                    Width="100"
-                    HorizontalAlignment="Right"
-                    Margin="0 5 0 0"
-                    Command="{Binding OpenFileCommand}"
-                    Style="{StaticResource LightHexagonalButtonStyle}" />
 
             <!-- Browse file link -->
             <FlowDocumentScrollViewer Grid.Row="4"
@@ -180,6 +168,6 @@
                 VerticalAlignment="Bottom"
                 Visibility="{Binding ShowUpdateCommand,Converter={conv:BoolToVisibilityGoneConverter}}"
                 Command="{Binding UpdateCommand}"
-                Style="{StaticResource HexagonalButtonStyle}"/>
+                Style="{StaticResource MainButtonStyle}"/>
     </Grid>
 </local:BasePage>

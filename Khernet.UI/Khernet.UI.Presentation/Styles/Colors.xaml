@@ -4,7 +4,7 @@
 
     <!--Color an brushes must be specified ordered: first Color then Brush-->
 
-    <SolidColorBrush x:Key="OverBlueButton" Color="#0072f2"/>
+    <SolidColorBrush x:Key="OverBlueButton" Color="#4189ff"/>
     <SolidColorBrush x:Key="BlueMainButton" Color="#0366d6"/>
     <SolidColorBrush x:Key="ProgressRingbackgroud" Color="#ffffff"/>
     
@@ -106,4 +106,7 @@
 
     <Color x:Key="SectionBackgroundColor">#ebf3ff</Color>
     <SolidColorBrush x:Key="SectionBackgroundBrush" Color="{StaticResource SectionBackgroundColor}"/>
+
+    <SolidColorBrush x:Key="PressedButtonBrush" Color="#2d75eb"/>
+    <SolidColorBrush x:Key="SecondaryPressedButtonBrush" Color="#eef3fd"/>
 </ResourceDictionary>

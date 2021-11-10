@@ -73,18 +73,18 @@ namespace Khernet.UI
                 IconName = "ArrowCollapseDown",
             });
 
-            Items.Add(new SettingItemViewModel(OpenSessionSetting)
-            {
-                Name = "Close session",
-                Setting = AppOptions.CloseSession,
-                IconName = "ExitToApp",
-            });
-
             Items.Add(new SettingItemViewModel(OpenAboutPage)
             {
                 Name = "About",
                 Setting = AppOptions.About,
                 IconName = "InformationOutline",
+            });
+
+            Items.Add(new SettingItemViewModel(OpenSessionSetting)
+            {
+                Name = "Close session",
+                Setting = AppOptions.CloseSession,
+                IconName = "ExitToApp",
             });
         }
 

@@ -3,10 +3,14 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:media="clr-namespace:System.Windows.Media;assembly=presentationcore">
 
+    <system:Double x:Key="VeryLargeFontSize">24</system:Double>
     <system:Double x:Key="LargeFontSize">20</system:Double>
     <system:Double x:Key="MediumFontSize">16</system:Double>
     <system:Double x:Key="RegularFontSize">12.5</system:Double>
     <system:Double x:Key="SmallFontSize">11</system:Double>
+    
+    <system:Double x:Key="WindowTitleFontSize">12.5</system:Double>
+    <media:FontFamily x:Key="HeaderFontFamily">/Khernet;component/Fonts/#roboto regular</media:FontFamily>
 
     <media:FontFamily x:Key="RobotoMediumFont">/Khernet;component/Fonts/#roboto medium</media:FontFamily>
     <media:FontFamily x:Key="RobotoRegularFont">/Khernet;component/Fonts/#roboto regular</media:FontFamily>
