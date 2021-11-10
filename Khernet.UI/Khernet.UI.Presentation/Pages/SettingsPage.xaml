@@ -12,7 +12,7 @@
                 Width="400"
                 Title="SettingsListPage"
                 d:DataContext="{d:DesignInstance vm:SettingsListDesignModel,IsDesignTimeCreatable=True}">
-    
+
     <Page.Resources>
         <DataTemplate x:Key="DataTemplate1">
             <Border Background="Transparent" 
@@ -26,11 +26,11 @@
                     <Grid.ColumnDefinitions>
                         <!-- Icon-->
                         <ColumnDefinition Width="70"/>
-                        
+
                         <!-- Setting name-->
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <iconPacks:PackIconMaterial Kind="{Binding IconName}" 
                                                         Grid.Column="0"/>
                     <TextBlock Grid.Column="1" 
@@ -42,11 +42,12 @@
         </DataTemplate>
 
     </Page.Resources>
-    <Grid>
-        <!-- List of settings-->
-        <ListBox ItemTemplate="{StaticResource DataTemplate1}"
-                 ItemsSource="{Binding Items}"
-                 Grid.Row="1"
-                 />
-    </Grid>
+    
+    <!-- List of settings-->
+    <ListBox ItemTemplate="{StaticResource DataTemplate1}"
+                ItemsSource="{Binding Items}"
+                Grid.Row="1"
+                Background="Transparent"/>
+        
+   
 </local:BasePage>

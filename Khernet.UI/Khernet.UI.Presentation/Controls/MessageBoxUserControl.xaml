@@ -47,7 +47,7 @@
                     IsDefault="True"
                     Click="Button_Click"
                     HorizontalAlignment="Right"
-                    Style="{StaticResource HexagonalButtonStyle}"/>
+                    Style="{StaticResource MainButtonStyle}"/>
 
             <!-- Cancel button -->
             <Button Margin="10 0 0 0"
@@ -59,7 +59,7 @@
                     Command="{Binding CancelCommand}"
                     Click="Button_Click"
                     HorizontalAlignment="Right"
-                    Style="{StaticResource LightHexagonalButtonStyle}"/>
+                    Style="{StaticResource SecondaryButtonStyle}"/>
         </StackPanel>
     </Grid>
 </local:BaseDialogUserControl>

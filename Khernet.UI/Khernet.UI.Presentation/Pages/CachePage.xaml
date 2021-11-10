@@ -47,7 +47,10 @@
                     Margin="0 0 40 0"
                     ToolTip="Open cache folder"
                     HorizontalAlignment="Right">
-                <iconPacks:PackIconMaterial Kind="FolderOpen" Width="15" Height="15"/>
+                <iconPacks:PackIconMaterial Kind="FolderOpen" 
+                                            Width="15" 
+                                            Height="15"
+                                            Margin="5"/>
             </Button>
 
             <!-- Refresh size button -->
@@ -56,7 +59,10 @@
                     Command="{Binding GetCacheSizeCommand}"
                     Margin="0 0 10 0"
                     HorizontalAlignment="Right">
-                <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
+                <iconPacks:PackIconMaterial Kind="Refresh" 
+                                            Width="15" 
+                                            Height="15"
+                                            Margin="5"/>
             </Button>
         </Grid>
 
@@ -74,15 +80,14 @@
                    Style="{StaticResource TextblockHeader}"
                    HorizontalAlignment="Center"
                    Margin="0 0 0 50"
-                   FontSize="{StaticResource LargeFontSize}"
-                   />
+                   FontSize="{StaticResource LargeFontSize}"/>
 
         <!-- Clear button -->
         <Button Content="CLEAR"
                 Grid.Row="3"
                 Width="100"
                 Margin="0 0 0 20"
-                Style="{StaticResource HexagonalButtonStyle}"
+                Style="{StaticResource MainButtonStyle}"
                 Command="{Binding ClearCacheCommand}"/>
 
     </Grid>

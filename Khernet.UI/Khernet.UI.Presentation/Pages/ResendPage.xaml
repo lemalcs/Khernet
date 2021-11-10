@@ -30,7 +30,7 @@
                     Width="100"
                     Margin="0 10 0 10"
                     HorizontalAlignment="Center"
-                    Style="{StaticResource HexagonalButtonStyle}"
+                    Style="{StaticResource MainButtonStyle}"
                     Click="Button_Click"/>
         </Grid>
     </Grid>

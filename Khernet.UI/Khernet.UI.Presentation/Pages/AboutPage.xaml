@@ -11,14 +11,15 @@
                 d:DesignHeight="300" d:DesignWidth="300"
                 x:Name="Login"
                 Title="LoginPage"
-                Width="250"
+                Width="340"
                 d:DataContext="{d:DesignInstance vm:AboutViewModel,IsDesignTimeCreatable=True}">
 
     <StackPanel VerticalAlignment="Center">
 
         <!-- Application logo -->
         <Image Grid.Row="0" 
-               Source="{StaticResource AppLogo}"/>
+               Source="{StaticResource AppLogo}"
+               Width="200"/>
 
         <!-- Application name image -->
         <Image Grid.Row="1" 

@@ -290,7 +290,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" 
-                                CornerRadius="{Binding (mah:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                CornerRadius="3 0 0 3" 
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <Border x:Name="DisabledVisualElement" 
                                 Background="{DynamicResource ControlsDisabledBrush}" 
@@ -348,7 +348,7 @@
                 <Setter Property="Background" Value="{DynamicResource LighterBlueBrush}"/>
             </MultiTrigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource BlueBrush}"/>
+                <Setter Property="Background" Value="{StaticResource PressedButtonBrush}"/>
                 <Setter Property="Foreground" Value="{DynamicResource LightBrush}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
@@ -357,7 +357,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="HexagonalButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
@@ -387,60 +387,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" 
-                                SnapsToDevicePixels="True">
+                            SnapsToDevicePixels="True"
+                            CornerRadius="3"
+                            Background="{TemplateBinding Background}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="3" 
+                                              Color="{StaticResource LightBlue}"
+                                              ShadowDepth="0"
+                                              Opacity="0.8"/>
+                        </Border.Effect>
+                        
                         <Grid>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <!-- Main button shape -->
-                            <Polygon Grid.Row="0"
-                                     Grid.RowSpan="2"
-                                     Name="polygonBorder"
-                                     StrokeThickness="0"
-                                     StrokeLineJoin="Round"
-                                     Stretch="Uniform" 
-                                     Margin="0,0,0,0" 
-                                     Fill="{TemplateBinding Background}"
-                                     VerticalAlignment="Center">
-
-                                <Polygon.Effect>
-                                    <DropShadowEffect BlurRadius="2" 
-                                                      Color="{StaticResource LightGrayColor}"
-                                                      ShadowDepth="0"
-                                                      Opacity="1"/>
-                                </Polygon.Effect>
-
-                                <Polygon.Points>
-                                    <MultiBinding Converter="{conv:ButtonShapeMultiConverter}">
-                                        <Binding Path="ActualWidth" ElementName="border"/>
-                                        <Binding Path="ActualHeight" ElementName="border"/>
-                                    </MultiBinding>
-                                </Polygon.Points>
-                            </Polygon>
-
-                            <!-- Shine shape -->
-                            <Polygon Grid.Row="0"
-                                     Name="polygonShineBorder"
-                                     StrokeThickness="0"
-                                     StrokeLineJoin="Round"
-                                     Stretch="Uniform" 
-                                     Margin="0,0,0,0" 
-                                     Fill="White"
-                                     Opacity="0.07"
-                                     VerticalAlignment="Top">
-                                <Polygon.Points>
-                                    <MultiBinding Converter="{conv:ButtonShineMultiConverter}">
-                                        <Binding Path="ActualWidth" ElementName="border"/>
-                                        <Binding Path="ActualHeight" ElementName="border"/>
-                                    </MultiBinding>
-                                </Polygon.Points>
-                            </Polygon>
-
-                            <Controls:ProgressRing Grid.RowSpan="2"
-                                                   Width="20" 
+                            <Controls:ProgressRing Width="20" 
                                                    Height="20" 
                                                    IsActive="True" 
                                                    HorizontalAlignment="Left" 
@@ -473,17 +431,13 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="#4189ff"/>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource OverBlueButton}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="#2d75eb"/>
-                        </Trigger>
-                        <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource PressedButtonBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="{StaticResource TextBoxBackgroundBrush}"/>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource TextBoxBackgroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -491,7 +445,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="LightHexagonalButtonStyle" TargetType="{x:Type Button}">
+    <Style x:Key="SecondaryButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
@@ -505,11 +459,12 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="#4A86E8"/>
+        <Setter Property="Background" Value="#fbfdff"/>
+        <Setter Property="Foreground" Value="{StaticResource BlueBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource RobotoBoldFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -519,33 +474,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="border" 
-                            SnapsToDevicePixels="True">
+                            SnapsToDevicePixels="True"
+                            CornerRadius="3"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5" 
+                                              Color="{StaticResource LightBlue}"
+                                              ShadowDepth="0"
+                                              Opacity="0.3"/>
+                        </Border.Effect>
+                        
                         <Grid>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <!-- Main button shape -->
-                            <Polygon Grid.Row="0"
-                                     Grid.RowSpan="2"
-                                     Name="polygonBorder"
-                                     StrokeThickness="1"
-                                     Stroke="#cccccc"
-                                     StrokeLineJoin="Round"
-                                     Stretch="Uniform" 
-                                     Margin="0" 
-                                     Fill="{TemplateBinding Background}"
-                                     VerticalAlignment="Center">
-
-                                <Polygon.Points>
-                                    <MultiBinding Converter="{conv:ButtonShapeMultiConverter}">
-                                        <Binding Path="ActualWidth" ElementName="border"/>
-                                        <Binding Path="ActualHeight" ElementName="border"/>
-                                    </MultiBinding>
-                                </Polygon.Points>
-                            </Polygon>
 
                             <!-- Button content -->
                             <ContentPresenter Grid.Row="0"
@@ -567,17 +507,14 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="#fbfdff"/>
+                            <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource OverBlueButton}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Fill" TargetName="polygonBorder" Value="#eef3fd"/>
-                        </Trigger>
-                        <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource SecondaryPressedButtonBrush}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Stroke" TargetName="polygonBorder" Value="{StaticResource LightGrayAnchorBrush}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource LightGrayAnchorBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

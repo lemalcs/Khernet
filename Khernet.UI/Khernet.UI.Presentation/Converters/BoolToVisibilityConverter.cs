@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Khernet.UI.Converters
 {
-    class BoolToVisibilityConverter : BaseValueConverter<BoolToVisibilityConverter>
+    public class BoolToVisibilityConverter : BaseValueConverter<BoolToVisibilityConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
