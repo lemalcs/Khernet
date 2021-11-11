@@ -30,7 +30,7 @@
 
 
             <!-- Title -->
-            <TextBlock Text="Sign in to Khernet" 
+            <TextBlock Text="Sign in" 
                        Style="{StaticResource TitleText}"
                        FontSize="{StaticResource VeryLargeFontSize}"
                        HorizontalAlignment="Left"
