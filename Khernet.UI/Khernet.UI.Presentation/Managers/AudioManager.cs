@@ -5,7 +5,7 @@ using Vlc.DotNet.Wpf;
 
 namespace Khernet.UI.Managers
 {
-    public class AudioManager : IAudioObservable
+    public class AudioManager : IAudioObservable, IAudioPlayer
     {
         /// <summary>
         /// The observers queue whom listen for notifications.
@@ -34,11 +34,13 @@ namespace Khernet.UI.Managers
 
         public AudioManager()
         {
-            AudioModel = new AudioPlayerViewModel(Play, Mute);
+            AudioModel = new AudioPlayerViewModel(this);
             currentVolume = defaultVolume;
         }
 
-        private void Play(object mediaViewModel)
+        #region IAudioPlayer members
+
+        public void Play(object mediaViewModel)
         {
             if (!isPlayerCreated || AudioModel.Player.SourceProvider.MediaPlayer == null ||
                 (AudioModel.CurrentViewModel != null && AudioModel.CurrentViewModel.FilePath != (mediaViewModel as AudioChatMessageViewModel).FilePath))
@@ -63,8 +65,20 @@ namespace Khernet.UI.Managers
                 CreatePlayer(AudioModel.CurrentViewModel.FilePath);
             }
         }
+        public void Stop()
+        {
+            if (AudioModel.Player != null)
+            {
+                AudioModel.Player.Dispose();
+                currentVolume = AudioModel.Player.Volume;
+                AudioModel.Player = null;
+                isPlayerCreated = false;
+                AudioModel.CurrentViewModel = null;
+                OnMediaChanged();
+            }
+        }
 
-        private void Mute()
+        public void Mute()
         {
             if (AudioModel.Player == null || AudioModel.Player.SourceProvider.MediaPlayer == null)
                 return;
@@ -77,6 +91,8 @@ namespace Khernet.UI.Managers
             else
                 AudioModel.Player.Volume = currentVolume;
         }
+
+        #endregion
 
         private void CreatePlayer(string fileName)
         {
@@ -112,18 +128,6 @@ namespace Khernet.UI.Managers
             OnMediaChanged();
         }
 
-        public void StopPlayer()
-        {
-            if (AudioModel.Player != null)
-            {
-                AudioModel.Player.Dispose();
-                currentVolume = AudioModel.Player.Volume;
-                AudioModel.Player = null;
-                isPlayerCreated = false;
-                AudioModel.CurrentViewModel = null;
-                OnMediaChanged();
-            }
-        }
 
         protected void OnMediaChanged()
         {
@@ -169,7 +173,7 @@ namespace Khernet.UI.Managers
             {
                 if (disposing)
                 {
-                    StopPlayer();
+                    Stop();
                 }
 
                 disposedValue = true;

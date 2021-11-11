@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Khernet.UI.Managers;
+using System;
 using System.Windows.Input;
 using Vlc.DotNet.Wpf;
 
@@ -20,6 +21,11 @@ namespace Khernet.UI
         /// The model of audio messages.
         /// </summary>
         private AudioChatMessageViewModel currentViewModel;
+
+        /// <summary>
+        /// Manages audio tasks.
+        /// </summary>
+        private readonly IAudioPlayer audioPlayer;
 
         public VlcControl Player
         {
@@ -65,10 +71,21 @@ namespace Khernet.UI
 
         #endregion
 
-        public AudioPlayerViewModel(Action<object> Play, Action Mute)
+        public AudioPlayerViewModel(IAudioPlayer audioPlayer)
         {
-            PlayCommand = new RelayCommand(Play);
-            MuteCommand = new RelayCommand(Mute);
+            this.audioPlayer = audioPlayer ?? throw new ArgumentNullException($"{nameof(audioPlayer)} cannot be null");
+
+            PlayCommand = new RelayCommand(audioPlayer.Play);
+            MuteCommand = new RelayCommand(audioPlayer.Mute);
+        }
+
+        /// <summary>
+        /// Stops the audio player.
+        /// </summary>
+        public void Stop()
+        {
+            if (audioPlayer != null)
+                audioPlayer.Stop();
         }
     }
 }
