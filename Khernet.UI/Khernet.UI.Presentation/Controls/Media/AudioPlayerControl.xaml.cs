@@ -1,6 +1,4 @@
-﻿using Khernet.UI.IoC;
-using Khernet.UI.Managers;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -37,23 +35,15 @@ namespace Khernet.UI.Controls
         private void BaseDialogUserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             //Dispose MediaViewModel when control is unloaded
-            IoCContainer.Get<IAudioObservable>().StopPlayer();
+            if (PlayerViewModel != null)
+            {
+                PlayerViewModel.Stop();
+            }
+
             if (timer != null)
             {
                 timer.Tick -= Timer_Tick;
                 StopTimer();
-            }
-        }
-
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            bool playerVisible = IoCContainer.Get<ApplicationViewModel>().IsPlayerVisible;
-
-            //Dispose resources when control is hidden
-            if (!(bool)e.NewValue && !playerVisible)
-            {
-                DataContext = null;
-                IoCContainer.Get<IAudioObservable>().StopPlayer();
             }
         }
 

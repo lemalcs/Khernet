@@ -13,7 +13,6 @@
                         d:DataContext="{d:DesignInstance {x:Type vm:AudioChatMessageDesingModel}, IsDesignTimeCreatable=True}"
                         Background="Transparent"
                         Unloaded="BaseDialogUserControl_Unloaded"
-                        IsVisibleChanged="UserControl_IsVisibleChanged"
                         Loaded="UserControl_Loaded"
                         Height="40">
     

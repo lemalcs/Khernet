@@ -22,7 +22,7 @@ namespace Khernet.UI.Managers
         /// <summary>
         /// Stop playing and audio file and release resources.
         /// </summary>
-        void StopPlayer();
+        void Stop();
     }
 
     public interface IAudioObserver
@@ -32,5 +32,27 @@ namespace Khernet.UI.Managers
         /// </summary>
         /// <param name="audioModel">The model of global audio player.</param>
         void OnChangeAudio(AudioPlayerViewModel audioModel);
+    }
+
+    /// <summary>
+    /// Interface to play audio files.
+    /// </summary>
+    public interface IAudioPlayer
+    {
+        /// <summary>
+        /// Plays an audio file.
+        /// </summary>
+        /// <param name="mediaViewModel">The view model with details about audio file.</param>
+        void Play(object mediaViewModel);
+
+        /// <summary>
+        /// Stops the audio player.
+        /// </summary>
+        void Stop();
+
+        /// <summary>
+        /// Mutes the audio file.
+        /// </summary>
+        void Mute();
     }
 }

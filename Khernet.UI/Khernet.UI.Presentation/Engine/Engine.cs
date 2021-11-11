@@ -286,6 +286,16 @@ namespace Khernet.UI
                 listener.MessageArrived -= Listener_MessageArrived;
                 listener.MessageStateChanged -= Listener_MessageStateChanged;
 
+                IoCContainer.Chat.Clear();
+
+                IoCContainer.Media.Dispose();
+                IoCContainer.Text.Dispose();
+
+                IoCContainer.Get<ChatMessageStateManager>().StopProcessor();
+                IoCContainer.Get<UserManager>().StopProcessor();
+                IoCContainer.Get<MessageWritingChecker>().StopProcessor();
+                IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
+
                 IoCContainer.UnConfigure<AccountIdentity>();
                 IoCContainer.UnConfigure<EventListenerClient>();
 
