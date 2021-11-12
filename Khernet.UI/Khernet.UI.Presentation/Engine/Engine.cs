@@ -295,25 +295,6 @@ namespace Khernet.UI
                 IoCContainer.Get<UserManager>().StopProcessor();
                 IoCContainer.Get<MessageWritingChecker>().StopProcessor();
                 IoCContainer.Get<MessageProcessingEventManager>().StopProcessor();
-
-                IoCContainer.UnConfigure<AccountIdentity>();
-                IoCContainer.UnConfigure<EventListenerClient>();
-
-                IoCContainer.UnConfigure<Messenger>();
-                IoCContainer.UnConfigure<ChatMessageListViewModel>();
-                IoCContainer.UnConfigure<ChatMessageStateManager>();
-                IoCContainer.UnConfigure<UserManager>();
-
-                IoCContainer.UnConfigure<UserListViewModel>();
-                IoCContainer.UnConfigure<MessageProcessingEventManager>();
-                IoCContainer.UnConfigure<MessageWritingChecker>();
-
-                IoCContainer.UnBind<IChatList>();
-                IoCContainer.UnBind<IIdentity>();
-
-                IoCContainer.UnBind<IFileObservable>();
-                IoCContainer.UnBind<ITextObservable>();
-                IoCContainer.UnBind<IAudioObservable>();
             }
             catch (Exception ex)
             {

@@ -419,8 +419,28 @@ namespace Khernet.UI
                 {
                     Debug.WriteLine(error.Message);
                     Debugger.Break();
+                    LogDumper.WriteLog(error);
                 }
             });
+
+            IoCContainer.UnConfigure<AccountIdentity>();
+            IoCContainer.UnConfigure<EventListenerClient>();
+
+            IoCContainer.UnConfigure<Messenger>();
+            IoCContainer.UnConfigure<ChatMessageListViewModel>();
+            IoCContainer.UnConfigure<ChatMessageStateManager>();
+            IoCContainer.UnConfigure<UserManager>();
+
+            IoCContainer.UnConfigure<UserListViewModel>();
+            IoCContainer.UnConfigure<MessageProcessingEventManager>();
+            IoCContainer.UnConfigure<MessageWritingChecker>();
+
+            IoCContainer.UnBind<IChatList>();
+            IoCContainer.UnBind<IIdentity>();
+
+            IoCContainer.UnBind<IFileObservable>();
+            IoCContainer.UnBind<ITextObservable>();
+            IoCContainer.UnBind<IAudioObservable>();
         }
 
         /// <summary>
