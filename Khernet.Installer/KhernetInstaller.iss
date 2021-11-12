@@ -217,7 +217,8 @@ var
   packDirectory: String;
   updateLog: String;
   renameSuffix: String;
-  appLauncher: String;
+  appLauncher: String;        
+  oldVersionDirectory: String;
 begin
   configFile := 'Khernet.dat';
   messageDB := 'msgdb';
@@ -244,8 +245,21 @@ begin
   RemoveFile(homeDirectoryPath + '\' + versionDirectory + '\' + appLauncher);
   RemoveFile(homeDirectoryPath + '\Update.exe');
 
-  RenameFileDirectory(homeDirectoryPath + '\' + updateLog, homeDirectoryPath + '\' + updateLog + renameSuffix);
-  RenameFileDirectory(homeDirectoryPath + '\' + appDirectory, homeDirectoryPath + '\' + appDirectory + renameSuffix);
-  RenameFileDirectory(homeDirectoryPath + '\' + versionDirectory, homeDirectoryPath + '\' + versionDirectory + renameSuffix);
-  RenameFileDirectory(homeDirectoryPath + '\' + packDirectory, homeDirectoryPath + '\' + packDirectory + renameSuffix);
+  // Move files of old version to a is-[random-characters].old directory
+  if FileExists(homeDirectoryPath + '\' + updateLog) 
+     or DirExists(homeDirectoryPath + '\' + appDirectory) 
+     or DirExists(homeDirectoryPath + '\' + versionDirectory) 
+     or DirExists(homeDirectoryPath + '\' + packDirectory) then
+  begin  
+    oldVersionDirectory := GenerateUniqueName(homeDirectoryPath,'.old');
+    if not CreateDir(oldVersionDirectory) then
+    begin
+      Log('Cannot create directory ' + oldVersionDirectory);
+    end; 
+
+    RenameFileDirectory(homeDirectoryPath + '\' + updateLog, oldVersionDirectory + '\' + updateLog + renameSuffix);
+    RenameFileDirectory(homeDirectoryPath + '\' + appDirectory, oldVersionDirectory + '\' + appDirectory + renameSuffix);
+    RenameFileDirectory(homeDirectoryPath + '\' + versionDirectory, oldVersionDirectory + '\' + versionDirectory + renameSuffix);
+    RenameFileDirectory(homeDirectoryPath + '\' + packDirectory, oldVersionDirectory + '\' + packDirectory + renameSuffix);
+  end         
 end;
