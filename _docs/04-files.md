@@ -1,8 +1,8 @@
 ---
 title: "File message"
 permalink: /docs/file-message/
-excerpt: "How to quickly install and setup Minimal Mistakes for use with GitHub Pages."
-last_modified_at: 2021-06-19
+excerpt: "Send files."
+last_modified_at: 2021-11-14
 redirect_from:
   - /theme-setup/
 toc: true

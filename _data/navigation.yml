@@ -12,8 +12,8 @@ docs:
     children:
       - title: "Installation"
         url: /docs/installation/
-      - title: "Upgrading"
-        url: /docs/upgrading/
+      - title: "Updating"
+        url: /docs/updating/
   - title: Chatting
     children:
       - title: "Text"
@@ -29,5 +29,9 @@ docs:
       - title: "Issues"
         url: /docs/issues/
       - title: Licence
-        url: /docs/license  
+        url: /docs/license
+  - title: Legacy
+    children:
+      - title: "Version 0.16.0"
+        url: /docs/Version-0160/       
 

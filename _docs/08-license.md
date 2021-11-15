@@ -1,8 +1,8 @@
 ---
 title: "License"
 permalink: /docs/license/
-excerpt: "License for Minimal Mistakes Jekyll Theme."
-last_modified_at: 2021-06-14
+excerpt: "License for Khernet."
+last_modified_at: 2021-11-14
 ---
 
 MIT License

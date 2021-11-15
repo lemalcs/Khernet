@@ -20,7 +20,7 @@ Khernet is a standalone chat application for LAN, just click the application and
 
 ## Main features
 
-- No installer wizard.
+- Portable mode.
 - No centralized server.
 - Use emojis on contact names 🙂.
 - End to end encryption.
@@ -70,6 +70,8 @@ Khernet is a standalone chat application for LAN, just click the application and
 - [Lazy statics](https://crates.io/crates/lazy_static)
 - [Chrono](https://crates.io/crates/chrono)
 - [Wildmatch](https://crates.io/crates/wildmatch)
+- [AutoUpdater.NET](https://github.com/ravibpatel/AutoUpdater.NET)
+- [Inno Download Plugin](https://code.google.com/p/inno-download-plugin/)
 - Credits of images used in chats: NASA (National Aeronautics and Space Administration)
 
 ---

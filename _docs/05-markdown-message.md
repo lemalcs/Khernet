@@ -1,8 +1,8 @@
 ---
 title: "Markdown message"
 permalink: /docs/markdown-message/
-excerpt: "Instructions and suggestions for upgrading the theme."
-last_modified_at: 2021-06-19
+excerpt: "Send markdown messages."
+last_modified_at: 2021-11-14
 toc: true
 ---
 
