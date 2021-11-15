@@ -5,7 +5,7 @@ Khernet is a standalone chat application for LAN, just click the application and
 
 ## Main features
 
-- No installer wizard.
+- Portable mode.
 - No centralized server.
 - Use emojis on contact names 🙂.
 - End to end encryption.
@@ -26,11 +26,15 @@ Khernet is a standalone chat application for LAN, just click the application and
 
 ## Prerequisites
 
-- .NET Framework 4.5 (installed automatically by this application if needed)
-- 270 MB of available space.
+- .NET Framework 4.5.2
+- 241 MB of available space.
 
 ## Supported systems
-Windows Vista SP2 (KB2533623) - Windows 10 (not RT)
+- Windows Vista SP2 (KB2533623)
+- Windows 7
+- Windows 8
+- Windows 8.1
+- Windows 10 (not RT)
 
 ## Contributions
 
