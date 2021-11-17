@@ -5,7 +5,7 @@ Khernet is a standalone chat application for LAN, just click the application and
 
 ## Main features
 
-- Portable mode.
+- Portable mode and installed mode.
 - No centralized server.
 - Use emojis on contact names 🙂.
 - End to end encryption.
@@ -23,10 +23,27 @@ Khernet is a standalone chat application for LAN, just click the application and
 
 > You can send and receive files with a size up to 2 GB.
 
+## How to distinguish portable application from installer?
+
+The portable application (portable mode) does not have a wizard based installer and can be launched directly from executable file named:
+
+`Khernet.exe`
+
+The installer (installed mode) launches a wizard to install the application and it's named:
+
+`KhernetInstaller-*.*.*.*.exe`
+
+`*.*.*.*` : stands for version number, for instance: 0.18.0.0
+
+It offers the following features over the portable mode:
+- Creation of shortcuts on start menu.
+- Creation of uninstaller (when portable mode is not selected).
+- .NET Framework (see Prerequisites) is installed automatically if your system does not have it or no later version exists (Internet connection needed to download [installer]((https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe))).
+
 
 ## Prerequisites
 
-- .NET Framework 4.5.2
+- .NET Framework 4.5.2 or later.
 - 241 MB of available space.
 
 ## Supported systems
