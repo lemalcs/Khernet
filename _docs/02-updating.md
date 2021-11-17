@@ -64,13 +64,13 @@ You need a machine with internet access to get the update files in order to use 
 
 ## Update from version 0.16.0
 
-If you have version 0.16.0 you have to use the [installer](https://github.com/lemalcs/Khernet) to update to version 0.17.0.0.
+If you have version 0.16.0 you have to use the [installer]({{ "/docs/installation/#installed-mode" | relative_url }})  to update to version 0.17.0.0.
 
 1. Launch the installer and place the path where **Khernet.exe** files is located. Click **Browse** button to find the path:
 
     ![select-path-installer]({{ "/assets/images/select-path-installer.png" | relative_url }})
 
-    To identify the right path be sure that **Khernet.exe** file weights 85 MB (87104 KB) and is next to a folder called **khernet-app** like in the figure:
+    To identify the right path be sure that **Khernet.exe** file size is 85 MB (87104 KB) and is next to a folder called **khernet-app** like in the figure:
 
     ![app-path]({{ "/assets/images/app-path.png" | relative_url }})
 
