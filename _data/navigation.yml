@@ -2,6 +2,8 @@
 main:
   - title: "Docs"
     url: /docs/installation/
+  - title: "Blog"
+    url: /posts/
   - title: "About"
     url: /about/
 

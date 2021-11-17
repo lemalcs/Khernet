@@ -132,6 +132,17 @@ collections:
 
 # Defaults
 defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
   # _pages
   - scope:
       path: "_pages"
@@ -150,8 +161,7 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "docs"
-
+        nav: "docs" 
 
 # Sass/SCSS
 sass:
