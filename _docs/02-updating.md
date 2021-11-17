@@ -2,7 +2,7 @@
 title: "Updating"
 permalink: /docs/updating/
 excerpt: "How to update Khernet."
-last_modified_at: 2021-06-19
+last_modified_at: 2021-11-17
 redirect_from:
   - /Khernet-updating/
 toc: true
