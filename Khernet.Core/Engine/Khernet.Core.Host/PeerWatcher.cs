@@ -8,6 +8,7 @@ using Khernet.Services.Client;
 using Khernet.Services.Common;
 using Khernet.Services.Contracts;
 using Khernet.Services.Messages;
+using Khernet.Services.WCF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,8 @@ namespace Khernet.Core.Host
 
         AutoResetEvent autoReset;
 
+        ServiceHost gatewayHost;
+
         public PeerWatcher(PeerIdentity peerIdentity)
         {
             identity = peerIdentity;
@@ -49,6 +52,15 @@ namespace Khernet.Core.Host
             OpenAnnoucementService();
             OpenDiscoveryClient();
             StartStateMonitor();
+
+            // Set address of gateway to avoid clien to watch a posible outdated addresss
+            // if default port is used by another application then other port is used
+            Configuration.SetValue(Constants.GatewayService, "");
+
+            Task.Factory.StartNew(() =>
+            {
+                StartGatewayService();
+            });
         }
 
         private void OpenDiscoveryClient()
@@ -72,6 +84,51 @@ namespace Khernet.Core.Host
                 LogDumper.WriteLog(exception);
                 throw exception;
             }
+        }
+
+        private void StartGatewayService()
+        {
+            //Create service to send and receive chat message
+            //This service will be the first that clients will call in network
+            gatewayHost = new ServiceHost(typeof(GatewayService));
+
+            //Using of TCP binding
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.TransferMode = TransferMode.Buffered;
+            binding.CloseTimeout = TimeSpan.MaxValue;
+            binding.ReceiveTimeout = TimeSpan.MaxValue;
+            binding.SendTimeout = TimeSpan.MaxValue;
+            binding.MaxReceivedMessageSize = int.MaxValue;
+            binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
+            binding.Security.Mode = SecurityMode.Message;
+            binding.Security.Message.ClientCredentialType = MessageCredentialType.Certificate;
+
+            // Default port for gateway
+            int port = 10754;
+
+            Uri commAddress;
+
+            if (!NetworkHelper.TryConnectToHost(Environment.MachineName, port))
+            {
+                commAddress = DiscoveryHelper.BuildTcpAddress(Environment.MachineName, port);
+            }
+            else
+            {
+                commAddress = new Uri(DiscoveryHelper.AvailableTCPBaseAddress.ToString() + Guid.NewGuid());
+            }
+
+            //Set certificate to authenticate this service to other services on network
+            gatewayHost.Credentials.ServiceCertificate.Certificate = identity.Certificate;
+
+            //Set custom validator for client credentials
+            gatewayHost.Credentials.ClientCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            gatewayHost.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new GatewayCertificateValidator();
+
+            //Create and endpoint with a port which will be different every time the service is started
+            gatewayHost.AddServiceEndpoint(typeof(IGateway), binding, commAddress);
+
+            gatewayHost.Open();
+            Configuration.SetValue(Constants.GatewayService, commAddress.AbsoluteUri);
         }
 
         private void discoveryClient_FindProgressChanged(object sender, FindProgressChangedEventArgs e)
@@ -588,6 +645,23 @@ namespace Khernet.Core.Host
             }
         }
 
+        private void CloseGatewayService()
+        {
+            try
+            {
+                if (gatewayHost != null)
+                {
+                    gatewayHost.Close();
+                }
+
+            }
+            catch (Exception exception)
+            {
+                LogDumper.WriteLog(exception);
+                throw;
+            }
+        }
+
         public void Stop()
         {
             try
@@ -595,6 +669,7 @@ namespace Khernet.Core.Host
                 StopStateMonitor();
                 CloseAnnoucementService();
                 CloseDiscoveryClient();
+                CloseGatewayService();
 
                 autoReset.Set();
 

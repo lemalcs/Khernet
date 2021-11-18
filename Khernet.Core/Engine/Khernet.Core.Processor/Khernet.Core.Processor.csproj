@@ -76,6 +76,7 @@
     <Compile Include="EventNotifier.cs" />
     <Compile Include="FileCommunicator.cs" />
     <Compile Include="AccountManager.cs" />
+    <Compile Include="Gateway.cs" />
     <Compile Include="IoC\IoCContainer.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Managers\TextMessageManager.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Managers\PendingMessageManager.cs" />
     <Compile Include="Managers\NotificationManager.cs" />
     <Compile Include="PeerFinder.cs" />
+    <Compile Include="PeerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

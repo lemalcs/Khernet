@@ -23,6 +23,8 @@ namespace Khernet.UI.Converters
         Load = 16,
         Updates = 17,
         UpdatesProgress = 18,
+        AddContact = 19,
+        Connection= 20,
     }
 
     /// <summary>
@@ -77,6 +79,10 @@ namespace Khernet.UI.Converters
                     return new UpdatePage(viewModel as UpdateViewModel);
                 case ApplicationPage.UpdatesProgress:
                     return new UpdateProgressPage();
+                case ApplicationPage.AddContact:
+                    return new AddContactPage(viewModel as AddContactViewModel);
+                case ApplicationPage.Connection:
+                    return new ConnectionPage(viewModel as ConnectionViewModel);
                 default:
                     System.Diagnostics.Debugger.Break();
                     return null;

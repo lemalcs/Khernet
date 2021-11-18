@@ -36,6 +36,28 @@ namespace Khernet.Services.Client
         {
             serviceContract = ChannelFactory<T>.CreateChannel(bind, new EndpointAddress(address));
         }
+        
+        internal ServiceClient(string address)
+        {
+            ChannelFactory<T> factory = new ChannelFactory<T>();
+
+            Uri servAddress = new Uri(address);
+
+            //X509Certificate2 certificate = ChannelConfiguration.Finder.GetCertificate(token);
+            factory.Endpoint.Address = new EndpointAddress(servAddress);
+                //, EndpointIdentity.CreateDnsIdentity(certificate.Subject.Substring(3, 34)));
+
+            factory.Endpoint.Binding = GetBinding(ServiceType.CommunicatorService);
+
+            //Set credentials to authenticate server to clients
+            //factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
+            //factory.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator();
+
+            //Set credentials to authenticate client to server
+            factory.Credentials.ClientCertificate.Certificate = ChannelConfiguration.ClientCertificate;
+
+            serviceContract = factory.CreateChannel();
+        }
 
         private Binding GetBinding(string serviceType)
         {

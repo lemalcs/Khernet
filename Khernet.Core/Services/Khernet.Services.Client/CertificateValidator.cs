@@ -41,4 +41,27 @@ namespace Khernet.Services.Client
             }
         }
     }
+
+    public class GatewayCertificateValidator : CertificateValidator
+    {
+        public override void Validate(X509Certificate2 foreingCertificate)
+        {
+            try
+            {
+                bool valid = foreingCertificate.IssuerName.Name == ISSUER;
+
+                string foreingToken = foreingCertificate.SubjectName.Name.Substring(3, 34);
+
+                valid &= ChannelConfiguration.Finder.ValidateToken(foreingToken, foreingCertificate.GetPublicKey());
+
+                if (!valid)
+                    throw new SecurityTokenValidationException("Invalid peer credentials");
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                throw error;
+            }
+        }
+    }
 }

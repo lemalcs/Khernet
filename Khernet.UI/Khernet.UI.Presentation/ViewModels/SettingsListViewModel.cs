@@ -35,6 +35,11 @@ namespace Khernet.UI
         /// Open page to manage updates for this application.
         /// </summary>
         Updates = 4,
+
+        /// <summary>
+        /// View information about services used to connect network.
+        /// </summary>
+        Connection = 5,
     }
 
 
@@ -58,6 +63,12 @@ namespace Khernet.UI
                 Name = "Profile",
                 Setting = AppOptions.Profile,
                 IconName = "AccountCircle",
+            });
+            Items.Add(new SettingItemViewModel(OpenConnectionPage)
+            {
+                Name = "Connection",
+                Setting = AppOptions.Connection,
+                IconName = "LanConnect",
             });
             Items.Add(new SettingItemViewModel(OpenCacheSetting)
             {
@@ -91,6 +102,14 @@ namespace Khernet.UI
         private void OpenUpdates()
         {
             pagedDialog.GoToPage(Converters.ApplicationPage.Updates, new UpdateViewModel(pagedDialog), "Updates");
+        }
+
+        private void OpenConnectionPage()
+        {
+            ConnectionViewModel connectionViewModel = new ConnectionViewModel();
+            connectionViewModel.RefreshStateCommand.Execute(null);
+
+            pagedDialog.GoToPage(Converters.ApplicationPage.Connection, connectionViewModel, "Connection");
         }
 
         public SettingControllerViewModel(IPagedDialog pagedDialog) : this()

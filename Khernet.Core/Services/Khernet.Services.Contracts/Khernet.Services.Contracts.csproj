@@ -69,6 +69,7 @@
     <Compile Include="IEventListener.cs" />
     <Compile Include="IEventListenerCallBack.cs" />
     <Compile Include="IFileService.cs" />
+    <Compile Include="IGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -329,5 +329,17 @@ namespace Khernet.Core.Host
             FileCommunicator fileData = new FileCommunicator();
             return fileData.GetFileCount(userToken, fileType);
         }
+
+        public string GetGatewayAddress()
+        {
+            return (new Gateway()).GetGatewayAddress();
+        }
+
+        public void AddContact(string hostnameIP, int port)
+        {
+            PeerManager peerManager=new PeerManager();
+            peerManager.AddPeer(hostnameIP, port);
+        }
+
     }
 }

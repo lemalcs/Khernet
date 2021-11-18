@@ -6,6 +6,7 @@
         public const string FileService = "FILESRV";
         public const string SubscriberService = "SUSSRV";
         public const string PublisherService = "PUBSRV";
+        public const string GatewayService = "GTWSRV";
 
         public const string TokenTag = "token";
         public const string ServiceIDTag = "serviceID";

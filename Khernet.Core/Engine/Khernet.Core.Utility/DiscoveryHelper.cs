@@ -22,6 +22,11 @@ namespace Khernet.Core.Utility
             }
         }
 
+        public static Uri BuildTcpAddress(string hostname, int port)
+        {
+            return new Uri(String.Format("net.tcp://{0}:{1}", hostname, port));
+        }
+
         /// <summary>
         /// Gets an available port number not used by current process only. Warning, other process can generate the same port number.
         /// </summary>
