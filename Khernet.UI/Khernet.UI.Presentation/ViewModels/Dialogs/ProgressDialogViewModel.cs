@@ -1,6 +1,27 @@
 ﻿namespace Khernet.UI
 {
     /// <summary>
+    /// Results of operations done asynchronously.
+    /// </summary>
+    public enum ProgressResultIcon
+    {
+        /// <summary>
+        /// Successful operation.
+        /// </summary>
+        Success = 0,
+
+        /// <summary>
+        /// Warnings raised after completing operation.
+        /// </summary>
+        Warning = 1,
+
+        /// <summary>
+        /// Error encountered after completing operation.
+        /// </summary>
+        Error = 2,
+    }
+
+    /// <summary>
     /// View model for about information.
     /// </summary>
     public class ProgressDialogViewModel : BaseModel
@@ -15,6 +36,11 @@
         /// Indicates if an operation is executing.
         /// </summary>
         private bool isExecuting;
+
+        /// <summary>
+        /// The result of operation.
+        /// </summary>
+        private ProgressResultIcon result;
 
         public string TextProgress
         {
@@ -40,6 +66,19 @@
                     OnPropertyChanged(nameof(IsExecuting));
                 }
 
+            }
+        }
+
+        public ProgressResultIcon Result 
+        { 
+            get => result;
+            set 
+            { 
+                if (result != value)
+                {
+                    result = value;
+                    OnPropertyChanged(nameof(Result));
+                }
             }
         }
 

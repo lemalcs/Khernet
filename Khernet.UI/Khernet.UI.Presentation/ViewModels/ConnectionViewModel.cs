@@ -2,12 +2,21 @@
 using Khernet.Core.Utility;
 using Khernet.UI.IoC;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class ConnectionViewModel : BaseModel
+    public class ConnectionViewModel : BaseModel,IDisposable
     {
+        #region Properties
+
+        /// <summary>
+        /// The token of the current user.
+        /// </summary>
+        private string token;
+
         /// <summary>
         /// The setting option name.
         /// </summary>
@@ -24,14 +33,11 @@ namespace Khernet.UI
         private int port;
 
         /// <summary>
-        /// Indicates whether gateway service is online or offline.
+        /// Indicates whether gateway services is online or not.
         /// </summary>
-        private string status;
+        private bool isGatewayOnline;
 
-        /// <summary>
-        /// The dialog where settings are shown.
-        /// </summary>
-        private readonly IPagedDialog pagedDialog;
+        private CancellationTokenSource cancellationToken;
 
         public string Hostname
         {
@@ -71,67 +77,121 @@ namespace Khernet.UI
                 }
             }
         }
-        public string Status
+
+        public string Token
         {
-            get => status;
+            get => token;
+            set
+            {
+                if (token != value)
+                {
+                    token = value;
+                    OnPropertyChanged(nameof(Token));
+                }
+            }
+        }
+        public bool IsGatewayOnline
+        {
+            get => isGatewayOnline;
             set 
             { 
-                if(status != value)
+                if(isGatewayOnline != value)
                 {
-                    status = value;
-                    OnPropertyChanged(nameof(Status));
+                    isGatewayOnline = value;
+                    OnPropertyChanged(nameof(IsGatewayOnline));
                 }
             }
         }
 
-        /// <summary>
-        /// Command to open setting.
-        /// </summary>
-        public ICommand RefreshStateCommand { get; private set; }
+        #endregion
+
 
         public ConnectionViewModel()
         {
-            RefreshStateCommand = new RelayCommand(RefreshState);
-            Status = "Offline";
-        }
-
-        public ConnectionViewModel(IPagedDialog pagedDialog)
-        {
-            this.pagedDialog = pagedDialog ?? throw new Exception($"{nameof(IPagedDialog)} cannot be null");
-            RefreshStateCommand = new RelayCommand(RefreshState);
+            Token = IoCContainer.Get<IIdentity>().Token;
+            cancellationToken = new CancellationTokenSource();
+            RefreshState();
         }
 
         /// <summary>
         /// Open a specific setting.
         /// </summary>
-        private async void RefreshState()
+        private void RefreshState()
         {
-            try
-            {
-                string gatewayAddress = IoCContainer.Get<Messenger>().GetGatewayAddress();
-                if (!string.IsNullOrEmpty(gatewayAddress))
+            Task.Run(
+                () =>
                 {
-                    Uri gateway = new Uri(IoCContainer.Get<Messenger>().GetGatewayAddress());
+                    try
+                    {
 
-                    Hostname = gateway.Host;
-                    Port = gateway.Port;
+                        string gatewayAddress = null;
+                        IsGatewayOnline = false;
 
-                    if (Port > 0)
-                        Status = "Online";
+                        while (string.IsNullOrEmpty(gatewayAddress))
+                        {
+                            gatewayAddress = IoCContainer.Get<Messenger>().GetSelfGatewayAddress();
+                            if (!string.IsNullOrEmpty(gatewayAddress))
+                            {
+                                Uri gateway = new Uri(gatewayAddress);
+
+                                Hostname = gateway.Host;
+                                Port = gateway.Port;
+
+                                if (Port > 0)
+                                {
+                                    IsGatewayOnline = true;
+                                    return;
+                                }
+                            }
+
+                            if (cancellationToken.Token.IsCancellationRequested)
+                                return;
+
+                            Thread.Sleep(1000);
+                        }
+                    }
+                    catch (Exception error)
+                    {
+                        LogDumper.WriteLog(error);
+                    }
+                },
+            cancellationToken.Token);
+        }
+
+        #region IDisposable Support
+
+        /// <summary>
+        /// Variable to detect reentry calls.
+        /// </summary>
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    cancellationToken.Cancel();
+                    cancellationToken.Dispose();
                 }
+
+                disposedValue = true;
             }
-            catch (Exception error)
-            {
-                LogDumper.WriteLog(error);
-                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
-                {
-                    Message = "Error while retrieving state, try again later.",
-                    Title = "Khernet",
-                    ShowAcceptOption = true,
-                    AcceptOptionLabel = "OK",
-                    ShowCancelOption = false,
-                });
-            }
+        }
+
+        /// <summary>
+        /// Cleans resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
+
+        ~ConnectionViewModel()
+        {
+            Dispose(false);
         }
     }
 }

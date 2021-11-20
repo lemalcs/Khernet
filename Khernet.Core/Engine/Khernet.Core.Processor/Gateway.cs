@@ -9,6 +9,10 @@ namespace Khernet.Core.Processor
 {
     public class Gateway
     {
+        /// <summary>
+        /// Gets the services addresses exposed by current user.
+        /// </summary>
+        /// <returns>A <see cref="PeerService"/> containing the user addresses.</returns>
         public PeerService GetPeerServiceInfo()
         {
             Peer currentUser = new Communicator().GetSelfProfile();
@@ -29,7 +33,7 @@ namespace Khernet.Core.Processor
             services.Add(new ServiceInfo
             {
                 Address = fileService,
-                ServiceType = Constants.CommunicatorService,
+                ServiceType = Constants.FileService,
             });
 
             return new PeerService
@@ -44,8 +48,8 @@ namespace Khernet.Core.Processor
         /// <summary>
         /// Get the address of gateway of this application.
         /// </summary>
-        /// <returns>A string with the complete addres of gateway service.</returns>
-        public string GetGatewayAddress()
+        /// <returns>A string with the complete address of gateway service.</returns>
+        public string GetSelfGatewayAddress()
         {
             return Configuration.GetValue(Constants.GatewayService);
         }

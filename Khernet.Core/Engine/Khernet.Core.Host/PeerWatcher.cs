@@ -53,7 +53,7 @@ namespace Khernet.Core.Host
             OpenDiscoveryClient();
             StartStateMonitor();
 
-            // Set address of gateway to avoid clien to watch a posible outdated addresss
+            // Set address of gateway to avoid client to watch a possible outdated address
             // if default port is used by another application then other port is used
             Configuration.SetValue(Constants.GatewayService, "");
 
@@ -114,7 +114,7 @@ namespace Khernet.Core.Host
             }
             else
             {
-                commAddress = new Uri(DiscoveryHelper.AvailableTCPBaseAddress.ToString() + Guid.NewGuid());
+                commAddress = new Uri(DiscoveryHelper.AvailableTCPBaseAddress.ToString());
             }
 
             //Set certificate to authenticate this service to other services on network
@@ -506,6 +506,7 @@ namespace Khernet.Core.Host
                     {
                         discoveryClient.FindAsync(new FindCriteria(typeof(ICommunicator)), tokenList);
                         discoveryClient.FindAsync(new FindCriteria(typeof(IFileService)), tokenList);
+                        ProbeGateway();
                         autoReset.WaitOne();
                     }
 
@@ -524,6 +525,25 @@ namespace Khernet.Core.Host
                 catch (Exception exception)
                 {
                     LogDumper.WriteLog(exception);
+                }
+            }
+        }
+
+        private void ProbeGateway()
+        {
+            Communicator communicator = new Communicator();
+            List<PeerAddress> gatewayList = communicator.GetServiceAdresses(Constants.GatewayService);
+            PeerManager peerManager = new PeerManager();
+            foreach (PeerAddress gateway in gatewayList)
+            {
+                try
+                {
+                    Uri gatewayAddresss = new Uri(gateway.Address);
+                    peerManager.AddPeer(gateway.Token, gatewayAddresss.Host, gatewayAddresss.Port);
+                }
+                catch (Exception error)
+                {
+                    LogDumper.WriteLog(error);
                 }
             }
         }

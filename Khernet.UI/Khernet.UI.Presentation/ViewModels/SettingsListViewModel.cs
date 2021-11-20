@@ -107,9 +107,7 @@ namespace Khernet.UI
         private void OpenConnectionPage()
         {
             ConnectionViewModel connectionViewModel = new ConnectionViewModel();
-            connectionViewModel.RefreshStateCommand.Execute(null);
-
-            pagedDialog.GoToPage(Converters.ApplicationPage.Connection, connectionViewModel, "Connection");
+            pagedDialog.GoToPage(ApplicationPage.Connection, connectionViewModel, "Connection");
         }
 
         public SettingControllerViewModel(IPagedDialog pagedDialog) : this()

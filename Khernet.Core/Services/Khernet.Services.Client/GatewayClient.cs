@@ -10,18 +10,20 @@ namespace Khernet.Services.Client
 {
     public class GatewayClient
     {
-        public string Address { get; private set; }
+        public Uri Address { get; private set; }
+        public string Token { get; private set; }
 
-        public GatewayClient(string address)
+        public GatewayClient(string token, string address)
         {
-            Address = address;
+            Address = new Uri(address);
+            Token = token;
         }
 
         public PeerService GetPeerServiceInfo()
         {
             try
             {
-                using (ServiceClient<IGateway> client = new ServiceClient<IGateway>(Address))
+                using (ServiceClient<IGateway> client = new ServiceClient<IGateway>(Token, Address))
                 {
 
                     return client.serviceContract.GetPeerServiceInfo();

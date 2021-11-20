@@ -7,13 +7,202 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 x:Class="Khernet.UI.Pages.AddContactPage"
                 xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 mc:Ignorable="d" 
-                d:DesignHeight="300" d:DesignWidth="300"
+                d:DesignHeight="330" d:DesignWidth="300"
                 x:Name="Login"
                 Title="AddContactPage"
                 Width="400"
-                d:DataContext="{d:DesignInstance vm:AddContactDesignModel,IsDesignTimeCreatable=True}">
+                d:DataContext="{d:DesignInstance vm:AddContactDesignModel,IsDesignTimeCreatable=True}"
+    xmlns:Converters="clr-namespace:MahApps.Metro.Converters;assembly=MahApps.Metro">
+    <local:BasePage.Resources>
+        <Converters:ThicknessBindingConverter x:Key="ThicknessBindingConverter"/>
+        <Style TargetType="{x:Type Controls:NumericUpDown}">
+            <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Controls:ControlsHelper.CornerRadius" Value="2.5" />
+            <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
+            <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource LightBlueBrush}" />
+            <Setter Property="Controls:TextBoxHelper.ButtonFontSize" Value="{DynamicResource Controls.ClearTextButtonFontSize}" />
+            <Setter Property="Controls:TextBoxHelper.ButtonWidth" Value="22" />
+            <Setter Property="Controls:TextBoxHelper.IsMonitoring" Value="True" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}" />
+            <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="MinWidth" Value="62" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Controls:NumericUpDown}">
+                        <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Border x:Name="Base"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding Controls:ControlsHelper.CornerRadius}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" >
+                                <Border x:Name="Base_Shadow" 
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{Binding BorderBrush,ElementName=Base}"
+                                        Opacity="0.3"
+                                        Visibility="Hidden"/>
+                            </Border>
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="PART_TextBoxColumn" Width="*" />
+                                    <ColumnDefinition x:Name="PART_ButtonsColumn" Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="PART_TextBox"
+                                     Grid.Column="0"
+                                     MinWidth="20"
+                                     MinHeight="0"
+                                     Margin="0 0 -2 0"
+                                     Padding="0"
+                                     HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                     Controls:ControlsHelper.DisabledVisualElementVisibility="Collapsed"
+                                     Controls:TextBoxHelper.ButtonContent="{TemplateBinding Controls:TextBoxHelper.ButtonContent}"
+                                     Controls:TextBoxHelper.ButtonContentTemplate="{TemplateBinding Controls:TextBoxHelper.ButtonContentTemplate}"
+                                     Controls:TextBoxHelper.ButtonFontFamily="{TemplateBinding Controls:TextBoxHelper.ButtonFontFamily}"
+                                     Controls:TextBoxHelper.ButtonFontSize="{TemplateBinding Controls:TextBoxHelper.ButtonFontSize}"
+                                     Controls:TextBoxHelper.ButtonWidth="{TemplateBinding Controls:TextBoxHelper.ButtonWidth}"
+                                     Controls:TextBoxHelper.ButtonsAlignment="{TemplateBinding ButtonsAlignment}"
+                                     Controls:TextBoxHelper.ClearTextButton="{TemplateBinding Controls:TextBoxHelper.ClearTextButton}"
+                                     Controls:TextBoxHelper.HasText="{TemplateBinding Controls:TextBoxHelper.HasText}"
+                                     Controls:TextBoxHelper.SelectAllOnFocus="{TemplateBinding Controls:TextBoxHelper.SelectAllOnFocus}"
+                                     Controls:TextBoxHelper.UseFloatingWatermark="{TemplateBinding Controls:TextBoxHelper.UseFloatingWatermark}"
+                                     Controls:TextBoxHelper.Watermark="{TemplateBinding Controls:TextBoxHelper.Watermark}"
+                                     Controls:TextBoxHelper.WatermarkAlignment="{TemplateBinding Controls:TextBoxHelper.WatermarkAlignment}"
+                                     Controls:TextBoxHelper.WatermarkTrimming="{TemplateBinding Controls:TextBoxHelper.WatermarkTrimming}"
+                                     Background="{x:Null}"
+                                     BorderThickness="0"
+                                     FocusVisualStyle="{x:Null}"
+                                     Focusable="{TemplateBinding Focusable}"
+                                     FontFamily="{TemplateBinding FontFamily}"
+                                     FontSize="{TemplateBinding FontSize}"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                     IsTabStop="{TemplateBinding IsTabStop}"
+                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                     TabIndex="{TemplateBinding TabIndex}"
+                                     VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" />
+                                <StackPanel x:Name="PART_Buttons"
+                                        Grid.Column="1"
+                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Padding, Converter={StaticResource ThicknessBindingConverter}, ConverterParameter={x:Static Converters:ThicknessSideType.Left}}"
+                                        Orientation="Horizontal">
+                                    <RepeatButton x:Name="PART_NumericUp"
+                                              Width="{TemplateBinding UpDownButtonsWidth}"
+                                              Delay="{TemplateBinding Delay}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsTabStop="False"
+                                              Style="{DynamicResource ChromelessButtonStyle}">
+                                        <Path x:Name="PolygonUp"
+                                          Width="14"
+                                          Height="14"
+                                          Data="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "
+                                          Fill="{DynamicResource GrayBrush1}"
+                                          Stretch="Fill" />
+                                    </RepeatButton>
+                                    <RepeatButton x:Name="PART_NumericDown"
+                                              Width="{TemplateBinding UpDownButtonsWidth}"
+                                              VerticalContentAlignment="Center"
+                                              Delay="{TemplateBinding Delay}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsTabStop="False"
+                                              Style="{DynamicResource ChromelessButtonStyle}">
+                                        <Path x:Name="PolygonDown"
+                                          Width="14"
+                                          Height="3"
+                                          Data="F1 M 19,38L 57,38L 57,44L 19,44L 19,38 Z "
+                                          Fill="{DynamicResource GrayBrush1}"
+                                          Stretch="Fill" />
+                                    </RepeatButton>
+                                </StackPanel>
+                            </Grid>
+                            <Border x:Name="DisabledVisualElement"
+                                Background="{DynamicResource ControlsDisabledBrush}"
+                                BorderBrush="{DynamicResource ControlsDisabledBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding Controls:ControlsHelper.CornerRadius}"
+                                IsHitTestVisible="False"
+                                Opacity="0"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Controls:ControlsHelper.DisabledVisualElementVisibility), Mode=OneWay}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ButtonsAlignment" Value="Left">
+                                <Setter TargetName="PART_Buttons" Property="Grid.Column" Value="0" />
+                                <Setter TargetName="PART_Buttons" Property="Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Padding, Converter={StaticResource ThicknessBindingConverter}, ConverterParameter={x:Static Converters:ThicknessSideType.Right}}" />
+                                <Setter TargetName="PART_ButtonsColumn" Property="Width" Value="*" />
+                                <Setter TargetName="PART_TextBox" Property="Grid.Column" Value="1" />
+                                <Setter TargetName="PART_TextBox" Property="Margin" Value="-2 0 0 0" />
+                                <Setter TargetName="PART_TextBox" Property="Margin" Value="-2 0 0 0" />
+                                <Setter TargetName="PART_TextBoxColumn" Property="Width" Value="Auto" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="DisabledVisualElement" Property="Opacity" Value="0.6" />
+                            </Trigger>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="InterceptArrowKeys" Value="False" />
+                                <Setter Property="InterceptManualEnter" Value="False" />
+                                <Setter Property="InterceptMouseWheel" Value="False" />
+                                <Setter TargetName="PART_NumericDown" Property="IsEnabled" Value="False" />
+                                <Setter TargetName="PART_NumericUp" Property="IsEnabled" Value="False" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsReadOnly" Value="False" />
+                                    <Condition Property="InterceptManualEnter" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_TextBox" Property="IsReadOnly" Value="True" />
+                            </MultiTrigger>
+                            <Trigger SourceName="PART_NumericUp" Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PART_NumericUp" Property="Background" Value="{DynamicResource LightBlueBrush}" />
+                                <Setter TargetName="PolygonUp" Property="Fill" Value="{DynamicResource AccentColorBrush}" />
+                            </Trigger>
+                            <Trigger SourceName="PART_NumericUp" Property="IsPressed" Value="True">
+                                <Setter TargetName="PART_NumericUp" Property="Background" Value="{StaticResource BlueBrush}" />
+                                <Setter TargetName="PolygonUp" Property="Fill" Value="{DynamicResource WhiteBrush}" />
+                            </Trigger>
+                            <Trigger SourceName="PART_NumericDown" Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PART_NumericDown" Property="Background" Value="{DynamicResource LightBlueBrush}" />
+                                <Setter TargetName="PolygonDown" Property="Fill" Value="{DynamicResource AccentColorBrush}" />
+                            </Trigger>
+                            <Trigger SourceName="PART_NumericDown" Property="IsPressed" Value="True">
+                                <Setter TargetName="PART_NumericDown" Property="Background" Value="{StaticResource BlueBrush}" />
+                                <Setter TargetName="PolygonDown" Property="Fill" Value="{DynamicResource WhiteBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Base" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Controls:ControlsHelper.MouseOverBorderBrush)}" />
+                            </Trigger>
+                            <Trigger SourceName="PART_TextBox" Property="IsFocused" Value="true">
+                                <Setter TargetName="Base" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(Controls:ControlsHelper.FocusBorderBrush)}" />
+                                <Setter TargetName="Base_Shadow" Property="Visibility" Value="Visible" />
+                                <Setter Property="BorderThickness" Value="2"/>
+                            </Trigger>
+
+                            <Trigger Property="HideUpDownButtons" Value="True">
+                                <Setter TargetName="PART_Buttons" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="UpDownButtonsWidth" Value="22" />
+            <Setter Property="Validation.ErrorTemplate" Value="{DynamicResource ValidationErrorTemplate}" />
+        </Style>
+    </local:BasePage.Resources>
 
     <Grid Margin="24">
 
@@ -28,24 +217,36 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            
+
+            <!-- User token-->
+            <TextBlock Text="User token"
+                       Margin="0 20 0 5"
+                       Style="{StaticResource TextblockHeader}" />
+            <TextBox Text="{Binding UserToken}"/>
+
+
             <!-- IP address or host name -->
-            <TextBlock Text="Hostname or IP address"
+            <TextBlock Text="Host name or IP address"
                        Margin="0 20 0 5"
                        Style="{StaticResource TextblockHeader}" />
             <TextBox Text="{Binding HostNameIp}"/>
 
             <!-- Port number -->
             <TextBlock Text="Port"
-                       Margin="0 40 0 5"                       
+                       Margin="0 20 0 5"                       
                        Style="{StaticResource TextblockHeader}" />
 
-            <TextBox Text="{Binding Port}"/>
+            <Controls:NumericUpDown Value="{Binding Port}"
+                                    Minimum="0"
+                                    Maximum="65636"
+                                    Width="170"
+                                    SelectAllOnFocus="True"
+                                    HorizontalAlignment="Left"/>
         </StackPanel>
 
         <!-- Add contact -->
         <Button Grid.Row="1"
-                Margin="0 70 0 0"
+                Margin="0 50 0 0"
                 Content="Add"
                 Width="150"
                 Style="{StaticResource MainButtonStyle}"

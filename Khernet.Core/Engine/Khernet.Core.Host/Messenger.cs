@@ -330,15 +330,15 @@ namespace Khernet.Core.Host
             return fileData.GetFileCount(userToken, fileType);
         }
 
-        public string GetGatewayAddress()
+        public string GetSelfGatewayAddress()
         {
-            return (new Gateway()).GetGatewayAddress();
+            return (new Gateway()).GetSelfGatewayAddress();
         }
 
-        public void AddContact(string hostnameIP, int port)
+        public void AddContact(string token, string hostnameIP, int port)
         {
-            PeerManager peerManager=new PeerManager();
-            peerManager.AddPeer(hostnameIP, port);
+            PeerManager peerManager = new PeerManager();
+            peerManager.AddPeer(token, hostnameIP, port);
         }
 
     }

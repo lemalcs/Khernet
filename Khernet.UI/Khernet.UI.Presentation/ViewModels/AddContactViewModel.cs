@@ -10,7 +10,12 @@ namespace Khernet.UI
     public class AddContactViewModel : BaseModel
     {
         /// <summary>
-        /// The ip address or hostname of gateway service exposed by contact (peer).
+        /// The token of the user.
+        /// </summary>
+        private string userToken;
+
+        /// <summary>
+        /// The IP address or host name of gateway service exposed by contact (peer).
         /// </summary>
         private string hostnameIp;
 
@@ -101,6 +106,18 @@ namespace Khernet.UI
                 }
             }
         }
+        public string UserToken 
+        { 
+            get => userToken;
+            set 
+            { 
+                if(userToken != value)
+                {
+                    userToken = value;
+                    OnPropertyChanged(nameof(UserToken));
+                }
+            }
+        }
 
         /// <summary>
         /// Command to add contact.
@@ -123,24 +140,37 @@ namespace Khernet.UI
         /// </summary>
         private async void AddContact()
         {
+            FoundContact = false;
+            IsAttemptingAddContact = true;
+            ProgressDescription = "Searching contact...";
+
+            ProgressDialogViewModel progressDialogView = new ProgressDialogViewModel
+            {
+                TextProgress = this.ProgressDescription,
+                IsExecuting = true,
+            };
+
             try
             {
-                FoundContact = false;
-                IsAttemptingAddContact = true;
-                ProgressDescription = "Searching contact...";
-                pagedDialog.ShowChildDialog(this);
+                pagedDialog.ShowChildDialog(progressDialogView);
 
                 await TryAddContact();
                 FoundContact = true;
+                progressDialogView.IsExecuting = false;
+                progressDialogView.Result = ProgressResultIcon.Success;
+                progressDialogView.TextProgress = "Contact added.";
             }
             catch (Exception error)
             {
                 LogDumper.WriteLog(error);
-                ProgressDescription = "Cannot add contact, verify if hostname or IP and port are correct.";
+                ProgressDescription = "Cannot add contact, verify if host name or IP and port are correct.";
+                progressDialogView.TextProgress = ProgressDescription;
+                progressDialogView.Result = ProgressResultIcon.Error;
             }
             finally
             {
                 IsAttemptingAddContact = false;
+                progressDialogView.IsExecuting = false;
             }
         }
 
@@ -151,11 +181,11 @@ namespace Khernet.UI
             {
                 try
                 {
-                    IoCContainer.Get<Messenger>().AddContact(HostNameIp, Port);
+                    IoCContainer.Get<Messenger>().AddContact(UserToken, HostNameIp, Port);
                 }
-                catch (Exception error)
+                catch (Exception)
                 {
-                    throw error;
+                    throw;
                 }
             });
         }
