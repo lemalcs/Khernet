@@ -27,7 +27,7 @@
                Width="200"
                Margin="0 30 0 0"/>
 
-        <FlowDocumentScrollViewer Margin="-20 20 0 0">
+        <FlowDocumentScrollViewer Margin="-20 20 0 0" SelectionBrush="{StaticResource DarkSelectedTextColor}">
             
             <FlowDocument>
                 <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
