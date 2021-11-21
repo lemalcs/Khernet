@@ -7,13 +7,12 @@ using System.Windows.Media;
 namespace Khernet.UI.Controls
 {
     /// <summary>
-    /// Controls that supports selection of text.
+    /// <see cref="TextBlock"/> control that supports selection of text.
     /// </summary>
     public class SelectableTextBlock : TextBlock
     {
         TextRange range;
-        Brush foregroundBrush;
-        Brush backgroundBrush = null;
+        Brush backgroundBrush;
         TextPointer selectionStartPosition;
         TextPointer selectionEndPosition;
 
@@ -41,6 +40,8 @@ namespace Khernet.UI.Controls
 
             //Allow this control to capture focus, this is necessary if there are more focusable controls
             Focusable = true;
+
+            backgroundBrush = App.Current.Resources["SelectedTextColor"] as Brush;
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -56,8 +57,7 @@ namespace Khernet.UI.Controls
             //Restore default foreground and background colors if there is selected text
             if (range != null)
             {
-                range.ApplyPropertyValue(TextElement.ForegroundProperty, foregroundBrush);
-                range.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
+                range.ApplyPropertyValue(TextElement.BackgroundProperty, null);
                 range.ClearAllProperties();
             }
 
@@ -69,6 +69,14 @@ namespace Khernet.UI.Controls
 
             if (range == null)
                 range = new TextRange(selectionStartPosition, selectionStartPosition);
+
+            // Select all text if double click is made
+            if (e.ClickCount > 1 && Inlines.Count > 0)
+            {
+                range = new TextRange(Inlines.FirstInline.ContentStart, Inlines.LastInline.ContentEnd);
+                range.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
+                SelectedText = range.Text;
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -89,15 +97,9 @@ namespace Khernet.UI.Controls
             range.ClearAllProperties();
             range.Select(selectionStartPosition, selectionEndPosition);
 
-            //Save foreground color to apply the original style to non selected text
-            if (foregroundBrush == null && range.GetPropertyValue(TextElement.ForegroundProperty) is Brush)
-                foregroundBrush = ((Brush)range.GetPropertyValue(TextElement.ForegroundProperty)).Clone();
-
             //TextElement.BackgroundProperty default value is null
-
             //Apply and foreground and background color to selected text
-            range.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(SystemColors.HighlightTextColor));
-            range.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(SystemColors.HighlightColor));
+            range.ApplyPropertyValue(TextElement.BackgroundProperty, backgroundBrush);
 
             //Save current selected text
             SelectedText = range.Text;
