@@ -25,7 +25,7 @@
                     <!--User name-->
                     <RowDefinition Height="Auto"/>
 
-                    <!-- Aditional user details-->
+                    <!-- Additional user details-->
                     <RowDefinition Height="Auto"/>
 
                     <!-- Files section-->
@@ -70,10 +70,9 @@
                             <!-- User name-->
                             <RichTextBox Grid.Column="0"
                                          x:Name="rtxt"
-                                         BorderThickness="0"
-                                         IsReadOnly="True"
                                          IsReadOnlyCaretVisible="True"
-                                         depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"/>
+                                         depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"
+                                         Style="{StaticResource ReadOnlyTextBoxStyle}"/>
 
                             <!--State-->
                             <TextBlock Text="{Binding User.State}"/>
@@ -109,10 +108,9 @@
                             
                             <RichTextBox Grid.Column="0"
                                          Height="28"
-                                         BorderThickness="0"
-                                         IsReadOnly="True"
                                          IsReadOnlyCaretVisible="True"
-                                         depend:DocumentSourceProperty.Value="{Binding User.FullName}"/>
+                                         depend:DocumentSourceProperty.Value="{Binding User.FullName}"
+                                         Style="{StaticResource ReadOnlyTextBoxStyle}"/>
 
                             <!-- Group-->
                             <TextBlock Text="Group"

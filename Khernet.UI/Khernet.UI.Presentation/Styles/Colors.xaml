@@ -8,7 +8,8 @@
     <SolidColorBrush x:Key="BlueMainButton" Color="#0366d6"/>
     <SolidColorBrush x:Key="ProgressRingbackgroud" Color="#ffffff"/>
     <SolidColorBrush x:Key="SelectedTextColor" Color="#b5d8ff"/>
-    
+    <SolidColorBrush x:Key="DarkSelectedTextColor" Color="#3489f2"/>
+
     <Color x:Key="LightColor">#ffffff</Color>
     <SolidColorBrush x:Key="LightBrush" Color="{StaticResource LightColor}"/>
 

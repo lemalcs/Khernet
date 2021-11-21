@@ -31,7 +31,7 @@
         <Setter Property="Height" Value="30"/>
         <Setter Property="Padding" Value="5 0 0 0"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource LightBlueBrush}" />
@@ -44,7 +44,7 @@
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="MinHeight" Value="26" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource HighlightBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource DarkSelectedTextColor}" />
         <!--  change SnapsToDevicePixels to True to view a better border and validation error  -->
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -313,7 +313,7 @@
         <Setter Property="Controls:ControlsHelper.CornerRadius" Value="2.5"/>
         <Setter Property="Padding" Value="5 0 0 0"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource LightBlueBrush}" />
@@ -325,7 +325,7 @@
         <Setter Property="FontSize" Value="{DynamicResource Controls.ContentFontSize}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="MinHeight" Value="26" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource HighlightBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource DarkSelectedTextColor}" />
         <!--  change SnapsToDevicePixels to true to view a better border and validation error  -->
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -606,7 +606,7 @@
         <Setter Property="Padding" Value="5 0 0 0" />
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Controls:ControlsHelper.CornerRadius" Value="2.5"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource LightBlueBrush}" />
@@ -618,7 +618,7 @@
         <Setter Property="MinHeight" Value="26" />
         <Setter Property="MinWidth" Value="10" />
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource HighlightBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource DarkSelectedTextColor}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="Template">
@@ -700,7 +700,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CaretBrush" Value="{DynamicResource BlackBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}"/>
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="Red"/>
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}"/>
         <Setter Property="Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding (SpellCheck.IsEnabled), RelativeSource={RelativeSource Self}}"/>
@@ -713,7 +713,7 @@
         <Setter Property="Padding" Value="1"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="TextBlock.Text" Value="Luis"/>
-        <Setter Property="SelectionBrush" Value="{DynamicResource HighlightBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource DarkSelectedTextColor}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}"/>
@@ -766,6 +766,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="ReadOnlyTextBoxStyle" TargetType="{x:Type RichTextBox}">
+        <Setter Property="SelectionBrush" Value="{StaticResource DarkSelectedTextColor}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="IsReadOnlyCaretVisible" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="ContextMenu" Value="{StaticResource TextBoxMetroContextMenu}"/>
     </Style>
 
 </ResourceDictionary>
