@@ -5,6 +5,7 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:local="clr-namespace:Khernet.UI.Controls"
                         xmlns:vm="clr-namespace:Khernet.UI"
+                        xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                         xmlns:conv="clr-namespace:Khernet.UI.Converters"
@@ -15,22 +16,24 @@
                         Height="150"
                         d:DataContext="{d:DesignInstance vm:ProgressDialogViewModel,IsDesignTimeCreatable=True}"
                         Background="Transparent">
+    
+    <Border CornerRadius="5">
+        <Grid Background="{StaticResource LightBrush}"
+              Height="150"
+              depend:ClipFromBorderProperty.Value="True">
 
-    <Grid Background="{StaticResource LightBrush}"
-          Height="150">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <!-- Description of current operation -->
-        <TextBlock Grid.Row="0"
+            <!-- Description of current operation -->
+            <TextBlock Grid.Row="0"
                    Grid.Column="1"
                    Text="{Binding TextProgress}"
                    VerticalAlignment="Center"
@@ -40,8 +43,8 @@
                    TextWrapping="Wrap"
                    Style="{StaticResource TextblockItemStyle}"/>
 
-        <!-- Progress ring to show load progress -->
-        <Controls:ProgressRing Grid.Row="0"
+            <!-- Progress ring to show load progress -->
+            <Controls:ProgressRing Grid.Row="0"
                                Grid.Column="0"
                                Visibility="{Binding IsExecuting,Converter={conv:BoolToVisibilityConverter}}"
                                Width="32" 
@@ -50,7 +53,7 @@
                                HorizontalContentAlignment="Center"
                                VerticalAlignment="Center"/>
 
-        <iconPacks:PackIconMaterial Kind="{Binding Result,Converter={conv:ResultToIconConverter}}" 
+            <iconPacks:PackIconMaterial Kind="{Binding Result,Converter={conv:ResultToIconConverter}}" 
                                     Grid.Column="0"
                                     Grid.Row="0"
                                     Visibility="{Binding IsExecuting,Converter={conv:InverseBoolToVisibilityGoneConverter}}"
@@ -61,8 +64,8 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalAlignment="Center"/>
 
-        <!--Accept button-->
-        <Button Grid.Row="1"
+            <!--Accept button-->
+            <Button Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Content="OK"
                 Visibility="{Binding IsExecuting,Converter={conv:InverseBoolToVisibilityConverter}}"
@@ -72,5 +75,6 @@
                 Margin="0 0 0 20"
                 Width="100"
                 Style="{StaticResource MainButtonStyle}"/>
-    </Grid>
+        </Grid>
+    </Border>
 </local:BasePopUpControl>

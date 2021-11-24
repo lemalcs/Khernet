@@ -7,12 +7,10 @@
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             ClipToBounds="True"
-             >
+             ClipToBounds="True">
 
     <Border VerticalAlignment="{Binding IsFullScreen,Converter={conv:FullScreenToAligmentConverter}}"
-          Margin="{Binding IsFullScreen,Converter={conv:FullScreenToMarginConverter}}"
-          >
+          Margin="{Binding IsFullScreen,Converter={conv:FullScreenToMarginConverter}}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="49" 
                               Color="{StaticResource OpaqueBlackColor}"
@@ -23,7 +21,6 @@
         <!-- Content of dialog -->
         <ContentControl Content="{Binding Content}"
                         MinHeight="{Binding Path=MinHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModalDialogControl}}}"
-                        x:Name="contentArea"
-                        ></ContentControl>
+                        x:Name="contentArea"/>
     </Border>
 </UserControl>

@@ -7,6 +7,7 @@
                              xmlns:vm="clr-namespace:Khernet.UI.ViewModels"
                              xmlns:conv="clr-namespace:Khernet.UI.Converters"
                              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                              xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                              mc:Ignorable="d" 
                              d:DesignHeight="300" d:DesignWidth="300"
@@ -15,84 +16,85 @@
                              x:Name="pagedDialog"
                              d:DataContext="{d:DesignInstance vm:PagedDialogDesignModel,IsDesignTimeCreatable=True}"
                              ClipToBounds="True">
-                             
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    
+    <Border CornerRadius="5">
+        <Grid Background="White"
+              depend:ClipFromBorderProperty.Value="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Height="60">
-            <Grid.ColumnDefinitions>
-                
-                <!-- Header page-->
-                <ColumnDefinition Width="Auto"/>
+            <Grid Grid.Row="0" Height="60">
+                <Grid.ColumnDefinitions>
 
-                <!-- Content -->
-                <ColumnDefinition Width="*"/>
-                
-                <!-- Close button-->
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+                    <!-- Header page-->
+                    <ColumnDefinition Width="Auto"/>
 
-            <!--Back arrow-->
-            <Button Grid.Column="0" 
-                    Background="Transparent"
-                    Height="60"
-                    Margin="0 0 -20 0"
-                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                    Command="{Binding GoToPageCommand}"
-                    Style="{StaticResource IconButton}"
-                    Visibility="{Binding IsHomePageEnabled,Converter={conv:BoolToVisibilityGoneConverter}}"
-                    >
-                <iconPacks:PackIconMaterial Kind="ArrowLeft" Width="15" Margin="0 10 0 0"/>
-            </Button>
+                    <!-- Content -->
+                    <ColumnDefinition Width="*"/>
 
-            <!--Title page-->
-            <TextBlock Text="{Binding Category}"
-                   Style="{StaticResource SubtitleText}"
-                   Grid.Column="1"
-                   Margin="20 25 20 10"/>
+                    <!-- Close button-->
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!--Close button-->
-            <Button Grid.Column="2"
-                    Height="60"
-                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                    Style="{StaticResource IconButton}"
-                    Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}">
-                <iconPacks:PackIconMaterial Kind="WindowClose" Width="15" Margin="0 10 0 0"/>
-            </Button>
-        </Grid>
+                <!--Back arrow-->
+                <Button Grid.Column="0" 
+                        Background="Transparent"
+                        Height="60"
+                        Margin="0 0 -20 0"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                        Command="{Binding GoToPageCommand}"
+                        Style="{StaticResource IconButton}"
+                        Visibility="{Binding IsHomePageEnabled,Converter={conv:BoolToVisibilityGoneConverter}}">
+                    <iconPacks:PackIconMaterial Kind="ArrowLeft" Width="15" Margin="0 10 0 0"/>
+                </Button>
 
-        <!-- Page content-->
-        <ucontrols:PageContainer Grid.Row="1"
-                                 CurrentViewModel="{Binding CurrentViewModel}"
-                                 CurrentPage="{Binding CurrentPage}"
-                                 Background="Transparent"
-                                 Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}">
-        </ucontrols:PageContainer>
+                <!--Title page-->
+                <TextBlock Text="{Binding Category}"
+                           Style="{StaticResource SubtitleText}"
+                           Grid.Column="1"
+                           Margin="20 25 20 10"/>
 
-        <!-- Overlay panel -->
-        <Border Grid.RowSpan="2"
+                <!--Close button-->
+                <Button Grid.Column="2"
+                        Height="60"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                        Style="{StaticResource IconButton}"
+                        Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}">
+                    <iconPacks:PackIconMaterial Kind="WindowClose" Width="15" Margin="0 10 0 0"/>
+                </Button>
+            </Grid>
+
+            <!-- Page content-->
+            <ucontrols:PageContainer Grid.Row="1"
+                                     CurrentViewModel="{Binding CurrentViewModel}"
+                                     CurrentPage="{Binding CurrentPage}"
+                                     Background="Transparent"
+                                     Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}"/>
+
+            <!-- Overlay panel -->
+            <Border Grid.RowSpan="2"
                 Panel.ZIndex="3"
                 Opacity="0.5"
                         Visibility="{Binding IsChildDialogVisible,Converter={conv:BoolToVisibilityConverter}}">
-            <Border Background="Black"/>
-        </Border>
+                <Border Background="Black"/>
+            </Border>
 
-        <!-- Child dialog -->
-        <ucontrols:PopupContent ViewModel="{Binding ChildDialogModel}"
-                                Visibility="{Binding IsChildDialogVisible,Converter={conv:BoolToVisibilityGoneConverter}}"
-                                Grid.Row="0"
-                                Grid.RowSpan="2"
-                                Panel.ZIndex="4"
-                                Command="{Binding CloseChildDialogCommand}">
-            <ucontrols:PopupContent.Effect>
-                <DropShadowEffect BlurRadius="49" 
-                              Color="{StaticResource OpaqueBlackColor}"
-                              ShadowDepth="0"
-                              Opacity="0.4"/>
-            </ucontrols:PopupContent.Effect>
-        </ucontrols:PopupContent>
-    </Grid>
+            <!-- Child dialog -->
+            <ucontrols:PopupContent ViewModel="{Binding ChildDialogModel}"
+                                    Visibility="{Binding IsChildDialogVisible,Converter={conv:BoolToVisibilityGoneConverter}}"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Panel.ZIndex="4"
+                                    Command="{Binding CloseChildDialogCommand}">
+                <ucontrols:PopupContent.Effect>
+                    <DropShadowEffect BlurRadius="49" 
+                                      Color="{StaticResource OpaqueBlackColor}"
+                                      ShadowDepth="0"
+                                      Opacity="0.4"/>
+                </ucontrols:PopupContent.Effect>
+            </ucontrols:PopupContent>
+        </Grid>
+    </Border>
 </local:BaseDialogUserControl>

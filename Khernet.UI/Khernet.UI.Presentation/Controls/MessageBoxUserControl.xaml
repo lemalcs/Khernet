@@ -5,6 +5,7 @@
                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                              xmlns:local="clr-namespace:Khernet.UI.Controls"
                              xmlns:vm="clr-namespace:Khernet.UI"
+                             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                              xmlns:conv="clr-namespace:Khernet.UI.Converters"
                              mc:Ignorable="d" 
                              d:DesignHeight="300" 
@@ -13,53 +14,56 @@
                              Width="286"
                              d:DataContext="{d:DesignInstance vm:MessageBoxDesignModel,IsDesignTimeCreatable=True}">
 
-    <Grid Background="{StaticResource LightBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Border CornerRadius="5">
+        <Grid Background="{StaticResource LightBrush}"
+              depend:ClipFromBorderProperty.Value="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Text message -->
-        <FlowDocumentScrollViewer Margin="0 20 0 0"
-                                  Grid.Row="0"
-                                  VerticalScrollBarVisibility="Auto">
-            <FlowDocument FontFamily="{StaticResource RobotoRegularFont}"
+            <!-- Text message -->
+            <FlowDocumentScrollViewer Margin="0 20 0 0"
+                                      Grid.Row="0"
+                                      VerticalScrollBarVisibility="Auto">
+                <FlowDocument FontFamily="{StaticResource RobotoRegularFont}"
                           FontSize="{StaticResource RegularFontSize}">
-                <Paragraph>
-                    <Run Text="{Binding Message}"/>
-                </Paragraph>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
+                    <Paragraph>
+                        <Run Text="{Binding Message}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
 
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Grid.Row="1"
-                    Margin="0 15 15 15">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Grid.Row="1"
+                        Margin="0 15 15 15">
 
-            <!-- Accept button -->
-            <Button Margin="10 0 0 0"
-                    Visibility="{Binding ShowAcceptOption,Converter={conv:BoolToVisibilityGoneConverter}}"
-                    Content="{Binding AcceptOptionLabel}"
-                    MaxWidth="100"
-                    MinWidth="80"
-                    Height="30"
-                    Command="{Binding AcceptCommand}"
-                    IsDefault="True"
-                    Click="Button_Click"
-                    HorizontalAlignment="Right"
-                    Style="{StaticResource MainButtonStyle}"/>
+                <!-- Accept button -->
+                <Button Margin="10 0 0 0"
+                        Visibility="{Binding ShowAcceptOption,Converter={conv:BoolToVisibilityGoneConverter}}"
+                        Content="{Binding AcceptOptionLabel}"
+                        MaxWidth="100"
+                        MinWidth="80"
+                        Height="30"
+                        Command="{Binding AcceptCommand}"
+                        IsDefault="True"
+                        Click="Button_Click"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MainButtonStyle}"/>
 
-            <!-- Cancel button -->
-            <Button Margin="10 0 0 0"
-                    Visibility="{Binding ShowCancelOption,Converter={conv:BoolToVisibilityGoneConverter}}"
-                    Content="{Binding CancelOptionLabel}"
-                    MaxWidth="100"
-                    MinWidth="80"
-                    Height="30"
-                    Command="{Binding CancelCommand}"
-                    Click="Button_Click"
-                    HorizontalAlignment="Right"
-                    Style="{StaticResource SecondaryButtonStyle}"/>
-        </StackPanel>
-    </Grid>
+                <!-- Cancel button -->
+                <Button Margin="10 0 0 0"
+                        Visibility="{Binding ShowCancelOption,Converter={conv:BoolToVisibilityGoneConverter}}"
+                        Content="{Binding CancelOptionLabel}"
+                        MaxWidth="100"
+                        MinWidth="80"
+                        Height="30"
+                        Command="{Binding CancelCommand}"
+                        Click="Button_Click"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource SecondaryButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </local:BaseDialogUserControl>

@@ -5,6 +5,7 @@
                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                         xmlns:local="clr-namespace:Khernet.UI.Controls"
                         xmlns:vm="clr-namespace:Khernet.UI"
+                        xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                         xmlns:conv="clr-namespace:Khernet.UI.Converters"
                         x:Name="nameEditor"
@@ -14,30 +15,34 @@
                         Height="150"
                         d:DataContext="{d:DesignInstance vm:CacheDesingModel,IsDesignTimeCreatable=True}"
                         Background="Transparent">
+    
+    <Border CornerRadius="5">
+        <StackPanel Background="{StaticResource LightBrush}"
+                    depend:ClipFromBorderProperty.Value="True">
 
-    <StackPanel Background="{StaticResource LightBrush}">
-
-        <TextBlock Grid.Row="0"
+            <TextBlock Grid.Row="0"
                    Text="{Binding TextProgress}"
                    VerticalAlignment="Center"
                    Margin="20 20 0 15"
                    Style="{StaticResource TextblockItemStyle}"/>
 
-        <!-- Progress ring to show load progress -->
-        <Controls:ProgressRing Grid.Row="1"
+            <!-- Progress ring to show load progress -->
+            <Controls:ProgressRing Grid.Row="1"
                                Visibility="{Binding IsCleaning,Converter={conv:BoolToVisibilityConverter}}"
                                Width="32" 
                                Foreground="{StaticResource BlueBrush}"
                                HorizontalContentAlignment="Center"
                                VerticalAlignment="Center"
                                        />
-        <!--Accept button-->
-        <Button Content="OK"
+            
+            <!--Accept button-->
+            <Button Content="OK"
                 Visibility="{Binding IsCleaning,Converter={conv:InverseBoolToVisibilityConverter}}"
                 Click="Button_Click_1"
                 HorizontalAlignment="Center"
                 Margin="0 0 0 10"
                 Width="100"
                 Style="{StaticResource MainButtonStyle}"/>
-    </StackPanel>
+        </StackPanel>
+    </Border>
 </local:BasePopUpControl>

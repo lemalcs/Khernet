@@ -509,9 +509,11 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border" Value="Transparent"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource OverBlueButton}"/>
+                            <Setter Property="Foreground" Value="{StaticResource OverBlueButton}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="border" Value="{StaticResource SecondaryPressedButtonBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource OverBlueButton}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource LightGrayAnchorBrush}"/>

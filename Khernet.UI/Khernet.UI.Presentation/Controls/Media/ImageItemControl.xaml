@@ -83,7 +83,7 @@
                                              Visibility="{Binding IsReadingFile,Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
             <!-- Image thumbnail -->
-            <Image Grid.Row="0" 
+            <Image Grid.Row="0"
                    Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter}, TargetNullValue={StaticResource DefaultImage}}"
                    MaxHeight="420"
                    MaxWidth="420"
