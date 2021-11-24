@@ -54,7 +54,12 @@ namespace Khernet.UI.Media
         /// <summary>
         /// Markdown text message.
         /// </summary>
-        Markdown = 8
+        Markdown = 8,
+
+        /// <summary>
+        /// Message that contains contact information.
+        /// </summary>
+        Contact = 9,
     }
 
     /// <summary>

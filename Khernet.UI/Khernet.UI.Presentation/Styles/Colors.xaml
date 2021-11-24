@@ -9,6 +9,8 @@
     <SolidColorBrush x:Key="ProgressRingbackgroud" Color="#ffffff"/>
     <SolidColorBrush x:Key="DarkSelectedTextColor" Color="#3489f2"/>
     <SolidColorBrush x:Key="SelectedTextColor" Color="#b5d8ff"/>
+    <Color x:Key="OpaqueLightBlueColor">#05ebf3fd</Color>
+
 
     <Color x:Key="LightColor">#ffffff</Color>
     <SolidColorBrush x:Key="LightBrush" Color="{StaticResource LightColor}"/>

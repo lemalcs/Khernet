@@ -70,23 +70,23 @@ namespace Khernet.UI
                 }
             }
         }
-        public bool IsAttemptingAddContact 
-        { 
+        public bool IsAttemptingAddContact
+        {
             get => isAttemptingAddContact;
-            set 
+            set
             {
-                if(isAttemptingAddContact != value) 
+                if (isAttemptingAddContact != value)
                 {
                     isAttemptingAddContact = value;
                     OnPropertyChanged(nameof(IsAttemptingAddContact));
                 }
             }
         }
-        public string ProgressDescription 
-        { 
+        public string ProgressDescription
+        {
             get => progressDescription;
-            set 
-            { 
+            set
+            {
                 if (progressDescription != value)
                 {
                     progressDescription = value;
@@ -94,24 +94,24 @@ namespace Khernet.UI
                 }
             }
         }
-        public bool FoundContact 
-        { 
+        public bool FoundContact
+        {
             get => foundContact;
-            set 
-            { 
-                if(foundContact != value)
+            set
+            {
+                if (foundContact != value)
                 {
                     foundContact = value;
                     OnPropertyChanged(nameof(FoundContact));
                 }
             }
         }
-        public string UserToken 
-        { 
+        public string UserToken
+        {
             get => userToken;
-            set 
-            { 
-                if(userToken != value)
+            set
+            {
+                if (userToken != value)
                 {
                     userToken = value;
                     OnPropertyChanged(nameof(UserToken));
@@ -181,7 +181,7 @@ namespace Khernet.UI
             {
                 try
                 {
-                    IoCContainer.Get<Messenger>().AddContact(UserToken, HostNameIp, Port);
+                    IoCContainer.Get<Messenger>().SearchAndAddContact(UserToken, HostNameIp, Port);
                 }
                 catch (Exception)
                 {

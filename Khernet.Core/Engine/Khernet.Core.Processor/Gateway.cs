@@ -38,7 +38,7 @@ namespace Khernet.Core.Processor
 
             return new PeerService
             {
-                Username= username,
+                Username = username,
                 Token = userToken,
                 Certificate = certificate,
                 ServiceList = services
@@ -52,6 +52,17 @@ namespace Khernet.Core.Processor
         public string GetSelfGatewayAddress()
         {
             return Configuration.GetValue(Constants.GatewayService);
+        }
+
+        /// <summary>
+        /// Gets the gateway address of a specific peer.
+        /// </summary>
+        /// <param name="token">The token of peer.</param>
+        /// <returns>The address of gateway.</returns>
+        public string GetPeerGatewayAddress(string token)
+        {
+            Communicator communicator = new Communicator();
+            return communicator.GetPeerAdress(token, Constants.GatewayService);
         }
     }
 }

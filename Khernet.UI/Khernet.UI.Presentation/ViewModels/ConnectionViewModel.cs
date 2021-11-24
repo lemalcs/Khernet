@@ -4,11 +4,10 @@ using Khernet.UI.IoC;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Khernet.UI
 {
-    public class ConnectionViewModel : BaseModel,IDisposable
+    public class ConnectionViewModel : BaseModel, IDisposable
     {
         #region Properties
 
@@ -93,9 +92,9 @@ namespace Khernet.UI
         public bool IsGatewayOnline
         {
             get => isGatewayOnline;
-            set 
-            { 
-                if(isGatewayOnline != value)
+            set
+            {
+                if (isGatewayOnline != value)
                 {
                     isGatewayOnline = value;
                     OnPropertyChanged(nameof(IsGatewayOnline));

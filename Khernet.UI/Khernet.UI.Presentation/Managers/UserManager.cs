@@ -172,10 +172,9 @@ namespace Khernet.UI.Managers
                         {
                             return;
                         }
-                        catch (Exception)
+                        catch (Exception error)
                         {
-
-                            throw;
+                            LogDumper.WriteLog(error);
                         }
                         finally
                         {
@@ -251,6 +250,7 @@ namespace Khernet.UI.Managers
             userModel.SetDisplayName(peer.DisplayName);
             userModel.ColorHex = peer.HexColor;
 
+            userModel.LoadGatewayInformation();
             userModel.BuildDisplayName();
         }
 

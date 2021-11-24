@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Media;
 
 namespace Khernet.UI.Converters
 {
@@ -15,12 +13,12 @@ namespace Khernet.UI.Converters
             if (value == null)
                 return null;
 
-            if((ProgressResultIcon)value==ProgressResultIcon.Success)
+            if ((ProgressResultIcon)value == ProgressResultIcon.Success)
                 return "CheckCircleOutline";
 
             if ((ProgressResultIcon)value == ProgressResultIcon.Warning)
                 return "AlertOutline";
-            
+
             return "CloseCircleOutline";
         }
 

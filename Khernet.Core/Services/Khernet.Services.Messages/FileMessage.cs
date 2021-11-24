@@ -27,7 +27,10 @@ namespace Khernet.Services.Messages
         Html = 7,
 
         [EnumMember]
-        Markdown = 8
+        Markdown = 8,
+
+        [EnumMember]
+        Contact = 9
     }
 
 

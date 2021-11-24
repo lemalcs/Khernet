@@ -66,6 +66,12 @@ namespace Khernet.UI
                 {
                     return Application.Current.FindResource("MarkdownDataTemplate") as DataTemplate;
                 }
+
+                //Template for contact share messages
+                if (item is ContactChatMessageViewModel)
+                {
+                    return Application.Current.FindResource("ContactDataTemplate") as DataTemplate;
+                }
             }
 
             return null;

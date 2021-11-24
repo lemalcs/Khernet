@@ -232,6 +232,9 @@
     <Compile Include="Animations\FrameworkElementAnimations.cs" />
     <Compile Include="Cache\ChatCache.cs" />
     <Compile Include="Cache\Configurations.cs" />
+    <Compile Include="Controls\Chat\ContactMessageControl.xaml.cs">
+      <DependentUpon>ContactMessageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\ProgressDialogControl.xaml.cs">
       <DependentUpon>ProgressDialogControl.xaml</DependentUpon>
     </Compile>
@@ -491,6 +494,7 @@
     <Compile Include="Managers\UIManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resources\Constants.cs" />
+    <Compile Include="ViewModels\Chat\ContactChatMessageViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\Chat\AnimationChatMessageViewModel.cs" />
@@ -561,6 +565,10 @@
     <Compile Include="ViewModels\Users\UserListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="Controls\Chat\AudioMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\ContactMessageControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

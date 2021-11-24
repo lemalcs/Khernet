@@ -139,7 +139,7 @@
                     VerticalAlignment="Bottom"
                     Margin="10"
                     ClipToBounds="True"
-                    Visibility="{Binding UnreadMessages,Converter={conv:BoolToVisibilityConverter}}">
+                    Visibility="{Binding UnreadMessages,Converter={conv:BoolToVisibilityConverter},TargetNullValue=Collapsed,FallbackValue=Collapsed}">
                 <TextBlock Name="txtUnReadCount"
                            Text="{Binding UnreadMessages}"
                            HorizontalAlignment="Center"

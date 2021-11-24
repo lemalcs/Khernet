@@ -30,8 +30,12 @@
     <DataTemplate x:Key="MarkdownDataTemplate">
         <ucontrols:MarkdownMessageControl/>
     </DataTemplate>
-    
-    
+
+    <DataTemplate x:Key="ContactDataTemplate">
+        <ucontrols:ContactMessageControl/>
+    </DataTemplate>
+
+
     <!-- Template for chat messages -->
     <ControlTemplate x:Key="messageContainer" TargetType="UserControl">
 

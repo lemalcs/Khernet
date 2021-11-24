@@ -539,7 +539,7 @@ namespace Khernet.Core.Host
                 try
                 {
                     Uri gatewayAddresss = new Uri(gateway.Address);
-                    peerManager.AddPeer(gateway.Token, gatewayAddresss.Host, gatewayAddresss.Port);
+                    peerManager.SearchAndAddPeer(gateway.Token, gatewayAddresss.Host, gatewayAddresss.Port);
                 }
                 catch (Exception error)
                 {

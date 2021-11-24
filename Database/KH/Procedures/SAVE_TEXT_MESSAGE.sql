@@ -78,7 +78,7 @@ BEGIN
     ELSE
        IS_READ='FALSE';
        
-    ISFILE=IIF(:CONTENT_TYPE IN(6,7,8),'FALSE','TRUE');
+    ISFILE=IIF(:CONTENT_TYPE IN(6,7,8,9),'FALSE','TRUE');
        
     --Save message header for text messages
     IF(:ISFILE='FALSE')THEN

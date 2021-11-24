@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Khernet.UI.Controls.ContactMessageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:vm="clr-namespace:Khernet.UI"
+             xmlns:conv="clr-namespace:Khernet.UI.Converters"
+             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+             xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
+             mc:Ignorable="d" 
+             UseLayoutRounding="True"
+             d:DataContext="{d:DesignInstance vm:TextChatMessageDesignModel,IsDesignTimeCreatable=True}"
+             Template="{StaticResource messageContainer}"
+             ContextMenu="{StaticResource messageContextMenu}">
+
+    <!--Contact message container -->
+    <Border CornerRadius="10"
+            BorderThickness="1"
+            Background="{StaticResource LightBrush}"
+            Padding="5"
+            MaxWidth="350"
+            HorizontalAlignment="Left"
+            Cursor="Hand">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" 
+                              Color="{StaticResource OpaqueLightBlueColor}"
+                              ShadowDepth="0"/>
+        </Border.Effect>
+
+        <!-- View profile command -->
+        <Border.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding ViewProfileCommand}"/>
+        </Border.InputBindings>
+
+        <Grid>
+            <Grid.RowDefinitions>
+
+                <!-- User details -->
+                <RowDefinition Height="*"/>
+
+                <!-- Actions for user -->
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+            <!-- User details -->
+            <ucontrols:UserItemControl Grid.Row="0" 
+                                       DataContext="{Binding Contact}"/>
+
+            <!-- Actions for user -->
+            <Grid Grid.Row="1"
+                  Visibility="{Binding Contact.IsSelfUser,Converter={conv:InverseBoolToVisibilityGoneConverter}}">
+
+                <!-- Add contact command -->
+                <Button Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding AddContactCommand}"
+                    Content="Add contact"
+                    HorizontalAlignment="Center"
+                    Width="100"
+                    Margin="0 10 0 10"
+                    Visibility="{Binding Exists,Converter={conv:InverseBoolToVisibilityGoneConverter},TargetNullValue=Collapsed,FallbackValue=Collapsed}"/>
+
+                <!-- Send message command -->
+                <Button Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding SendMessageCommand}"
+                    Content="Send message"
+                    HorizontalAlignment="Center"
+                    Width="100"
+                    Margin="0 10 0 10"
+                    Visibility="{Binding Exists,Converter={conv:BoolToVisibilityGoneConverter},TargetNullValue=Collapsed,FallbackValue=Collapsed}"/>
+
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

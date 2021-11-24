@@ -1,4 +1,6 @@
-﻿using Khernet.UI.IoC;
+﻿using Khernet.Core.Host;
+using Khernet.Services.Messages;
+using Khernet.UI.IoC;
 using Khernet.UI.Managers;
 using System;
 using System.Collections.ObjectModel;
@@ -75,6 +77,31 @@ namespace Khernet.UI
         private ReadOnlyCollection<byte> displayName;
 
         private ReadOnlyCollection<byte> avatar;
+
+        /// <summary>
+        /// The list of services exposed by peer.
+        /// </summary>
+        private ObservableCollection<ServiceInfo> serviceList;
+
+        /// <summary>
+        /// The certificate of peer.
+        /// </summary>
+        private string certificate;
+
+        /// <summary>
+        /// Indicates if the peer is the current logged user.
+        /// </summary>
+        private bool isSelfUser;
+
+        /// <summary>
+        /// The host name of gateway address.
+        /// </summary>
+        private string hostName;
+
+        /// <summary>
+        /// The port of gateway address.
+        /// </summary>
+        private int port;
 
         public string Initials
         {
@@ -281,6 +308,62 @@ namespace Khernet.UI
                 }
             }
         }
+        public ObservableCollection<ServiceInfo> ServiceList
+        {
+            get => serviceList;
+            set
+            {
+                if (serviceList != value)
+                {
+                    serviceList = value;
+                    OnPropertyChanged(nameof(ServiceList));
+                }
+            }
+        }
+        public string Certificate
+        {
+            get => certificate;
+        }
+
+        public bool IsSelfUser
+        {
+            get => isSelfUser;
+            set
+            {
+                if (isSelfUser != value)
+                {
+                    isSelfUser = value;
+                    OnPropertyChanged(nameof(IsSelfUser));
+                }
+            }
+        }
+
+        public string HostName
+        {
+            get => hostName;
+            set
+            {
+                if (hostName != value)
+                {
+                    hostName = value;
+                    OnPropertyChanged(nameof(HostName));
+                }
+            }
+        }
+
+        public int Port
+        {
+            get => port;
+            set
+            {
+                if (port != value)
+                {
+                    port = value;
+                    OnPropertyChanged(nameof(Port));
+                }
+            }
+        }
+
         #endregion
 
         #region IIdentity members
@@ -317,6 +400,12 @@ namespace Khernet.UI
         public UserItemViewModel()
         {
             OpenChatCommand = new RelayCommand(OpenChat);
+        }
+
+        public UserItemViewModel(string certificate)
+        {
+            OpenChatCommand = new RelayCommand(OpenChat);
+            this.certificate = certificate;
         }
 
         #region Methods
@@ -424,6 +513,16 @@ namespace Khernet.UI
             user.DisplayName = DisplayName;
             user.Avatar = Avatar;
 
+            if (ServiceList != null)
+            {
+                ObservableCollection<ServiceInfo> services = new ObservableCollection<ServiceInfo>();
+                foreach (ServiceInfo serviceInfo in ServiceList)
+                {
+                    services.Add(serviceInfo);
+                }
+                user.serviceList = services;
+            }
+
             return user;
         }
 
@@ -448,6 +547,20 @@ namespace Khernet.UI
 
             if (DisplayName == null && !string.IsNullOrEmpty(Username))
                 SetDisplayName(Encoding.UTF8.GetBytes(Username));
+        }
+
+        /// <summary>
+        /// Gets the gateway address of peer.
+        /// </summary>
+        public void LoadGatewayInformation()
+        {
+            string gateway = IsSelfUser ? IoCContainer.Get<Messenger>().GetSelfGatewayAddress() : IoCContainer.Get<Messenger>().GetPeerGatewayAddress(Token);
+            if (gateway != null)
+            {
+                Uri gatewayUri = new Uri(gateway);
+                HostName = gatewayUri.Host;
+                Port = gatewayUri.Port;
+            }
         }
 
         #endregion

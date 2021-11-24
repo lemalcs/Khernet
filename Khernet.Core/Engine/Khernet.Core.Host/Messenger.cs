@@ -335,11 +335,21 @@ namespace Khernet.Core.Host
             return (new Gateway()).GetSelfGatewayAddress();
         }
 
-        public void AddContact(string token, string hostnameIP, int port)
+        public void SearchAndAddContact(string token, string hostnameIP, int port)
         {
             PeerManager peerManager = new PeerManager();
-            peerManager.AddPeer(token, hostnameIP, port);
+            peerManager.SearchAndAddPeer(token, hostnameIP, port);
         }
 
+        public void AddContact(PeerService peerService)
+        {
+            PeerManager peerManager = new PeerManager();
+            peerManager.AddPeer(peerService);
+        }
+        public string GetPeerGatewayAddress(string token)
+        {
+            Gateway gateway = new Gateway();
+            return gateway.GetPeerGatewayAddress(token);
+        }
     }
 }

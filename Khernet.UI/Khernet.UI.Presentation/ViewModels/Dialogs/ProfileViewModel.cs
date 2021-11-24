@@ -416,19 +416,24 @@ namespace Khernet.UI
             //Title for page
             pagedDialog.Category = "Profile Information";
 
-            //Post a request to update user profile
-            IoCContainer.Get<UserManager>().ProcessState(new UserState
+            // Only request details if peer is not the current logged user
+            if (!User.IsSelfUser)
             {
-                Token = User.Token,
-                Change = UserChangeType.ProfileChange,
-            });
+                //Request to update user profile
+                IoCContainer.Get<UserManager>().ProcessState(new UserState
+                {
+                    Token = User.Token,
+                    Change = UserChangeType.ProfileChange,
+                });
 
-            //Post a request to update user avatar
-            IoCContainer.Get<UserManager>().ProcessState(new UserState
-            {
-                Token = User.Token,
-                Change = UserChangeType.AvatarChange,
-            });
+                //Request to update user avatar
+                IoCContainer.Get<UserManager>().ProcessState(new UserState
+                {
+                    Token = User.Token,
+                    Change = UserChangeType.AvatarChange,
+                });
+            }
+
 
             //Set the view model for settings list
             pagedDialog.CurrentViewModel = this;

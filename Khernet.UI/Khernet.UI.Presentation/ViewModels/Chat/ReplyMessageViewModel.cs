@@ -314,6 +314,13 @@ namespace Khernet.UI
                     FileInformation fileInformation = JSONSerializer<FileInformation>.DeSerialize(replyContent);
                     FileName = fileInformation.FileName;
                     break;
+
+                case ContentType.Contact:
+
+                    IconName = "AccountCircle";
+                    PeerService peerService = JSONSerializer<PeerService>.DeSerialize(replyContent);
+                    FileName = peerService.Username;
+                    break;
             }
 
 

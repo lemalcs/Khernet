@@ -28,6 +28,9 @@
                     <!-- Additional user details-->
                     <RowDefinition Height="Auto"/>
 
+                    <!-- Gateway information -->
+                    <RowDefinition Height="Auto"/>
+
                     <!-- Files section-->
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -74,15 +77,14 @@
                                          depend:DocumentSourceProperty.Value="{Binding User.DisplayName}"
                                          Style="{StaticResource ReadOnlyTextBoxStyle}"/>
 
-                            <!--State-->
-                            <TextBlock Text="{Binding User.State}"/>
-
+                            <!-- Edit display name -->
                             <Button Content="EDIT NAME"
                                     Margin="0 10 0 0"
                                     Width="100"
                                     Command="{Binding OpenEditNameCommand}"
                                     Style="{StaticResource SecondaryButtonStyle}"
-                                    HorizontalAlignment="Left"/>
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding User.IsSelfUser,Converter={conv:InverseBoolToVisibilityGoneConverter}}"/>
 
                         </StackPanel>
                     </Grid>
@@ -138,24 +140,59 @@
                                                            Style="{StaticResource TextblockItemStyle}"
                                                            Margin="0 0 0 10"/>
 
-                            <!-- Token-->
-                            <TextBlock Text="Token"
-                                       Style="{StaticResource TextblockHeader}"/>
-                            
-                            <ucontrols:SelectableTextBlock Text="{Binding User.Token}"
-                                                           Margin="0 0 0 10"
-                                                           Style="{StaticResource TextblockItemStyle}"/>
-
                         </StackPanel>
 
                     </Grid>
                 </Border>
+                
+                <!-- Gateway information -->
+                <Border Grid.Row="2"
+                        BorderThickness="0 1 0 0"
+                        Padding="20 10 10 10"
+                        Background="{StaticResource LightBrush}"
+                        Margin="0 10 0 0"
+                        BorderBrush="{StaticResource TextBoxBackgroundBrush}">
+                    <StackPanel Orientation="Vertical">
+
+                        <!--Account section-->
+                        <TextBlock Text="Gateway"
+                                   Style="{StaticResource GroupText}"
+                                   Margin="0 20 0 0"/>
+
+                        <!-- Token -->
+                        <TextBlock Text="Token"
+                                   Style="{StaticResource TextblockHeader}"/>
+
+                        <ucontrols:SelectableTextBlock Text="{Binding User.Token}"
+                                                           Margin="0 0 0 10"
+                                                           Style="{StaticResource TextblockItemStyle}"/>
+
+                        <!-- Host name -->
+                        <TextBlock Text="Host name"
+                                   Style="{StaticResource TextblockHeader}"/>
+
+                        <ucontrols:SelectableTextBlock Text="{Binding User.HostName}"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0 0 0 10"
+                                                           Style="{StaticResource TextblockItemStyle}"/>
+
+                        <!-- Port -->
+                        <TextBlock Text="Port"
+                                   Style="{StaticResource TextblockHeader}"/>
+
+                        <ucontrols:SelectableTextBlock Text="{Binding User.Port}"
+                                                           TextWrapping="Wrap"
+                                                           Margin="0 0 0 10"
+                                                           Style="{StaticResource TextblockItemStyle}"/>
+
+                    </StackPanel>
+                </Border>
 
                 <!-- The list of files types that were sent -->
-                <Border BorderThickness="0 1 0 0"
+                <Border Grid.Row="3"
+                        BorderThickness="0 1 0 0"
                         BorderBrush="{StaticResource TextBoxBackgroundBrush}"
-                        Padding="20 10 10 10"
-                        Grid.Row="2">
+                        Padding="20 10 10 10">
                     <StackPanel>
                         
                         <!-- Image files -->

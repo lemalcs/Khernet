@@ -24,7 +24,7 @@ namespace Khernet.UI.Converters
         Updates = 17,
         UpdatesProgress = 18,
         AddContact = 19,
-        Connection= 20,
+        Connection = 20,
     }
 
     /// <summary>

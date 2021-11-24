@@ -413,7 +413,8 @@ namespace Khernet.UI.Controls
             if (hitTest != null)
             {
                 //If current message is not visible in chat list then try to select it again
-                if (((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext).Id !=
+                if (IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel != null &&
+                    ((ChatMessageItemViewModel)((FrameworkElement)hitTest.VisualHit).DataContext).Id !=
                     IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel.Id)
                 {
                     ChatMessageItemViewModel currentModel = IoCContainer.Get<ChatMessageListViewModel>().UserContext.CurrentChatModel;

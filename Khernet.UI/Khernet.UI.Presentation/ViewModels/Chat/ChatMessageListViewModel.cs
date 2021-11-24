@@ -286,6 +286,11 @@ namespace Khernet.UI
         /// </summary>
         public ICommand GoToBottomCommand { get; private set; }
 
+        /// <summary>
+        /// Share a contact with any peer know by user.
+        /// </summary>
+        public ICommand ShareContactCommand { get; private set; }
+
         #endregion
 
         public ChatMessageListViewModel()
@@ -297,10 +302,79 @@ namespace Khernet.UI
             CloseReplyMessage = new RelayCommand(CloseReply);
             OpenGIFGalleryCommand = new RelayCommand(OpenGIFGallery);
             GoToBottomCommand = new RelayCommand(GoToBottom);
+            ShareContactCommand = new RelayCommand(ShareContact);
 
             MessageFormat = MessageType.Html;
 
             applicationDialog = new PresentationApplicationDialog();
+        }
+
+        private async void ShareContact()
+        {
+            var pagedVM = IoCContainer.Get<PagedDialogViewModel>();
+
+            //Set list of settings as first page
+            pagedVM.CurrentPage = ApplicationPage.Resend;
+
+            //Title for page
+            pagedVM.Category = "Select a user: ";
+
+            ResendViewModel resend = new ResendViewModel
+            {
+                Items = IoCContainer.Get<UserListViewModel>().Clone(),
+                SelectedUser = null,
+            };
+
+            //Set the view model for settings list
+            pagedVM.CurrentViewModel = resend;
+
+            pagedVM.SetHomePage(pagedVM.CurrentPage, pagedVM.Category, pagedVM.CurrentViewModel);
+
+            // Save contact to be shared before switching to the receiver chat list
+            UserItemViewModel userToShare = UserContext.User;
+
+            await IoCContainer.UI.ShowDialog(pagedVM);
+
+            if (resend.SelectedUser != null)
+            {
+                ContactChatMessageViewModel contactChat = new ContactChatMessageViewModel(this);
+                try
+                {
+                    contactChat.SendDate = DateTimeOffset.Now;
+                    contactChat.DisplayUser = UserContext.User;
+                    contactChat.IsSentByMe = true;
+                    contactChat.IsRead = true;
+                    contactChat.Exists = true;
+                    contactChat.SenderUserId = IoCContainer.Get<IIdentity>();
+                    contactChat.ReceiverUserId = UserContext.User;
+                    contactChat.Contact = userToShare.Clone();
+
+                    IsTextBoxFocused = !IsTextBoxFocused;
+                    OnPropertyChanged(nameof(IsTextBoxFocused));
+
+                    AddCurrentChatModel(Items[Items.Count - 1]);
+                    ScrollToCurrentContent();
+                }
+                catch (Exception error)
+                {
+                    LogDumper.WriteLog(error);
+                    await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                    {
+                        Message = "Error while sharing contact",
+                        Title = "Khernet",
+                        ShowAcceptOption = true,
+                        AcceptOptionLabel = "OK",
+                        ShowCancelOption = false,
+                    });
+                }
+
+
+                UserContext.ReplyMessage = contactChat.GetMessageSummary(MessageDirection.Resend);
+                UserContext.ResendMessage = GetChatMessageCopy(contactChat);
+                OnPropertyChanged(nameof(CanSendMessage));
+            }
+            else
+                FocusTextBox();
         }
 
         #region Methods
@@ -849,6 +923,10 @@ namespace Khernet.UI
 
                 case MessageType.Audio:
                     chatMessage = new AudioChatMessageViewModel(this, applicationDialog);
+                    break;
+
+                case MessageType.Contact:
+                    chatMessage = new ContactChatMessageViewModel(this);
                     break;
 
                 default:

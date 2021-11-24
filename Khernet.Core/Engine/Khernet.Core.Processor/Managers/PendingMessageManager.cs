@@ -182,7 +182,8 @@ namespace Khernet.Core.Processor.Managers
 
                 if (message.Type == ContentType.Text ||
                     message.Type == ContentType.Html ||
-                    message.Type == ContentType.Markdown)
+                    message.Type == ContentType.Markdown ||
+                    message.Type == ContentType.Contact)
                 {
                     Communicator communicator = new Communicator();
                     communicator.SendPendingMessage((InternalConversationMessage)message);

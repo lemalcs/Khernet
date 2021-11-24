@@ -32,14 +32,71 @@ namespace Khernet.Core.Processor
             if (string.IsNullOrEmpty(uid) || string.IsNullOrWhiteSpace(uid))
                 uid = Guid.NewGuid().ToString().Replace("-", "");
 
-            int idMessage = commData.SaveTextMessage(
-                senderToken,
-                receiverToken,
-                DateTime.Now, message,
-                (int)format,
-                uid,
-                timeId,
-                idReplyMessage != 0 ? (int?)idReplyMessage : null);
+            int idMessage = 0;
+
+            if (format == ContentType.Contact)
+            {
+                PeerService peerService = new PeerService();
+                string token = Encoding.UTF8.GetString(message);
+                peerService.Token = token;
+                Peer peer = GetPeerProfile(token);
+
+                peerService.Username = peer.UserName;
+                peerService.Certificate = new PeerManager().GetEncodedCertificate(token);
+                peerService.ServiceList = new List<ServiceInfo>();
+
+                string serviceAddress = GetPeerAdress(token, Constants.GatewayService);
+                if (!string.IsNullOrEmpty(serviceAddress))
+                {
+                    peerService.ServiceList.Add(new ServiceInfo
+                    {
+                        Address = serviceAddress,
+                        ServiceType = Constants.GatewayService
+                    });
+                }
+
+                serviceAddress = GetPeerAdress(token, Constants.CommunicatorService);
+                if (!string.IsNullOrEmpty(serviceAddress))
+                {
+                    peerService.ServiceList.Add(new ServiceInfo
+                    {
+                        Address = serviceAddress,
+                        ServiceType = Constants.CommunicatorService
+                    });
+                }
+
+                serviceAddress = GetPeerAdress(token, Constants.FileService);
+                if (!string.IsNullOrEmpty(serviceAddress))
+                {
+                    peerService.ServiceList.Add(new ServiceInfo
+                    {
+                        Address = serviceAddress,
+                        ServiceType = Constants.FileService
+                    });
+                }
+
+                byte[] serializedMessage = JSONSerializer<PeerService>.Serialize(peerService);
+                idMessage = commData.SaveTextMessage(
+                    senderToken,
+                    receiverToken,
+                    DateTime.Now,
+                    serializedMessage,
+                    (int)format,
+                    uid,
+                    timeId,
+                    idReplyMessage != 0 ? (int?)idReplyMessage : null);
+            }
+            else
+            {
+                idMessage = commData.SaveTextMessage(
+                    senderToken,
+                    receiverToken,
+                    DateTime.Now, message,
+                    (int)format,
+                    uid,
+                    timeId,
+                    idReplyMessage != 0 ? (int?)idReplyMessage : null);
+            }
 
             try
             {
@@ -196,7 +253,8 @@ namespace Khernet.Core.Processor
 
                 if (message.Type == ContentType.Text ||
                     message.Type == ContentType.Html ||
-                    message.Type == ContentType.Markdown)
+                    message.Type == ContentType.Markdown ||
+                    message.Type == ContentType.Contact)
                 {
                     PublisherClient publisherClient = new PublisherClient(Configuration.GetValue(Constants.PublisherService));
 
@@ -414,10 +472,7 @@ namespace Khernet.Core.Processor
 
                 return account;
             }
-            else
-            {
-                throw new Exception("User not found"); ;
-            }
+            return null;
         }
 
         public byte[] GetPeerAvatar(string token)
