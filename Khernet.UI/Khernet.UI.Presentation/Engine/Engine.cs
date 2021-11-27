@@ -79,6 +79,8 @@ namespace Khernet.UI
 
                     //Create a cache for chat messages
                     IoCContainer.Configure<IChatList, ChatCache>(new ChatCache());
+                    IoCContainer.Configure<IEmojiPalette, EmojiPaletteViewModel>(new EmojiPaletteViewModel());
+                    IoCContainer.Get<IEmojiPalette>().LoadRecentUsedEmojis();
 
                     //Create view model for sending messages
                     IoCContainer.Configure<ChatMessageListViewModel>();

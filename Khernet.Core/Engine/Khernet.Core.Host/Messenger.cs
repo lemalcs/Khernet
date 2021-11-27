@@ -351,5 +351,17 @@ namespace Khernet.Core.Host
             Gateway gateway = new Gateway();
             return gateway.GetPeerGatewayAddress(token);
         }
+
+        public void SaveRecentUsedEmojiList(string[]emojiCodes)
+        {
+            Communicator communicator = new Communicator();
+            communicator.SaveRecentUsedEmojiList(emojiCodes);
+        }
+
+        public string[] LoadRecentUsedEmojis()
+        {
+            Communicator communicator = new Communicator();
+            return communicator.LoadRecentUsedEmojis();
+        }
     }
 }

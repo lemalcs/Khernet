@@ -766,5 +766,44 @@ namespace Khernet.Core.Processor
 
             return message;
         }
+
+        /// <summary>
+        /// Saves the list of recent used emojis to the configuration file.
+        /// </summary>
+        /// <param name="emojiCodes">The emojis codes in hexadecimal format.</param>
+        public void SaveRecentUsedEmojiList(string[] emojiCodes)
+        {
+            if (emojiCodes == null || emojiCodes.Length == 0)
+                return;
+
+            string emojiCodesList = null;
+            foreach (string emojiCode in emojiCodes)
+            {
+                if (emojiCodesList == null)
+                    emojiCodesList = emojiCode;
+                else
+                    emojiCodesList = emojiCodesList + "|" + emojiCode;
+            }
+
+            if (emojiCodesList.EndsWith("|"))
+                emojiCodesList = emojiCodesList.Remove(emojiCodesList.Length - 1, 1);
+
+            Configuration.SetValue("RecentUsedEmojis",emojiCodesList);
+        }
+
+        /// <summary>
+        /// Loads the list of recent used emojis.
+        /// </summary>
+        /// <returns>The list of emoji codes in hexadecimal format.</returns>
+        public string[] LoadRecentUsedEmojis()
+        {
+            string recentUsedEmojis= Configuration.GetValue("RecentUsedEmojis");
+            if (recentUsedEmojis == null)
+                return null;
+
+            string[] emojiList=recentUsedEmojis.Split('|');
+            return emojiList;
+        }
+
     }
 }

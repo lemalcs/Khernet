@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Khernet.UI.Cache;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -189,27 +190,38 @@ namespace Khernet.UI.Converters
                 }
                 else if (t.Name == "img")
                 {
-                    InlineUIContainer inlineUI = new InlineUIContainer();
+                    try
+                    {
+                        InlineUIContainer inlineUI = new InlineUIContainer();
 
-                    //Create image from emoji code
-                    Image emojiImage = new Image();
-                    BitmapImage bm = new BitmapImage();
-                    bm.BeginInit();
-                    bm.UriSource = new Uri($"pack://application:,,,/Khernet.UI.Container;component/{t.Attributes[1].Value}.png");
-                    bm.EndInit();
+                        //Create image from emoji code
+                        Image emojiImage = new Image();
+                        BitmapImage bm = new BitmapImage();
+                        bm.BeginInit();
+                        bm.UriSource = new Uri($"pack://application:,,,/Khernet.UI.Container;component/{t.Attributes[1].Value}.png");
+                        bm.EndInit();
 
-                    emojiImage.Source = bm;
+                        emojiImage.Source = bm;
 
-                    emojiImage.Height = 24;
-                    emojiImage.Margin = new Thickness(0, 0, 0, 0);
-                    emojiImage.VerticalAlignment = VerticalAlignment.Center;
+                        emojiImage.Height = 24;
+                        emojiImage.Margin = new Thickness(0, 0, 0, 0);
+                        emojiImage.VerticalAlignment = VerticalAlignment.Center;
 
-                    inlineUI.Child = emojiImage;
-                    inlineUI.BaselineAlignment = BaselineAlignment.Center;
+                        inlineUI.Child = emojiImage;
+                        inlineUI.BaselineAlignment = BaselineAlignment.Center;
 
-                    inlineUI.Tag = t.Attributes[1].Value;
+                        inlineUI.Tag = t.Attributes[1].Value;
 
-                    AddInlineTo(inlineUI, parent);
+                        AddInlineTo(inlineUI, parent);
+                    }
+                    catch (Exception error)
+                    {
+                        // If emoji image could not be loaded then add that as text
+                        Debug.Write(error.Message);
+                        EmojiConverter converter = new EmojiConverter();
+                        string emoji = converter.ConvertToString(t.Attributes[1].Value);
+                        AddInlineTo(new Run(emoji), parent);
+                    }
                 }
                 else if (t.Name == "br")
                 {

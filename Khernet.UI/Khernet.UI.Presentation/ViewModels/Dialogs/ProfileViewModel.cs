@@ -36,6 +36,11 @@ namespace Khernet.UI
         /// </summary>
         private bool isEmojiGalleryOpen;
 
+        /// <summary>
+        /// The model of emojis palette.
+        /// </summary>
+        private EmojiPaletteViewModel emojiPalette;
+
         public string FileName
         {
             get => fileName;
@@ -58,6 +63,19 @@ namespace Khernet.UI
                 {
                     user = value;
                     OnPropertyChanged(nameof(User));
+                }
+            }
+        }
+
+        public EmojiPaletteViewModel EmojiPalette
+        {
+            get => emojiPalette;
+            set
+            {
+                if (emojiPalette != value)
+                {
+                    emojiPalette = value;
+                    OnPropertyChanged(nameof(EmojiPalette));
                 }
             }
         }
@@ -203,6 +221,7 @@ namespace Khernet.UI
 
         private void OpenEmojiGallery()
         {
+            EmojiPalette = (EmojiPaletteViewModel)IoCContainer.Get<IEmojiPalette>();
             IsEmojiGalleryOpen = true;
         }
 
@@ -220,6 +239,7 @@ namespace Khernet.UI
                 editor.SourceDataField = User.SourceDisplayName;
                 editor.SetDataField(this.User.DisplayName.ToArray());
 
+                EmojiPalette = (EmojiPaletteViewModel)IoCContainer.Get<IEmojiPalette>();
                 pagedDialog.ShowChildDialog(editor);
             }
             catch (Exception error)

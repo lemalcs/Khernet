@@ -29,6 +29,11 @@ namespace Khernet.UI
         private string sourceDataField;
 
         /// <summary>
+        /// The model of emojis palette.
+        /// </summary>
+        private EmojiPaletteViewModel emojiPalette;
+
+        /// <summary>
         /// The content of field.
         /// </summary>
         public ReadOnlyCollection<byte> DataField
@@ -76,6 +81,19 @@ namespace Khernet.UI
             }
         }
 
+        public EmojiPaletteViewModel EmojiPalette
+        {
+            get => emojiPalette;
+            set
+            {
+                if (emojiPalette != value)
+                {
+                    emojiPalette = value;
+                    OnPropertyChanged(nameof(EmojiPalette));
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -101,6 +119,7 @@ namespace Khernet.UI
 
         private void OpenMediaGallery()
         {
+            EmojiPalette = (EmojiPaletteViewModel)IoCContainer.Get<IEmojiPalette>();
             IsMediaGalleryOpen = true;
         }
 

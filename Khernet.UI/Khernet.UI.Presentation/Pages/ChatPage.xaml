@@ -489,7 +489,10 @@
                                        Placement="Top"
                                        AllowsTransparency="True"
                                        IsOpen="{Binding IsMediaGalleryOpen}">
-                                    <ucontrols:EmojiPaletteControl x:Name="emojiPalette"/>
+                                    
+                                    <ucontrols:EmojiPaletteControl DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}" 
+                                                                   x:Name="emojiPalette"/>
+
                                 </Popup>
                             </Grid>
 

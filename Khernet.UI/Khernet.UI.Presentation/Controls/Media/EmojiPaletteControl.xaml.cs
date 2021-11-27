@@ -23,10 +23,11 @@ namespace Khernet.UI.Controls
             if (e.AddedItems.Count > 0)
             {
                 Emoji item = e.AddedItems[0] as Emoji;
+                (DataContext as EmojiPaletteViewModel).AddRecentUsedEmoji(item.Code);
                 OnSelectedEmoji(item.Code);
 
                 //Clear selected index so a new emoji can be selected
-                listEmojis.SelectedIndex = -1;
+                emojiControl.SelectedIndex = -1;
             }
         }
 

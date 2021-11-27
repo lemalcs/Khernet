@@ -4,62 +4,127 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Khernet.UI.Controls"
+             xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              mc:Ignorable="d" 
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
-             d:DesignHeight="450" d:DesignWidth="300">
-    
+             d:DesignHeight="450" 
+             d:DesignWidth="320"
+             xmlns:dat="clr-namespace:System.Windows.Data;assembly=PresentationFramework">
+    <UserControl.Resources>
+        <CollectionViewSource Source="{Binding EmojiList}" x:Key="cvs">
+            <CollectionViewSource.GroupDescriptions>
+                <dat:PropertyGroupDescription PropertyName="Category"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        
+        <!-- Templates for emojis -->
+        <DataTemplate x:Key="mydataTemplate">
+            <Border Name="brd"
+                    Background="Transparent"
+                    Padding="10"
+                    HorizontalAlignment="Center"
+                    ToolTip="{Binding Description}"
+                    ToolTipService.InitialShowDelay="5000"
+                    ToolTipService.BetweenShowDelay="5000"
+                    CornerRadius="5"
+                    Margin="-2">
+
+                <!--Emoji picture-->
+                <Image Stretch="Uniform"
+                       Height="32"
+                       Width="32">
+                    <Image.Source>
+                        <BitmapImage UriSource="{Binding Path=Code,Converter={conv:NameToImageConverter}}"/>
+                    </Image.Source>
+                </Image>
+            </Border>
+            <DataTemplate.Triggers>
+                <Trigger Property="ListViewItem.IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="brd" Value="{StaticResource VeryLightBlueBrush}"/>
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Border Background="{StaticResource LightBrush}"
-            Padding="5 5 0 5"
+            Padding="15 10 15 10"
             BorderThickness="1"
-            BorderBrush="{StaticResource BlueBrush}">
+            Margin="10"
+            CornerRadius="5">
 
-        <ListBox ItemsSource="{Binding Source={StaticResource emojiLightList}}"
-                 Name="listEmojis"
-                 SelectionChanged="ListBox_SelectionChanged"
-                 Height="350"
-                 VirtualizingStackPanel.VirtualizationMode="Recycling">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" 
+                              Color="{StaticResource OpaqueBlackColor}"
+                              ShadowDepth="0"
+                              Opacity="0.2"/>
+        </Border.Effect>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Name="brd" 
-                            Padding="6"
-                            HorizontalAlignment="Center"
-                            ToolTip="{Binding Description}">
+        <!-- Emojis list -->
+        <ListView ItemTemplate="{StaticResource mydataTemplate}"
+                  ItemsSource="{Binding Source={StaticResource cvs}}"
+                  Style="{x:Null}"
+                  Name="emojiControl"
+                  BorderThickness="0"
+                  HorizontalAlignment="Stretch"
+                  Height="350"
+                  Width="320"
+                  Padding="0"
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                  SelectionChanged="ListBox_SelectionChanged">
+            
+            <!-- Container for items -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        Background="{TemplateBinding Background}"
+                                        SnapsToDevicePixels="true"
+                                        Margin="0"
+                                        Padding="0">
+                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
 
-                        <!--Emoji picture-->
-                        <Image Stretch="Uniform"
-                               Height="24"
-                               Width="24">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding Path=Code,Converter={conv:NameToImageConverter}}"/>
-                            </Image.Source>
-                        </Image>
-                    </Border>
-                    <DataTemplate.Triggers>
-                        <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                            <Setter Property="Background" TargetName="brd" Value="Red"/>
-                        </Trigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <Border Name="ControlTemplateBrd">
-                        <ScrollViewer CanContentScroll="True">
-                            <ItemsPresenter/>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ItemsControl.Template>
-
-            <ItemsControl.ItemsPanel>
+            <!-- Container for list -->
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <local:VirtualizingWrapPanel Width="280"/>
+                    <wpftk:VirtualizingWrapPanel Orientation="Vertical"
+                                                 Margin="0 0 10 0"/>
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            </ListView.ItemsPanel>
 
-        </ListBox>
+            <!-- Container for group headers -->
+            <ListView.GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"
+                                       FontSize="{StaticResource RegularFontSize}"
+                                       Style="{StaticResource TextblockHeader}"
+                                       Margin="0 30 0 10"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical"
+                                                    Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
 
     </Border>
 </UserControl>

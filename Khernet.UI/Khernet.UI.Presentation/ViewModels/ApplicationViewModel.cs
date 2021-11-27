@@ -343,7 +343,7 @@ namespace Khernet.UI
         #region Commands
 
         public ICommand ViewSettingsCommand { get; private set; }
-        
+
         public ICommand UpdateCommand { get; private set; }
 
         public ICommand AddContactCommand { get; private set; }
@@ -436,6 +436,8 @@ namespace Khernet.UI
                     IsOverlayVisible = false;
                     UserViewModel = null;
 
+                    IoCContainer.Get<IEmojiPalette>().SaveRecentUsedEmojis();
+
                     Engine.Stop();
                 }
                 catch (Exception error)
@@ -460,6 +462,7 @@ namespace Khernet.UI
 
             IoCContainer.UnBind<IChatList>();
             IoCContainer.UnBind<IIdentity>();
+            IoCContainer.UnBind<IEmojiPalette>();
 
             IoCContainer.UnBind<IFileObservable>();
             IoCContainer.UnBind<ITextObservable>();

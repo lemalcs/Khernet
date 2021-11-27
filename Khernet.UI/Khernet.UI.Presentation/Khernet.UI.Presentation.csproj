@@ -210,6 +210,9 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UIAutomationProvider" />
+    <Reference Include="VirtualizingWrapPanel, Version=1.5.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VirtualizingWrapPanel.1.5.6\lib\net45\VirtualizingWrapPanel.dll</HintPath>
+    </Reference>
     <Reference Include="Vlc.DotNet.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
       <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
@@ -349,7 +352,6 @@
     <Compile Include="Controls\User\UserListControl.xaml.cs">
       <DependentUpon>UserListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\VirtualizingWrapPanel.cs" />
     <Compile Include="Converters\BoolToVisibilityGoneConverter.cs" />
     <Compile Include="Converters\ChatStateConverters.cs" />
     <Compile Include="Converters\ByteToDocumentConverter.cs" />
@@ -405,6 +407,7 @@
     <Compile Include="IoC\IApplicationContext.cs" />
     <Compile Include="IoC\IApplicationDialog.cs" />
     <Compile Include="IoC\IApplicationManager.cs" />
+    <Compile Include="IoC\IEmojiPalette.cs" />
     <Compile Include="IoC\IIdentity.cs" />
     <Compile Include="IoC\IChatList.cs" />
     <Compile Include="IoC\IMessageManager.cs" />
@@ -521,6 +524,7 @@
     <Compile Include="ViewModels\Dialogs\FieldEditorViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DialogResultViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\CacheViewModel.cs" />
+    <Compile Include="ViewModels\EmojiPaletteViewModel.cs" />
     <Compile Include="ViewModels\Media\GIFItemViewModel.cs" />
     <Compile Include="ViewModels\Media\MediaGalleryViewModel.cs" />
     <Compile Include="ViewModels\Design\FileChatMessageDesignModel.cs" />

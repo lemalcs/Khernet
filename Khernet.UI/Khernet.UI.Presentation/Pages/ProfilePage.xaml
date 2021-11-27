@@ -9,6 +9,7 @@
                 xmlns:local="clr-namespace:Khernet.UI.Pages"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                 mc:Ignorable="d" 
                 d:DesignHeight="600" d:DesignWidth="350"
@@ -16,10 +17,7 @@
                 Title="ProfilePage"
                 x:Name="Profile"
                 d:DataContext="{d:DesignInstance vm:ProfileViewDesignModel,IsDesignTimeCreatable=True}"
-    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
-    <local:BasePage.Resources>
-        
-    </local:BasePage.Resources>
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
 
     <Border>
         <Grid>
@@ -47,9 +45,8 @@
                     </Grid.RowDefinitions>
 
                     <!--Profile picture-->
-                    <Border BorderThickness="0 0 0 1"
-                        Grid.Row="0"
-                        >
+                    <Border Grid.Row="0"
+                            BorderThickness="0 0 0 1">
                         <Border HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>

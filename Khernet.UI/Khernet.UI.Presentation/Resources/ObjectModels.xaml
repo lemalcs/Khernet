@@ -20,9 +20,6 @@
     <!-- Application title image -->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/HeaderLogo.png" x:Key="HeaderLogo"/>
 
-    <!--Emoji list view model-->
-    <local:EmojiListCollection x:Key="emojiLightList"/>
-
     <Style x:Key="{x:Type ContextMenu}" TargetType="ContextMenu" BasedOn="{StaticResource MetroContextMenu}">
         <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
@@ -95,5 +92,6 @@
                                        Converter={conv:BoolToVisibilityGoneConverter}}"/>
     </ContextMenu>
 
-    <ucontrols:EmojiPaletteControl x:Key="emojiPalette" />
+    <ucontrols:EmojiPaletteControl x:Key="emojiPalette" 
+                                   DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}"/>
 </ResourceDictionary>

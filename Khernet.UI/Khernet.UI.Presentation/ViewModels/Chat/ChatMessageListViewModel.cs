@@ -104,6 +104,11 @@ namespace Khernet.UI
         /// </summary>
         private PresentationApplicationDialog applicationDialog;
 
+        /// <summary>
+        /// The model of emojis palette.
+        /// </summary>
+        private EmojiPaletteViewModel emojiPalette;
+
         public MessageType MessageFormat
         {
             get => messageFormat;
@@ -243,6 +248,18 @@ namespace Khernet.UI
                 {
                     userContext = value;
                     OnPropertyChanged(nameof(UserContext));
+                }
+            }
+        }
+        public EmojiPaletteViewModel EmojiPalette
+        {
+            get => emojiPalette;
+            set
+            {
+                if (emojiPalette != value)
+                {
+                    emojiPalette = value;
+                    OnPropertyChanged(nameof(EmojiPalette));
                 }
             }
         }
@@ -430,6 +447,7 @@ namespace Khernet.UI
 
         private void OpenEmojiGallery()
         {
+            EmojiPalette = (EmojiPaletteViewModel)IoCContainer.Get<IEmojiPalette>();
             IsMediaGalleryOpen = true;
         }
 
