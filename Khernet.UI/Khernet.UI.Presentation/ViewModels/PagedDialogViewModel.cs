@@ -48,6 +48,8 @@ namespace Khernet.UI
         /// </summary>
         private BaseModel currentViewModel;
 
+        private double height;
+
         public ApplicationPage CurrentPage
         {
             get
@@ -135,13 +137,24 @@ namespace Khernet.UI
                 }
             }
         }
+        public double Height 
+        { 
+            get => height;
+            set 
+            { 
+                if(height != value)
+                {
+                    height = value;
+                    OnPropertyChanged(nameof(Height));
+                }
+            }
+        }
 
         #endregion
 
         public ICommand GoToPageCommand { get; private set; }
 
         public ICommand CloseChildDialogCommand { get; private set; }
-
 
         public PagedDialogViewModel()
         {

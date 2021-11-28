@@ -406,6 +406,7 @@ namespace Khernet.UI
 
             // Title for page
             pagedVM.Category = "Add Contact";
+            pagedVM.Height = 300;
 
             // Set the view model for add contact dialog
             pagedVM.CurrentViewModel = new AddContactViewModel(pagedVM);

@@ -6,7 +6,6 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
-                xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
                 xmlns:ucontrols="clr-namespace:Khernet.UI.Controls"
                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"                
                 x:Class="Khernet.UI.Pages.VideoListPage"
@@ -61,7 +60,6 @@
                                                             FallbackValue={StaticResource DefaultImage}}"
                                            Name="img"
                                            MaxHeight="100"
-                                           depend:ClipFromBorderProperty.Value="True"
                                            Stretch="Uniform"
                                            StretchDirection="DownOnly"
                                            HorizontalAlignment="Center"/>

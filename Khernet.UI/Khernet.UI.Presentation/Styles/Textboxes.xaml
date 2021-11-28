@@ -23,6 +23,7 @@
     </Style>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    
     <Style x:Key="{x:Type TextBox}" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
@@ -32,7 +33,7 @@
         <Setter Property="Padding" Value="5 0 0 0"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
-        <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
+        <Setter Property="ContextMenu" Value="{StaticResource textboxContextMenu}"/>
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource LightBlueBrush}" />
         <Setter Property="Controls:TextBoxHelper.ButtonFontSize" Value="{DynamicResource Controls.ClearTextButtonFontSize}" />
@@ -314,7 +315,7 @@
         <Setter Property="Padding" Value="5 0 0 0"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
-        <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
+        <Setter Property="ContextMenu" Value="{DynamicResource textboxContextMenu}" />
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource LightBlueBrush}" />
         <Setter Property="Controls:PasswordBoxHelper.CapsLockIcon" Value="{StaticResource DefaultCapsLockIcon}" />
@@ -607,7 +608,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Controls:ControlsHelper.CornerRadius" Value="2.5"/>
         <Setter Property="CaretBrush" Value="{DynamicResource CaretBrushColor}" />
-        <Setter Property="ContextMenu" Value="{DynamicResource TextBoxMetroContextMenu}" />
         <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}" />
         <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource LightBlueBrush}" />
         <Setter Property="Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled" Value="{Binding RelativeSource={RelativeSource Self}, Path=(SpellCheck.IsEnabled)}" />
@@ -775,7 +775,7 @@
         <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="IsReadOnlyCaretVisible" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="ContextMenu" Value="{StaticResource TextBoxMetroContextMenu}"/>
+        <Setter Property="ContextMenu" Value="{StaticResource textblockContextMenu}"/>
     </Style>
 
 </ResourceDictionary>

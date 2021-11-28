@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Khernet.UI.Controls"
              xmlns:vm="clr-namespace:Khernet.UI"
-             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -33,13 +32,12 @@
 
             <!--Thumbnail video-->
             <Image Source="{Binding Thumbnail,Converter={conv:BytesToImageConverter},TargetNullValue={StaticResource DefaultImage},
-                                    FallbackValue={StaticResource DefaultImage}}"
-                   Name="img"
-                   MaxHeight="420"
-                   MaxWidth="420"
-                   depend:ClipFromBorderProperty.Value="True"
-                   Stretch="Uniform"
-                   StretchDirection="DownOnly"/>
+                                FallbackValue={StaticResource DefaultImage}}"
+                Name="img"
+                MaxHeight="420"
+                MaxWidth="420"
+                Stretch="Uniform"
+                StretchDirection="DownOnly"/>
 
         <!--Background circle for progress indicators-->
         <Border Width="50"

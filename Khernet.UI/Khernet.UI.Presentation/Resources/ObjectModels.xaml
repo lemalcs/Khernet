@@ -20,12 +20,6 @@
     <!-- Application title image -->
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/HeaderLogo.png" x:Key="HeaderLogo"/>
 
-    <Style x:Key="{x:Type ContextMenu}" TargetType="ContextMenu" BasedOn="{StaticResource MetroContextMenu}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoRegularFont}"/>
-        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
-    </Style>
-
     <!--Context menu for taskbar notify icon-->
     <ContextMenu x:Shared="false" x:Key="SysTrayMenu" >
         <MenuItem Header="Show Window" Command="{Binding ShowWindowCommand}" />
@@ -41,57 +35,87 @@
                     DoubleClickCommand="{Binding ShowWindowCommand}"
                     ContextMenu="{StaticResource SysTrayMenu}"/>
 
-    <ContextMenu x:Key="textboxContextMenu" >
-        <MenuItem Command="ApplicationCommands.Cut"/>
-        <MenuItem Command="ApplicationCommands.Copy"/>
-        <MenuItem Command="ApplicationCommands.Paste"/>
+    <ContextMenu x:Key="textboxContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Command="ApplicationCommands.Cut" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Command="ApplicationCommands.Copy"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Command="ApplicationCommands.Paste"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+    </ContextMenu>
+
+    <ContextMenu x:Key="textblockContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Command="ApplicationCommands.Copy"
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <!--Context menu for text messages-->
-    <ContextMenu x:Key="messageContextMenu" >
-        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
-        <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Command="ApplicationCommands.Cut"/>
-        <MenuItem Command="ApplicationCommands.Copy"/>
-        <MenuItem Command="ApplicationCommands.Paste"/>
+    <ContextMenu x:Key="messageContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Resend" Command="{Binding ResendCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Command="ApplicationCommands.Copy"
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <!--Context menu for markdown messages-->
-    <ContextMenu x:Key="markdownContextMenu" >
-        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
-        <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Command="ApplicationCommands.Cut"/>
-        <MenuItem Command="ApplicationCommands.Copy"/>
-        <MenuItem Command="ApplicationCommands.Paste"/>
-        <MenuItem Header="Save as Markdown" Command="{Binding SaveMarkdownSourceCommand}" />
-        <MenuItem Header="Save as HTML" Command="{Binding SaveHtmlSourceCommand}" />
+    <ContextMenu x:Key="markdownContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Resend" Command="{Binding ResendCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Command="ApplicationCommands.Copy"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Save as Markdown" Command="{Binding SaveMarkdownSourceCommand}" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Save as HTML" Command="{Binding SaveHtmlSourceCommand}" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <!--Context menu for file messages-->
-    <ContextMenu x:Key="fileMessageContextMenu">
-        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
-        <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Header="Save as..." Command="{Binding SaveCommand}"/>
+    <ContextMenu x:Key="fileMessageContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Resend" Command="{Binding ResendCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Save as..." Command="{Binding SaveCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
         <MenuItem Header="Show in folder" 
                   Command="{Binding ShowInFolderCommand}" 
                   Visibility="{Binding IsEnabled,
                                        RelativeSource={RelativeSource Self},
-                                       Converter={conv:BoolToVisibilityGoneConverter}}"/>
+                                       Converter={conv:BoolToVisibilityGoneConverter}}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <!--Context menu for animation messages-->
-    <ContextMenu x:Key="animationMessageContextMenu" >
-        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"/>
-        <MenuItem Header="Resend" Command="{Binding ResendCommand}"/>
-        <MenuItem Header="Add GIF to gallery" Command="{Binding SaveAnimationCommand}"/>
-        <MenuItem Header="Save as.." Command="{Binding SaveCommand}"/>
+    <ContextMenu x:Key="animationMessageContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Resend" Command="{Binding ResendCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Add GIF to gallery" Command="{Binding SaveAnimationCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Save as.." Command="{Binding SaveCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
         <MenuItem Header="Show in folder" 
                   Command="{Binding ShowInFolderCommand}" 
                   Visibility="{Binding IsEnabled,
                                        RelativeSource={RelativeSource Self},
-                                       Converter={conv:BoolToVisibilityGoneConverter}}"/>
+                                       Converter={conv:BoolToVisibilityGoneConverter}}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+    </ContextMenu>
+
+    <!--Context menu for contact messages-->
+    <ContextMenu x:Key="contactMessageContextMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Reply" Command="{Binding ReplyCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Resend" Command="{Binding ResendCommand}"
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <ucontrols:EmojiPaletteControl x:Key="emojiPalette" 
                                    DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}"/>
+                                   
 </ResourceDictionary>

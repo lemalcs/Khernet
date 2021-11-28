@@ -27,38 +27,36 @@
                         BorderBrush="{StaticResource BorderColorBrush}" 
                         BorderThickness="0"
                         Padding="7 0 7 0">
-                        
+
                         <Grid Height="38">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <Button ToolTip="Settings" 
                                     Grid.Column="0"
                                     Command="{Binding ApplicationViewModel.ViewSettingsCommand,Source={x:Static app:ViewModelLocator.Instance}}"
-                                    Style="{DynamicResource GlowButtonStyle}"
-                                    Foreground="{StaticResource OverTextboxBorderBrush}">
-                                <iconPacks:PackIconMaterial Width="15" Kind="Settings" />
+                                    Style="{DynamicResource IconButton}"
+                                    Height="40"
+                                    Width="40"
+                                    Foreground="{StaticResource OverTextboxBorderBrush}"
+                                    Name="settings_Button">
+                                <iconPacks:PackIconMaterial Width="15" 
+                                                            Kind="Settings"/>
                             </Button>
 
                             <Button ToolTip="Add contact" 
                                     Grid.Column="1"
                                     Command="{Binding ApplicationViewModel.AddContactCommand,Source={x:Static app:ViewModelLocator.Instance}}"
-                                    Style="{DynamicResource GlowButtonStyle}"
-                                    Foreground="{StaticResource OverTextboxBorderBrush}">
+                                    Style="{DynamicResource IconButton}"
+                                    Foreground="{StaticResource OverTextboxBorderBrush}"
+                                    Height="40"
+                                    Width="40"
+                                    Name="addContact_Button">
                                 <iconPacks:PackIconMaterial Width="15" Kind="Plus" />
                             </Button>
 
-                            <!-- Update button -->
-                            <Button 
-                                Grid.Column="2" 
-                                Style="{DynamicResource GlowButtonStyle}"
-                                Visibility="Hidden">
-                                <iconPacks:PackIconMaterial Kind="Refresh" Width="15" Height="15"/>
-                            </Button>
                         </Grid>
                     </Border>
 
@@ -66,6 +64,14 @@
                     <ContentPresenter Grid.Row="1"/>
                 </Grid>
             </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" SourceName="settings_Button" Value="True">
+                    <Setter Property="Foreground" TargetName="settings_Button" Value="{StaticResource BlueBrush}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" SourceName="addContact_Button" Value="True">
+                    <Setter Property="Foreground" TargetName="addContact_Button" Value="{StaticResource BlueBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Template>
     
