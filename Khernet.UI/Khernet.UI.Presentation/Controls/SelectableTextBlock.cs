@@ -22,6 +22,7 @@ namespace Khernet.UI.Controls
         {
             //Create a context menu
             ContextMenu = new ContextMenu();
+            ContextMenu.Style= App.Current.Resources["contextMenuStyle"] as Style;
             MenuItem i1 = new MenuItem();
 
             //Command to copy selected text

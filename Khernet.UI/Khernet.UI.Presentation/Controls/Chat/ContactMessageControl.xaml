@@ -11,7 +11,7 @@
              UseLayoutRounding="True"
              d:DataContext="{d:DesignInstance vm:TextChatMessageDesignModel,IsDesignTimeCreatable=True}"
              Template="{StaticResource messageContainer}"
-             ContextMenu="{StaticResource messageContextMenu}">
+             ContextMenu="{StaticResource contactMessageContextMenu}">
 
     <!--Contact message container -->
     <Border CornerRadius="10"

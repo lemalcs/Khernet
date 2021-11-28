@@ -44,6 +44,10 @@
     <Color x:Key="VeryLightBlueColor">#ebf0f3</Color>
     <SolidColorBrush x:Key="VeryLightBlueBrush" Color="{StaticResource VeryLightBlueColor}"/>
 
+    <SolidColorBrush x:Key="MenuItemSelectionFill" Color="{StaticResource GlowLightBlue}"/>
+    
+    <SolidColorBrush x:Key="MenuItemSelectionStroke" Color="{StaticResource GlowLightBlue}"/>
+
     <Color x:Key="SelectedItemBlueColor">#BFD5E1</Color>
     <SolidColorBrush x:Key="SelectedItemBlueBrush" Color="{StaticResource SelectedItemBlueColor}"/>
 

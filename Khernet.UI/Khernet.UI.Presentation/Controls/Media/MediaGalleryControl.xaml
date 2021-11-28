@@ -8,54 +8,66 @@
              xmlns:vm="clr-namespace:Khernet.UI"
              xmlns:conv="clr-namespace:Khernet.UI.Converters"
              d:DesignHeight="450" d:DesignWidth="800"
-             Height="400"
-             Width="310"
              d:DataContext="{d:DesignInstance vm:MediaGalleryDesignModel,IsDesignTimeCreatable=True}">
-    
-    <Border Background="White"
-            BorderThickness="1"
-            BorderBrush="{StaticResource BlueBrush}">
+
+    <Border Background="{StaticResource VeryLightGrayBrush}"
+            Margin="10"
+            CornerRadius="5"
+            Padding="10 20 10 20">
+        
+        <!-- Shadow of container -->
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" 
+                              Color="{StaticResource OpaqueBlackColor}"
+                              ShadowDepth="0"
+                              Opacity="0.2"/>
+        </Border.Effect>
+
         <Grid>
-        <ListBox ItemsSource="{Binding AnimationList}"
+            <!-- List of GIF files -->
+            <ListBox ItemsSource="{Binding AnimationList}"
                  SelectionChanged="ListBox_SelectionChanged_1"
                  Name="listGIF"
+                 Height="450"
+                 Width="320"
+                     Background="{StaticResource VeryLightGrayBrush}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Cursor="Hand">
-                        
-                        <!-- Trigger to enable loop -->
-                        <Grid.Triggers>
-                            <EventTrigger RoutedEvent="Loaded">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard SlipBehavior="Grow">
-                                            <MediaTimeline Source="{Binding FilePath}"
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Cursor="Hand">
+
+                            <!-- Trigger to enable loop -->
+                            <Grid.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard SlipBehavior="Grow">
+                                                <MediaTimeline Source="{Binding FilePath}"
                                                            Storyboard.TargetName="aMedia"
                                                            BeginTime="0:0:0"
                                                            FillBehavior="HoldEnd"
                                                            RepeatBehavior="Forever"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Grid.Triggers>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Grid.Triggers>
 
-                        <!-- The video player -->
-                        <MediaElement Name="aMedia"
+                            <!-- The video player -->
+                            <MediaElement Name="aMedia"
                                       Width="{Binding ThumbNailWidth}"
                                       Height="{Binding ThumbNailHeight}"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Width="300"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="300"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-        </ListBox>
+            </ListBox>
 
             <!--Load message-->
             <TextBlock Text="Loading..."
@@ -64,6 +76,5 @@
                        VerticalAlignment="Center"
                        Style="{StaticResource TextblockItemStyle}"/>
         </Grid>
-
     </Border>
 </UserControl>
