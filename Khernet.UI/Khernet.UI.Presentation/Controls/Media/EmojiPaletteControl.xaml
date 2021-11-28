@@ -46,7 +46,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Border Background="{StaticResource LightBrush}"
+    <Border Background="{StaticResource VeryLightGrayBrush}"
             Padding="15 10 15 10"
             BorderThickness="1"
             Margin="10"
@@ -62,11 +62,12 @@
         <!-- Emojis list -->
         <ListView ItemTemplate="{StaticResource mydataTemplate}"
                   ItemsSource="{Binding Source={StaticResource cvs}}"
+                  Background="{StaticResource VeryLightGrayBrush}"
                   Style="{x:Null}"
                   Name="emojiControl"
                   BorderThickness="0"
                   HorizontalAlignment="Stretch"
-                  Height="350"
+                  Height="460"
                   Width="320"
                   Padding="0"
                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
