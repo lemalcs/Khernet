@@ -13,13 +13,22 @@ namespace Khernet.Core.Utility
         static LogDumper()
         {
             LoggingConfiguration config = new LoggingConfiguration();
-            FileTarget target = new FileTarget("KhernetLog");
-            target.Layout = Layout.FromString("${longdate} > | ${level:uppercase=true} | ${message}");
+            FileTarget fileTarget = new FileTarget("KhernetLog");
+            fileTarget.Layout = Layout.FromString("${longdate} > | ${level:uppercase=true} | ${message}");
+
 
             var assembly = System.Reflection.Assembly.GetEntryAssembly();
-            target.FileName = Path.Combine(Path.GetDirectoryName(assembly.Location), "Khernet_LOG.txt");
+            fileTarget.FileName = Path.Combine(Path.GetDirectoryName(assembly.Location), "Khernet_LOG.txt");
 
-            config.AddRuleForAllLevels(target);
+            //config.AddRuleForAllLevels(fileTarget);
+            config.AddRuleForOneLevel(LogLevel.Info, fileTarget);
+#if DEBUG
+            config.AddRuleForOneLevel(LogLevel.Error, fileTarget);
+#else
+            TraceTarget traceTarget = new TraceTarget("TraceKhernetLog");
+            traceTarget.Layout = fileTarget.Layout;
+            config.AddRuleForAllLevels(traceTarget);
+#endif
 
             LogManager.Configuration = config;
         }
@@ -27,14 +36,7 @@ namespace Khernet.Core.Utility
 
         public static void WriteLog(Exception exception, string message)
         {
-            string formatted_message = string.Concat(
-                "---------------------------------------------------------------------------------------------",
-                "\r\n",
-                message,
-                "\r\n",
-                "---------------------------------------------------------------------------------------------",
-                "\r\n");
-            WriteInformationLines(formatted_message);
+            WriteInformationLines(message);
 
             if (exception == null)
                 return;
@@ -76,14 +78,18 @@ namespace Khernet.Core.Utility
                 logger.Log(LogLevel.Error, lines[i]);
             }
 
+
             if (exception.StackTrace == null)
                 return;
+
 
             lines = exception.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
                 logger.Log(LogLevel.Error, lines[i]);
             }
+
+
         }
 
         /// <summary>

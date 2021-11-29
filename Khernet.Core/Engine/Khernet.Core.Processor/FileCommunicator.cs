@@ -244,7 +244,11 @@ namespace Khernet.Core.Processor
                 }
                 fileObserver.OnError(error);
 
-                LogDumper.WriteLog(error);
+                string receiverToken = string.Empty;
+                if (fileObserver != null && fileObserver.Data != null)
+                    receiverToken = fileObserver.Data.ReceiverToken;
+
+                LogDumper.WriteLog(error, $"Could not send file message {receiverToken}");
                 throw error;
             }
         }

@@ -68,7 +68,7 @@ namespace Khernet.Core.Host
             catch (Exception exception)
             {
                 //This event is not priority
-                LogDumper.WriteLog(exception, "Writing message could not be sent.");
+                LogDumper.WriteLog(exception);
             }
         }
 
@@ -352,7 +352,7 @@ namespace Khernet.Core.Host
             return gateway.GetPeerGatewayAddress(token);
         }
 
-        public void SaveRecentUsedEmojiList(string[]emojiCodes)
+        public void SaveRecentUsedEmojiList(string[] emojiCodes)
         {
             Communicator communicator = new Communicator();
             communicator.SaveRecentUsedEmojiList(emojiCodes);

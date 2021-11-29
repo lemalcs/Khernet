@@ -101,12 +101,13 @@ namespace Khernet.Core.Processor.Managers
                             {
                                 fileCommunicator.RequestFile(fileObserver);
                             }
-                            catch (Exception)
+                            catch (Exception error)
                             {
                                 List<int> pendingList = communicator.GetRequestPendingMessageForUser(message.SenderToken, 0);
                                 if (pendingList == null || (pendingList != null && !pendingList.Contains(idMessage)))
                                     communicator.RegisterPendingMessage(message.SenderToken, idMessage);
 
+                                LogDumper.WriteLog(error, $"Could not download file sent by {message.SenderToken} due to: {error.Message}");
                                 throw;
                             }
 
@@ -119,7 +120,7 @@ namespace Khernet.Core.Processor.Managers
                         }
                         catch (Exception ex)
                         {
-                            LogDumper.WriteLog(ex);
+                            LogDumper.WriteLog(ex, $"File not downloaded due to: {ex.Message}");
                         }
                         finally
                         {

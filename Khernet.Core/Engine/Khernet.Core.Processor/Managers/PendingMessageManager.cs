@@ -123,7 +123,7 @@ namespace Khernet.Core.Processor.Managers
             }
             catch (EndpointNotFoundException ex)
             {
-                LogDumper.WriteLog(ex, "Peer disconnected");
+                LogDumper.WriteLog(ex, $"Peer {receiverToken} disconnected, {ex.Message}.");
 
                 //If peer is disconnected then continue with next peer
                 return;
@@ -156,7 +156,7 @@ namespace Khernet.Core.Processor.Managers
                 }
                 catch (EndpointNotFoundException error1)
                 {
-                    LogDumper.WriteLog(error1, "Peer disconnected");
+                    LogDumper.WriteLog(error1, $"Peer {receiverToken} disconnected, {error1.Message}");
 
                     //If current peer turns disconnected then continue with next peer
                     break;
@@ -169,7 +169,7 @@ namespace Khernet.Core.Processor.Managers
                         MessageId = messageList[j],
                         State = MessageState.Error,
                     });
-                    LogDumper.WriteLog(error, "Error while reading pending message");
+                    LogDumper.WriteLog(error, $"Error while reading pending message to {receiverToken} due to: {error.Message}");
                 }
             }
         }

@@ -168,7 +168,7 @@ namespace Khernet.UI.Pages
                 }
                 catch (Exception error)
                 {
-                    LogDumper.WriteLog(error);
+                    LogDumper.WriteLog(error, $"Could not create firewall rules due to: {error.Message}");
                     result.TrySetResult(-1);
                 }
             });

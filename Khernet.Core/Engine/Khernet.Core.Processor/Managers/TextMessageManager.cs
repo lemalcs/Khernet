@@ -67,7 +67,7 @@ namespace Khernet.Core.Processor.Managers
                         catch (EndpointNotFoundException error)
                         {
                             communicator.RegisterPendingMessage(message.ReceiverToken, ((InternalConversationMessage)message).Id);
-                            LogDumper.WriteLog(error);
+                            LogDumper.WriteLog(error, $"Could not send message to {message.ReceiverToken} due to: {error.Message}");
                         }
                         catch (ThreadAbortException)
                         {
@@ -84,7 +84,7 @@ namespace Khernet.Core.Processor.Managers
                                 State = MessageState.Error,
                             });
 
-                            LogDumper.WriteLog(error);
+                            LogDumper.WriteLog(error, $"Message not sent to {message.ReceiverToken} due to: {error.Message}");
                         }
 
                         messageList.TryDequeue(out idMessage);

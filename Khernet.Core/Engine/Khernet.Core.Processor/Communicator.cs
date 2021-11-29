@@ -107,7 +107,7 @@ namespace Khernet.Core.Processor
             }
             catch (Exception ex)
             {
-                LogDumper.WriteLog(ex);
+                LogDumper.WriteLog(ex, "Error when sending message.");
                 throw ex;
             }
         }
@@ -788,7 +788,7 @@ namespace Khernet.Core.Processor
             if (emojiCodesList.EndsWith("|"))
                 emojiCodesList = emojiCodesList.Remove(emojiCodesList.Length - 1, 1);
 
-            Configuration.SetValue("RecentUsedEmojis",emojiCodesList);
+            Configuration.SetValue("RecentUsedEmojis", emojiCodesList);
         }
 
         /// <summary>
@@ -797,11 +797,11 @@ namespace Khernet.Core.Processor
         /// <returns>The list of emoji codes in hexadecimal format.</returns>
         public string[] LoadRecentUsedEmojis()
         {
-            string recentUsedEmojis= Configuration.GetValue("RecentUsedEmojis");
+            string recentUsedEmojis = Configuration.GetValue("RecentUsedEmojis");
             if (recentUsedEmojis == null)
                 return null;
 
-            string[] emojiList=recentUsedEmojis.Split('|');
+            string[] emojiList = recentUsedEmojis.Split('|');
             return emojiList;
         }
 
