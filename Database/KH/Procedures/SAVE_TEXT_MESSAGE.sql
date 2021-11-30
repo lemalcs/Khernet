@@ -1,3 +1,4 @@
+SET TERM ^ ;
 /* Definition for the SAVE_TEXT_MESSAGE procedure :  */
 
 ------------------------------------------------------------------------------
@@ -116,4 +117,4 @@ BEGIN
         INSERT INTO MESSAGE_NOTIFICATION(ID_SENDER,ID_MESSAGE,CONTENT_TYPE)
         VALUES(:ID_SENDER_TOKEN,:ID_MESSAGE,:CONTENT_TYPE);
     END
-END
+END^

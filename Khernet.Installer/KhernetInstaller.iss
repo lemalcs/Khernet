@@ -7,8 +7,15 @@
 #include <idp.iss>
 
 #define ApplicationName "Khernet"
-#define CurrentVersion "0.17.0.0"
+#define CurrentVersion "0.18.0.0"
 #define AppDirectoryName "khernet-app"
+#define SQLScript "SAVE_TEXT_MESSAGE.sql"
+#define IzarcDirectory "izarc"
+#define IzarcExec "IZARCE.exe"
+#define FirebirdDirectory "firebird"
+#define FirebirdCompressed "Firebird-3.0-x86.zip"
+#define IsqlName "isql.exe"
+#define ScriptDirectory "Scripts"
 
 [Setup]
 AppName={#ApplicationName}
@@ -52,13 +59,28 @@ Name: portablemode; Description: "Portable Mode"
 Name: "{group}\{#ApplicationName}"; Filename: "{app}\{#ApplicationName}.exe"; WorkingDir: "{app}"
 Name: "{group}\Uninstall {#ApplicationName}"; Filename: "{uninstallexe}"
 
+[Dirs]
+Name: {tmp}\{#FirebirdDirectory}; Flags: deleteafterinstall;
+Name: {tmp}\{#ScriptDirectory}; Flags: deleteafterinstall;
+Name: {tmp}\{#IzarcDirectory}; Flags: deleteafterinstall;
+
 
 [Files]
 ; Remove old versions of main executable.
 Source: "..\bin\Khernet.UI\{#ApplicationName}.exe"; Check:FileExists(ExpandConstant('{app}\{#AppDirectoryName}\app\{#ApplicationName}.exe')); DestDir: "{app}\{#AppDirectoryName}\app"; AfterInstall:RemoveFile(ExpandConstant('{app}\{#AppDirectoryName}\app\{#ApplicationName}.exe'));
 
 ; Install the new main executable.
-Source: "..\bin\Khernet.UI\{#ApplicationName}.exe"; DestDir: "{app}"; AfterInstall:DeployFileSystem(ExpandConstant('{app}\{#AppDirectoryName}'));   
+Source: "..\bin\Khernet.UI\{#ApplicationName}.exe"; DestDir: "{app}"; AfterInstall:DeployFileSystem(ExpandConstant('{app}\{#AppDirectoryName}'));
+
+; Install compress utility
+Source: "..\Resources\izarc\cabinet.dll"; DestDir:"{tmp}\{#IzarcDirectory}"; Flags: deleteafterinstall;
+Source: "..\Resources\izarc\unacev2.dll"; DestDir:"{tmp}\{#IzarcDirectory}"; Flags: deleteafterinstall;
+Source: "..\Resources\izarc\unrar3.dll"; DestDir:"{tmp}\{#IzarcDirectory}"; Flags: deleteafterinstall;
+Source: "..\Resources\izarc\{#IzarcExec}"; DestDir:"{tmp}\{#IzarcDirectory}"; Flags: deleteafterinstall;
+
+; Modify database
+Source: "..\Database\KH\Procedures\{#SQLScript}"; DestDir: "{tmp}\{#ScriptDirectory}"; Flags: deleteafterinstall;
+Source: "..\Resources\{#FirebirdCompressed}"; DestDir:"{tmp}"; AfterInstall:ExecuteDatabaseScript(ExpandConstant('{app}\{#AppDirectoryName}\data\msgdb')); Flags: deleteafterinstall;
 
 
 [Run]
@@ -262,4 +284,32 @@ begin
     RenameFileDirectory(homeDirectoryPath + '\' + versionDirectory, oldVersionDirectory + '\' + versionDirectory + renameSuffix);
     RenameFileDirectory(homeDirectoryPath + '\' + packDirectory, oldVersionDirectory + '\' + packDirectory + renameSuffix);
   end         
+end;
+
+// Uncompress the Firebird database engine
+function UncompressDatabaseEngine(compressor: String; enginePath: String): Boolean;
+var
+  ResultCode: Integer;
+begin
+  if not Exec(compressor, ' -e -d ' + enginePath + ' -p'+ExpandConstant('{tmp}\{#FirebirdDirectory}'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    MsgBox('Error while installing database change ' + IntToStr(Resultcode) + ': ' + SysErrorMessage(ResultCode), mbInformation, MB_OK); 
+    result:= false;
+  end
+  else
+    result:=true;
+end;
+
+// Executes script to modify database.
+procedure ExecuteDatabaseScript(databasePath: String);
+var
+  ResultCode: Integer;
+begin
+  if UncompressDatabaseEngine(ExpandConstant('{tmp}\{#IzarcDirectory}\{#IzarcExec}'), ExpandConstant('{tmp}\{#FirebirdCompressed}')) then
+  begin
+    if not Exec(ExpandConstant('{tmp}\{#FirebirdDirectory}\{#IsqlName}'), databasePath + ' -user SYSDBA -password blank -i ' + ExpandConstant('{tmp}\{#ScriptDirectory}\{#SQLScript}'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+    begin
+      MsgBox('Error while installing database change ' + IntToStr(Resultcode) + ': ' + SysErrorMessage(ResultCode), mbInformation, MB_OK); 
+    end;
+  end;
 end;
