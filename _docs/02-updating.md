@@ -36,7 +36,7 @@ Useful when you are in an environment without internet access.
 You need a machine with internet access to get the update files in order to use them on other machines.
 
 1. Download the following file from [latest release](https://github.com/lemalcs/Khernet/releases/latest).
-   - `KhernetUpdate-*.*.*.*.exe`
+   - `KhernetInstaller-*.*.*.*.exe`
 
 
     *Version number `*.*.*.*` changes with every update, for instance: 0.18.0.0*
@@ -53,7 +53,7 @@ You need a machine with internet access to get the update files in order to use 
 
     ![update-dialog]({{ "/assets/images/update-dialog.png" | relative_url }})
     ![select-update-file]({{ "/assets/images/select-update-file.png" | relative_url }})
-
+    *Name of update file may change.*
 
 5. Click **Update** button to install the updates.
 
