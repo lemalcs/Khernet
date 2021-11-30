@@ -21,11 +21,14 @@
     <BitmapImage UriSource="pack://application:,,,/Khernet.UI.Container;component/HeaderLogo.png" x:Key="HeaderLogo"/>
 
     <!--Context menu for taskbar notify icon-->
-    <ContextMenu x:Shared="false" x:Key="SysTrayMenu" >
-        <MenuItem Header="Show Window" Command="{Binding ShowWindowCommand}" />
-        <MenuItem Header="Hide Window" Command="{Binding HideWindowCommand}" />
+    <ContextMenu x:Shared="false" x:Key="SysTrayMenu" Style="{StaticResource contextMenuStyle}">
+        <MenuItem Header="Show Window" Command="{Binding ShowWindowCommand}" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
+        <MenuItem Header="Hide Window" Command="{Binding HideWindowCommand}" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
         <Separator />
-        <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" />
+        <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" 
+                  Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
     <!-- The application's NotifyIcon started from App.xaml.cs, declares its own view model -->
