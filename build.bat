@@ -5,14 +5,14 @@ echo  Starting build...
 echo -------------------------------------------------------------
 
 rem Set this to Release or Debug values
-set dotnetConfiguration=Release
+set dotnetConfiguration=Debug
 
 rem Build core
-tools\nuget restore Khernet.Core\Khernet.Core.sln
+Resources\nuget.exe restore Khernet.Core\Khernet.Core.sln
 msbuild Khernet.Core\Khernet.Core.sln -p:Platform=x86 /property:Configuration=%dotnetConfiguration%
 
 rem Build user interface
-tools\nuget.exe restore Khernet.UI\Khernet.UI.sln
+Resources\nuget.exe restore Khernet.UI\Khernet.UI.sln
 msbuild Khernet.UI\Khernet.UI.sln -p:Platform=x86 /property:Configuration=%dotnetConfiguration%
 
 rem Build installer with Inno Setup
