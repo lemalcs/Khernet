@@ -68,8 +68,8 @@
                                Placement="Top"
                                AllowsTransparency="True"
                                IsOpen="{Binding IsMediaGalleryOpen}">
-                                <ContentControl Content="{StaticResource emojiPalette}"
-                                            Margin="5"/>
+                                <ucontrols:EmojiPaletteControl DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}" 
+                                                                   x:Name="emojiPalette"/>
                             </Popup>
                         </Grid>
 

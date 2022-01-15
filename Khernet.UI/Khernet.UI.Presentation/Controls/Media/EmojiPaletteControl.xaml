@@ -71,7 +71,8 @@
                   Width="320"
                   Padding="0"
                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                  SelectionChanged="ListBox_SelectionChanged">
+                  SelectionChanged="ListBox_SelectionChanged"
+                  IsVisibleChanged="emojiControl_IsVisibleChanged">
             
             <!-- Container for items -->
             <ListView.ItemContainerStyle>
