@@ -455,9 +455,10 @@ namespace Khernet.UI
         public void SetAvatarThumbnail(byte[] avatarBytes)
         {
             if (avatarBytes == null || avatarBytes.Length == 0)
-                return;
+                Avatar = null;
+            else
+                Avatar = new ReadOnlyCollection<byte>(avatarBytes);
 
-            Avatar = new ReadOnlyCollection<byte>(avatarBytes);
             OnPropertyChanged(nameof(Avatar));
         }
 

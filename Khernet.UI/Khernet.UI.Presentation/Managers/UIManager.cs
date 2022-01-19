@@ -39,6 +39,10 @@ namespace Khernet.UI
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
         {
             await new MessageBoxUserControl().ShowMessageBox(dialogModel);
+
+            // Deallocate unused objects
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>
@@ -53,6 +57,10 @@ namespace Khernet.UI
                 await new MessageBoxUserControl().ShowMessage(dialogModel);
             else
                 await new MessageBoxUserControl().ShowMessageBox(dialogModel);
+
+            // Deallocate unused objects
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>
@@ -79,6 +87,10 @@ namespace Khernet.UI
             {
                 await new AnimationViewerControl().ShowModalDialog(viewModel, true);
             }
+
+            // Deallocate unused objects
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>
@@ -286,6 +298,10 @@ namespace Khernet.UI
             {
                 await new VideoPlayerControl().ShowChildModalDialog(viewModel, true);
             }
+
+            // Deallocate unused objects
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         /// <summary>

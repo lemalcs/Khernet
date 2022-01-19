@@ -462,9 +462,14 @@ namespace Khernet.Core.Data
                 FbCommand cmd = new FbCommand("SAVE_AVATAR");
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
-                cmd.Parameters.Add("@AVATAR", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(avatar, keys.Item1, keys.Item2);
-                keys = null;
+                if (avatar != null)
+                {
+                    var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
+                    cmd.Parameters.Add("@AVATAR", FbDbType.Binary).Value = EncryptionHelper.EncryptByteArray(avatar, keys.Item1, keys.Item2);
+                    keys = null;
+                }
+                else
+                    cmd.Parameters.Add("@AVATAR", FbDbType.Binary).Value = DBNull.Value;
 
 
                 using (cmd.Connection = new FbConnection(GetConnectionString()))

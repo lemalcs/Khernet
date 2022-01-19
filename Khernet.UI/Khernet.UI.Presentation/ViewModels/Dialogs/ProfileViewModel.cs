@@ -139,7 +139,15 @@ namespace Khernet.UI
         /// </summary>
         public ICommand OpenAudioListCommand { get; private set; }
 
+        /// <summary>
+        /// Command to choose a profile image.
+        /// </summary>
         public ICommand OpenProfileImageCommand { get; private set; }
+
+        /// <summary>
+        /// Command to remove a profile image.
+        /// </summary>
+        public ICommand RemoveProfileImageCommand { get; private set; }
 
         #endregion
 
@@ -155,13 +163,37 @@ namespace Khernet.UI
             OpenVideoListCommand = new RelayCommand(OpenVideoList);
             OpenAudioListCommand = new RelayCommand(OpenAudioList);
             OpenProfileImageCommand = new RelayCommand(OpenProfileImage);
+            RemoveProfileImageCommand = new RelayCommand(RemoveProfileImage);
+        }
+
+        private async void RemoveProfileImage()
+        {
+            try
+            {
+                IoCContainer.Get<Messenger>().UpdateAvatar(null);
+                User.SetAvatarThumbnail(null);
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = "Error while updating avatar",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                });
+            }
         }
 
         private async void OpenProfileImage()
         {
             string tempPath = Path.Combine(Configurations.CacheDirectory.FullName, User.Token);
 
-            if (File.Exists(tempPath))
+            if (user.Avatar == null)
+                tempPath = null;
+            else if (File.Exists(tempPath))
             {
                 if (!FileHelper.CompareFileWithMemory(tempPath, user.Avatar.ToArray()))
                 {
@@ -197,7 +229,7 @@ namespace Khernet.UI
 
                 int readBytes = 0;
 
-                using (FileStream fStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read))
+                using (FileStream fStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                 {
                     readBytes = dtStream.Read(buffer, 0, chunk);
 
@@ -270,7 +302,7 @@ namespace Khernet.UI
 
                     //Save image to database
 
-                    using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         byte[] content = new byte[fs.Length];
 

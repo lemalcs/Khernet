@@ -50,7 +50,14 @@
                         <Border HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>
+                                    
+                                    <!-- Profile image -->
                                     <RowDefinition Height="Auto"/>
+                                    
+                                    <!-- Choose profile button -->
+                                    <RowDefinition Height="Auto"/>
+                                    
+                                    <!-- Remove profile link -->
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
@@ -72,6 +79,8 @@
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding OpenProfileImageCommand}"/>
                                     </Border.InputBindings>
                                 </Border>
+
+                                <!-- Choose profile button -->
                                 <Button Content="CHOOSE PROFILE IMAGE"
                                         Margin="0 10 0 0"
                                         Grid.Row="1"
@@ -80,6 +89,23 @@
                                         FontFamily="{StaticResource RobotoBoldFont}"
                                         Style="{StaticResource SecondaryButtonStyle}"
                                         Command="{Binding UpdateProfileImageCommand}"/>
+
+                                <!-- Remove profile link -->
+                                <FlowDocumentScrollViewer Grid.Row="2"
+                                                          Background="Transparent"
+                                                          BorderThickness="0"
+                                                          Width="160">
+                                    <FlowDocument>
+                                        <Paragraph FontFamily="{StaticResource RobotoRegularFont}"
+                                                   FontSize="{StaticResource RegularFontSize}"
+                                                   LineHeight="10">
+                                            <Hyperlink Command="{Binding RemoveProfileImageCommand}"
+                                                       TextDecorations="None">
+                                                <Run Text="Remove profile image"/>
+                                            </Hyperlink>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </FlowDocumentScrollViewer>
                             </Grid>
                         </Border>
                     </Border>
