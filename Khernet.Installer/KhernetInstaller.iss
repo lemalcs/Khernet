@@ -7,7 +7,7 @@
 #include <idp.iss>
 
 #define ApplicationName "Khernet"
-#define CurrentVersion "0.18.0.0"
+#define CurrentVersion "0.19.0.0"
 #define AppDirectoryName "khernet-app"
 #define SQLScript "SAVE_TEXT_MESSAGE.sql"
 #define IzarcDirectory "izarc"
