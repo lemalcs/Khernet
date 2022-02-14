@@ -137,12 +137,12 @@ namespace Khernet.UI
                 }
             }
         }
-        public double Height 
-        { 
+        public double Height
+        {
             get => height;
-            set 
-            { 
-                if(height != value)
+            set
+            {
+                if (height != value)
                 {
                     height = value;
                     OnPropertyChanged(nameof(Height));

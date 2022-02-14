@@ -44,7 +44,7 @@ namespace Khernet.UI.Controls
 
         private void emojiControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            if(!emojiControl.IsLoaded)
+            if (!emojiControl.IsLoaded)
                 return;
 
             if (scrollViewer == null)

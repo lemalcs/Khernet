@@ -144,7 +144,7 @@ namespace Khernet.UI
 
         private void DownloadFile()
         {
-            //Request to upload and image retrieved from database
+            //Request to download file from database
             Media = new MediaRequest
             {
                 FileType = MessageType.Binary,

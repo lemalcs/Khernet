@@ -1,10 +1,11 @@
-﻿using Khernet.Core.Host;
-using Khernet.Core.Utility;
+﻿using Khernet.Core.Utility;
 using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
+using Khernet.UI.Managers;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -225,7 +226,7 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Save and image to local file system.
+        /// Save the file of this message to local file system.
         /// </summary>
         /// <param name="obj"></param>
         protected async virtual void SaveFile()
@@ -234,7 +235,47 @@ namespace Khernet.UI
             {
                 string newFileName = applicationDialog.ShowSaveFileDialog(Path.GetFileName(FileName));
 
-                SaveFile(newFileName);
+                if (newFileName == null)
+                    return;
+
+                SaveFileDialogViewModel saveProgressDialog = new SaveFileDialogViewModel
+                {
+                    FileChatMessage = this,
+                };
+                _ = saveProgressDialog.Execute(newFileName);
+                await applicationDialog.ShowDialog(saveProgressDialog);
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                await applicationDialog.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = "Error while saving file.",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                });
+            }
+        }
+
+        /// <summary>
+        /// Save the file of this message to local system with a given destination path.
+        /// </summary>
+        /// <param name="fileName">The path where to save file to.</param>
+        public async void SaveFile(string fileName)
+        {
+            try
+            {
+                if (fileName == null)
+                    return;
+
+                SaveFileDialogViewModel saveProgressDialog = new SaveFileDialogViewModel
+                {
+                    FileChatMessage = this,
+                };
+                _ = saveProgressDialog.Execute(fileName);
+                await applicationDialog.ShowDialog(saveProgressDialog);
             }
             catch (Exception error)
             {
@@ -254,32 +295,18 @@ namespace Khernet.UI
         /// Save this file message to local system.
         /// </summary>
         /// <param name="fileName">The path where to save file to.</param>
-        public void SaveFile(string fileName)
+        public Task SaveFileAsync(string fileName, IFileObserver fileObserver)
         {
-            if (fileName != null)
+            return Task.Run(() =>
             {
-                using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(Id))
+                applicationDialog.ShowDialog(new SaveFileDialogViewModel
                 {
-                    int chunk = 1048576;
-                    byte[] buffer = new byte[chunk];
+                    FileChatMessage = this,
 
-                    int readBytes = 0;
-                    using (FileStream fStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read))
-                    {
-                        readBytes = dtStream.Read(buffer, 0, chunk);
+                });
 
-                        int actualReadBytes = readBytes;
 
-                        while (readBytes > 0)
-                        {
-                            fStream.Write(buffer, 0, readBytes);
-
-                            readBytes = dtStream.Read(buffer, 0, chunk);
-                            actualReadBytes += readBytes;
-                        }
-                    }
-                }
-            }
+            });
         }
 
         /// <summary>

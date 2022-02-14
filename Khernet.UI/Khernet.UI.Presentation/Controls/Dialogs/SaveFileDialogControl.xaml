@@ -1,0 +1,139 @@
+﻿<local:BaseDialogUserControl x:Class="Khernet.UI.Controls.SaveFileDialogControl"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:Khernet.UI.Controls"
+                        xmlns:vm="clr-namespace:Khernet.UI"
+                        xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
+                        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                        xmlns:conv="clr-namespace:Khernet.UI.Converters"
+                        x:Name="namedEditor"
+                        mc:Ignorable="d" 
+                        d:DesignHeight="270" d:DesignWidth="410"
+                        Width="410"
+                        Height="270"
+                        d:DataContext="{d:DesignInstance vm:SaveFileDialogViewModel,IsDesignTimeCreatable=True}"
+                        Background="Transparent">
+    
+    <Border CornerRadius="5">
+        <Grid Background="{StaticResource LightBrush}"
+              Height="180"
+              depend:ClipFromBorderProperty.Value="True">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--Close button-->
+            <Button Grid.Column="2"
+                    Grid.Row="0"
+                    Height="40"
+                    HorizontalAlignment="Right"
+                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                    Style="{StaticResource IconButton}"
+                    Command="{Binding CloseCommand, RelativeSource ={RelativeSource FindAncestor,AncestorType={x:Type local:BaseDialogUserControl}}}"
+                    Visibility="{Binding IsRunning,Converter={conv:InverseBoolToVisibilityConverter}}">
+                <iconPacks:PackIconMaterial Kind="WindowClose" 
+                                            Width="15" 
+                                            Margin="0 10 10 0"/>
+            </Button>
+
+            <!-- File icon -->
+            <iconPacks:PackIconMaterial Grid.Column="0" 
+                                        Grid.Row="1"
+                                        Kind="File"
+                                        Margin="20 0 20 0"
+                                        Width="30"
+                                        Height="30"/>
+
+            <StackPanel Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="0"
+                        VerticalAlignment="Center">
+                
+                <!-- File name-->
+                <TextBlock Text="{Binding FileChatMessage.FileName}"
+                           FontFamily="{StaticResource RobotoBoldFont}"
+                           Style="{StaticResource TextblockItemStyle}"
+                           Margin="0"
+                           TextWrapping="WrapWithOverflow"/>
+                
+                <!-- Progress animation -->
+                <Controls:MetroProgressBar IsIndeterminate="False"
+                                           Value="{Binding CurrentWrittenBytes}"
+                                           Minimum="0"
+                                           Maximum="{Binding FileChatMessage.FileSize}"
+                                           Margin="0 10 0 0"
+                                           Background="{StaticResource LightGrayAnchorBrush}"
+                                           Foreground="{StaticResource BlueBrush}"
+                                           Visibility="{Binding IsRunning,Converter={conv:BoolToVisibilityConverter}}"/>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 10 0 0" >
+                    
+                    <!-- Current write bytes -->
+                    <TextBlock Visibility="{Binding IsRunning,Converter={conv:BoolToVisibilityGoneConverter}}">
+                        <Run Text="{Binding CurrentWrittenBytes,Converter={conv:SizeUnitConverter}}"/>
+                        <Run Text="/" />
+                    </TextBlock>
+                
+                    <!-- File size -->
+                    <TextBlock>
+                        <Run Text="{Binding FileChatMessage.FileSize,Converter={conv:SizeUnitConverter}}"/>
+                        <Run Text="{Binding FileChatMessage.FileSize,Converter={conv:SizeToUnitNameConverter}}"/>
+                    </TextBlock>
+                    
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- Open folder button -->
+            <Button Grid.Column="2"
+                    Grid.Row="1" 
+                    Height="40"
+                    Width="40"
+                    Margin="20"
+                    Style="{StaticResource IconButton}"
+                    Visibility="{Binding Result,Converter={conv:SaveFileResultToVisibilityConverter},TargetNullValue=Hidden,FallbackValue=Hidden}"
+                    VerticalAlignment="Center"
+                    Command="{Binding OpenFolderCommand}"
+                    ToolTip="Open folder">
+
+                <iconPacks:PackIconMaterial Kind="FolderOpen" />
+            </Button>
+
+            <!-- Cancel button -->
+            <Button Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Content="Cancel"
+                    Visibility="{Binding IsRunning,Converter={conv:BoolToVisibilityConverter}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0 0 0 20"
+                    Width="100"
+                    Style="{StaticResource SecondaryButtonStyle}"
+                    Command="{Binding CancelSavingCommand}"/>
+
+            <!-- Result description -->
+            <TextBlock Grid.Row="2" 
+                       Grid.ColumnSpan="3"
+                       Text="{Binding ErrorDescription}"
+                       Foreground="{Binding Result,Converter={conv:SaveFileResultToBrushConverter}}"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 30"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding IsRunning,Converter={conv:InverseBoolToVisibilityGoneConverter}}"/>
+
+        </Grid>
+    </Border>
+</local:BaseDialogUserControl>

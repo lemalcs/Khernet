@@ -69,11 +69,11 @@
             }
         }
 
-        public ProgressResultIcon Result 
-        { 
+        public ProgressResultIcon Result
+        {
             get => result;
-            set 
-            { 
+            set
+            {
                 if (result != value)
                 {
                     result = value;

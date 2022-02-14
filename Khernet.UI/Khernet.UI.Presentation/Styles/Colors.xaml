@@ -117,4 +117,7 @@
 
     <SolidColorBrush x:Key="PressedButtonBrush" Color="#2d75eb"/>
     <SolidColorBrush x:Key="SecondaryPressedButtonBrush" Color="#eef3fd"/>
+
+    <SolidColorBrush x:Key="GreenBrush" Color="#40e393"/>
+    
 </ResourceDictionary>

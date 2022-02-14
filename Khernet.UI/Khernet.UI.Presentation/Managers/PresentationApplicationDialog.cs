@@ -21,6 +21,10 @@ namespace Khernet.UI.Managers
             {
                 await new VideoPlayerControl().ShowModalDialog(viewModel, true);
             }
+            else if (viewModel is SaveFileDialogViewModel)
+            {
+                await new SaveFileDialogControl().ShowModalDialog(viewModel);
+            }
         }
 
         public async Task ShowMessageBox(MessageBoxViewModel dialogModel)
@@ -102,6 +106,10 @@ namespace Khernet.UI.Managers
             else if (viewModel is VideoChatMessageViewModel)
             {
                 await new VideoPlayerControl().ShowChildModalDialog(viewModel, true);
+            }
+            else if (viewModel is SaveFileDialogViewModel)
+            {
+                await new SaveFileDialogControl().ShowChildModalDialog(viewModel);
             }
         }
 
