@@ -22,14 +22,14 @@
     <Border>
         <Grid>
             <Grid.RowDefinitions>
-                <!--User information-->
+                <!-- User information -->
                 <RowDefinition Height="*"/>
 
-                <!--Commit control-->
+                <!-- Commit control -->
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--User information-->
+            <!-- User information -->
             <ScrollViewer Grid.Row="0"
                           VerticalScrollBarVisibility="Auto"
                           Focusable="False">
@@ -37,14 +37,14 @@
                 <Grid Margin="15"
                       FocusManager.IsFocusScope="True">
                     <Grid.RowDefinitions>
-                        <!--Profile picture-->
+                        <!-- Profile picture -->
                         <RowDefinition Height="Auto"/>
 
-                        <!-- Additional user details-->
+                        <!-- Additional user details -->
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--Profile picture-->
+                    <!-- Profile picture -->
                     <Border Grid.Row="0"
                             BorderThickness="0 0 0 1">
                         <Border HorizontalAlignment="Center">
@@ -115,7 +115,7 @@
                                 Grid.Row="1"
                                 Margin="0 10 0 0">
 
-                        <!--Name header-->
+                        <!-- Name header -->
                         <TextBlock Text="Name"
                                    Style="{StaticResource TextblockHeader}"
                                    Margin="0 10 0 0"/>
@@ -126,15 +126,14 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--Full name-->
+                            <!-- Full name -->
                             <ucontrols:MarkedRichTextBox Grid.Column="0"
                                                          x:Name="rtxt"
                                                          depend:FormatedDocumentSourceProperty.Value="{Binding User.SourceFullName,Converter={conv:HtmlByteToDocumentConverter}}"
-                                                         depend:EmojiSourceProperty.Value="{StaticResource emojiPalette}"
+                                                         depend:EmojiSourceProperty.Value="{Binding ElementName=emojiPalette}"
                                                          Style="{StaticResource EditRichTextBox}"/>
 
-                            <!--Emoji button-->
-
+                            <!-- Emoji button -->
                             <Button Grid.Column="1"
                                     Style="{StaticResource IconButton}"
                                     VerticalAlignment="Top"
@@ -152,14 +151,14 @@
                                            AllowsTransparency="True"
                                            IsOpen="{Binding IsEmojiGalleryOpen}">
                                         <ucontrols:EmojiPaletteControl DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}" 
-                                                                   x:Name="emojiPalette"/>
+                                                                       x:Name="emojiPalette"/>
                                     </Popup>
                                 </Grid>
                             </Button>
                         </Grid>
 
 
-                        <!-- Group-->
+                        <!-- Group -->
                         <TextBlock Text="Group"
                                    Style="{StaticResource TextblockHeader}"
                                    Margin="0 5 0 5"/>
@@ -167,7 +166,7 @@
                         <TextBox Text="{Binding User.Group,UpdateSourceTrigger=PropertyChanged}"
                                  MaxLength="50"/>
 
-                        <!-- Slogan-->
+                        <!-- Slogan -->
                         <TextBlock Text="Slogan"
                                    Style="{StaticResource TextblockHeader}"
                                    Margin="0 15 0 5"/>
@@ -176,12 +175,12 @@
                                  TextWrapping="Wrap"
                                  MaxLength="106"/>
 
-                        <!--Account section-->
+                        <!-- Account section -->
                         <TextBlock Text="Account"
                                    Style="{StaticResource GroupText}"
                                    Margin="0 20 0 0"/>
 
-                        <!--User name-->
+                        <!-- User name -->
                         <TextBlock Text="User-name"
                                    Style="{StaticResource TextblockHeader}"
                                    Margin="0 10 0 0"/>
@@ -189,7 +188,7 @@
                         <TextBox Text="{Binding User.Username,UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0 10 0 10"/>
                         
-                        <!-- Token-->
+                        <!-- Token -->
                         <TextBlock Text="Token"
                                    Style="{StaticResource TextblockHeader}"
                                    Margin="0 10 0 0"/>
@@ -202,12 +201,12 @@
                 </Grid>
             </ScrollViewer>
 
-            <!--Commit control-->
+            <!-- Commit control -->
             <Border Grid.Row="1"
                     BorderThickness="0 1 0 0"
                     BorderBrush="{StaticResource TextBoxBackgroundBrush}">
                 
-                <!--Save button-->
+                <!-- Save button -->
                 <Button Width="150"
                         Margin="20"
                         Height="30"

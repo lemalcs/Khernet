@@ -118,7 +118,4 @@
                   Style="{StaticResource SubMenuItemStyle}"/>
     </ContextMenu>
 
-    <ucontrols:EmojiPaletteControl x:Key="emojiPalette" 
-                                   DataContext="{Binding EmojiPalette,UpdateSourceTrigger=PropertyChanged}"/>
-                                   
 </ResourceDictionary>
