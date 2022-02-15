@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Khernet")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,5 +19,5 @@ using System.Windows;
     ResourceDictionaryLocation.SourceAssembly
 )]
 
-[assembly: AssemblyVersion("0.19.0.0")]
-[assembly: AssemblyFileVersion("0.19.0.0")]
+[assembly: AssemblyVersion("0.20.0.0")]
+[assembly: AssemblyFileVersion("0.20.0.0")]

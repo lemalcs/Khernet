@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>0.19.0.0</version>
-    <url>https://github.com/lemalcs/Khernet/releases/download/v0.19.0.0/KhernetInstaller-0.19.0.0.exe</url>
+    <version>0.20.0.0</version>
+    <url>https://github.com/lemalcs/Khernet/releases/download/v0.20.0.0/KhernetInstaller-0.20.0.0.exe</url>
     <args>/SP- /silent /noicons /NOCANCEL /dir="%path%"</args>
     <changelog>https://github.com/lemalcs/Khernet/releases/latest</changelog>
     <mandatory>true</mandatory>
