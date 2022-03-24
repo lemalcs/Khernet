@@ -90,18 +90,8 @@ namespace Khernet.UI.Pages
                     Directory.CreateDirectory(ffmpegPath);
                 }
 
-                string libvlcPath = Path.Combine(Configurations.AppDirectory, "libvlc", "win-x86");
-                if (!Directory.Exists(libvlcPath))
-                {
-                    Directory.CreateDirectory(libvlcPath);
-                }
-
                 if (Directory.GetFiles(ffmpegPath).Length == 0)
                     ExtractFile("ffmpeg.zip", ffmpegPath);
-
-                if (Directory.GetFiles(libvlcPath).Length == 0)
-                    ExtractFile("libvlc-win-x86.zip", libvlcPath);
-
             });
         }
 

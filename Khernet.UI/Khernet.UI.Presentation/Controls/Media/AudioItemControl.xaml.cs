@@ -3,7 +3,6 @@ using Khernet.UI.Managers;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Vlc.DotNet.Wpf;
 
 namespace Khernet.UI.Controls
 {
@@ -13,19 +12,18 @@ namespace Khernet.UI.Controls
     public partial class AudioItemControl : UserControl, IAudioObserver
     {
         /// <summary>
-        /// Gets or set the current <see cref="VlcControl"/> for playing audio files.
+        /// Model for global audio player.
         /// </summary>
-        public VlcControl CurrentPlayer
+        public AudioPlayerViewModel PlayerViewModel
         {
-            get { return (VlcControl)GetValue(CurrentPlayerProperty); }
-            set { SetValue(CurrentPlayerProperty, value); }
+            get { return (AudioPlayerViewModel)GetValue(AudioPLayerViewModelProperty); }
+            set { SetValue(AudioPLayerViewModelProperty, value); }
         }
 
-        /// <summary>
-        /// The DependencyProperty as the backing store for CurrentPlayer.
-        /// </summary>
-        public static readonly DependencyProperty CurrentPlayerProperty =
-            DependencyProperty.Register(nameof(CurrentPlayer), typeof(VlcControl), typeof(AudioItemControl), new PropertyMetadata(null, null, OnPropertyUpdated));
+        // The DependencyProperty as the backing store for AudioPLayerViewModel.
+        public static readonly DependencyProperty AudioPLayerViewModelProperty =
+            DependencyProperty.Register(nameof(PlayerViewModel), typeof(AudioPlayerViewModel), typeof(AudioItemControl), new PropertyMetadata(null));
+
 
         private static object OnPropertyUpdated(DependencyObject d, object baseValue)
         {
@@ -66,7 +64,7 @@ namespace Khernet.UI.Controls
                 ((currentContext != null) && currentContext.Id == audioModel.CurrentViewModel.Id))
             {
                 //Add binding to AudioPlaerControl
-                CurrentPlayer = audioModel.Player;
+                PlayerViewModel = audioModel;
 
                 //Set command to control audio playing
                 playButton.Command = audioModel.PlayCommand;
@@ -74,7 +72,7 @@ namespace Khernet.UI.Controls
             else
             {
                 //Remove binding to AudioPlayerControl
-                CurrentPlayer = null;
+                PlayerViewModel = null;
 
                 //Check if DataContext has not been disconnected
                 if (currentContext != null)
@@ -91,7 +89,8 @@ namespace Khernet.UI.Controls
             IoCContainer.Get<IAudioObservable>().Unsuscribe(this);
 
             //Remove binding to AudioPlayerControl
-            CurrentPlayer = null;
+            //CurrentPlayer = null;
+            PlayerViewModel = null;
 
             //Check if DataContext has not been disconnected
             if (DataContext is AudioChatMessageViewModel)

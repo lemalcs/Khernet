@@ -68,7 +68,7 @@ namespace Khernet.UI.Converters
             {
                 case FileChatState.NotDownloaded: return "Download";
                 case FileChatState.Damaged: return "AlertCircle";
-                default: return parameter;
+                default: return parameter?.ToString();
             }
         }
 

@@ -18,7 +18,7 @@ namespace Khernet.UI.DependencyProperties
         {
             var control = d as MediaElement;
 
-            //Check if control is a VlcControl
+            //Check if control is a MediaElement (native)
             if (control != null)
             {
                 control.LoadedBehavior = MediaState.Play;

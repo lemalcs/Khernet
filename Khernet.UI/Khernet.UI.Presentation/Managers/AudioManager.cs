@@ -1,7 +1,4 @@
-﻿using Khernet.UI.Cache;
-using System;
-using System.Collections.Generic;
-using Vlc.DotNet.Wpf;
+﻿using System.Collections.Generic;
 
 namespace Khernet.UI.Managers
 {
@@ -13,21 +10,6 @@ namespace Khernet.UI.Managers
         private SynchronizedCollection<IAudioObserver> observersList;
 
         /// <summary>
-        /// The audio volume in percents, the default range is from 0% to 125%.
-        /// </summary>
-        private const int defaultVolume = 60;
-
-        /// <summary>
-        /// Current volume of audio player to preserve value across multiple tracks.
-        /// </summary>
-        private int currentVolume;
-
-        /// <summary>
-        /// Indicates if VlcControl is created.
-        /// </summary>
-        private bool isPlayerCreated = false;
-
-        /// <summary>
         /// The global player model for audio files.
         /// </summary>
         public AudioPlayerViewModel AudioModel { get; private set; }
@@ -35,100 +17,39 @@ namespace Khernet.UI.Managers
         public AudioManager()
         {
             AudioModel = new AudioPlayerViewModel(this);
-            currentVolume = defaultVolume;
         }
 
         #region IAudioPlayer members
 
+        /// <summary>
+        /// Starts to play the audio file
+        /// </summary>
+        /// <param name="mediaViewModel">The model of audio chat message.</param>
         public void Play(object mediaViewModel)
         {
-            if (!isPlayerCreated || AudioModel.Player.SourceProvider.MediaPlayer == null ||
-                (AudioModel.CurrentViewModel != null && AudioModel.CurrentViewModel.FilePath != (mediaViewModel as AudioChatMessageViewModel).FilePath))
+            if (AudioModel.State == MediaPlayerState.Stopped ||
+               (AudioModel.CurrentViewModel != null && AudioModel.CurrentViewModel.FilePath != (mediaViewModel as AudioChatMessageViewModel).FilePath))
             {
-                AudioModel.CurrentViewModel = mediaViewModel as AudioChatMessageViewModel;
-                CreatePlayer(AudioModel.CurrentViewModel.FilePath);
-                return;
-            }
-
-            //Pauses the video if it is playing
-            if (AudioModel.Player.SourceProvider.MediaPlayer.IsPlaying())
-                AudioModel.Player.SourceProvider.MediaPlayer.Pause();
-            else if (AudioModel.Player.SourceProvider.MediaPlayer.State == Vlc.DotNet.Core.Interops.Signatures.MediaStates.Paused)
-            {
-                //Continue playing video if it is paused
-                AudioModel.Player.SourceProvider.MediaPlayer.Play();
-            }
-            else
-            {
-                AudioModel.CurrentViewModel = mediaViewModel as AudioChatMessageViewModel;
-                //Otherwise play video again
-                CreatePlayer(AudioModel.CurrentViewModel.FilePath);
-            }
-        }
-        public void Stop()
-        {
-            if (AudioModel.Player != null)
-            {
-                AudioModel.Player.Dispose();
-                currentVolume = AudioModel.Player.Volume;
-                AudioModel.Player = null;
-                isPlayerCreated = false;
-                AudioModel.CurrentViewModel = null;
+                AudioModel.CreatePlayerFor(mediaViewModel as AudioChatMessageViewModel);
                 OnMediaChanged();
             }
+            else
+                AudioModel.Play();
         }
 
-        public void Mute()
+        /// <summary>
+        /// Notifies that audio file stopped playing.
+        /// </summary>
+        public void Stop()
         {
-            if (AudioModel.Player == null || AudioModel.Player.SourceProvider.MediaPlayer == null)
-                return;
-
-            if (AudioModel.Player.Volume > 0)
-            {
-                currentVolume = AudioModel.Player.Volume;
-                AudioModel.Player.Volume = 0;
-            }
-            else
-                AudioModel.Player.Volume = currentVolume;
+            OnMediaChanged();
         }
 
         #endregion
 
-        private void CreatePlayer(string fileName)
-        {
-            if (AudioModel.Player != null)
-            {
-                AudioModel.Player.Dispose();
-                currentVolume = AudioModel.Player.Volume;
-            }
-
-            AudioModel.Player = new VlcControl();
-
-            //Sets the directory path for VLC library
-            AudioModel.Player.SourceProvider.CreatePlayer(Configurations.VlcDirectory);
-
-            //Redirect log to console output rather than the default logger in VLC library.
-            AudioModel.Player.SourceProvider.MediaPlayer.Log += (s, ev) =>
-            {
-                string message = $"libVlc : {ev.Level} {ev.Message} @ {ev.Module}";
-                System.Diagnostics.Debug.WriteLine(message);
-            };
-
-            //Set default volume to 50 db (decibels)
-            AudioModel.Player.Volume = currentVolume;
-
-            //Set media source
-            AudioModel.Player.SourceProvider.MediaPlayer.SetMedia(new Uri(fileName as string));
-
-            //Plays the video from file video
-            AudioModel.Player.SourceProvider.MediaPlayer.Play();
-
-            isPlayerCreated = true;
-
-            OnMediaChanged();
-        }
-
-
+        /// <summary>
+        /// Notifies subscribers that and change occurred in an audio playing.
+        /// </summary>
         protected void OnMediaChanged()
         {
             if (observersList == null || observersList.Count == 0)

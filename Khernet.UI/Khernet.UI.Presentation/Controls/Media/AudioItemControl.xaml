@@ -46,7 +46,7 @@
             </Button.Cursor>
 
             <iconPacks:PackIconMaterial Kind="{Binding FileState,Converter={conv:FileChatStateToVisibilityConverter},
-                                                             ConverterParameter=Audio}"
+                                                             ConverterParameter=Play}"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -54,7 +54,7 @@
 
         </Button>
 
-        <!--Play/Pause button-->
+        <!-- Play/Pause button -->
         <Button Grid.Column="0" 
                 x:Name="playButton"
                 HorizontalAlignment="Stretch"
@@ -75,25 +75,27 @@
             </Button.Visibility>
 
             <Grid>
-
-                <iconPacks:PackIconMaterial Kind="{Binding CurrentPlayer.State, ConverterParameter=audioMessage, 
+                <!-- Play/Pause icon -->
+                <iconPacks:PackIconMaterial Kind="{Binding PlayerViewModel.State,
                                                            Converter={conv:MediaStatesToStringConverter}, 
+                                                            ConverterParameter=ItemPlayer,
+                                                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AudioItemControl}}, 
                                                            FallbackValue=Play, 
-                                                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}}, 
-                                                           TargetNullValue=Play}"
+                                                           TargetNullValue=Play,
+                                                            UpdateSourceTrigger=PropertyChanged}"
                                             Foreground="{StaticResource LightBrush}"
                                             Width="15"/>
             </Grid>
         </Button>
 
-        <!--Animation to show load progress-->
+        <!-- Animation to show load progress -->
         <Controls:ProgressRing Height="30" 
                                Width="30"
                                Grid.Column="0"
                                Foreground="{StaticResource LightBrush}"
                                Visibility="{Binding IsLoading, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}"/>
 
-        <!--Progress circle indicator-->
+        <!-- Progress circle indicator -->
         <ucontrols:ProgressCircleControl Radius="15"
                                          Grid.Column="0"
                                          Minimum="0"
@@ -105,7 +107,7 @@
                                          StrokeBrush="{StaticResource LightBrush}"
                                          Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}}"/>
 
-        <!-- Audio file information-->
+        <!-- Audio file information -->
         <Grid Grid.Column="1"
               VerticalAlignment="Center"
               Margin="5 0 0 0">
@@ -115,7 +117,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!--Audio track name-->
+            <!-- Audio track name -->
             <TextBlock Text="{Binding FileName}"
                        Grid.Row="0"
                        FontFamily="{StaticResource RobotoBoldFont}"
@@ -128,7 +130,7 @@
                         Orientation="Horizontal"
                         Visibility="{Binding IsReadingFile, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}">
 
-                <!--File size-->
+                <!-- File size -->
                 <TextBlock Style="{StaticResource TextblockItemStyle}">
                     <Run Text="{Binding CurrentReadBytes,Converter={conv:SizeUnitConverter}}"/>
                     <Run Text=" / "/>
@@ -141,20 +143,20 @@
                         Orientation="Horizontal"
                         Visibility="{Binding IsFileLoaded, Converter={conv:BoolToVisibilityGoneConverter}, FallbackValue=Collapsed}">
 
-                <!-- Current time/Length of audio-->
+                <!-- Current time/Length of audio -->
 
-                <TextBlock Text="{Binding CurrentPlayer.Time, Converter={conv:NumberToTimeStringConverter}, 
+                <TextBlock Text="{Binding PlayerViewModel.Player.Position, Converter={conv:NumberToTimeStringConverter}, 
                            FallbackValue=00:00, 
-                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}}}"
-                           Visibility="{Binding CurrentPlayer.State,Converter={conv:MediaStatesToVisibilityConverter},
-                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}},
+                           RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AudioItemControl}}}"
+                           Visibility="{Binding PlayerViewModel.State,Converter={conv:MediaStatesToVisibilityConverter},
+                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AudioItemControl}},
                                                 TargetNullValue=Collapsed,
                                                 FallbackValue=Collapsed}"
                            Style="{StaticResource TextblockItemStyle}"/>
 
                 <TextBlock Text=" / "
-                           Visibility="{Binding CurrentPlayer.State,Converter={conv:MediaStatesToVisibilityConverter},
-                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ucontrols:AudioItemControl}},
+                           Visibility="{Binding PlayerViewModel.State,Converter={conv:MediaStatesToVisibilityConverter},
+                                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AudioItemControl}},
                                                 TargetNullValue=Collapsed,
                                                 FallbackValue=Collapsed}"
                            Style="{StaticResource TextblockItemStyle}"/>

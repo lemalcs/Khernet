@@ -132,6 +132,15 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="ffme.common, Version=3.4.1.210, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.common.dll</HintPath>
+    </Reference>
+    <Reference Include="ffme.win, Version=2018.2.19.1102, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.win.dll</HintPath>
+    </Reference>
+    <Reference Include="FFmpeg.AutoGen, Version=3.4.0.5, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
+      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\FFmpeg.AutoGen.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net45\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
@@ -213,15 +222,6 @@
     <Reference Include="VirtualizingWrapPanel, Version=1.5.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VirtualizingWrapPanel.1.5.6\lib\net45\VirtualizingWrapPanel.dll</HintPath>
     </Reference>
-    <Reference Include="Vlc.DotNet.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Core.Interops, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Core.Interops.dll</HintPath>
-    </Reference>
-    <Reference Include="Vlc.DotNet.Wpf, Version=1.0.1.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.App.VLC.1.0.1\lib\Net40\Vlc.DotNet.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -254,6 +254,7 @@
       <DependentUpon>AudioItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BaseValueMultiConverter.cs" />
+    <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\UpdateOnlineConverter.cs" />
     <Compile Include="Converters\ImageHeightConverter.cs" />
     <Compile Include="Converters\ButtonShapeMultiConverter.cs" />
@@ -392,11 +393,9 @@
     <Compile Include="DependencyProperties\FormatedDocumentSourceProperty.cs" />
     <Compile Include="DependencyProperties\EmojiSourceProperty.cs" />
     <Compile Include="DependencyProperties\FocusProperty.cs" />
-    <Compile Include="DependencyProperties\VideoSourceProperty.cs" />
     <Compile Include="DependencyProperties\InlineSourceProperty.cs" />
     <Compile Include="DependencyProperties\EnableVideoLoopProperty.cs" />
     <Compile Include="DependencyProperties\DocumentSourceProperty.cs" />
-    <Compile Include="DependencyProperties\MediaSourceProperty.cs" />
     <Compile Include="DependencyProperties\ClipFromBorderProperty.cs" />
     <Compile Include="DependencyProperties\EnableFrameHistory.cs" />
     <Compile Include="DependencyProperties\IsFocusedProperty.cs" />
@@ -530,6 +529,7 @@
     <Compile Include="ViewModels\Dialogs\DialogResultViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\CacheViewModel.cs" />
     <Compile Include="ViewModels\EmojiPaletteViewModel.cs" />
+    <Compile Include="ViewModels\Media\VideoPlayerViewModel.cs" />
     <Compile Include="ViewModels\Media\GIFItemViewModel.cs" />
     <Compile Include="ViewModels\Media\MediaGalleryViewModel.cs" />
     <Compile Include="ViewModels\Design\FileChatMessageDesignModel.cs" />
@@ -932,9 +932,9 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets'))" />
+    <Error Condition="!Exists('..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets'))" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>set bin_directory=..\..\..\..\..\bin\Khernet.UI
@@ -943,5 +943,5 @@ IF not exist %25bin_directory%25 mkdir %25bin_directory%25
 copy /Y $(TargetPath) %25bin_directory%25</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" />
-  <Import Project="..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\packages\Khernet.UI.Lib.1.1.0\build\Khernet.UI.Lib.targets')" />
+  <Import Project="..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" />
 </Project>

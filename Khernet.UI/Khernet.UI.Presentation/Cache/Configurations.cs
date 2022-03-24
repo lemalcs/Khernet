@@ -58,9 +58,9 @@ namespace Khernet.UI.Cache
         }
 
         /// <summary>
-        /// The directory where VLC library is stored.
+        /// The directory where FFMPEG library is stored.
         /// </summary>
-        public static DirectoryInfo VlcDirectory => new DirectoryInfo(Path.Combine(AppDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
+        public static DirectoryInfo FFMEGDirectory => new DirectoryInfo(Path.Combine(AppDirectory, "media"));
 
         /// <summary>
         /// The directory that serves as temporal repository for files.

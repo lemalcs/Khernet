@@ -7,7 +7,7 @@
 #include <idp.iss>
 
 #define ApplicationName "Khernet"
-#define CurrentVersion "0.20.0.0"
+#define CurrentVersion "0.21.0.0"
 #define AppDirectoryName "khernet-app"
 #define SQLScript "SAVE_TEXT_MESSAGE.sql"
 #define IzarcDirectory "izarc"
@@ -241,6 +241,8 @@ var
   renameSuffix: String;
   appLauncher: String;        
   oldVersionDirectory: String;
+  mediaDirectory: String;
+  vlcDirectory: String;
 begin
   configFile := 'Khernet.dat';
   messageDB := 'msgdb';
@@ -252,6 +254,8 @@ begin
   updateLog := 'KhernetUpdate.log';
   renameSuffix := '.old';
   appLauncher := 'khernetlauncher.exe'; 
+  mediaDirectory := 'media'; 
+  vlcDirectory := 'libvlc'; 
 
   RenameFileDirectory(homeDirectoryPath + '\' + appDirectory + '\' + configFile, homeDirectoryPath + '\' + configFile);
 
@@ -267,23 +271,31 @@ begin
   RemoveFile(homeDirectoryPath + '\' + versionDirectory + '\' + appLauncher);
   RemoveFile(homeDirectoryPath + '\Update.exe');
 
+  oldVersionDirectory := GenerateUniqueName(homeDirectoryPath,'.old');
+  if not CreateDir(oldVersionDirectory) then
+  begin
+    Log('Cannot create directory ' + oldVersionDirectory);
+  end; 
+
   // Move files of old version to a is-[random-characters].old directory
   if FileExists(homeDirectoryPath + '\' + updateLog) 
      or DirExists(homeDirectoryPath + '\' + appDirectory) 
      or DirExists(homeDirectoryPath + '\' + versionDirectory) 
      or DirExists(homeDirectoryPath + '\' + packDirectory) then
-  begin  
-    oldVersionDirectory := GenerateUniqueName(homeDirectoryPath,'.old');
-    if not CreateDir(oldVersionDirectory) then
-    begin
-      Log('Cannot create directory ' + oldVersionDirectory);
-    end; 
-
+  begin
     RenameFileDirectory(homeDirectoryPath + '\' + updateLog, oldVersionDirectory + '\' + updateLog + renameSuffix);
     RenameFileDirectory(homeDirectoryPath + '\' + appDirectory, oldVersionDirectory + '\' + appDirectory + renameSuffix);
     RenameFileDirectory(homeDirectoryPath + '\' + versionDirectory, oldVersionDirectory + '\' + versionDirectory + renameSuffix);
     RenameFileDirectory(homeDirectoryPath + '\' + packDirectory, oldVersionDirectory + '\' + packDirectory + renameSuffix);
-  end         
+  end;
+
+  // Remove native libraries for audio and video files
+  if FileExists(homeDirectoryPath + '\' + mediaDirectory) 
+     or DirExists(homeDirectoryPath + '\' + vlcDirectory) then
+  begin
+    RenameFileDirectory(homeDirectoryPath + '\' + mediaDirectory, oldVersionDirectory + '\' + mediaDirectory + renameSuffix);         
+    RenameFileDirectory(homeDirectoryPath + '\' + vlcDirectory, oldVersionDirectory + '\' + vlcDirectory + renameSuffix);         
+  end;
 end;
 
 // Uncompress the Firebird database engine

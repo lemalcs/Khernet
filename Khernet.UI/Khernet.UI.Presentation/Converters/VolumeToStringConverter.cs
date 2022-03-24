@@ -10,8 +10,8 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int volume = (int)value;
-            return volume == 0 ? "VolumeOff" : "VolumeHigh";
+            bool isMuted = (bool)value;
+            return isMuted ? "VolumeOff" : "VolumeHigh";
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

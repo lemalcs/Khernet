@@ -18,11 +18,6 @@ namespace Khernet.UI.Managers
         /// Unsubscribe from audio tracker.
         /// </summary>
         void Unsuscribe(IAudioObserver audioObserver);
-
-        /// <summary>
-        /// Stop playing and audio file and release resources.
-        /// </summary>
-        void Stop();
     }
 
     public interface IAudioObserver
@@ -49,10 +44,5 @@ namespace Khernet.UI.Managers
         /// Stops the audio player.
         /// </summary>
         void Stop();
-
-        /// <summary>
-        /// Mutes the audio file.
-        /// </summary>
-        void Mute();
     }
 }

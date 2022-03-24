@@ -22,7 +22,7 @@ namespace Khernet.UI.DependencyProperties
 
             var control = d as RichTextBox;
 
-            //Check if control is a VlcControl
+            //Check if control is a RichTextBox
             if (control != null)
             {
                 FlowDocument fw = new FlowDocument();

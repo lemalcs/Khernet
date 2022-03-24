@@ -2,20 +2,26 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
-using Vlc.DotNet.Core.Interops.Signatures;
 
 namespace Khernet.UI.Converters
 {
     /// <summary>
-    /// Change a string state based on <see cref="MediaStates"/>.
+    /// Changes to a string state based on <see cref="MediaStates"/>.
     /// </summary>
     public class MediaStatesToStringConverter : BaseValueConverter<MediaStatesToStringConverter>
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //Get milliseconds from video duration
-            MediaStates state = (MediaStates)value;
-            return state == MediaStates.Playing ? "Pause" : "Play";
+            MediaPlayerState state = (MediaPlayerState)value;
+            switch (state)
+            {
+                case MediaPlayerState.Playing:
+                    return "Pause";
+                case MediaPlayerState.Paused:
+                    return "Play";
+                default:
+                    return "Play";
+            }
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -48,10 +54,9 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            MediaStates state = (MediaStates)value;
+            MediaPlayerState state = (MediaPlayerState)value;
 
-            //Returns arrow when reading a file and hand when file is reading to open
-            return state == MediaStates.Playing || state == MediaStates.Paused ? Visibility.Visible : Visibility.Collapsed;
+            return state == MediaPlayerState.Playing || state == MediaPlayerState.Paused ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

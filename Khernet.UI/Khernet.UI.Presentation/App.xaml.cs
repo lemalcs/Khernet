@@ -1,8 +1,10 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Khernet.Core.Utility;
+using Khernet.UI.Cache;
 using Khernet.UI.IoC;
-using Khernet.UI.Resources;
 using System.Windows;
+using Unosquare.FFME;
+using Unosquare.FFME.Shared;
 
 namespace Khernet.UI
 {
@@ -33,7 +35,7 @@ namespace Khernet.UI
             LogDumper.WriteLog(e.Exception);
             IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
             {
-                Message = Constants.ErrorMessage,
+                Message = Khernet.UI.Resources.Constants.ErrorMessage,
                 ShowAcceptOption = true,
                 AcceptOptionLabel = "OK",
             }
@@ -53,6 +55,12 @@ namespace Khernet.UI
             notificationIcon.DataContext = IoCContainer.Get<IApplicationManager>();
 
             IoCContainer.Configure<ApplicationViewModel>();
+
+            // Directory of ffmpeg needed to play audio and video files.
+            MediaElement.FFmpegDirectory = Configurations.FFMEGDirectory.FullName;
+
+            // Full Features is already the default.
+            MediaElement.FFmpegLoadModeFlags = FFmpegLoadMode.FullFeatures;
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -2,13 +2,11 @@
 using Khernet.UI.Cache;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Vlc.DotNet.Core;
-using Vlc.DotNet.Core.Interops;
 
 namespace Khernet.UI.Media
 {
@@ -24,19 +22,8 @@ namespace Khernet.UI.Media
     }
     public static class MediaHelper
     {
-        static string[] options = new[]
-                   {
-                        "--intf", "dummy", /* no interface                   */
-                        "--vout", "dummy", /* we don't want video output     */
-                        "--no-audio", /* we don't want audio decoding   */
-                        "--no-video-title-show", /* nor the filename displayed     */
-                        "--no-stats", /* no stats */
-                        "--no-sub-autodetect-file", /* we don't want subtitles        */
-                        "--no-snapshot-preview", /* no blending in dummy vout      */
-                    };
-
         /// <summary>
-        /// Converts and video file ro a specific format.
+        /// Converts and video file to a specific format.
         /// </summary>
         /// <param name="inputFile">The path of source video.</param>
         /// <param name="outpuFile">The path of converted video.</param>
@@ -183,6 +170,74 @@ namespace Khernet.UI.Media
         }
 
         /// <summary>
+        /// Extracts information about audio and video files using the ffprobe.exe utility.
+        /// </summary>
+        /// <param name="arguments">The arguments for ffprobe.exe</param>
+        /// <returns>A string with the requested information.</returns>
+        private static string StartProbeProcess(string arguments)
+        {
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.FileName = Path.Combine(Configurations.AppDirectory, "media", "ffprobe.exe");
+            processInfo.Arguments = arguments;
+            processInfo.CreateNoWindow = true;
+            processInfo.UseShellExecute = false;
+            processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            processInfo.RedirectStandardOutput = true;
+            processInfo.RedirectStandardError = true;
+
+            Process process = null;
+            DataReceivedEventHandler receivedEventHandler = null;
+            DataReceivedEventHandler errorReceivedEventHandler = null;
+
+            try
+            {
+                using (process = new Process())
+                {
+                    process.StartInfo = processInfo;
+
+                    string result = string.Empty;
+                    string errorDetail = string.Empty;
+                    receivedEventHandler = new DataReceivedEventHandler((s, e) =>
+                    {
+                        if (e.Data != null)
+                            result += string.Concat(e.Data);
+                    });
+                    errorReceivedEventHandler = new DataReceivedEventHandler((s, e) =>
+                    {
+                        if (e.Data != null)
+                            errorDetail += string.Concat(e.Data);
+                    });
+
+                    process.OutputDataReceived += receivedEventHandler;
+                    process.ErrorDataReceived += errorReceivedEventHandler;
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+
+                    if (process.ExitCode != 0)
+                    {
+                        throw new Exception($"Error while processing file: {errorDetail}");
+                    }
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (process != null)
+                {
+                    process.OutputDataReceived -= receivedEventHandler;
+                    process.ErrorDataReceived -= errorReceivedEventHandler;
+                }
+            }
+        }
+
+        /// <summary>
         /// Get duration of video.
         /// </summary>
         /// <param name="fileName">The path of video.</param>
@@ -192,38 +247,13 @@ namespace Khernet.UI.Media
             return await Task.Run(() =>
             {
                 TimeSpan duration = TimeSpan.Zero;
-                AutoResetEvent reset = new AutoResetEvent(false);
+                string argument = $"-loglevel error -show_entries format=duration -of csv=p=0 \"{fileName}\"";
 
-                using (var mediaPlayer = new Vlc.DotNet.Core.VlcMediaPlayer(Configurations.VlcDirectory, options))
+                string result = StartProbeProcess(argument);
+                double seconds;
+                if (double.TryParse(result, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out seconds))
                 {
-                    mediaPlayer.SetMedia(new Uri(fileName));
-
-                    mediaPlayer.EncounteredError += (sender, e) =>
-                    {
-                        //Release the waiting process so it can continue executing in case of error
-                        reset.Set();
-                    };
-
-                    mediaPlayer.Playing += (sender, e) =>
-                    {
-                        var media = (VlcMediaPlayer)sender;
-
-                        //Get duration of video in milliseconds and convert it to TimeSpan object
-                        duration = TimeSpan.FromMilliseconds(media.Length);
-
-                        //Set position to final so video can stop immediately
-                        media.Position = media.Length;
-
-                        //Release the waiting process so it can continue executing
-                        reset.Set();
-                    };
-
-                    //Play video
-                    mediaPlayer.Play();
-
-                    //Wait current process until duration of video is captured.
-                    reset.WaitOne();
-
+                    duration = TimeSpan.FromSeconds(seconds);
                 }
 
                 return duration;
@@ -241,50 +271,15 @@ namespace Khernet.UI.Media
             return await Task.Run(() =>
             {
                 Size videoSize = new Size();
-                AutoResetEvent reset = new AutoResetEvent(false);
+                string argument = $"-loglevel error -show_entries stream=width,height -of csv=p=0 \"{fileName}\"";
 
-                using (var mediaPlayer = new Vlc.DotNet.Core.VlcMediaPlayer(Configurations.VlcDirectory, options))
+                string result = StartProbeProcess(argument);
+                string[] stringSize = null;
+                if (!string.IsNullOrEmpty(result) && result.Contains(","))
                 {
-                    mediaPlayer.SetMedia(new Uri(fileName));
-
-                    mediaPlayer.EncounteredError += (sender, e) =>
-                    {
-                        //Release the waiting process so it can continue executing in case of error
-                        reset.Set();
-                    };
-
-                    mediaPlayer.Playing += (sender, e) =>
-                    {
-                        var media = (VlcMediaPlayer)sender;
-
-                        //Get video width and height
-                        var mediaInfo = media.GetMedia();
-
-                        //Search for video track to get width and height
-                        for (int i = 0; i < mediaInfo.Tracks.Length; i++)
-                        {
-                            if (mediaInfo.Tracks[i].Type != Vlc.DotNet.Core.Interops.Signatures.MediaTrackTypes.Video)
-                                continue;
-
-                            VideoTrack track = (VideoTrack)mediaInfo.Tracks[i].TrackInfo;
-
-                            videoSize.Width = track.Width;
-                            videoSize.Height = track.Height;
-                        }
-
-                        //Set position to final so video can stop immediately
-                        media.Position = media.Length;
-
-                        //Release the waiting process so it can continue executing
-                        reset.Set();
-                    };
-
-                    //Play video
-                    mediaPlayer.Play();
-
-                    //Wait current process until duration of video is captured.
-                    reset.WaitOne();
-
+                    stringSize = result.Split(',');
+                    videoSize.Width = double.Parse(stringSize[0]);
+                    videoSize.Height = double.Parse(stringSize[1]);
                 }
 
                 return videoSize;
@@ -302,38 +297,10 @@ namespace Khernet.UI.Media
             return await Task.Run(() =>
             {
                 bool hasVideo = false;
-                AutoResetEvent reset = new AutoResetEvent(false);
+                string argument = $"-loglevel error -show_entries stream=codec_type -of csv=p=0 \"{fileName}\"";
 
-                using (var mediaPlayer = new Vlc.DotNet.Core.VlcMediaPlayer(Configurations.VlcDirectory, options))
-                {
-                    mediaPlayer.SetMedia(new Uri(fileName));
-
-                    mediaPlayer.EncounteredError += (sender, e) =>
-                    {
-                        //Release the waiting process so it can continue executing in case of error
-                        reset.Set();
-                    };
-
-                    mediaPlayer.Playing += (sender, e) =>
-                    {
-                        var media = (VlcMediaPlayer)sender;
-
-                        //Get duration of video in milliseconds and convert it to TimeSpan object
-                        hasVideo = media.Video.Tracks.Count > 0;
-
-                        //Set position to final so video can stop immediately
-                        media.Position = media.Length;
-
-                        //Release the waiting process so it can continue executing
-                        reset.Set();
-                    };
-
-                    //Play video
-                    mediaPlayer.Play();
-
-                    //Wait current process until duration of video is captured.
-                    reset.WaitOne();
-                }
+                string result = StartProbeProcess(argument);
+                hasVideo = !string.IsNullOrEmpty(result) && result.Contains("video");
 
                 return hasVideo;
             });

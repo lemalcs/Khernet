@@ -1,5 +1,4 @@
-﻿using Khernet.UI.DependencyProperties;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,9 +18,15 @@ namespace Khernet.UI.Controls
         DispatcherTimer timer;
 
         /// <summary>
-        /// Current volume of video player to restore value after mute is unchecked.
+        /// The model for video player
         /// </summary>
-        private int currentVolume;
+        VideoPlayerViewModel videoPlayerModel;
+
+        public VideoPlayerViewModel VideoPlayerModel
+        {
+            get => videoPlayerModel;
+            private set => videoPlayerModel = value;
+        }
 
         public VideoPlayerControl()
         {
@@ -30,6 +35,8 @@ namespace Khernet.UI.Controls
             timer.Tick += Timer_Tick;
             timer.IsEnabled = true;
             timer.Interval = TimeSpan.FromSeconds(5);
+            VideoPlayerModel = new VideoPlayerViewModel();
+            VideoPlayerModel.Player = Media;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -47,28 +54,10 @@ namespace Khernet.UI.Controls
             timer.Stop();
         }
 
-        private void BaseDialogUserControl_Unloaded(object sender, RoutedEventArgs e)
+        private async void BaseDialogUserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             timer.Tick -= Timer_Tick;
-            vlcControl.Dispose();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //Pauses the video if it is playing
-            if (vlcControl.SourceProvider.MediaPlayer.IsPlaying())
-                vlcControl.SourceProvider.MediaPlayer.Pause();
-            else if (vlcControl.SourceProvider.MediaPlayer.State == Vlc.DotNet.Core.Interops.Signatures.MediaStates.Paused)
-            {
-                //Continue playing video if it is paused
-                vlcControl.SourceProvider.MediaPlayer.Play();
-            }
-            else
-            {
-                //Otherwise play video again
-                var mediaFile = MediaSourceProperty.GetValue(vlcControl);
-                MediaSourceProperty.SetValue(vlcControl, mediaFile);
-            }
+            await Media.Close();
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)
@@ -78,18 +67,9 @@ namespace Khernet.UI.Controls
             timer.Start();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Media_MediaEnded(object sender, RoutedEventArgs e)
         {
-            //Mute volume when button is clicked or restore previous volume value
-            if (vlcControl.Volume > 0)
-            {
-                currentVolume = vlcControl.Volume;
-                vlcControl.Volume = 0;
-            }
-            else
-            {
-                vlcControl.Volume = currentVolume;
-            }
+            VideoPlayerModel.SetStoppedVideo();
         }
     }
 }

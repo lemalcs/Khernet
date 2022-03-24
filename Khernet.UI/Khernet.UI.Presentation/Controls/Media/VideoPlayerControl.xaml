@@ -6,8 +6,7 @@
                              xmlns:vm="clr-namespace:Khernet.UI"
                              xmlns:conv="clr-namespace:Khernet.UI.Converters"
                              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                             xmlns:depend="clr-namespace:Khernet.UI.DependencyProperties"
-                             xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"      
+                             xmlns:ffme="clr-namespace:Unosquare.FFME;assembly=ffme.win"
                              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                              x:Class="Khernet.UI.Controls.VideoPlayerControl"      
                              mc:Ignorable="d" 
@@ -24,6 +23,7 @@
         <Storyboard x:Key="hideVideoControls">
             <DoubleAnimation To="1" Duration="0:0:0.1" Storyboard.TargetName="videoControls" Storyboard.TargetProperty="Opacity"/>
         </Storyboard>
+
     </UserControl.Resources>
     
     <Grid Background="Transparent"
@@ -37,7 +37,7 @@
         <Border Background="Black" 
                 Opacity="0.8"/>
 
-        <!-- Close button-->
+        <!-- Close button -->
         <Button Height="60"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -45,18 +45,20 @@
                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                 Style="{StaticResource IconButton}"
                 Command="{Binding CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:BaseDialogUserControl}}}">
-            <iconPacks:PackIconMaterial Kind="WindowClose" 
+            <iconPacks:PackIconMaterial Kind="Close" 
                                         Width="15" 
                                         Margin="0 10 0 0"/>
         </Button>
 
-        <!--VLC Video player-->
+        <!-- Video player -->
         <Viewbox>
-            <vlc:VlcControl x:Name="vlcControl"
-                            depend:MediaSourceProperty.Value="{Binding FilePath}"/>
+            <ffme:MediaElement Name="Media" 
+                               LoadedBehavior="Play" 
+                               Source="{Binding FilePath}"
+                               MediaEnded="Media_MediaEnded"/>
         </Viewbox>
 
-        <!-- Video playing controls-->
+        <!-- Video playing controls -->
         <StackPanel Name="videoControls" 
                     VerticalAlignment="Bottom"
                     HorizontalAlignment="Stretch"
@@ -72,7 +74,7 @@
                 </EventTrigger>
             </StackPanel.Triggers>
 
-            <!-- Time line controls-->
+            <!-- Time line controls -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -80,33 +82,34 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!--Current time-->
+                <!-- Current time -->
                 <TextBlock Grid.Column="0"
-                           Text="{Binding ElementName=vlcControl,Path=Time,Converter={conv:NumberToTimeStringConverter}}"
+                           Text="{Binding ElementName=Media,Path=Position,Converter={conv:NumberToTimeStringConverter}}"
                            Foreground="White"
                            Margin="4 0 4 0"/>
 
-                <!-- Time line slider-->
+                <!-- Time line slider -->
                 <Slider Name="timelineSlider" 
                         Grid.Column="1"
-                        Maximum="{Binding Duration,Converter={conv:TimeSpanToDoubleConverter}}"
+                        Maximum="{Binding ElementName=Media,Path=NaturalDuration,Converter={conv:TimeSpanToSecondsConverter}}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        IsMoveToPointEnabled="True"
-                        Value="{Binding ElementName=vlcControl,Path=Time,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="True"
+                        IsMoveToPointEnabled="True"                        
                         Style="{StaticResource SliderStyle}"
-                        SmallChange="1"
-                        LargeChange="1"
+                        SmallChange="{Binding ElementName=Media, Path=FrameStepDuration, Converter={conv:TimeSpanToSecondsConverter}}"
+                        LargeChange="{Binding ElementName=Media, Path=FrameStepDuration, Converter={conv:TimeSpanToSecondsConverter}}"
+                        Value="{Binding ElementName=Media,Path=Position,Converter={conv:TimeSpanToSecondsConverter}}"
                         Minimum="0"/>
 
-                <!-- Length of video-->
+                <!-- Length of video -->
                 <TextBlock Grid.Column="2"
                            Text="{Binding Duration,Converter={conv:TimeSpanToStringConverter}}"
                            Foreground="White"
                            Margin="4 0 4 0"/>
             </Grid>
 
-            <!--Video controls-->
+            <!-- Video controls -->
             <Grid Margin="0 0 0 8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -114,16 +117,18 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!--Play/Pause button-->
+                <!-- Play/Pause button -->
                 <Button Grid.Column="1"
                         Width="35"
                         Height="35"
                         Style="{StaticResource IconButton}"
+                        Command="{Binding VideoPlayerModel.PlayCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:VideoPlayerControl}}}"
                         HorizontalAlignment="Left"
                         Background="AliceBlue"
-                        Click="Button_Click"
                         Cursor="Hand">
-                    <iconPacks:PackIconMaterial Kind="{Binding ElementName=vlcControl,Path=State,Converter={conv:MediaStatesToStringConverter}}"
+                    <iconPacks:PackIconMaterial Kind="{Binding VideoPlayerModel.State, 
+                                                               RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:VideoPlayerControl}},
+                                                               Converter={conv:MediaStatesToStringConverter}}"
                                                 Width="15"
                                                 Foreground="White"
                                                 VerticalAlignment="Center"
@@ -131,30 +136,28 @@
                                                 Cursor="Hand"/>
                 </Button>
 
-                <!-- Volume controls-->
+                <!-- Volume controls -->
                 <StackPanel Grid.Column="2"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right">
 
-                    <!--Mute button-->
-                    <Button Style="{StaticResource IconButton}"
-                            Click="Button_Click_1">
-                        <iconPacks:PackIconMaterial Kind="{Binding ElementName=vlcControl,Path=Volume,Converter={conv:VolumeToStringConverter},
+                    <!-- Mute button -->
+                    <ToggleButton Style="{StaticResource MediaIconToggleButton}" 
+                                  IsChecked="{Binding ElementName=Media,Path=IsMuted,Mode=TwoWay}">
+                        <iconPacks:PackIconMaterial Kind="{Binding ElementName=Media,Path=IsMuted,Converter={conv:VolumeToStringConverter},
                                                                    FallbackValue=VolumeLow,
                                                                    TargetNullValue=VolumeOff}" 
                                                     Foreground="White"
                                                     Width="20"/>
-                    </Button>
+                    </ToggleButton>
 
-                    <!--Volume slider-->
+                    <!-- Volume slider -->
                     <Slider Width="100"
                             HorizontalAlignment="Left"
                             Margin="5"
                             Minimum="0"
-                            Maximum="125"
-                            SmallChange="1"
-                            LargeChange="1"
-                            Value="{Binding ElementName=vlcControl,Path=Volume}"
+                            Maximum="1"
+                            Value="{Binding ElementName=Media,Path=Volume}"
                             IsMoveToPointEnabled="True"
                             Style="{StaticResource SliderStyle}"
                             VerticalAlignment="Center"/>
@@ -162,7 +165,7 @@
             </Grid>
         </StackPanel>
 
-        <!--Animation to show load progress-->
+        <!-- Animation to show load progress -->
         <Controls:ProgressRing Width="40" 
                                Visibility="{Binding IsLoading,Converter={conv:BoolToVisibilityGoneConverter},FallbackValue=Collapsed}"
                                Foreground="White"

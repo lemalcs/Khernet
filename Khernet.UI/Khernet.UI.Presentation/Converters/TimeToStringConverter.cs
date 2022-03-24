@@ -56,7 +56,8 @@ namespace Khernet.UI.Converters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var time = TimeSpan.FromMilliseconds((long)value);
+            //var time = TimeSpan.FromMilliseconds((long)value);
+            var time = (TimeSpan)value;
 
             if (Math.Truncate(time.TotalDays) > 0)//Verify if video lasts one day or more
                 return time.ToString(@"dd\.hh\:mm\:ss");
