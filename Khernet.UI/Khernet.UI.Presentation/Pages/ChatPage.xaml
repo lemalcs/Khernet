@@ -303,7 +303,8 @@
                                       FontFamily="{StaticResource RobotoRegularFont}"
                                       IsChecked="{Binding MessageFormat,Converter={conv:MessageFormatToStringConverter},Mode=TwoWay}"
                                       Checked="tgBtn_Markdown_Checked">
-                            <iconPacks:PackIconMaterial Kind="Markdown" />
+                            <iconPacks:PackIconMaterial Kind="LanguageMarkdownOutline" 
+                                                        Width="24"/>
                         </ToggleButton>
                     </StackPanel>
 

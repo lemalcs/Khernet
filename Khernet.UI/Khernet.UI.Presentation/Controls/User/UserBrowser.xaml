@@ -43,7 +43,7 @@
                                     Foreground="{StaticResource OverTextboxBorderBrush}"
                                     Name="settings_Button">
                                 <iconPacks:PackIconMaterial Width="15" 
-                                                            Kind="Settings"/>
+                                                            Kind="Cog"/>
                             </Button>
 
                             <Button ToolTip="Add contact" 

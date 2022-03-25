@@ -200,6 +200,7 @@ namespace Khernet.UI
         public ReplyMessageViewModel()
         {
             OpenMessageCommand = new RelayCommand(OpenMessage);
+            IconName = "File";
         }
 
         private void OpenMessage()
