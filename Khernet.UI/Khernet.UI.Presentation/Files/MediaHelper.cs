@@ -271,7 +271,7 @@ namespace Khernet.UI.Media
             return await Task.Run(() =>
             {
                 Size videoSize = new Size();
-                string argument = $"-loglevel error -show_entries stream=width,height -of csv=p=0 \"{fileName}\"";
+                string argument = $"-v error -hide_banner -of default=noprint_wrappers=1 -print_format csv=p=0 -select_streams v:0 -show_entries stream=width,height \"{fileName}\"";
 
                 string result = StartProbeProcess(argument);
                 string[] stringSize = null;
