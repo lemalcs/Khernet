@@ -62,7 +62,7 @@
                         VerticalAlignment="Center">
                 
                 <!-- File name-->
-                <TextBlock Text="{Binding FileChatMessage.FileName}"
+                <TextBlock Text="{Binding NewFileName}"
                            FontFamily="{StaticResource RobotoBoldFont}"
                            Style="{StaticResource TextblockItemStyle}"
                            Margin="0"

@@ -73,6 +73,19 @@ namespace Khernet.UI
         /// </summary>
         private bool isRunning;
 
+        /// <summary>
+        /// Blocks the caller until save operation is complete.
+        /// Results can be:
+        /// - True: file saved successfully.
+        /// - False: error while saving file, check <see cref="ErrorDescription"/> for details.
+        /// </summary>
+        TaskCompletionSource<bool> saveResult;
+
+        /// <summary>
+        /// The new name of file that will be saved.
+        /// </summary>
+        private string newFileName;
+
         public FileMessageItemViewModel FileChatMessage
         {
             get => fileChatMessage;
@@ -136,6 +149,18 @@ namespace Khernet.UI
                 }
             }
         }
+        public string NewFileName
+        {
+            get => newFileName;
+            set
+            {
+                if (newFileName != value)
+                {
+                    newFileName = value;
+                    OnPropertyChanged(nameof(NewFileName));
+                }
+            }
+        }
 
         #endregion
 
@@ -155,6 +180,7 @@ namespace Khernet.UI
             OpenFolderCommand = new RelayCommand(OpenFolder);
             CancelSavingCommand = new RelayCommand(CancelSaving);
             Result = SaveFileResult.NoStarted;
+            saveResult = new TaskCompletionSource<bool>();
         }
 
         private void OpenFolder()
@@ -167,15 +193,17 @@ namespace Khernet.UI
         /// </summary>
         /// <param name="destinationPath">The path where to save file to.</param>
         /// <returns>A <see cref="Task"/> instance.</returns>
-        public Task Execute(string destinationPath)
+        public Task<bool> Execute(string destinationPath)
         {
-            return Task.Run(() =>
+
+            var t = Task.Run(() =>
             {
                 IsRunning = true;
                 if (destinationPath != null)
                 {
                     try
                     {
+                        NewFileName = Path.GetFileName(destinationPath);
                         using (Stream dtStream = IoCContainer.Get<Messenger>().DownloadLocalFile(fileChatMessage.Id))
                         {
                             int chunk = 1048576;
@@ -212,20 +240,24 @@ namespace Khernet.UI
                     }
                 }
 
+                IsRunning = false;
                 if (cancelSaving)
                 {
                     File.Delete(destinationPath);
                     ErrorDescription = "Save file was canceled";
                     Result = SaveFileResult.Canceled;
+                    saveResult.TrySetResult(false);
                 }
                 else if (string.IsNullOrEmpty(ErrorDescription))
                 {
                     savedFilePath = destinationPath;
                     ErrorDescription = "File saved successfully";
                     Result = SaveFileResult.Saved;
+                    saveResult.TrySetResult(true);
                 }
-                IsRunning = false;
             });
+
+            return saveResult.Task;
 
         }
 

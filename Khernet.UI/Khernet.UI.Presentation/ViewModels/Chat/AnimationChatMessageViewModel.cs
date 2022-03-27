@@ -131,17 +131,22 @@ namespace Khernet.UI
             string newFile = FilePath;
             try
             {
-                string mp4Extension = "avi";
+                string aviExtension = "avi";
 
-                //Get a new file name with MP4 extension
-                newFile = FileHelper.GetFileNameWithExtension(FilePath, mp4Extension);
+                // Get a new file name with MP4 extension
+                newFile = FileHelper.GetFileNameWithExtension(FilePath, aviExtension);
 
                 if (File.Exists(newFile))
                     newFile = FileHelper.GetNewFileName(newFile);
 
-                SaveFile(newFile);
+                // This is a smaller video file than the original GIF
+                // due to performance reasons
+                if (!SaveFileWithShowProgress(newFile))
+                {
+                    throw new Exception("Error while saving temporal video file.");
+                }
 
-                //The height of row in GIF gallery
+                // The height of row in GIF gallery
                 int rowHeight = 100;
 
                 int newWidth = (int)Width;
@@ -152,19 +157,19 @@ namespace Khernet.UI
                     newWidth = (int)Width * rowHeight / (int)Height;
                 }
 
-                //Get new height according to gallery row height
+                // Get new height according to gallery row height
                 int newHeight = Height < rowHeight ? (int)Height : rowHeight;
 
-                //Convert AVI video to MP4 format with a smaller size
+                // Convert AVI video to MP4 format with a smaller size
                 MediaHelper.ConvertTo(FilePath, newFile, newWidth, newHeight);
 
                 byte[] animation = null;
 
-                //Read the generated MP4 video file
+                // Read the generated MP4 video file to reduce size of file
                 using (FileStream fs = new FileStream(newFile, FileMode.Open, FileAccess.Read, FileShare.None))
                 using (MemoryStream mem = new MemoryStream())
                 {
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[8000];
 
                     int readBytes = fs.Read(buffer, 0, buffer.Length);
 
@@ -176,14 +181,23 @@ namespace Khernet.UI
                     animation = mem.ToArray();
                 }
 
-                //Get id file stored in database
+                // Get id file stored in database
                 string idFile = IoCContainer.Get<Messenger>().GetFileId(Id);
 
-                //Save MP4 video file to database
+                // Save MP4 video file to database
                 int idAnimation = IoCContainer.Get<Messenger>().SaveAnimation(Id, idFile, newWidth, newHeight, animation);
 
                 if (idAnimation > 0)
                     IoCContainer.Get<ChatMessageListViewModel>().AddAnimationToGallery(idAnimation);
+
+                await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+                {
+                    Message = "GIF added successfully to gallery",
+                    Title = "Khernet",
+                    ShowAcceptOption = true,
+                    AcceptOptionLabel = "OK",
+                    ShowCancelOption = false,
+                });
             }
             catch (Exception error)
             {
@@ -195,7 +209,7 @@ namespace Khernet.UI
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",
                     ShowCancelOption = false,
-                }); ;
+                });
             }
             finally
             {

@@ -2,10 +2,8 @@
 using Khernet.Services.Messages;
 using Khernet.UI.Files;
 using Khernet.UI.IoC;
-using Khernet.UI.Managers;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -263,7 +261,7 @@ namespace Khernet.UI
         /// Save the file of this message to local system with a given destination path.
         /// </summary>
         /// <param name="fileName">The path where to save file to.</param>
-        public async void SaveFile(string fileName)
+        public async void SaveFile(string fileName, bool showProgress = true)
         {
             try
             {
@@ -274,8 +272,14 @@ namespace Khernet.UI
                 {
                     FileChatMessage = this,
                 };
-                _ = saveProgressDialog.Execute(fileName);
-                await applicationDialog.ShowDialog(saveProgressDialog);
+
+                if (showProgress)
+                {
+                    _ = saveProgressDialog.Execute(fileName);
+                    await applicationDialog.ShowDialog(saveProgressDialog);
+                }
+                else
+                    await saveProgressDialog.Execute(fileName);
             }
             catch (Exception error)
             {
@@ -292,21 +296,28 @@ namespace Khernet.UI
         }
 
         /// <summary>
-        /// Save this file message to local system.
+        /// Saves a file without showing a progress dialog.
         /// </summary>
-        /// <param name="fileName">The path where to save file to.</param>
-        public Task SaveFileAsync(string fileName, IFileObserver fileObserver)
+        /// <param name="fileName">The path of destination file.</param>
+        /// <returns>True if file was saved successfully otherwise false.</returns>
+        public bool SaveFileWithShowProgress(string fileName)
         {
-            return Task.Run(() =>
+            try
             {
-                applicationDialog.ShowDialog(new SaveFileDialogViewModel
+                if (fileName == null)
+                    return false;
+
+                SaveFileDialogViewModel saveProgressDialog = new SaveFileDialogViewModel
                 {
                     FileChatMessage = this,
-
-                });
-
-
-            });
+                };
+                return saveProgressDialog.Execute(fileName).Result;
+            }
+            catch (Exception error)
+            {
+                LogDumper.WriteLog(error);
+                return false;
+            }
         }
 
         /// <summary>
