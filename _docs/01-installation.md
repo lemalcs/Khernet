@@ -2,7 +2,7 @@
 title: "Installation"
 permalink: /docs/installation/
 excerpt: "How to install Khernet."
-last_modified_at: 2021-11-14
+last_modified_at: 2022-03-27
 redirect_from:
   - /Khernet-installation/
 toc: true
@@ -29,9 +29,11 @@ Useful when you don't need the application to create things outside the folder w
 
 ### Prerequisites
 
-- .NET Framework 4.5.2 or later must exists on system beforehand. [Offline installer](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) is recommended to avoid compatibility issues.
+- [.NET Framework 4.5.2](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) or later must exists on system beforehand. [Offline installer](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) is recommended to avoid compatibility issues.
 - 240 MB of available space.
 
+Starting with Khernet 0.21.0.0 at least 95 MB of free space is required.
+{: .notice--info}
 
 ## Installed mode
 A wizard is used to install this application where the following features are available:
@@ -53,7 +55,7 @@ A wizard is used to install this application where the following features are av
 
 ### Prerequisites
 
-- Administrative privileges **only** if .NET Framework 4.5.2 or later is not installed.
+- Administrative privileges **only** if [.NET Framework 4.5.2](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) or later is not installed.
 - 241 MB of available space. Up to 1 GB of additional space is needed if .NET Framework is not installed.
 
 

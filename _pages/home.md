@@ -52,16 +52,16 @@ feature_row7:
     <p>The secure standalone chat application made for LAN.</p>
 
     <a class="btn btn--info"
-      href="https://github.com/lemalcs/Khernet/releases/download/v0.20.0.0/KhernetInstaller-0.20.0.0.exe">
+      href="https://github.com/lemalcs/Khernet/releases/download/v0.21.0.0/KhernetInstaller-0.21.0.0.exe">
       Download for Windows
     </a>
     <br/>
     <br/>
-    <a href="https://github.com/lemalcs/Khernet/releases/download/v0.20.0.0/Khernet.exe" class="btn">Get portable application</a>
+    <a href="https://github.com/lemalcs/Khernet/releases/download/v0.21.0.0/Khernet.exe" class="btn">Get portable application</a>
   </div>
 
 
-  <div style="display:inline-block;vertical-align:middle;padding:50px 0px 50px 40px:width=400px">
+  <div style="display:inline-block;vertical-align:middle;padding:0px 0px 50px 40px;width=400px">
     <img src="{{ '/assets/images/main-window.png' | relative_url }}" alt="Main window"/>
   </div>
 </div>

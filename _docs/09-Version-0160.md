@@ -2,7 +2,7 @@
 title: "Installation v0.16.0"
 permalink: /docs/Version-0160/
 excerpt: "How to install Khernet v0.16.0."
-last_modified_at: 2021-11-14
+last_modified_at: 2022-03-24
 redirect_from:
   - /khernet-v0160-installation/
 toc: true
@@ -25,7 +25,7 @@ Windows Vista SP2 (KB2533623) - Windows 10 (not RT)
 ## Setup
 
 1. Place **Khernet.exe** file in a folder of your system.
-> Find the latest version [here](https://github.com/lemalcs/Khernet).
+> Find the [latest version of Khernet](https://github.com/lemalcs/Khernet).
 2. Double click the exe file and wait while the application makes its stuff.
 4. When installation is done the main screen will appear.
 

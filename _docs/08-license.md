@@ -2,12 +2,12 @@
 title: "License"
 permalink: /docs/license/
 excerpt: "License for Khernet."
-last_modified_at: 2021-11-14
+last_modified_at: 2022-03-24
 ---
 
 MIT License
 
-Copyright (c) 2021 Luis Lema
+Copyright (c) 2022 Luis Lema
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
