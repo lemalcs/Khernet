@@ -97,14 +97,18 @@ namespace Khernet.Core.Common
         }
 
         /// <summary>
-        /// The path of file system where database of messages is located.
+        /// The local path of database where files are saved into.
         /// </summary>
         public string FileRepoAddress
         {
             get
             {
-                var assembly = System.Reflection.Assembly.GetEntryAssembly();
-                return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, this.dataFolder, FILE_DB);
+                return string.Format("filename={0};upgrade=true;connection=shared",
+                    Path.Combine(
+                        Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), 
+                        APP_DIRECTORY, 
+                        this.dataFolder, 
+                        FILE_DB));
             }
         }
 

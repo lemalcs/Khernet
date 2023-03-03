@@ -68,7 +68,7 @@ namespace Khernet.Core.Data
 
                     var keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
 
-                    using (LiteFileStream liteFs = db.FileStorage.OpenWrite(idFile, fileNameCode))
+                    using (LiteFileStream<string> liteFs = db.FileStorage.OpenWrite(idFile, fileNameCode))
                     using (var cryptoStream = crypto.EncryptStream(fileData, keys.Item1, keys.Item2))
                     {
                         int chunk = 1048576;
@@ -126,7 +126,7 @@ namespace Khernet.Core.Data
             Storage st = new Storage();
             LiteDatabase db = new LiteDatabase(st.FileRepoAddress);
 
-            LiteFileInfo fileInfo = db.FileStorage.FindById(idFile);
+            LiteFileInfo<string> fileInfo = db.FileStorage.FindById(idFile);
 
             if (fileInfo != null)
             {
@@ -137,7 +137,7 @@ namespace Khernet.Core.Data
 
                     keys = EncryptionHelper.UnpackAESKeys(Obfuscator.Key);
 
-                    LiteFileStream liteFs = fileInfo.OpenRead();
+                    LiteFileStream<string> liteFs = fileInfo.OpenRead();
                     var cryp = crypto.DecryptStream(liteFs, keys.Item1, keys.Item2);
                     return cryp;
                 }
@@ -161,7 +161,7 @@ namespace Khernet.Core.Data
             Storage st = new Storage();
             LiteDatabase db = new LiteDatabase(st.FileRepoAddress);
 
-            LiteFileInfo fileInfo = db.FileStorage.FindById(idFile);
+            LiteFileInfo<string> fileInfo = db.FileStorage.FindById(idFile);
 
             if (fileInfo != null)
             {
