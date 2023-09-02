@@ -52,6 +52,7 @@ It offers the following features over the portable mode:
 - Windows 8
 - Windows 8.1
 - Windows 10 (not RT)
+- Windows 11
 
 ## Contributions
 
