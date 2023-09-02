@@ -18,6 +18,7 @@ Supported operating systems:
 - Windows 8
 - Windows 8.1
 - Windows 10 (not RT)
+- Windows 11
 
 ## Portable mode
 This mode does not use a wizard based installer just copy the main executable to any location you want and start it.
