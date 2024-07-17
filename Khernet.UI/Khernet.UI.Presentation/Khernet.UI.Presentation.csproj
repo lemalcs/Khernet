@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props" Condition="Exists('..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" />
   <Import Project="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -10,13 +11,15 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Khernet.UI</RootNamespace>
     <AssemblyName>Khernet</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -32,7 +35,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -127,25 +129,25 @@
   </Choose>
   <ItemGroup>
     <Reference Include="AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="ffme.common, Version=3.4.1.210, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.common.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.common.dll</HintPath>
     </Reference>
     <Reference Include="ffme.win, Version=2018.2.19.1102, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.win.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\lib\Net452\ffme.win.dll</HintPath>
     </Reference>
     <Reference Include="FFmpeg.AutoGen, Version=3.4.0.5, Culture=neutral, PublicKeyToken=9b7632533a381715, processorArchitecture=MSIL">
-      <HintPath>..\packages\Khernet.UI.Lib.2.0.0\lib\Net452\FFmpeg.AutoGen.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\lib\Net452\FFmpeg.AutoGen.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net45\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net45\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.37.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Khernet.Core.Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -168,25 +170,22 @@
       <HintPath>..\..\bin\Khernet.Core\Khernet.Services.Messages.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.4.11.0\lib\net45\MahApps.Metro.IconPacks.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\MahApps.Metro.IconPacks.Material.4.0.0\lib\net45\MahApps.Metro.IconPacks.Core.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks.Material, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.Material.4.11.0\lib\net45\MahApps.Metro.IconPacks.Material.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\MahApps.Metro.IconPacks.Material.4.0.0\lib\net45\MahApps.Metro.IconPacks.Material.dll</HintPath>
     </Reference>
     <Reference Include="Markdig, Version=0.26.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Markdig.0.26.0\lib\net452\Markdig.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Markdig.0.26.0\lib\net452\Markdig.dll</HintPath>
     </Reference>
     <Reference Include="Markdig.Wpf, Version=0.5.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Markdig.Wpf.0.5.0.1\lib\net452\Markdig.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.37\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Markdig.Wpf.0.5.0.1\lib\net452\Markdig.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -199,7 +198,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -211,7 +210,7 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -223,7 +222,7 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="VirtualizingWrapPanel, Version=1.5.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VirtualizingWrapPanel.1.5.6\lib\net45\VirtualizingWrapPanel.dll</HintPath>
+      <HintPath>..\..\..\..\..\.nuget\VirtualizingWrapPanel.1.5.6\lib\net45\VirtualizingWrapPanel.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -894,12 +893,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Khernet.UI.Container\Khernet.UI.Container.csproj">
-      <Project>{b76e3fde-f66b-405b-a523-b7e1611776c1}</Project>
-      <Name>Khernet.UI.Container</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
@@ -913,8 +906,14 @@
     <Resource Include="Resources\newMessageIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.NetAnalyzers.dll" />
+    <Analyzer Include="..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" />
+    <Analyzer Include="..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\analyzers\dotnet\cs\Microsoft.CodeAnalysis.NetAnalyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Khernet.UI.Container\Khernet.UI.Container.csproj">
+      <Project>{b76e3fde-f66b-405b-a523-b7e1611776c1}</Project>
+      <Name>Khernet.UI.Container</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -935,9 +934,9 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets'))" />
-    <Error Condition="!Exists('..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.props'))" />
+    <Error Condition="!Exists('..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets'))" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>set bin_directory=..\..\..\..\..\bin\Khernet.UI
@@ -947,4 +946,6 @@ copy /Y $(TargetPath) %25bin_directory%25</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" />
   <Import Project="..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\packages\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" />
+  <Import Project="..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets" Condition="Exists('..\..\..\..\..\.nuget\Khernet.UI.Lib.2.0.0\build\Khernet.UI.Lib.targets')" />
+  <Import Project="..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets" Condition="Exists('..\..\..\..\..\.nuget\Microsoft.CodeAnalysis.NetAnalyzers.5.0.3\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" />
 </Project>

@@ -1,7 +1,14 @@
-![Logo](Logo.png)
-# **Khernet**
+<br>
+<p align="center">
+    <img width="500" src="./Logo.png" alt="Khernet">
+</p>
+<br>
+
+<h1 align="center">Khernet</h1>
 
 Khernet is a standalone chat application for LAN, just click the application and start to chat.
+
+<br>
 
 ## Main features
 
@@ -43,16 +50,20 @@ It offers the following features over the portable mode:
 
 ## Prerequisites
 
-- .NET Framework 4.5.2 or later.
+- .NET Framework 4.6.1 or later.
 - 241 MB of available space.
 
+> For Khernet 0.21.0.1 and earlier you need .NET Framework 4.5.2 or later.
+
 ## Supported systems
-- Windows Vista SP2 (KB2533623)
+- Windows Vista SP2 (KB2533623)*
 - Windows 7
 - Windows 8
 - Windows 8.1
 - Windows 10 (not RT)
 - Windows 11
+
+\* For Windows Vista SP2 (KB2533623) use [Khernet 0.21.0.1](https://github.com/lemalcs/Khernet/releases/tag/v0.21.0.1) or earlier.
 
 ## Contributions
 

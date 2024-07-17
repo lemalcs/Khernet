@@ -20,7 +20,7 @@ cd Khernet.Installer
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" KhernetInstaller.iss
 
 rem Copy final installer to bin directory
-set mainApp_path=bin\KhernetInstaller-0.21.0.1.exe
+set mainApp_path=bin\KhernetInstaller-0.22.0.0.exe
 set installerDest=..\bin\Khernet.Installer
 if not exist %installerDest% mkdir %installerDest%
 if exist %mainApp_path% copy %mainApp_path% %installerDest%

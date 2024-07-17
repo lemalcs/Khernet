@@ -301,7 +301,7 @@ namespace Khernet.Core.Processor
             // Now to convert the Bouncy Castle certificate to a .NET certificate.
             // See http://web.archive.org/web/20100504192226/http://www.fkollmann.de/v2/post/Creating-certificates-using-BouncyCastle.aspx
             // ...but, basically, we create a PKCS12 store (a .PFX file) in memory, and add the public and private key to that.
-            var store = new Pkcs12Store();
+            var store = new Pkcs12StoreBuilder().Build();
 
             // What Bouncy Castle calls "alias" is the same as what Windows terms the "friendly name".
 

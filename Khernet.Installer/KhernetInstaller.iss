@@ -7,7 +7,7 @@
 #include <idp.iss>
 
 #define ApplicationName "Khernet"
-#define CurrentVersion "0.21.0.1"
+#define CurrentVersion "0.22.0.0"
 #define AppDirectoryName "khernet-app"
 #define SQLScript "SAVE_TEXT_MESSAGE.sql"
 #define IzarcDirectory "izarc"
@@ -20,7 +20,7 @@
 [Setup]
 AppName={#ApplicationName}
 AppVersion={#CurrentVersion}
-VersionInfoCopyright=Copyright © 2023
+VersionInfoCopyright=Copyright © 2024
 VersionInfoVersion={#CurrentVersion}
 VersionInfoProductVersion={#CurrentVersion}
 WizardStyle=modern
@@ -96,16 +96,16 @@ var installed: Boolean; // Indicates whether .NET Framework was successfully ins
 
 function InitializeSetup(): Boolean;
 begin
-  if not IsDotNetInstalled(net452, 0) then 
+  if not IsDotNetInstalled(net461, 0) then 
   begin
     if not IsAdmin() then
     begin
-      MsgBox('Khernet requires .NET Framework 4.5.2, please re-run the installer with administrative privilegies.', mbInformation, MB_OK); 
+      MsgBox('Khernet requires .NET Framework 4.6.1, please re-run the installer with administrative privilegies.', mbInformation, MB_OK); 
       result := false; 
     end
     else
     begin
-      dotnetInstallerFile := '{tmp}\NetFramework452Installer.exe';
+      dotnetInstallerFile := '{tmp}\NetFramework461Installer.exe';
       result := true;
     end
   end 
@@ -121,7 +121,7 @@ var
   ResultCode: Integer;
 begin
   StatusText := WizardForm.StatusLabel.Caption;
-  WizardForm.StatusLabel.Caption := 'Installing .NET Framework 4.5.2. This might take a few minutes...';
+  WizardForm.StatusLabel.Caption := 'Installing .NET Framework 4.6.1. This might take a few minutes...';
   WizardForm.ProgressGauge.Style := npbstMarquee;
   try
     if not Exec(ExpandConstant(dotnetInstallerFile), '/passive /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
@@ -141,7 +141,7 @@ end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 begin
-  if not IsDotNetInstalled(net452, 0) then
+  if not IsDotNetInstalled(net461, 0) then
   begin
     installed := false;
     InstallFramework();
@@ -151,7 +151,7 @@ begin
       result := ''; // Successful installation
     end
     else // Failed installation
-      result := 'Installation of .NET 4.5.2 failed with error: '+SysErrorMessage(rescode)+' code: '+IntToStr(rescode)+''#13#13
+      result := 'Installation of .NET 4.6.1 failed with error: '+SysErrorMessage(rescode)+' code: '+IntToStr(rescode)+''#13#13
       'Make sure you have administrative privilegies and internet connection.';
   end;
 end;
@@ -195,11 +195,11 @@ end;
 // Event fired just before the wizard is shown.
 procedure InitializeWizard;
 begin
-  if not IsDotNetInstalled(net452, 0) then
+  if not IsDotNetInstalled(net461, 0) then
   begin
     if IsAdmin() then
     begin 
-      idpAddFile('https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe', ExpandConstant(dotnetInstallerFile));
+      idpAddFile('https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe', ExpandConstant(dotnetInstallerFile));
       idpDownloadAfter(wpReady);
     end
   end;
