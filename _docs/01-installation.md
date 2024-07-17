@@ -2,7 +2,7 @@
 title: "Installation"
 permalink: /docs/installation/
 excerpt: "How to install Khernet."
-last_modified_at: 2022-03-27
+last_modified_at: 2024-07-16
 redirect_from:
   - /Khernet-installation/
 toc: true
@@ -13,12 +13,14 @@ There are 2 modes of installation:
 - **Installed mode:** uses a wizard where additional features are available.
 
 Supported operating systems:
-- Windows Vista SP2 (KB2533623)
+- Windows Vista SP2 (KB2533623)**\***
 - Windows 7
 - Windows 8
 - Windows 8.1
 - Windows 10 (not RT)
 - Windows 11
+
+> \* For Windows Vista SP2 (KB2533623) use [Khernet 0.21.0.1](https://github.com/lemalcs/Khernet/releases/tag/v0.21.0.1) or earlier.
 
 ## Portable mode
 This mode does not use a wizard based installer just copy the main executable to any location you want and start it.
@@ -29,9 +31,11 @@ Useful when you don't need the application to create things outside the folder w
 
 
 ### Prerequisites
-
-- [.NET Framework 4.5.2](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) or later must exists on system beforehand. [Offline installer](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) is recommended to avoid compatibility issues.
+- [.NET Framework 4.6.1](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net461-offline-installer) or later must be installed.
+beforehand.
 - 240 MB of available space.
+
+> For [Khernet 0.21.0.1](https://github.com/lemalcs/Khernet/releases/tag/v0.21.0.1) and earlier, you need [.NET Framework 4.5.2](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) or later.
 
 Starting with Khernet 0.21.0.0 at least 95 MB of free space is required.
 {: .notice--info}
@@ -56,7 +60,7 @@ A wizard is used to install this application where the following features are av
 
 ### Prerequisites
 
-- Administrative privileges **only** if [.NET Framework 4.5.2](https://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe) or later is not installed.
+- Administrative privileges **only** if [.NET Framework 4.6.1](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net461-offline-installer) or later is not installed.
 - 241 MB of available space. Up to 1 GB of additional space is needed if .NET Framework is not installed.
 
 
