@@ -31,5 +31,10 @@ namespace Khernet.UI.Pages
         {
             pass1.Clear();
         }
+
+        private void Login_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ((LoginViewModel)ViewModel).CanAutoLogin();
+        }
     }
 }

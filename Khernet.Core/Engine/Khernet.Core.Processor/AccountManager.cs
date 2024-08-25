@@ -62,11 +62,11 @@ namespace Khernet.Core.Processor
 
             Storage storage = new Storage();
 
-            Configuration.SetPassword(pass, storage.BuildConnectionString(StorageType.Configuration));
+            Configuration.SetPassword(pass);
             Configuration.SetValue(Constants.Fingerprint, cryptoProvider.RetrieveString(configKeyContainer));
 
             //This key will be used to encrypt values of configurations except this key
-            Configuration.SetPassword(configKeyContainer, storage.BuildConnectionString(StorageType.Configuration));
+            Configuration.SetPassword(configKeyContainer);
 
             //Generate key to encrypt application database
             salt = cryptoProvider.GenerateRandonNumbers(64);
@@ -416,6 +416,80 @@ namespace Khernet.Core.Processor
                     SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(subjectKeyPair.Public));
             certificateGenerator.AddExtension(
                 X509Extensions.SubjectKeyIdentifier.Id, false, subjectKeyIdentifierExtension);
+        }
+
+        public void SaveCredentials(string userName, SecureString password)
+        {
+            CryptographyProvider cryptographyProvider = new CryptographyProvider();
+            byte[] entropy = cryptographyProvider.GenerateKey(password, 256);
+
+            Configuration.SetPlainValue(Constants.EntropyKey, entropy);
+
+            Configuration.SetPlainValue(
+                Constants.UserKey,
+                cryptographyProvider.EncryptWithUserKey(Encoding.UTF8.GetBytes(userName), entropy)
+                );
+
+            Configuration.SetPlainValue(
+                Constants.PasswordKey,
+                cryptographyProvider.EncryptWithUserKey(
+                    Encoding.UTF8.GetBytes(cryptographyProvider.RetrieveString(password)), entropy)
+                );
+        }
+
+        public string GetUserName()
+        {
+            byte[] entropy = Configuration.GetPlainValue(Constants.EntropyKey);
+
+            if (entropy == null)
+                return null;
+
+            CryptographyProvider cryptographyProvider = new CryptographyProvider();
+            byte[] decryptedUserName = cryptographyProvider.DecryptWithUserKey(
+                Configuration.GetPlainValue(Constants.UserKey),
+                entropy
+                );
+
+            return Encoding.UTF8.GetString(decryptedUserName);
+        }
+
+        public SecureString GetPassword()
+        {
+            byte[] entropy = Configuration.GetPlainValue(Constants.EntropyKey);
+
+            if (entropy == null)
+                return null;
+
+            CryptographyProvider cryptographyProvider = new CryptographyProvider();
+            byte[] decryptedPassword = cryptographyProvider.DecryptWithUserKey(
+                Configuration.GetPlainValue(Constants.PasswordKey),
+                entropy
+                );
+
+            string password = Encoding.UTF8.GetString(decryptedPassword);
+            SecureString securePassword = new SecureString();
+            for (int i = 0; i < password.Length; i++)
+            {
+                securePassword.AppendChar(password[i]);
+            }
+            password = null;
+
+            return securePassword;
+        }
+
+        public void RemoveCredentials()
+        {
+            Configuration.SetPlainValue(Constants.EntropyKey, null);
+
+            Configuration.SetPlainValue(
+                Constants.UserKey,
+                null
+                );
+
+            Configuration.SetPlainValue(
+                Constants.PasswordKey,
+                null
+                );
         }
     }
 }

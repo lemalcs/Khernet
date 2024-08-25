@@ -71,6 +71,8 @@ namespace Khernet.Core.Host
             Storage storage = new Storage();
             if (!Directory.Exists(storage.CacheAddress))
                 Directory.CreateDirectory(storage.CacheAddress);
+
+            Configuration.SetConnectionString(storage.BuildConnectionString(StorageType.Configuration));
         }
 
         public bool IsInitialized()

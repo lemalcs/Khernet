@@ -33,10 +33,20 @@ namespace Khernet.UI
             auth.CreateUser(userName, password);
         }
 
-        public static PeerIdentity AuthenticateUser(string userName, SecureString password)
+        public static PeerIdentity AuthenticateUser(string userName, SecureString password, bool rememberCredentials = false)
         {
             Authenticator auth = new Authenticator();
             var peer = auth.Login(userName, password);
+
+            if (rememberCredentials)
+            {
+                auth.RememberCredentials(userName, password);
+            }
+            else
+            {
+                auth.ForgetCredentials();
+            }
+
             return peer;
         }
 

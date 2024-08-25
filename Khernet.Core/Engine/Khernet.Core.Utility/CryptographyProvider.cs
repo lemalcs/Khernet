@@ -214,5 +214,37 @@ namespace Khernet.Core.Utility
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }
+
+        /// <summary>
+        /// Encrypts data with the current logged user credentials.
+        /// </summary>
+        /// <param name="data">An array that contains the data to encrypt.</param>
+        /// <param name="entropy">The entropy to increase the complexity of encryption.</param>
+        /// <returns>The encrypted data</returns>
+        public byte[] EncryptWithUserKey(byte[] data, byte[] entropy = null)
+        {
+            byte[] encryptedData = ProtectedData.Protect(
+            data,
+            entropy,
+            DataProtectionScope.CurrentUser);
+
+            return encryptedData;
+        }
+
+        /// <summary>
+        /// Decrypt data with the current logged user credentials.
+        /// </summary>
+        /// <param name="data">An array that contains the data to decrypt.</param>
+        /// <param name="entropy">The entropy used for encryption.</param>
+        /// <returns>The decrypted data.</returns>
+        public byte[] DecryptWithUserKey(byte[] data, byte[] entropy = null)
+        {
+            byte[] encryptedData = ProtectedData.Unprotect(
+            data,
+            entropy,
+            DataProtectionScope.CurrentUser);
+
+            return encryptedData;
+        }
     }
 }

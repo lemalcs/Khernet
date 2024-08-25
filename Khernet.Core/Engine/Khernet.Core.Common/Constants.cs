@@ -20,6 +20,10 @@
 
         public const string ListenerKey = "LISTENKEY";
 
+        public const string EntropyKey = "ENTROPY";
+        public const string UserKey = "UKEY";
+        public const string PasswordKey = "WKEY";
+
         public const short NewMessage = 0;
         public const int TextMessage = 0;
         public const int FileMessage = 1;

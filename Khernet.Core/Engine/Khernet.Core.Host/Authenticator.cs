@@ -36,7 +36,7 @@ namespace Khernet.Core.Host
 
                 Storage storage = new Storage();
 
-                Configuration.SetPassword(password, storage.BuildConnectionString(StorageType.Configuration));
+                Configuration.SetPassword(password);
                 string tempKey = Configuration.GetValue(Constants.Fingerprint);
                 SecureString fingerprintKey = new SecureString();
                 for (int i = 0; i < tempKey.Length; i++)
@@ -45,7 +45,7 @@ namespace Khernet.Core.Host
                 }
                 tempKey = null;
 
-                Configuration.SetPassword(fingerprintKey, storage.BuildConnectionString(StorageType.Configuration));
+                Configuration.SetPassword(fingerprintKey);
 
                 tempKey = Configuration.GetValue(Constants.ApplicationKey);
 
@@ -118,6 +118,24 @@ namespace Khernet.Core.Host
                 LogDumper.WriteLog(exception);
                 throw exception;
             }
+        }
+
+        public void RememberCredentials(string userName, SecureString password)
+        {
+            AccountManager accountManager = new AccountManager();
+            accountManager.SaveCredentials(userName, password);
+        }
+
+        public void ForgetCredentials()
+        {
+            AccountManager accountManager = new AccountManager();
+            accountManager.RemoveCredentials();
+        }
+
+        public Tuple<string, SecureString> RetrieveCredentials()
+        {
+            AccountManager accountManager = new AccountManager();
+            return Tuple.Create(accountManager.GetUserName(), accountManager.GetPassword());
         }
     }
 }

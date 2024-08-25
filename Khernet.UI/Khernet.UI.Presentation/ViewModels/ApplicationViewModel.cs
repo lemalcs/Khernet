@@ -468,6 +468,9 @@ namespace Khernet.UI
             IoCContainer.UnBind<IFileObservable>();
             IoCContainer.UnBind<ITextObservable>();
             IoCContainer.UnBind<IAudioObservable>();
+
+            Authenticator authenticator = new Authenticator();
+            authenticator.ForgetCredentials();
         }
 
         /// <summary>

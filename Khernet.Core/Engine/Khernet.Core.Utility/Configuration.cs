@@ -10,23 +10,21 @@ namespace Khernet.Core.Utility
     {
         private static SecureString passwd;
         private static SecureString connection;
+        private static string configurationPath;
 
-        public static void SetPassword(SecureString passwd, string configPath)
+        public static void SetPassword(SecureString passwd)
         {
             Configuration.passwd = EncryptionHelper.PackAESKeys(passwd);
+        }
 
-            SecureString configConnection = new SecureString();
-            for (int i = 0; i < configPath.Length; i++)
-            {
-                configConnection.AppendChar(configPath[i]);
-            }
-
-            connection = configConnection;
+        public static void SetConnectionString(string configPath)
+        {
+            configurationPath = configPath;
         }
 
         private static string GetConnectionString()
         {
-            return (new CryptographyProvider()).RetrieveString(connection);
+            return configurationPath;
         }
 
         public static string GetValue(string key)
@@ -96,6 +94,56 @@ namespace Khernet.Core.Utility
             {
                 value = null;
             }
+        }
+
+        public static void SetPlainValue(string key, byte[] value)
+        {
+            try
+            {
+                FbCommand cmd = new FbCommand("SET_VALUE");
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@IDKEY", FbDbType.VarChar).Value = key;
+
+                cmd.Parameters.Add("@VAL", FbDbType.Binary).Value = value;
+
+                using (cmd.Connection = new FbConnection(GetConnectionString()))
+                {
+                    cmd.Connection.Open();
+                    int resultado = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                value = null;
+            }
+        }
+
+        public static byte[] GetPlainValue(string key)
+        {
+            DataTable table = new DataTable();
+
+            FbCommand cmd = new FbCommand("GET_VALUE");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@IDKEY", FbDbType.VarChar).Value = key;
+
+            using (cmd.Connection = new FbConnection(GetConnectionString()))
+            {
+                cmd.Connection.Open();
+                FbDataAdapter fda = new FbDataAdapter(cmd);
+                fda.Fill(table);
+            }
+
+            if (table.Rows.Count > 0 && table.Rows[0][0] != DBNull.Value)
+            {
+                return (byte[])table.Rows[0][0];
+            }
+
+            return null;
         }
     }
 }

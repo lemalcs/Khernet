@@ -1,4 +1,5 @@
 ﻿using Khernet.Core.Entity;
+using Khernet.Core.Host;
 using Khernet.Core.Utility;
 using Khernet.UI.IoC;
 using Khernet.UI.Resources;
@@ -31,6 +32,11 @@ namespace Khernet.UI
         /// Indicates if login command can be executed.
         /// </summary>
         private bool canLogin;
+
+        /// <summary>
+        /// Indicates whether to remember the credentials for next the login attempt.
+        /// </summary>
+        private bool rememberCredentials;
 
         public bool IsAttemptingLogin
         {
@@ -91,6 +97,19 @@ namespace Khernet.UI
                 {
                     canLogin = value;
                     OnPropertyChanged(nameof(CanLogin));
+                }
+            }
+        }
+
+        public bool RememberCredentials
+        {
+            get => rememberCredentials;
+            set
+            {
+                if (rememberCredentials != value)
+                {
+                    rememberCredentials = value;
+                    OnPropertyChanged(nameof(RememberCredentials));
                 }
             }
         }
@@ -196,7 +215,7 @@ namespace Khernet.UI
             {
                 try
                 {
-                    var peer = Engine.AuthenticateUser(Username, password);
+                    var peer = Engine.AuthenticateUser(Username, password, RememberCredentials);
 
                     result.TrySetResult(peer);
                 }
@@ -207,6 +226,17 @@ namespace Khernet.UI
             });
 
             return result.Task;
+        }
+
+        public void CanAutoLogin()
+        {
+            Authenticator authenticator = new Authenticator();
+            Tuple<string, SecureString> credentials = authenticator.RetrieveCredentials();
+            if (credentials != null && credentials.Item1 != null && credentials.Item2 != null)
+            {
+                RememberCredentials = true;
+                Username = credentials.Item1;
+            }
         }
     }
 }

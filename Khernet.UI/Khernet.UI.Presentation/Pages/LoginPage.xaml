@@ -15,11 +15,13 @@
                 d:DesignHeight="350" d:DesignWidth="300"
                 Style="{DynamicResource Controls.MetroPage}"
                 x:Name="Login"
-                Title="LoginPage">
+                Title="LoginPage"
+                Loaded="Login_Loaded">
     <local:BasePage.Resources>
-        
-
-        
+        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MetroCheckBox}">
+            <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}"/>
+            <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource LightBlueBrush}"/>
+        </Style>
     </local:BasePage.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" 
@@ -53,6 +55,11 @@
             <!--Password -->
             <PasswordBox Name="pass1"/>
 
+            <CheckBox Content="Remember credentials"
+                      Margin="0 20 0 5"
+                      Style="{StaticResource CheckBoxStyle1}"
+                      IsChecked="{Binding RememberCredentials}"/>
+
             <!--Login button-->
             <Button x:Name="button" 
                     IsDefault="True"
@@ -64,8 +71,6 @@
                     Command="{Binding LoginCommand}"
                     CommandParameter="{Binding ElementName=Login}"
                     Style="{DynamicResource MainButtonStyle}"/>
-
-            <!--Remove Style="{StaticResource MainButtonStyle}" this to clear issue with generics-->
         </StackPanel>
 
         <!-- Version of application -->

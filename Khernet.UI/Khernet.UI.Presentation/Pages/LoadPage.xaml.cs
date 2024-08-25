@@ -6,6 +6,7 @@ using Khernet.UI.IoC;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -119,6 +120,21 @@ namespace Khernet.UI.Pages
             }
         }
 
+        private class Credential : IPasswordContainer
+        {
+            public SecureString password { get; }
+            public SecureString secondPassword { get; }
+            public Credential(SecureString password)
+            {
+                this.password = password;
+            }
+
+            public void Clear()
+            {
+                password.Clear();
+            }
+        }
+
         /// <summary>
         /// Open the first page to user.
         /// </summary>
@@ -128,7 +144,22 @@ namespace Khernet.UI.Pages
             if (!regionFactory.IsInitialized())
                 IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.SignUp);
             else
-                IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
+            {
+                Authenticator authenticator = new Authenticator();
+                Tuple<string, SecureString> credentials = authenticator.RetrieveCredentials();
+
+                if (credentials != null && credentials.Item1 != null && credentials.Item2 != null)
+                {
+                    LoginViewModel loginViewModel = new LoginViewModel();
+                    loginViewModel.RememberCredentials = true;
+                    loginViewModel.Username = credentials.Item1;
+                    loginViewModel.Login(new Credential(credentials.Item2));
+                }
+                else
+                {
+                    IoCContainer.Get<ApplicationViewModel>().GoToPage(ApplicationPage.Login);
+                }
+            }
         }
 
         /// <summary>
