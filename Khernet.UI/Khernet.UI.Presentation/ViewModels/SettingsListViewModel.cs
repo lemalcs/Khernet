@@ -44,7 +44,7 @@ namespace Khernet.UI
         /// <summary>
         /// Settings for the whole application.
         /// </summary>
-        General=6
+        General = 6
     }
 
 

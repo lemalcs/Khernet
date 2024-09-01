@@ -1,10 +1,9 @@
-﻿using IWSH= IWshRuntimeLibrary;
-using Khernet.Core.Common;
+﻿using Khernet.Core.Common;
 using Khernet.Core.Resources;
 using Khernet.Core.Utility;
 using System;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
+using IWSH = IWshRuntimeLibrary;
 
 namespace Khernet.Core.Host
 {
@@ -73,14 +72,19 @@ namespace Khernet.Core.Host
             Storage storage = new Storage();
             if (!Directory.Exists(storage.CacheAddress))
                 Directory.CreateDirectory(storage.CacheAddress);
-
-            Configuration.SetConnectionString(storage.BuildConnectionString(StorageType.Configuration));
         }
 
         public bool IsInitialized()
         {
-            //Verify if user has been created querying the ACCOUNT table on application database
             Storage storage = new Storage();
+
+            if (!File.Exists(storage.RepoAddress) ||
+                !File.Exists(storage.ConfigAddress) ||
+                !File.Exists(storage.EngineAddress)
+                )
+                return false;
+
+            //Verify if user has been created querying the ACCOUNT table on application database
             return storage.VerifyInitialization();
         }
 
@@ -178,7 +182,7 @@ namespace Khernet.Core.Host
                 Environment.GetFolderPath(Environment.SpecialFolder.Startup),
                 Storage.SHORTCUT_NAME
                 );
-            if (File.Exists(shortcutPath)) 
+            if (File.Exists(shortcutPath))
             {
                 File.Delete(shortcutPath);
             }

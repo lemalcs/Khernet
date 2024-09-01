@@ -1,10 +1,11 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
+using Khernet.Core.Utility;
 using System;
 using System.Data;
 using System.Security;
 using System.Text;
 
-namespace Khernet.Core.Utility
+namespace Khernet.Core.Common
 {
     public class Configuration
     {
@@ -12,14 +13,15 @@ namespace Khernet.Core.Utility
         private static SecureString connection;
         private static string configurationPath;
 
+        static Configuration()
+        {
+            Storage storage = new Storage();
+            configurationPath = storage.BuildConnectionString(StorageType.Configuration);
+        }
+
         public static void SetPassword(SecureString passwd)
         {
             Configuration.passwd = EncryptionHelper.PackAESKeys(passwd);
-        }
-
-        public static void SetConnectionString(string configPath)
-        {
-            configurationPath = configPath;
         }
 
         private static string GetConnectionString()

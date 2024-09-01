@@ -41,7 +41,7 @@
         public const string UpdateSource = "UpdateSource";
 
         public const string AutoRun = "AutoRunApp";
-        
+
         public const string StartInBackground = "StartInBackground";
     }
 }

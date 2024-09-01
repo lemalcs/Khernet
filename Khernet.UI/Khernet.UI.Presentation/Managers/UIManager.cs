@@ -478,5 +478,19 @@ namespace Khernet.UI
                 trayMessageShowed = true;
             }));
         }
+
+        public void ShowMainWindow()
+        {
+            Application.Current.MainWindow.Show();
+        }
+
+        /// <summary>
+        /// Exists the whole application.
+        /// </summary>
+        /// <param name="exitCode">The exit code that the application will return to caller.</param>
+        public void ShutDownApplication(int exitCode)
+        {
+            Application.Current.Shutdown(exitCode);
+        }
     }
 }

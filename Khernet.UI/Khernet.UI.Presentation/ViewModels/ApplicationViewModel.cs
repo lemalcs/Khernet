@@ -353,20 +353,36 @@ namespace Khernet.UI
         {
             IsSidePanelVisible = false;
             IsOverlayVisible = false;
-            CurrentPage = ApplicationPage.Session;
-            CurrentViewModel = null;
+            CurrentPage = ApplicationPage.Load;
+            CurrentViewModel = new LoadViewModel();
             IsPlayerVisible = false;
 
             ViewSettingsCommand = new RelayCommand(ViewSettings);
             UpdateCommand = new RelayCommand(UpdateApplication);
             AddContactCommand = new RelayCommand(AddContact);
+        }
 
-            IsSidePanelVisible = CurrentPage == ApplicationPage.Session || CurrentPage == ApplicationPage.Chat;
-
-
+        public async void StartApplication()
+        {
             if (!IoCContainer.UI.IsInDesignTime())
             {
-                GoToPage(ApplicationPage.Load);
+                LoadViewModel viewModel = (LoadViewModel)CurrentViewModel;
+
+                if (viewModel.ExistsEnvironment())
+                {
+                    ApplicationConfigurations applicationConfigurations = new ApplicationConfigurations();
+                    if (!applicationConfigurations.GetStartInBackGround())
+                        IoCContainer.UI.ShowMainWindow();
+                }
+                else
+                    IoCContainer.UI.ShowMainWindow();
+
+                bool result = await viewModel.Build();
+
+                if (!result)
+                {
+                    IoCContainer.UI.ShutDownApplication(1);
+                }
             }
         }
 

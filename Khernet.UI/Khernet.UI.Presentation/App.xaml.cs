@@ -2,6 +2,9 @@
 using Khernet.Core.Utility;
 using Khernet.UI.Cache;
 using Khernet.UI.IoC;
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using Unosquare.FFME;
 using Unosquare.FFME.Shared;
@@ -23,10 +26,55 @@ namespace Khernet.UI
 
             Setup();
 
-            //Show main window
-            Current.MainWindow = new MainWindow();
-            Current.MainWindow.Show();
             Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+
+            Current.MainWindow = new MainWindow();
+
+            if (ExistsRunningInstances())
+            {
+                ShowClosingMessage();
+            }
+            else
+            {
+                IoCContainer.Get<ApplicationViewModel>().StartApplication();
+            }
+        }
+
+        private bool ExistsRunningInstances()
+        {
+            Process[] processList = Process.GetProcesses();
+            int instanceNumber = 0;
+
+            foreach (Process process in processList)
+            {
+                try
+                {
+                    if (process.ProcessName == Path.GetFileNameWithoutExtension(Configurations.MainApplicationAssembly) &&
+                        process.MainModule.FileName == Configurations.MainApplicationAssembly)
+                    {
+                        instanceNumber++;
+                    }
+                }
+                catch (Exception)
+                {
+                    // Bypass 64-bits applications.
+                }
+            }
+            return instanceNumber > 1;
+        }
+
+        private async void ShowClosingMessage()
+        {
+            Current.MainWindow.Show();
+            await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
+            {
+                Message = $"Another instance of this very application is already running; close it and retry.\n" +
+                $"The application is at:\n" +
+                $"{Configurations.MainApplicationAssembly}",
+                ShowAcceptOption = true,
+                AcceptOptionLabel = "OK",
+            });
+            App.Current.Shutdown(1);
         }
 
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

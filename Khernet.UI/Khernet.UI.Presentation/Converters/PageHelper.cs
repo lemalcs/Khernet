@@ -25,7 +25,7 @@ namespace Khernet.UI.Converters
         UpdatesProgress = 18,
         AddContact = 19,
         Connection = 20,
-        General= 21,
+        General = 21,
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ namespace Khernet.UI.Converters
                 case ApplicationPage.About:
                     return new AboutPage(viewModel as AboutViewModel);
                 case ApplicationPage.Load:
-                    return new LoadPage();
+                    return new LoadPage(viewModel as LoadViewModel);
                 case ApplicationPage.Updates:
                     return new UpdatePage(viewModel as UpdateViewModel);
                 case ApplicationPage.UpdatesProgress:

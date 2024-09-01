@@ -36,7 +36,7 @@ namespace Khernet.Services.Client
         {
             serviceContract = ChannelFactory<T>.CreateChannel(bind, new EndpointAddress(address));
         }
-        
+
         internal ServiceClient(string token, Uri address)
         {
             ChannelFactory<T> factory = new ChannelFactory<T>();

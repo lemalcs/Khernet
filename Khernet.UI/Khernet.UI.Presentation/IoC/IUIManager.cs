@@ -133,5 +133,13 @@ namespace Khernet.UI.IoC
         /// Show a message indicating that application is minimized to tray area.
         /// </summary>
         void ShowTrayMessage();
+
+        void ShowMainWindow();
+
+        /// <summary>
+        /// Exists the whole application.
+        /// </summary>
+        /// <param name="exitCode">The exit code that the application will return to caller.</param>
+        void ShutDownApplication(int exitCode);
     }
 }

@@ -112,9 +112,9 @@ namespace Khernet.Core.Common
             {
                 return string.Format("filename={0};upgrade=true;connection=shared",
                     Path.Combine(
-                        Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), 
-                        APP_DIRECTORY, 
-                        this.dataFolder, 
+                        Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location),
+                        APP_DIRECTORY,
+                        this.dataFolder,
                         FILE_DB));
             }
         }

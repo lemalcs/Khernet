@@ -3,8 +3,6 @@ using Khernet.UI.Cache;
 using Khernet.UI.IoC;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Khernet.UI
@@ -86,12 +84,12 @@ namespace Khernet.UI
             }
         }
 
-        public bool EnableAutoRun 
-        { 
+        public bool EnableAutoRun
+        {
             get => enableAutoRun;
             set
             {
-                if(enableAutoRun != value)
+                if (enableAutoRun != value)
                 {
                     enableAutoRun = value;
                     OnPropertyChanged(nameof(EnableAutoRun));
@@ -147,8 +145,8 @@ namespace Khernet.UI
 
         private void GetAutoRunValue()
         {
-           ApplicationConfigurations applicationConfigurations = new ApplicationConfigurations();
-           EnableAutoRun= applicationConfigurations.GetAutoRun();
+            ApplicationConfigurations applicationConfigurations = new ApplicationConfigurations();
+            EnableAutoRun = applicationConfigurations.GetAutoRun();
         }
 
         private void GetRunInBackgroundValue()
@@ -166,7 +164,7 @@ namespace Khernet.UI
         private void ChangeAutorun()
         {
             RegionFactory regionFactory = new RegionFactory();
-            if (EnableAutoRun) 
+            if (EnableAutoRun)
             {
                 regionFactory.CreateShortcut();
             }

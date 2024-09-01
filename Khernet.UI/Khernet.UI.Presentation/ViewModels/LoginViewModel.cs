@@ -159,7 +159,7 @@ namespace Khernet.UI
                 {
                     await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                     {
-                        Message = "incorrect user name or password",
+                        Message = "Incorrect user name or password",
                         Title = "Khernet",
                         ShowAcceptOption = true,
                         AcceptOptionLabel = "OK",

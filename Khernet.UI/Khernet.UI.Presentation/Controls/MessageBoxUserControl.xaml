@@ -10,7 +10,7 @@
                              mc:Ignorable="d" 
                              d:DesignHeight="300" 
                              d:DesignWidth="300"
-                             Height="140"
+                             Height="170"
                              Width="286"
                              d:DataContext="{d:DesignInstance vm:MessageBoxDesignModel,IsDesignTimeCreatable=True}">
 

@@ -21,6 +21,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using X509Certificate2 = System.Security.Cryptography.X509Certificates.X509Certificate2;
 using X509ContentType = System.Security.Cryptography.X509Certificates.X509ContentType;
@@ -444,12 +445,21 @@ namespace Khernet.Core.Processor
             if (entropy == null)
                 return null;
 
-            CryptographyProvider cryptographyProvider = new CryptographyProvider();
-            byte[] decryptedUserName = cryptographyProvider.DecryptWithUserKey(
-                Configuration.GetPlainValue(Constants.UserKey),
-                entropy
-                );
-
+            byte[] decryptedUserName;
+            try
+            {
+                CryptographyProvider cryptographyProvider = new CryptographyProvider();
+                decryptedUserName = cryptographyProvider.DecryptWithUserKey(
+                    Configuration.GetPlainValue(Constants.UserKey),
+                    entropy
+                    );
+            }
+            catch (CryptographicException)
+            {
+                // This occurs when user of the system (for instance: Windows user)
+                // tries to decrypt a value encrypted by another user.
+                return null;
+            }
             return Encoding.UTF8.GetString(decryptedUserName);
         }
 
@@ -461,10 +471,21 @@ namespace Khernet.Core.Processor
                 return null;
 
             CryptographyProvider cryptographyProvider = new CryptographyProvider();
-            byte[] decryptedPassword = cryptographyProvider.DecryptWithUserKey(
-                Configuration.GetPlainValue(Constants.PasswordKey),
-                entropy
-                );
+
+            byte[] decryptedPassword;
+            try
+            {
+                decryptedPassword = cryptographyProvider.DecryptWithUserKey(
+                        Configuration.GetPlainValue(Constants.PasswordKey),
+                        entropy
+                        );
+            }
+            catch (CryptographicException)
+            {
+                // This occurs when user of the system (for instance: Windows user)
+                // tries to decrypt a value encrypted by another user.
+                return null;
+            }
 
             string password = Encoding.UTF8.GetString(decryptedPassword);
             SecureString securePassword = new SecureString();

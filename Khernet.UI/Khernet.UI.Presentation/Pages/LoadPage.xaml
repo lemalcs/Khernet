@@ -11,8 +11,7 @@
                 xmlns:vm="clr-namespace:Khernet.UI"
                 x:Name="Login"
                 d:DataContext="{d:DesignInstance vm:LoadViewModel,IsDesignTimeCreatable=True}"
-                Title="LoadPage"
-                Loaded="Login_Loaded">
+                Title="LoadPage">
 
     <StackPanel VerticalAlignment="Center">
 

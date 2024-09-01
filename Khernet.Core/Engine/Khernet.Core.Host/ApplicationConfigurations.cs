@@ -1,10 +1,5 @@
 ﻿using Khernet.Core.Common;
-using Khernet.Core.Utility;
 using System;
-using static System.Net.Mime.MediaTypeNames;
-using System.IO;
-using System.IdentityModel.Protocols.WSTrust;
-using System.Text;
 
 namespace Khernet.Core.Host
 {
@@ -33,7 +28,7 @@ namespace Khernet.Core.Host
         /// Enable or disable launch the application at system start up.
         /// </summary>
         /// <param name="enable">True to enable start up otherwise False</param>
-        public void SetAutoRun(bool enable) 
+        public void SetAutoRun(bool enable)
         {
             Configuration.SetPlainValue(
                     Constants.AutoRun,
@@ -52,7 +47,7 @@ namespace Khernet.Core.Host
             if (rawValue == null)
                 return false;
 
-            bool configValue=BitConverter.ToBoolean(
+            bool configValue = BitConverter.ToBoolean(
                 Configuration.GetPlainValue(Constants.AutoRun),
                 0
                 );
