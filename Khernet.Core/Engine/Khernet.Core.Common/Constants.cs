@@ -24,6 +24,8 @@
         public const string UserKey = "UKEY";
         public const string PasswordKey = "WKEY";
 
+        public const string EntropyKeyApp = "ENTROPYAPP";
+
         public const short NewMessage = 0;
         public const int TextMessage = 0;
         public const int FileMessage = 1;
@@ -37,5 +39,9 @@
         /// False: get updates from a local file.
         /// </summary>
         public const string UpdateSource = "UpdateSource";
+
+        public const string AutoRun = "AutoRunApp";
+        
+        public const string StartInBackground = "StartInBackground";
     }
 }

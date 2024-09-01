@@ -17,12 +17,6 @@
                 x:Name="Login"
                 Title="LoginPage"
                 Loaded="Login_Loaded">
-    <local:BasePage.Resources>
-        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MetroCheckBox}">
-            <Setter Property="Controls:ControlsHelper.FocusBorderBrush" Value="{StaticResource BlueBrush}"/>
-            <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="{StaticResource LightBlueBrush}"/>
-        </Style>
-    </local:BasePage.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" 
                     VerticalAlignment="Center"

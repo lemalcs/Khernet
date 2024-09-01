@@ -40,6 +40,11 @@ namespace Khernet.UI
         /// View information about services used to connect network.
         /// </summary>
         Connection = 5,
+
+        /// <summary>
+        /// Settings for the whole application.
+        /// </summary>
+        General=6
     }
 
 
@@ -63,6 +68,12 @@ namespace Khernet.UI
                 Name = "Profile",
                 Setting = AppOptions.Profile,
                 IconName = "AccountCircle",
+            });
+            Items.Add(new SettingItemViewModel(OpenGeneralSettings)
+            {
+                Name = "General",
+                Setting = AppOptions.General,
+                IconName = "Tune",
             });
             Items.Add(new SettingItemViewModel(OpenConnectionPage)
             {
@@ -140,6 +151,11 @@ namespace Khernet.UI
             profile.User.SetAvatarThumbnail(IoCContainer.Get<Messenger>().GetAvatar());
 
             pagedDialog.GoToPage(Converters.ApplicationPage.Profile, profile, "Profile");
+        }
+
+        public void OpenGeneralSettings()
+        {
+            pagedDialog.GoToPage(Converters.ApplicationPage.General, new GeneralSettingsViewModel(pagedDialog), "General");
         }
 
         public void OpenCacheSetting()

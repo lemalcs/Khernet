@@ -1,8 +1,10 @@
-﻿using Khernet.Core.Common;
+﻿using IWSH= IWshRuntimeLibrary;
+using Khernet.Core.Common;
 using Khernet.Core.Resources;
 using Khernet.Core.Utility;
 using System;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Khernet.Core.Host
 {
@@ -153,6 +155,32 @@ namespace Khernet.Core.Host
             {
                 LogDumper.WriteLog(exception);
                 throw;
+            }
+        }
+
+        public void CreateShortcut()
+        {
+            string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            var shell = new IWSH.WshShell();
+            var shortCutLinkFilePath = Path.Combine(startupFolderPath, Storage.SHORTCUT_NAME);
+            var windowsApplicationShortcut = (IWSH.IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
+            windowsApplicationShortcut.Description = "You can disable auto-run in Khernet settings.";
+
+            Storage storage = new Storage();
+            windowsApplicationShortcut.WorkingDirectory = Path.GetDirectoryName(storage.EntryAssemblyPath);
+            windowsApplicationShortcut.TargetPath = storage.EntryAssemblyPath;
+            windowsApplicationShortcut.Save();
+        }
+
+        public void RemoveShortcut()
+        {
+            string shortcutPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Startup),
+                Storage.SHORTCUT_NAME
+                );
+            if (File.Exists(shortcutPath)) 
+            {
+                File.Delete(shortcutPath);
             }
         }
     }

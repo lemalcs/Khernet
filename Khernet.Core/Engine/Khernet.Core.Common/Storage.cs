@@ -57,6 +57,11 @@ namespace Khernet.Core.Common
         public const string ENGINE_FILE = "firebird.zip";
 
         /// <summary>
+        /// Name of the shortcut file to start Khernet.
+        /// </summary>
+        public const string SHORTCUT_NAME = "Khernet.lnk";
+
+        /// <summary>
         /// The path of file system where FIREBIRD engine is located.
         /// </summary>
         public string EngineAddress
@@ -67,6 +72,8 @@ namespace Khernet.Core.Common
                 return Path.Combine(Path.GetDirectoryName(assembly.Location), APP_DIRECTORY, "firebird", "fbclient.dll");
             }
         }
+
+        public string EntryAssemblyPath => System.Reflection.Assembly.GetEntryAssembly().Location;
 
         /// <summary>
         /// The path of file system where configuration's database is located.

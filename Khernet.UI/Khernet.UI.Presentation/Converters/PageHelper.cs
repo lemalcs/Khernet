@@ -25,6 +25,7 @@ namespace Khernet.UI.Converters
         UpdatesProgress = 18,
         AddContact = 19,
         Connection = 20,
+        General= 21,
     }
 
     /// <summary>
@@ -83,6 +84,8 @@ namespace Khernet.UI.Converters
                     return new AddContactPage(viewModel as AddContactViewModel);
                 case ApplicationPage.Connection:
                     return new ConnectionPage(viewModel as ConnectionViewModel);
+                case ApplicationPage.General:
+                    return new GeneralSettingsPage(viewModel as GeneralSettingsViewModel);
                 default:
                     System.Diagnostics.Debugger.Break();
                     return null;

@@ -35,13 +35,13 @@ namespace Khernet.UI.IoC
         /// </summary>
         public static ITextObservable Text => Get<ITextObservable>();
 
-        /// <summary>
-        /// Configure binding for objects.
-        /// </summary>
-        public static void Configure()
-        {
-            Kernel.Bind<ApplicationViewModel>().ToConstant(new ApplicationViewModel());
-        }
+        ///// <summary>
+        ///// Configure binding for objects.
+        ///// </summary>
+        //public static void Configure()
+        //{
+        //    Kernel.Bind<ApplicationViewModel>().ToConstant(new ApplicationViewModel());
+        //}
 
         /// <summary>
         /// Configures an instance of type T.
