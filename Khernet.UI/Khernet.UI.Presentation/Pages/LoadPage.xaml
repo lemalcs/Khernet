@@ -9,9 +9,9 @@
                 d:DesignHeight="300" d:DesignWidth="300"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 xmlns:vm="clr-namespace:Khernet.UI"
-                x:Name="Login"
+                x:Name="Load"
                 d:DataContext="{d:DesignInstance vm:LoadViewModel,IsDesignTimeCreatable=True}"
-                Title="LoadPage">
+                Title="Load">
 
     <StackPanel VerticalAlignment="Center">
 

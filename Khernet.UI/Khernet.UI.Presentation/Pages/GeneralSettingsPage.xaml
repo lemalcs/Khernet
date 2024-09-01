@@ -11,14 +11,14 @@
                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                 xmlns:conv="clr-namespace:Khernet.UI.Converters"
                 xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                x:Name="Login"
-                Title="LoginPage"
+                x:Name="GeneralSettings"
+                Title="GeneralSettings"
                 Width="400"
                 d:DataContext="{d:DesignInstance vm:GeneralSettingsDesingModel,IsDesignTimeCreatable=True}">
 
     <StackPanel Margin="24">
 
-        <Controls:ToggleSwitch Content="Launch Khernet when I start system."
+        <Controls:ToggleSwitch Content="Launch Khernet at system login"
                                Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}" 
                                IsChecked="{Binding EnableAutoRun,UpdateSourceTrigger=PropertyChanged}"
                                CheckedCommand="{Binding EnableAutoRunCommand}"

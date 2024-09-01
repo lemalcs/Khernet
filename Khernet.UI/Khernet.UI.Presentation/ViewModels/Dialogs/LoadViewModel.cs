@@ -16,7 +16,6 @@ namespace Khernet.UI
     /// </summary>
     public class LoadViewModel : BaseModel
     {
-
         #region Properties
 
         private bool showProgress;
@@ -98,14 +97,13 @@ namespace Khernet.UI
 
                 await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                 {
-                    Message = "There was an error while loading. There must be just one instance of application per user running, please close other instances and restart application.",
+                    Message = Khernet.UI.Resources.Constants.ErrorMessage,
                     Title = "Khernet",
                     ShowAcceptOption = true,
                     AcceptOptionLabel = "OK",
                     ShowCancelOption = false,
                 }, true);
 
-                //Application.Current.Shutdown(1);
                 return false;
             }
         }
