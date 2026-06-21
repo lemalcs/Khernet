@@ -67,17 +67,7 @@ It offers the following features over the portable mode:
 
 ## Contributions
 
-This application is made to help people keep in touch with their peers,
-why not help them to make it even better and easier.
-These are some contributions you can do:
-
-- Fix a bug.
-- Code a new feature.
-- Improve documentation.
-- Give the application a face wash.
-
-To edit documentation go to **gh-pages** branch of this repository and find the project website made with [Jekyll](https://jekyllrb.com/) static content generator.
-
+You can post your suggestions or any issues you encounter with Khernet on the [Discussions page](https://github.com/lemalcs/Khernet/discussions).
 
 ## How to build
 
