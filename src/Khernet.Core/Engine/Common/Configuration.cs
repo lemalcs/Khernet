@@ -10,7 +10,6 @@ namespace Khernet.Core.Common
     public class Configuration
     {
         private static SecureString passwd;
-        private static SecureString connection;
         private static string configurationPath;
 
         static Configuration()

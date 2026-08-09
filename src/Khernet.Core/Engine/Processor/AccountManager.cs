@@ -93,7 +93,7 @@ namespace Khernet.Core.Processor
                         CertificateValidator.ISSUER,
                         ref token,
                         null,
-                        new[] { KeyPurposeID.IdKPServerAuth },
+                        new[] { KeyPurposeID.id_kp_serverAuth },
                         encodedUserName);
 
             byte[] obfuscatedCert = EncryptionHelper.EncryptByteArray(certificate.Export(X509ContentType.Pfx, applicationKey), keys.Item1, keys.Item2);
@@ -220,7 +220,7 @@ namespace Khernet.Core.Processor
 
             //Generate user token from public key of X509 certificate
             SubjectPublicKeyInfo info = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(subjectKeyPair.Public);
-            byte[] publicKey = info.PublicKeyData.GetBytes();
+            byte[] publicKey = info.PublicKey.GetBytes();
 
             //Generate user token
             string token = BuildToken(publicKey);
