@@ -71,6 +71,8 @@ You can post your suggestions or any issues you encounter with Khernet on the [D
 
 ## How to build
 
+You will need Visual Studio 2019 or later to build the solution.
+
 1. Clone this repository:
    ```
    git clone https://github.com/lemalcs/Khernet.git
