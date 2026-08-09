@@ -28,8 +28,7 @@
                                       VerticalScrollBarVisibility="Auto">
                 <FlowDocument FontFamily="{StaticResource RobotoRegularFont}"
                           FontSize="{StaticResource RegularFontSize}">
-                    <Paragraph>
-                        <Run Text="{Binding Message}"/>
+                    <Paragraph xml:space="preserve" TextIndent="0"><Run Text="{Binding Message}" />
                     </Paragraph>
                 </FlowDocument>
             </FlowDocumentScrollViewer>

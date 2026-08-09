@@ -74,7 +74,7 @@ namespace Khernet.UI
                 {
                     await IoCContainer.UI.ShowMessageBox(new MessageBoxViewModel
                     {
-                        Message = "Some configurations could not be made. Please restart the application as administrator once.",
+                        Message = $"Khernet needs to configure the firewall rules so it can send messages to other machines. {Environment.NewLine}{Environment.NewLine}Please restart the application as an administrator. You only need to do this once.",
                         Title = "Khernet",
                         ShowAcceptOption = true,
                         AcceptOptionLabel = "OK",
